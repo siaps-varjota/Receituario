@@ -1879,7 +1879,7 @@ function generatePDF(mode = 'save') {
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(6.5);
     doc.setTextColor(60);
-    doc.text(fit(sigLine, cw, 6.5), cx, y, { align: 'center' });
+    doc.text(fit(sigLine, cw, 8), cx, y, { align: 'center' });
     doc.setTextColor(0);
 
     /* ── COMPRADOR / FORNECEDOR — somente Controle Especial (antibiotico) ── */
