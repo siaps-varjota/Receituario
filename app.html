@@ -1855,20 +1855,20 @@ function generatePDF(mode = 'save') {
 
     doc.setDrawColor(0);
     doc.setLineWidth(0.3);
-    doc.line(sigStartX, y + boxH - 9.5, sigEndX, y + boxH - 9.5);
+    doc.line(sigStartX, y + boxH - 11, sigEndX, y + boxH - 11);
 
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(7);
     doc.setTextColor(0);
-    doc.text(fit(d.e_nome, sigLineW, 7, 'helvetica', 'bold'), cx, y + boxH - 7, { align: 'center' });
+    doc.text(fit(d.e_nome, sigLineW, 7, 'helvetica', 'bold'), cx, y + boxH - 8.5, { align: 'center' });
 
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(6.5);
     if (d.e_conselho) {
-      doc.text(fit(d.e_conselho, sigLineW, 6.5), cx, y + boxH - 4.5, { align: 'center' });
+      doc.text(fit(d.e_conselho, sigLineW, 6.5), cx, y + boxH - 6, { align: 'center' });
     }
     if (d.e_cargo) {
-      doc.text(fit(d.e_cargo, sigLineW, 6.5), cx, y + boxH - 2, { align: 'center' });
+      doc.text(fit(d.e_cargo, sigLineW, 6.5), cx, y + boxH - 3.5, { align: 'center' });
     }
 
     // Date below both boxes
