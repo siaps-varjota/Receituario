@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Receituário e-SUS — Acesso Restrito</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f3460 0%, #16213e 60%, #0d1b2a 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .login-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 44px 40px 36px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.4);
+    text-align: center;
+  }
+
+  .logo-wrap {
+    width: 70px;
+    height: 70px;
+    background: #0f3460;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 34px;
+  }
+
+  .login-card h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f3460;
+    margin-bottom: 4px;
+  }
+
+  .login-card p {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  .field {
+    text-align: left;
+    margin-bottom: 16px;
+  }
+
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #7a8099;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    margin-bottom: 6px;
+  }
+
+  .field input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #dde1ec;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: inherit;
+    color: #1a1a2e;
+    background: #fafbfd;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+
+  .field input:focus {
+    border-color: #0f3460;
+    box-shadow: 0 0 0 3px rgba(15,52,96,.1);
+    background: #fff;
+  }
+
+  .btn-login {
+    width: 100%;
+    background: #0f3460;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 13px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: .03em;
+    margin-top: 8px;
+    transition: background .15s, transform .1s;
+  }
+
+  .btn-login:hover  { background: #163d74; transform: translateY(-1px); }
+  .btn-login:active { transform: translateY(0); }
+
+  .error-msg {
+    background: #fef0f0;
+    color: #c0392b;
+    border: 1.5px solid #f5c6c6;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 14px;
+    display: none;
+  }
+
+  .footer-note {
+    margin-top: 24px;
+    font-size: 12px;
+    color: #bbb;
+  }
+
+  /* shake animation on error */
+  @keyframes shake {
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-8px)}
+    40%{transform:translateX(8px)}
+    60%{transform:translateX(-6px)}
+    80%{transform:translateX(6px)}
+  }
+  .shake { animation: shake .4s ease; }
+</style>
+</head>
+<body>
+
+<div class="login-card" id="loginCard">
+  <div class="logo-wrap">🏥</div>
+  <h1>Receituário e-SUS</h1>
+  <p>Sec. da Saúde de Varjota / SESAVAR<br>Acesso restrito aos profissionais autorizados.</p>
+
+  <div class="field">
+    <label>Usuário</label>
+    <input type="text" id="username" placeholder="Digite seu usuário" autocomplete="username" />
+  </div>
+
+  <div class="field">
+    <label>Senha</label>
+    <input type="password" id="password" placeholder="Digite sua senha" autocomplete="current-password"
+           onkeydown="if(event.key==='Enter') doLogin()" />
+  </div>
+
+  <button class="btn-login" onclick="doLogin()">Entrar</button>
+
+  <div class="error-msg" id="errorMsg">❌ Usuário ou senha incorretos.</div>
+
+  <p class="footer-note">Desenvolvido por Alidemberg Araújo · Coord. e-SUS Municipal</p>
+</div>
+
+<script>
+  // ─────────────────────────────────────────────────────────────────────────
+  //  CREDENCIAIS — altere aqui os pares usuário:senha desejados
+  //  Para segurança extra use bcrypt num backend real; aqui é client-side.
+  // ─────────────────────────────────────────────────────────────────────────
+  const USERS = {
+    "enfermeiro":  "sesavar2025",
+    "admin":       "admin@2025",
+    "sesavar":     "receita2025"
+  };
+
+  const SESSION_KEY = "receituario_auth";
+  const SESSION_TTL = 8 * 60 * 60 * 1000; // 8 horas em ms
+
+  // Se já está autenticado redireciona direto
+  (function checkSession() {
+    const raw = sessionStorage.getItem(SESSION_KEY);
+    if (!raw) return;
+    try {
+      const { exp } = JSON.parse(raw);
+      if (Date.now() < exp) window.location.replace("app.html");
+    } catch(e) {}
+  })();
+
+  function doLogin() {
+    const user = document.getElementById("username").value.trim().toLowerCase();
+    const pass = document.getElementById("password").value;
+    const err  = document.getElementById("errorMsg");
+    const card = document.getElementById("loginCard");
+
+    if (USERS[user] && USERS[user] === pass) {
+      // Salva sessão com expiração
+      sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+        user,
+        exp: Date.now() + SESSION_TTL
+      }));
+      window.location.replace("app.html");
+    } else {
+      err.style.display = "block";
+      card.classList.remove("shake");
+      void card.offsetWidth; // force reflow
+      card.classList.add("shake");
+      document.getElementById("password").value = "";
+      document.getElementById("password").focus();
+    }
+  }
+</script>
+</body>
+</html>
