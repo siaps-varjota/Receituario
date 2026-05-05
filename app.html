@@ -47,7 +47,7 @@ body {
   top: 0;
   z-index: 200;
   box-shadow: 0 2px 12px rgba(0,0,0,.25);
-  height: 56px;
+  height: 70px;
 }
 .topbar-info { flex: 1; }
 .topbar-icon {
@@ -2169,25 +2169,33 @@ function renderProtocolGroups(list) {
     container.innerHTML = '<div style="padding:16px;text-align:center;color:#999;font-size:15.6px;">Nenhum resultado encontrado</div>';
     return;
   }
-  const byGroup = {};
-  list.forEach(p => {
-    if (!byGroup[p.group]) byGroup[p.group] = [];
-    byGroup[p.group].push(p);
-  });
-  container.innerHTML = Object.entries(byGroup).map(([g, items]) => `
+  // Mapeia índice global para cada item via data-pidx (evita JSON inline no onclick)
+
+  container.innerHTML = Object.entries(
+    list.reduce((acc, p) => { (acc[p.group] = acc[p.group]||[]).push(p); return acc; }, {})
+  ).map(([g, items]) => `
     <div>
       <div class="protocol-group-title">${g}</div>
-      ${items.map(p => `
-        <div class="protocol-item" onclick="selectProtocol(${JSON.stringify(p).replace(/"/g,'&quot;')})">
+      ${items.map(p => {
+        const idx = PROTOCOLS.indexOf(p);
+        return `<div class="protocol-item" data-pidx="${idx}">
           <div>
             <div class="protocol-item-name">${p.nome}</div>
             <div class="protocol-item-detail">${p.conc} · ${p.forma} · ${p.uso}</div>
           </div>
           <div class="protocol-item-badge">Ver</div>
-        </div>
-      `).join('')}
+        </div>`;
+      }).join('')}
     </div>
   `).join('');
+
+  // Delegação de eventos (evita onclick inline com JSON)
+  container.querySelectorAll('.protocol-item').forEach(el => {
+    el.addEventListener('click', () => {
+      const idx = parseInt(el.dataset.pidx);
+      if (!isNaN(idx) && PROTOCOLS[idx]) selectProtocol(PROTOCOLS[idx]);
+    });
+  });
 }
 
 function toggleProtocolDropdown() {
@@ -2370,7 +2378,8 @@ function maskPhone(el) {
 }
 
 function maskCPFouCNS(el) {
-  const digits = el.value.replace(/\D/g, '');
+  const digits = el.value.replace(/\D/g, '');height: 56px;
+
   if (digits.length <= 11) {
     // Formato CPF: 000.000.000-00
     let v = digits.slice(0, 11);
