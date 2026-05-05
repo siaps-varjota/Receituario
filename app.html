@@ -2644,24 +2644,6 @@ if (btnLogout) btnLogout.addEventListener('click', function() {
   window.location.replace('index.html');
 });
 
-
-  const t = e.target;
-  const id = t.id || '';
-  const name = t.name || '';
-
-  if (id.endsWith('_intunit')) {
-    const match = id.match(/^d(\d+)_/);
-    if (match) setIntCustom(match[1], document.getElementById('d' + match[1] + '_intcustom'));
-  }
-  if (id.endsWith('_frequnit')) {
-    const match = id.match(/^d(\d+)_/);
-    if (match) updateFreqBtns(match[1]);
-  }
-  if (name && name.endsWith('_durun')) {
-    const match = name.match(/^d(\d+)_/);
-    if (match) syncDurUnit(match[1]);
-  }
-});
 </script>
 </body>
 </html>
