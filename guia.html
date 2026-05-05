@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia Antimicrobiano — APS Ceará</title>
+<script>
+// ── GUARD DE SESSÃO ──────────────────────────────────────────────
+(function(){
+  var SESSION_KEY = "receituario_auth";
+  var raw = sessionStorage.getItem(SESSION_KEY);
+  if (!raw) { window.location.replace("index.html"); return; }
+  try {
+    var data = JSON.parse(raw);
+    if (!data.exp || Date.now() >= data.exp) {
+      sessionStorage.removeItem(SESSION_KEY);
+      window.location.replace("index.html");
+    }
+  } catch(e) { window.location.replace("index.html"); }
+})();
+</script>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f1f5f9; }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #f1f5f9; }
+  ::-webkit-scrollbar-thumb { background: #a7c4bc; border-radius: 10px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useMemo } = React;
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────────────────────────────────────
+
+const SYMPTOM_CATEGORIES = [
+  {
+    id: "geral",
+    label: "Geral / Sistêmico",
+    icon: "🌡️",
+    symptoms: [
+      { id: "febre", label: "Febre" },
+      { id: "mal_estar", label: "Mal-estar / Mialgia / Artralgia" },
+      { id: "perda_peso", label: "Perda de peso involuntária" },
+    ],
+  },
+  {
+    id: "pele",
+    label: "Pele",
+    icon: "🩹",
+    symptoms: [
+      { id: "lesao_pele", label: "Lesões na pele (crostas, pústulas, vesículas)" },
+      { id: "eritema_local", label: "Eritema / vermelhidão localizada" },
+      { id: "edema_local", label: "Edema / inchaço localizado" },
+      { id: "dor_calor_local", label: "Dor e calor local na pele" },
+      { id: "ulcera_pele", label: "Úlcera / ferida na pele (não genital)" },
+      { id: "mordedura", label: "Mordedura por animal (cão/gato)" },
+    ],
+  },
+  {
+    id: "orl",
+    label: "Respiratório / ORL",
+    icon: "🫁",
+    symptoms: [
+      { id: "dor_garganta", label: "Dor de garganta" },
+      { id: "tosse", label: "Tosse" },
+      { id: "sem_tosse", label: "Ausência de tosse (associado à febre)" },
+      { id: "coriza", label: "Coriza / secreção nasal" },
+      { id: "congestao_nasal", label: "Congestão nasal" },
+      { id: "dor_facial", label: "Dor facial / sinusal" },
+      { id: "otalgia", label: "Otalgia (dor de ouvido)" },
+      { id: "otorreia", label: "Otorreia (secreção do ouvido)" },
+      { id: "dispneia", label: "Dispneia / dificuldade respiratória" },
+      { id: "exsudato_amigdalas", label: "Exsudato / pus nas amígdalas" },
+      { id: "adenopatia_cervical", label: "Adenopatia cervical anterior" },
+      { id: "alteracao_ausculta", label: "Alteração na ausculta pulmonar" },
+    ],
+  },
+  {
+    id: "digestivo",
+    label: "Digestivo",
+    icon: "🫃",
+    symptoms: [
+      { id: "diarreia", label: "Diarreia (≥3 episódios/dia)" },
+      { id: "nauseas_vomitos", label: "Náuseas / vômitos" },
+      { id: "dor_abdominal", label: "Dor abdominal" },
+      { id: "sangue_fezes", label: "Sangue nas fezes" },
+      { id: "dor_epigastrica", label: "Dor epigástrica / queimação" },
+      { id: "dispepsia", label: "Dispepsia / indigestão persistente" },
+    ],
+  },
+  {
+    id: "urogenital",
+    label: "Urinário / Genital",
+    icon: "⚕️",
+    symptoms: [
+      { id: "disuria", label: "Disúria (dor ao urinar)" },
+      { id: "urgencia_urinaria", label: "Urgência / frequência urinária" },
+      { id: "dor_lombar", label: "Dor lombar / flanco (Giordano)" },
+      { id: "corrimento_vaginal", label: "Corrimento vaginal" },
+      { id: "prurido_vaginal", label: "Prurido vaginal" },
+      { id: "odor_vaginal", label: "Odor vaginal fétido" },
+      { id: "corrimento_uretral", label: "Corrimento uretral (homens)" },
+      { id: "dor_pelvica", label: "Dor pélvica / anexial" },
+      { id: "ulcera_genital", label: "Úlcera / lesão genital" },
+      { id: "dispareunia", label: "Dispareunia (dor na relação)" },
+    ],
+  },
+  {
+    id: "outros",
+    label: "Outros",
+    icon: "🔍",
+    symptoms: [
+      { id: "linfadenopatia", label: "Linfadenopatia / gânglios aumentados" },
+    ],
+  },
+];
+
+const CONDITIONS = [
+  {
+    id: "impetigo",
+    chapter: "01",
+    name: "Impetigo",
+    emoji: "🩹",
+    description:
+      "Infecção superficial da pele causada por Streptococcus ssp. e/ou Staphylococcus aureus. Afeta principalmente crianças, mais comum em face e extremidades.",
+    diagnosis:
+      "Diagnóstico CLÍNICO. Lesões iniciam como pápulas → vesículas → pústulas → crostas amareladas espessas. Impetigo bolhoso: bolhas maiores de evolução rápida.",
+    required: ["lesao_pele"],
+    supporting: ["eritema_local", "febre", "edema_local"],
+    excluding: ["dor_garganta", "diarreia", "disuria", "otalgia", "mordedura"],
+    treatments: [
+      { name: "Cefalexina", type: "Primeira opção", color: "#0e7c6a", adult: "500mg VO, de 6/6h por 7 dias", child: "25-50mg/kg/dia (máx 4g/dia) VO, dividido de 6/6h por 7 dias" },
+      { name: "Clindamicina", type: "Alternativa", color: "#2563eb", adult: "300mg VO, de 8/8h por 7 dias", child: "30-40mg/kg/dia VO, dividido de 6/6h ou 8/8h por 7 dias" },
+      { name: "Sulfametoxazol-Trimetoprim", type: "Alternativa", color: "#2563eb", adult: "800/160mg VO, de 12/12h por 7 dias", child: "6-12mg/kg/dia (trimetoprim) VO, de 12/12h por 7 dias" },
+    ],
+    alerts: ["Crianças podem retornar à escola 24h após início do tratamento eficaz."],
+  },
+  {
+    id: "celulite",
+    chapter: "02",
+    name: "Celulite / Erisipela",
+    emoji: "🔴",
+    description:
+      "Infecção bacteriana da pele e tecido subcutâneo. Agentes: Staphylococcus aureus e Streptococcus spp. Quadro geralmente UNILATERAL e agudo.",
+    diagnosis:
+      "Diagnóstico CLÍNICO. Distinção entre celulite e erisipela é difícil — na dúvida, tratar como celulite. Erisipela: borda elevada e bem demarcada. Celulite: bordas indistintas.",
+    required: ["eritema_local", "edema_local"],
+    supporting: ["dor_calor_local", "febre", "ulcera_pele"],
+    excluding: ["diarreia", "disuria", "otalgia", "dor_garganta", "mordedura", "lesao_pele"],
+    treatments: [
+      { name: "Cefalexina", type: "Primeira opção", color: "#0e7c6a", adult: "500-1000mg VO, de 6/6h por 5-7 dias", child: "100mg/kg/dia dividido de 6/6h (máx 1g/dose) por 5-7 dias" },
+      { name: "Amoxicilina-Clavulanato", type: "Primeira opção", color: "#0e7c6a", adult: "500/125mg VO, de 8/8h por 5-7 dias", child: "50-90mg/kg/dia (amoxicilina), VO, de 8/8h por 5-7 dias" },
+      { name: "Clindamicina", type: "Alergia / impossibilidade", color: "#2563eb", adult: "300-600mg VO, de 6/6h por 5-7 dias", child: "30-40mg/kg/dia VO, de 6/6h ou 8/8h por 7 dias" },
+      { name: "Ciprofloxacino + Clindamicina", type: "Pé diabético", color: "#9333ea", adult: "500mg VO 12/12h + 300-600mg VO 6/6h — 7-14 dias leves / 14-28 dias moderado a grave", child: "Não se aplica" },
+    ],
+    alerts: [
+      "HOSPITALIZAÇÃO IMEDIATA se: sinais de sepse, infecção rapidamente progressiva, dor desproporcional ou sinais de necrose.",
+      "Marcar extensão da lesão com caneta para avaliar progressão.",
+      "Tratar portas de entrada (onicomicose, tinea pedis) para evitar recorrência.",
+    ],
+  },
+  {
+    id: "faringoamigdalite",
+    chapter: "03",
+    name: "Faringoamigdalite Aguda",
+    emoji: "🦷",
+    description:
+      "Maioria viral (coriza + conjuntivite + tosse = viral). 20-40% bacteriana (Streptococcus pyogenes). Usar Critérios de Centor Modificado para definir conduta.",
+    diagnosis:
+      "Diagnóstico CLÍNICO. Centor Modificado: Febre (+1), Ausência de tosse (+1), Adenopatia cervical anterior (+1), Exsudato amigdaliano (+1), Idade 3-14a (+1). Escore ≥4: tratar. Escore 2-3: considerar. Escore ≤1: não tratar.",
+    required: ["dor_garganta"],
+    supporting: ["febre", "exsudato_amigdalas", "adenopatia_cervical", "sem_tosse"],
+    excluding: ["tosse", "coriza", "diarreia", "disuria", "otorreia", "congestao_nasal"],
+    treatments: [
+      { name: "Penicilina Benzatina", type: "Primeira opção (IM)", color: "#0e7c6a", adult: "1,2 milhão UI IM, dose única", child: "≤27kg: 600 mil UI IM / >27kg: 1,2 milhão UI IM, dose única" },
+      { name: "Amoxicilina", type: "Primeira opção (oral)", color: "#0e7c6a", adult: "500mg VO, de 8/8h por 10 dias", child: "50mg/kg/dia (máx 500mg/dose) de 8/8h por 10 dias" },
+      { name: "Azitromicina", type: "Alérgicos a beta-lactâmicos", color: "#2563eb", adult: "500mg VO, 1x/dia por 5 dias", child: "12mg/kg/dia 1x/dia (máx 500mg) por 5 dias" },
+    ],
+    alerts: [
+      "Penicilina é o único antimicrobiano com eficácia comprovada em reduzir febre reumática.",
+      "Concluir o tempo de tratamento mesmo com melhora dos sintomas em 1-3 dias.",
+      "Tonsilectomia: indicar se ≥7 episódios/ano ou ≥5 episódios nos últimos 2 anos.",
+    ],
+  },
+  {
+    id: "gastroenterocolite",
+    chapter: "04",
+    name: "Gastroenterocolite Aguda",
+    emoji: "🤢",
+    description:
+      "Aumento na frequência de evacuações ou diminuição da consistência das fezes. Maioria autolimitada. Antimicrobiano apenas em casos graves ou pacientes de alto risco.",
+    diagnosis:
+      "Diagnóstico CLÍNICO. Indicação de antimicrobiano: febre >38,5°C, sinais de hipovolemia, ≥8 episódios/24h, fezes com sangue, paciente ≥70 anos, comorbidades graves, DII, gestação.",
+    required: ["diarreia"],
+    supporting: ["nauseas_vomitos", "dor_abdominal", "febre", "sangue_fezes"],
+    excluding: ["dor_garganta", "disuria", "lesao_pele", "otalgia", "congestao_nasal"],
+    treatments: [
+      { name: "Azitromicina", type: "Casos graves — 1ª opção", color: "#0e7c6a", adult: "500mg VO, 1x/dia por 3 dias", child: "10-12mg/kg/dia no 1º dia, depois 5-6mg/kg/dia por 2 dias" },
+      { name: "Ciprofloxacino", type: "Casos graves — 1ª opção", color: "#0e7c6a", adult: "500mg VO, de 12/12h por 3-5 dias", child: "20mg/kg/dia dividido de 12/12h por 3-5 dias" },
+    ],
+    alerts: [
+      "A MAIORIA não precisa de antimicrobiano — hidratação é o tratamento principal.",
+      "Evitar antidiarreicos.",
+      "Considerar encaminhamento para emergência em casos graves.",
+    ],
+  },
+  {
+    id: "h_pylori",
+    chapter: "05",
+    name: "Infecção por H. pylori",
+    emoji: "🧫",
+    description:
+      "Associada a gastrite crônica, úlcera péptica, linfoma MALT e câncer gástrico. Investigar em dispepsia persistente >45 anos ou sinais de alarme.",
+    diagnosis:
+      "Solicitar teste treponêmico específico. Suspender IBP por 2 semanas antes dos exames.",
+    required: ["dor_epigastrica"],
+    supporting: ["dispepsia", "nauseas_vomitos", "perda_peso", "sangue_fezes"],
+    excluding: ["dor_garganta", "disuria", "diarreia", "lesao_pele", "otalgia"],
+    treatments: [
+      { name: "Omeprazol/Pantoprazol + Amoxicilina + Claritromicina", type: "Tríplice terapia — 14 dias", color: "#0e7c6a", adult: "Omeprazol 20mg ou Pantoprazol 40mg de 12/12h + Amoxicilina 1g de 12/12h + Claritromicina 500mg de 12/12h — por 14 dias", child: "Ver especialista" },
+    ],
+    alerts: [
+      "Encaminhar ao especialista: sinais de alarme (sangramento, perda de peso, vômitos, disfagia, anemia), >45 anos com dispepsia de início recente, falha após 2 tentativas.",
+    ],
+  },
+  {
+    id: "pneumonia",
+    chapter: "06",
+    name: "Infecção Respiratória Inferior / Pneumonia",
+    emoji: "🫁",
+    description:
+      "Inclui PAC, exacerbação de DPOC e síndrome gripal. Síndrome gripal: NÃO prescrever antibiótico. PAC requer alteração de ausculta e/ou radiografia.",
+    diagnosis:
+      "Avaliar gravidade (FR≥30, hipotensão, SatO2≤94%, confusão mental). Síndrome gripal + fatores de risco: Oseltamivir. PAC sem fatores de risco: Amoxicilina. PAC com fatores de risco: Amox-Clavulanato + macrolídeo.",
+    required: ["tosse"],
+    supporting: ["febre", "dispneia", "alteracao_ausculta", "mal_estar"],
+    excluding: ["diarreia", "disuria", "lesao_pele", "ulcera_genital"],
+    treatments: [
+      { name: "Amoxicilina", type: "PAC sem fatores de risco", color: "#0e7c6a", adult: "500mg VO, de 8/8h por 5-7 dias", child: "50-90mg/kg/dia de 8/8h (máx 500mg/dose)" },
+      { name: "Amoxicilina-Clavulanato + Azitromicina ou Claritromicina", type: "PAC com fatores de risco", color: "#9333ea", adult: "500/125mg VO 8/8h + Azitromicina 500mg 1x/dia OU Claritromicina 500mg 12/12h", child: "50-90mg/kg/dia (amoxicilina) + Azitromicina 12mg/kg/dia" },
+      { name: "Oseltamivir", type: "Síndrome gripal com fatores de risco (Influenza)", color: "#2563eb", adult: "75mg VO, de 12/12h por 5 dias", child: "≤15kg: 30mg 12/12h | >15-23kg: 45mg | >23-40kg: 60mg | >40kg: 75mg" },
+    ],
+    alerts: [
+      "Síndrome gripal (febre + tosse/dor garganta + coriza/mialgia): NÃO prescrever antibiótico.",
+      "Encaminhar imediatamente: FR≥30, PAS<90, SatO2≤94%, confusão mental.",
+      "Fatores de risco PAC: ≥65a, DM, ICC, imunossupressão, neoplasia, IRC, cirrose.",
+    ],
+  },
+  {
+    id: "candidíase_vaginal",
+    chapter: "07",
+    name: "Candidíase Vulvovaginal",
+    emoji: "🔬",
+    description:
+      "Infecção fúngica vaginal. Comum na gestação. Corrimento grumoso SEM odor, prurido e ardência são características.",
+    diagnosis:
+      "Clínico. Prurido, ardência, corrimento grumoso sem odor, dispareunia de introito e disúria externa.",
+    required: ["prurido_vaginal", "corrimento_vaginal"],
+    supporting: ["dispareunia", "disuria"],
+    excluding: ["odor_vaginal", "ulcera_genital", "dor_pelvica", "febre", "linfadenopatia"],
+    treatments: [
+      { name: "Miconazol creme 20mg/g", type: "Primeira opção (vaginal)", color: "#0e7c6a", adult: "1 aplicador cheio, via vaginal, à noite por 7 dias", child: "Apenas via vaginal" },
+      { name: "Fluconazol", type: "Alternativa oral", color: "#2563eb", adult: "150mg VO, dose única", child: "CONTRAINDICADO em gestantes" },
+      { name: "Itraconazol", type: "Alternativa oral", color: "#2563eb", adult: "100mg VO, 2cp de 12/12h por 1 dia", child: "CONTRAINDICADO em gestantes" },
+    ],
+    alerts: [
+      "Em gestantes e lactantes: SOMENTE via vaginal. Tratamento oral contraindicado.",
+      "Parcerias sexuais NÃO precisam ser tratadas, exceto se sintomáticas.",
+    ],
+  },
+  {
+    id: "vaginose",
+    chapter: "07",
+    name: "Vaginose Bacteriana",
+    emoji: "🧪",
+    description:
+      "Corrimento vaginal homogêneo, branco-acinzentado ou amarelado, com odor de peixe. Piora com relação sexual desprotegida e durante a menstruação.",
+    diagnosis:
+      "Clínico. Corrimento homogêneo com odor vaginal fétido (odor de peixe ou amoniacal) que piora com o intercurso sexual.",
+    required: ["corrimento_vaginal", "odor_vaginal"],
+    supporting: ["prurido_vaginal"],
+    excluding: ["ulcera_genital", "dor_pelvica", "febre", "corrimento_uretral"],
+    treatments: [
+      { name: "Metronidazol 500mg", type: "Primeira opção (oral)", color: "#0e7c6a", adult: "500mg VO, de 12/12h por 7 dias", child: "-" },
+      { name: "Metronidazol gel vaginal 100mg/g", type: "Alternativa (vaginal — inclusive gestantes)", color: "#2563eb", adult: "1 aplicador cheio via vaginal por 5 dias", child: "Seguro em gestantes e lactantes" },
+      { name: "Clindamicina", type: "Alternativa", color: "#2563eb", adult: "300mg VO, de 12/12h por 7 dias", child: "-" },
+    ],
+    alerts: ["Parcerias sexuais NÃO precisam ser tratadas, exceto se sintomáticas."],
+  },
+  {
+    id: "tricomoníase",
+    chapter: "07",
+    name: "Tricomoníase",
+    emoji: "🦠",
+    description:
+      "IST causada por Trichomonas vaginalis. Corrimento intenso, amarelo-esverdeado, bolhoso e espumoso, com odor fétido.",
+    diagnosis:
+      "Clínico. Corrimento amarelo-esverdeado, bolhoso, com odor fétido, prurido e possível disúria. Pode simular infecção urinária em mulheres.",
+    required: ["corrimento_vaginal", "odor_vaginal", "prurido_vaginal"],
+    supporting: ["disuria", "dispareunia", "febre"],
+    excluding: ["ulcera_genital", "dor_pelvica"],
+    treatments: [
+      { name: "Metronidazol 2g", type: "Primeira opção (dose única)", color: "#0e7c6a", adult: "250mg — 8 comprimidos VO, dose única (total 2g). Inclui gestantes e lactantes.", child: "Mesmo esquema" },
+      { name: "Metronidazol 500mg", type: "Alternativa", color: "#2563eb", adult: "500mg VO, de 12/12h por 7 dias", child: "-" },
+    ],
+    alerts: [
+      "Parcerias sexuais DEVEM SEMPRE ser tratadas, preferencialmente com o mesmo esquema.",
+      "Investigar outras ISTs durante o atendimento.",
+    ],
+  },
+  {
+    id: "dip",
+    chapter: "07",
+    name: "Doença Inflamatória Pélvica (DIP)",
+    emoji: "🏥",
+    description:
+      "Infecção do trato genital superior em mulher sexualmente ativa. Agentes: gonococo, clamídia, micoplasma e anaeróbios.",
+    diagnosis:
+      "Dor pélvica + dor à palpação de anexos + dor à mobilização do colo uterino. Critérios adicionais: febre, corrimento mucopurulento, leucocitose, massa pélvica.",
+    required: ["dor_pelvica"],
+    supporting: ["febre", "corrimento_vaginal", "dispareunia", "linfadenopatia"],
+    excluding: ["diarreia", "otalgia", "tosse", "prurido_vaginal", "odor_vaginal"],
+    treatments: [
+      { name: "Ceftriaxona + Doxiciclina + Metronidazol", type: "Primeira opção — 14 dias", color: "#0e7c6a", adult: "Ceftriaxona 500mg IM dose única + Doxiciclina 100mg VO 12/12h + Metronidazol 500mg VO 12/12h — por 14 dias", child: "-" },
+      { name: "Ceftriaxona + Azitromicina + Metronidazol", type: "Alternativa — 14 dias", color: "#2563eb", adult: "Ceftriaxona 500mg IM dose única + Azitromicina 1g VO 1x/semana por 2 semanas + Metronidazol 500mg VO 12/12h por 14 dias", child: "-" },
+    ],
+    alerts: [
+      "INTERNAÇÃO se: abscesso tubo-ovariano, gravidez, sem resposta em 72h, intolerância a antibióticos orais, estado grave (náuseas/vômitos/febre).",
+    ],
+  },
+  {
+    id: "uretrite",
+    chapter: "08",
+    name: "Uretrite / IST (Gonorreia/Clamídia)",
+    emoji: "💉",
+    description:
+      "Inflamação uretral com corrimento mucopurulento. Agentes: Neisseria gonorrhoeae, Chlamydia trachomatis, Ureaplasma, Mycoplasma.",
+    diagnosis:
+      "Diagnóstico frequentemente sindrômico. Corrimento uretral, disúria, prurido uretral e eritema de meato uretral.",
+    required: ["corrimento_uretral"],
+    supporting: ["disuria", "febre", "linfadenopatia"],
+    excluding: ["diarreia", "tosse", "otalgia", "lesao_pele"],
+    treatments: [
+      { name: "Ceftriaxona + Azitromicina", type: "Primeira opção", color: "#0e7c6a", adult: "Ceftriaxona 500mg IM dose única + Azitromicina 1g VO dose única", child: "-" },
+      { name: "Ceftriaxona + Doxiciclina", type: "Alternativa ou sem resposta", color: "#2563eb", adult: "Ceftriaxona 500mg IM dose única + Doxiciclina 100mg VO de 12/12h por 7 dias", child: "-" },
+    ],
+    alerts: [
+      "Parcerias sexuais devem ser testadas e tratadas.",
+      "Investigar outras ISTs: HIV, sífilis, Hepatite B e C.",
+      "Oferecer PrEP ou PEP ao HIV quando indicado.",
+    ],
+  },
+  {
+    id: "sifilis",
+    chapter: "08",
+    name: "Sífilis",
+    emoji: "🔴",
+    description:
+      "IST causada por Treponema pallidum. Primária: cancro duro (úlcera indolor). Secundária: lesões cutâneas, linfadenopatia. Latente: assintomática. Terciária: lesões graves sistêmicas.",
+    diagnosis:
+      "Solicitar teste treponêmico (preferência: teste rápido). VDRL/RPR para monitoramento. Cancro duro pode preceder soroconversão.",
+    required: ["ulcera_genital"],
+    supporting: ["linfadenopatia", "febre", "mal_estar"],
+    excluding: ["diarreia", "tosse", "disuria", "corrimento_vaginal", "prurido_vaginal"],
+    treatments: [
+      { name: "Penicilina Benzatina 2,4 milhões UI", type: "Sífilis recente (primária, secundária, latente <1 ano)", color: "#0e7c6a", adult: "2,4 milhões UI IM, dose única (1,2 milhão UI em cada glúteo)", child: "Ver protocolo específico pediátrico" },
+      { name: "Penicilina Benzatina 2,4 milhões UI x3", type: "Sífilis tardia (latente >1 ano ou terciária)", color: "#9333ea", adult: "2,4 milhões UI IM 1x/semana por 3 semanas (total: 7,2 milhões UI)", child: "Ver protocolo específico pediátrico" },
+      { name: "Doxiciclina", type: "Alérgicos (exceto gestantes)", color: "#2563eb", adult: "100mg VO de 12/12h por 15 dias (recente) ou 30 dias (tardia)", child: "Gestantes alérgicas: dessensibilização obrigatória" },
+    ],
+    alerts: [
+      "Penicilina Benzatina é a ÚNICA opção segura e eficaz para gestantes.",
+      "Seguimento com VDRL/RPR a cada 3 meses (3, 6, 9 e 12 meses).",
+      "Investigar HIV, Hepatite B e C durante o atendimento.",
+    ],
+  },
+  {
+    id: "herpes",
+    chapter: "08",
+    name: "Herpes Genital",
+    emoji: "🔥",
+    description:
+      "Infecção pelo HSV-1 ou HSV-2. Primo-infecção: vesículas/úlceras dolorosas, febre, mal-estar, linfadenomegalia inguinal bilateral. Episódios recorrentes são mais brandos.",
+    diagnosis:
+      "Clínico. Vesículas e bolhas que evoluem para úlceras dolorosas. Linfadenomegalia inguinal dolorosa bilateral (50% dos casos). Ao contrário da sífilis, as lesões são dolorosas.",
+    required: ["ulcera_genital"],
+    supporting: ["febre", "mal_estar", "linfadenopatia", "disuria"],
+    excluding: ["corrimento_vaginal", "diarreia", "tosse", "congestao_nasal"],
+    treatments: [
+      { name: "Aciclovir 400mg", type: "Primeira manifestação", color: "#0e7c6a", adult: "400mg VO, de 8/8h por 7-10 dias", child: "-" },
+      { name: "Aciclovir 400mg", type: "Episódios recorrentes", color: "#2563eb", adult: "400mg VO, de 8/8h por 5 dias", child: "-" },
+    ],
+    alerts: [
+      ">6 episódios/ano: tratamento supressivo com Aciclovir 400mg 2x/dia por até 6 meses.",
+      "Iniciar tratamento no período prodrômico (sensação local antes das lesões) para maior eficácia.",
+      "Não tratar parcerias assintomáticas.",
+    ],
+  },
+  {
+    id: "itu_cistite",
+    chapter: "09",
+    name: "ITU — Cistite (infecção urinária baixa)",
+    emoji: "💧",
+    description:
+      "Infecção do trato urinário baixo. Muito frequente em mulheres. Sem comprometimento sistêmico (sem febre significativa ou dor lombar).",
+    diagnosis:
+      "Clínico. Disúria + urgência/frequência urinária SEM febre ou dor lombar. Urocultura não é mandatória no 1º episódio em mulheres não gestantes.",
+    required: ["disuria", "urgencia_urinaria"],
+    supporting: [],
+    excluding: ["dor_lombar", "febre", "tosse", "dor_garganta", "diarreia"],
+    treatments: [
+      { name: "Nitrofurantoína", type: "Mulheres não gestantes", color: "#0e7c6a", adult: "100mg VO, de 6/6h por 3-5 dias", child: "5-7mg/kg/dia dividido de 6/6h" },
+      { name: "Sulfametoxazol-Trimetoprim", type: "Mulheres não gestantes / Homens", color: "#0e7c6a", adult: "800/160mg VO, de 12/12h por 3 dias (mulheres) ou 5-7 dias (homens)", child: "6-12mg/kg/dia (trimetoprim) de 12/12h por 5-7 dias" },
+      { name: "Cefalexina", type: "Gestantes", color: "#9333ea", adult: "500mg VO, de 6/6h por 5-7 dias", child: "50-100mg/kg/dia VO de 8/8h por 5-7 dias" },
+      { name: "Amoxicilina", type: "Gestantes (alternativa)", color: "#9333ea", adult: "500mg VO, de 8/8h por 5-7 dias", child: "50-90mg/kg/dia VO de 8/8h (máx 500mg/dose)" },
+      { name: "Ciprofloxacino", type: "Homens / alternativa", color: "#2563eb", adult: "500mg VO, de 12/12h por 5-7 dias", child: "Evitar em pediatria" },
+    ],
+    alerts: [
+      "NÃO solicitar urocultura rotineiramente no 1º episódio em mulheres não gestantes.",
+      "Sinal de Giordano positivo ou febre: suspeitar de PIELONEFRITE.",
+      "Solicitar urocultura se: ITU há menos de 1 mês, ITU de repetição, gestantes ou crianças.",
+    ],
+  },
+  {
+    id: "pielonefrite",
+    chapter: "09",
+    name: "Pielonefrite Aguda (ITU alta)",
+    emoji: "⚠️",
+    description:
+      "Infecção do trato urinário alto com comprometimento sistêmico. Sintomas de ITU + febre e/ou dor lombar (Sinal de Giordano positivo).",
+    diagnosis:
+      "Clínico. Sintomas de ITU + febre + dor lombar. Solicitar urocultura em TODOS os casos. Iniciar antimicrobiano empírico e ajustar após cultura.",
+    required: ["disuria", "febre", "dor_lombar"],
+    supporting: ["urgencia_urinaria", "nauseas_vomitos"],
+    excluding: ["tosse", "dor_garganta", "diarreia"],
+    treatments: [
+      { name: "Ciprofloxacino", type: "Primeira opção", color: "#0e7c6a", adult: "400mg IV ou 500mg VO, de 12/12h por 7-10 dias", child: "Evitar em pediatria" },
+      { name: "Levofloxacino", type: "Alternativa", color: "#2563eb", adult: "500-750mg VO, 1x/dia por 7-10 dias", child: "-" },
+      { name: "Ceftriaxona", type: "Alternativa", color: "#2563eb", adult: "1g IV ou IM de 12/12h (ou 2g 1x/dia) por 7-10 dias", child: "Ver especialista" },
+    ],
+    alerts: [
+      "Solicitar urocultura e ajustar tratamento após resultado.",
+      "Se suspeita de SEPSE: administrar 1ª dose de antibiótico e encaminhar para UPA/Hospital.",
+      "Internação mandatória se: sepse, febre persistente, impossibilidade de tratamento oral, suspeita de obstrução.",
+    ],
+  },
+  {
+    id: "mordedura",
+    chapter: "10",
+    name: "Mordedura por Animal (Cão/Gato)",
+    emoji: "🐾",
+    description:
+      "Risco de infecção local, tétano e raiva. Agentes: Staphylococcus, Streptococcus, Pasteurella multocida, Capnocytophaga, anaeróbios.",
+    diagnosis:
+      "Avaliação da extensão, profundidade e sinais de infecção. Mordeduras profundas: profilaxia. Com sinais de infecção: tratamento. Mordeduras superficiais (não atravessaram a epiderme): sem profilaxia.",
+    required: ["mordedura"],
+    supporting: ["eritema_local", "edema_local", "dor_calor_local", "febre", "ulcera_pele"],
+    excluding: ["diarreia", "disuria", "dor_garganta", "tosse"],
+    treatments: [
+      { name: "Amoxicilina-Clavulanato", type: "Primeira opção", color: "#0e7c6a", adult: "500/125mg VO de 8/8h — 3 dias (profilaxia) | 5-7 dias (tratamento)", child: "50-90mg/kg/dia (amoxicilina) VO de 8/8h — 3 dias (profilaxia) | 5 dias (tratamento)" },
+      { name: "Clindamicina + Ciprofloxacino", type: "Alergia (adultos)", color: "#2563eb", adult: "300-450mg VO 8/8h + 500mg VO 12/12h — 3 dias (profilaxia) | 5-7 dias (tratamento)", child: "Preferir Clindamicina + SMX-TMP" },
+      { name: "Clindamicina + SMX-TMP", type: "Alergia (crianças)", color: "#2563eb", adult: "-", child: "30-40mg/kg/dia de 6/6h + 8-12mg/kg/dia (trimetoprim) de 12/12h" },
+    ],
+    alerts: [
+      "LIMPEZA IMEDIATA: lavar vigorosamente com degermante/sabão e irrigar com SF.",
+      "Avaliar profilaxia antitetânica e antirrábica.",
+      "Mordeduras SUPERFICIAIS (não atravessaram epiderme): NÃO necessitam profilaxia com antibiótico.",
+      "Lesões complexas ou em face: encaminhar para cirurgião.",
+    ],
+  },
+  {
+    id: "otite",
+    chapter: "11",
+    name: "Otite Média Aguda (OMA)",
+    emoji: "👂",
+    description:
+      "Infecção do ouvido médio. Agentes: Moraxella catarrhalis, H. influenzae, S. pneumoniae. A maioria se resolve espontaneamente.",
+    diagnosis:
+      "Diagnóstico CLÍNICO. Abaulamento da membrana timpânica é o sinal mais fidedigno. <6 meses: sempre tratar. 6-24 meses: tratar se otalgia intensa ou outros critérios. >24 meses: considerar watchful waiting.",
+    required: ["otalgia"],
+    supporting: ["febre", "otorreia", "mal_estar"],
+    excluding: ["diarreia", "disuria", "dor_garganta", "ulcera_genital"],
+    treatments: [
+      { name: "Amoxicilina", type: "Primeira opção", color: "#0e7c6a", adult: "500mg VO, de 8/8h por 5-7 dias", child: "50-90mg/kg/dia VO de 8/8h (máx 500mg/dose) por 5-7 dias (menores de 2 anos: 10 dias)" },
+      { name: "Claritromicina", type: "Alérgicos a beta-lactâmicos", color: "#2563eb", adult: "500mg VO, de 12/12h por 5-7 dias", child: "15mg/kg/dia de 12/12h (máx 500mg) por 5 dias" },
+      { name: "Azitromicina", type: "Alérgicos a beta-lactâmicos", color: "#2563eb", adult: "500mg VO, 1x/dia por 5 dias", child: "12mg/kg/dia 1x/dia (máx 500mg) por 5 dias" },
+      { name: "Amoxicilina-Clavulanato", type: "Sem resposta / uso recente de AB / OMA recorrente", color: "#9333ea", adult: "500/125mg VO 8/8h por 7-10 dias OU 875/125mg de 12/12h por 5-7 dias", child: "50-90mg/kg/dia (amoxicilina) de 8/8h por 5-7 dias (menores de 2 anos: 10 dias)" },
+    ],
+    alerts: [
+      "<6 meses: SEMPRE iniciar antimicrobiano.",
+      "6-24 meses: tratar se otalgia de início rápido, otalgia intensa >48h, membrana abaulada, acometimento bilateral, febre alta.",
+      ">24 meses: watchful waiting possível. Tratar se otorreia, otalgia intensa >48h ou mau estado geral.",
+      "Analgésicos/antitérmicos devem ser prescritos imediatamente. Lavagem nasal também auxilia.",
+    ],
+  },
+  {
+    id: "rinossinusite",
+    chapter: "13",
+    name: "Rinossinusite Aguda",
+    emoji: "🤧",
+    description:
+      "Causas mais comuns: alergia e vírus (>80%). Antimicrobiano APENAS se sintomas >10 dias ou piora após 5° dia (bacteriana pós-viral).",
+    diagnosis:
+      "Clínico. Indicativo bacteriano: duração >10 dias, piora após 5° dia, rinorreia unilateral/purulenta, dor facial intensa (especialmente unilateral), febre ≥37,8°C.",
+    required: ["congestao_nasal"],
+    supporting: ["dor_facial", "coriza", "febre", "dor_garganta"],
+    excluding: ["diarreia", "disuria", "otalgia", "ulcera_genital"],
+    treatments: [
+      { name: "Amoxicilina", type: "Primeira opção", color: "#0e7c6a", adult: "500mg VO, de 8/8h por 5-7 dias", child: "50-90mg/kg/dia VO de 8/8h por 5-7 dias" },
+      { name: "Doxiciclina", type: "Alternativa", color: "#2563eb", adult: "100mg VO, de 12/12h por 5-7 dias", child: "2-4mg/kg de 12/12h (máx 100mg/dose) por 5-7 dias" },
+      { name: "Amoxicilina-Clavulanato", type: "Sem resposta ao tratamento inicial", color: "#9333ea", adult: "500/125mg VO 8/8h ou 875/125mg 12/12h por 5-7 dias", child: "50mg/kg/dia VO de 8/8h por 5-7 dias" },
+    ],
+    alerts: [
+      "Sintomas <10 dias SEM piora: NÃO prescrever antimicrobiano. Resolução espontânea.",
+      "Alta resistência: S. pneumoniae a macrolídeos (50%) e SMX-TMP (40%) no Brasil.",
+      "Lavagem nasal com SF e hidratação adequada como suporte.",
+    ],
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SCORING
+// ─────────────────────────────────────────────────────────────────────────────
+
+function scoreCondition(condition, selected) {
+  const sel = new Set(selected);
+  if (sel.size === 0) return 0;
+
+  // Hard exclusion
+  const excluded = condition.excluding.filter((s) => sel.has(s));
+  if (excluded.length > 0) return -1;
+
+  // Required match
+  const requiredMatches = condition.required.filter((s) => sel.has(s));
+  if (condition.required.length > 0 && requiredMatches.length === 0) return 0;
+
+  const reqScore = requiredMatches.length / Math.max(condition.required.length, 1);
+  const supMatches = condition.supporting.filter((s) => sel.has(s));
+  const supScore = supMatches.length / Math.max(condition.supporting.length + condition.required.length, 1);
+
+  return Math.round((reqScore * 70 + supScore * 30) * 100) / 100;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// COMPONENTS
+// ─────────────────────────────────────────────────────────────────────────────
+
+const typeColors = {
+  "Primeira opção": "#0e7c6a",
+  "Primeira opção (IM)": "#0e7c6a",
+  "Primeira opção (oral)": "#0e7c6a",
+  "Primeira opção (vaginal)": "#0e7c6a",
+  "Tríplice terapia — 14 dias": "#0e7c6a",
+  "Casos graves — 1ª opção": "#0e7c6a",
+  "PAC sem fatores de risco": "#0e7c6a",
+  "Primeira manifestação": "#0e7c6a",
+  "Mulheres não gestantes": "#0e7c6a",
+};
+
+function getTreatmentBadgeStyle(type) {
+  const col = typeColors[type] ?? (type.includes("Alternativa") || type.includes("Alergia") ? "#2563eb" : "#9333ea");
+  return { background: col + "18", color: col, border: `1px solid ${col}40` };
+}
+
+function Modal({ condition, onClose }) {
+  if (!condition) return null;
+  return (
+    <div
+      style={{ position: "fixed", inset: 0, background: "rgba(2,20,30,0.72)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}
+      onClick={onClose}
+    >
+      <div
+        style={{ background: "#fff", borderRadius: "16px", maxWidth: "720px", width: "100%", maxHeight: "88vh", overflowY: "auto", boxShadow: "0 32px 80px rgba(0,0,0,0.25)" }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div style={{ background: "linear-gradient(135deg, #02343f 0%, #0e7c6a 100%)", borderRadius: "16px 16px 0 0", padding: "24px 28px 20px" }}>
+          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
+                <span style={{ fontSize: "28px" }}>{condition.emoji}</span>
+                <span style={{ background: "rgba(255,255,255,0.18)", color: "#a3e4d8", fontSize: "11px", fontWeight: 700, letterSpacing: "1px", padding: "2px 10px", borderRadius: "20px" }}>CAPÍTULO {condition.chapter}</span>
+              </div>
+              <h2 style={{ margin: 0, color: "#fff", fontSize: "22px", fontWeight: 700, fontFamily: "Georgia, serif" }}>{condition.name}</h2>
+            </div>
+            <button onClick={onClose} style={{ background: "rgba(255,255,255,0.15)", border: "none", color: "#fff", borderRadius: "8px", width: "34px", height: "34px", cursor: "pointer", fontSize: "18px", display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
+          </div>
+          <p style={{ color: "rgba(255,255,255,0.82)", fontSize: "14px", margin: "12px 0 0", lineHeight: 1.6 }}>{condition.description}</p>
+        </div>
+
+        <div style={{ padding: "24px 28px" }}>
+          {/* Diagnosis */}
+          <div style={{ background: "#f0fdf9", border: "1px solid #a7f3d0", borderRadius: "10px", padding: "14px 18px", marginBottom: "20px" }}>
+            <div style={{ fontWeight: 700, color: "#065f46", fontSize: "12px", letterSpacing: "0.8px", marginBottom: "6px" }}>🔍 DIAGNÓSTICO</div>
+            <p style={{ margin: 0, color: "#134e4a", fontSize: "14px", lineHeight: 1.65 }}>{condition.diagnosis}</p>
+          </div>
+
+          {/* Treatments */}
+          <div style={{ marginBottom: "20px" }}>
+            <div style={{ fontWeight: 700, color: "#02343f", fontSize: "13px", letterSpacing: "0.8px", marginBottom: "12px", textTransform: "uppercase" }}>💊 Antimicrobianos</div>
+            {condition.treatments.map((t, i) => (
+              <div key={i} style={{ border: "1px solid #e5e7eb", borderRadius: "10px", padding: "14px 18px", marginBottom: "10px" }}>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", alignItems: "center", marginBottom: "10px" }}>
+                  <span style={{ fontWeight: 700, color: "#02343f", fontSize: "15px" }}>{t.name}</span>
+                  <span style={{ ...getTreatmentBadgeStyle(t.type), fontSize: "11px", fontWeight: 600, padding: "2px 10px", borderRadius: "20px" }}>{t.type}</span>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                  <div style={{ background: "#f8fafc", borderRadius: "8px", padding: "10px 12px" }}>
+                    <div style={{ fontSize: "10px", fontWeight: 700, color: "#6b7280", letterSpacing: "0.6px", marginBottom: "4px" }}>ADULTO</div>
+                    <div style={{ fontSize: "13px", color: "#1f2937", lineHeight: 1.5 }}>{t.adult}</div>
+                  </div>
+                  <div style={{ background: "#f0f9ff", borderRadius: "8px", padding: "10px 12px" }}>
+                    <div style={{ fontSize: "10px", fontWeight: 700, color: "#6b7280", letterSpacing: "0.6px", marginBottom: "4px" }}>CRIANÇA</div>
+                    <div style={{ fontSize: "13px", color: "#1f2937", lineHeight: 1.5 }}>{t.child}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Alerts */}
+          {condition.alerts.length > 0 && (
+            <div style={{ background: "#fffbeb", border: "1px solid #fcd34d", borderRadius: "10px", padding: "14px 18px" }}>
+              <div style={{ fontWeight: 700, color: "#92400e", fontSize: "12px", letterSpacing: "0.8px", marginBottom: "8px" }}>⚠️ ALERTAS CLÍNICOS</div>
+              {condition.alerts.map((a, i) => (
+                <div key={i} style={{ display: "flex", gap: "8px", marginBottom: i < condition.alerts.length - 1 ? "6px" : 0 }}>
+                  <span style={{ color: "#d97706", flexShrink: 0 }}>•</span>
+                  <span style={{ color: "#78350f", fontSize: "13px", lineHeight: 1.6 }}>{a}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div style={{ marginTop: "20px", padding: "12px 16px", background: "#f1f5f9", borderRadius: "8px", fontSize: "12px", color: "#64748b", textAlign: "center" }}>
+            Guia Antimicrobiano na Prática Clínica — Atenção Primária do Ceará (Jan/2026). Este guia é auxiliar à decisão clínica. Avalie cada caso individualmente.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ScoreBar({ score }) {
+  const pct = Math.max(0, Math.min(score, 100));
+  const color = pct >= 70 ? "#0e7c6a" : pct >= 40 ? "#d97706" : "#2563eb";
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <div style={{ flex: 1, height: "5px", background: "#e5e7eb", borderRadius: "10px", overflow: "hidden" }}>
+        <div style={{ width: `${pct}%`, height: "100%", background: color, borderRadius: "10px", transition: "width 0.4s ease" }} />
+      </div>
+      <span style={{ fontSize: "12px", fontWeight: 700, color, minWidth: "34px" }}>{Math.round(pct)}%</span>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// APP
+// ─────────────────────────────────────────────────────────────────────────────
+
+function App() {
+  const [selected, setSelected] = useState(new Set());
+  const [modal, setModal] = useState(null);
+  const [openCats, setOpenCats] = useState(new Set(SYMPTOM_CATEGORIES.map((c) => c.id)));
+
+  const toggleSymptom = (id) => {
+    setSelected((prev) => {
+      const n = new Set(prev);
+      n.has(id) ? n.delete(id) : n.add(id);
+      return n;
+    });
+  };
+
+  const toggleCat = (id) => {
+    setOpenCats((prev) => {
+      const n = new Set(prev);
+      n.has(id) ? n.delete(id) : n.add(id);
+      return n;
+    });
+  };
+
+  const selectedArr = [...selected];
+
+  const scored = useMemo(() => {
+    if (selected.size === 0) return [];
+    return CONDITIONS.map((c) => ({ ...c, score: scoreCondition(c, selectedArr) }))
+      .filter((c) => c.score > 0)
+      .sort((a, b) => b.score - a.score);
+  }, [selected]);
+
+  const clearAll = () => setSelected(new Set());
+
+  return (
+    <div style={{ fontFamily: "'Segoe UI', system-ui, sans-serif", background: "#f1f5f9", minHeight: "100vh" }}>
+      {/* Top bar */}
+      <div style={{ background: "linear-gradient(135deg, #02343f 0%, #0a5c4e 100%)", padding: "18px 24px", boxShadow: "0 2px 20px rgba(0,0,0,0.2)" }}>
+        <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "10px" }}>
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <span style={{ fontSize: "26px" }}>🏥</span>
+              <div>
+                <h1 style={{ margin: 0, color: "#fff", fontSize: "20px", fontWeight: 700, fontFamily: "Georgia, serif", letterSpacing: "-0.3px" }}>Guia Antimicrobiano</h1>
+                <p style={{ margin: 0, color: "#a3e4d8", fontSize: "12px" }}>Atenção Primária — Ceará · Jan/2026</p>
+              </div>
+            </div>
+          </div>
+          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+            {selected.size > 0 && (
+              <div style={{ background: "rgba(255,255,255,0.15)", color: "#e2f8f4", fontSize: "13px", padding: "6px 14px", borderRadius: "20px", fontWeight: 600 }}>
+                {selected.size} sintoma{selected.size > 1 ? "s" : ""} selecionado{selected.size > 1 ? "s" : ""}
+              </div>
+            )}
+            {selected.size > 0 && (
+              <button onClick={clearAll} style={{ background: "rgba(255,80,80,0.18)", border: "1px solid rgba(255,100,100,0.3)", color: "#fca5a5", fontSize: "12px", padding: "6px 14px", borderRadius: "20px", cursor: "pointer", fontWeight: 600 }}>
+                Limpar tudo
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "24px 16px", display: "grid", gridTemplateColumns: "360px 1fr", gap: "20px", alignItems: "start" }}>
+        {/* LEFT: Symptom selector */}
+        <div style={{ position: "sticky", top: "16px" }}>
+          <div style={{ background: "#fff", borderRadius: "14px", boxShadow: "0 2px 12px rgba(0,0,0,0.08)", overflow: "hidden" }}>
+            <div style={{ padding: "16px 20px 12px", borderBottom: "1px solid #f1f5f9" }}>
+              <h2 style={{ margin: 0, fontSize: "15px", fontWeight: 700, color: "#02343f" }}>Selecione os sintomas</h2>
+              <p style={{ margin: "4px 0 0", fontSize: "12px", color: "#6b7280" }}>Marque todos os presentes no paciente</p>
+            </div>
+            <div style={{ maxHeight: "72vh", overflowY: "auto" }}>
+              {SYMPTOM_CATEGORIES.map((cat) => (
+                <div key={cat.id} style={{ borderBottom: "1px solid #f8fafc" }}>
+                  <button
+                    onClick={() => toggleCat(cat.id)}
+                    style={{ width: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 20px", background: "none", border: "none", cursor: "pointer", textAlign: "left" }}
+                  >
+                    <span style={{ display: "flex", alignItems: "center", gap: "8px", fontWeight: 600, color: "#374151", fontSize: "13px" }}>
+                      <span>{cat.icon}</span>{cat.label}
+                    </span>
+                    <span style={{ color: "#9ca3af", fontSize: "12px" }}>{openCats.has(cat.id) ? "▲" : "▼"}</span>
+                  </button>
+                  {openCats.has(cat.id) && (
+                    <div style={{ padding: "0 12px 10px" }}>
+                      {cat.symptoms.map((s) => {
+                        const isOn = selected.has(s.id);
+                        return (
+                          <label
+                            key={s.id}
+                            style={{ display: "flex", alignItems: "center", gap: "10px", padding: "7px 10px", borderRadius: "8px", cursor: "pointer", background: isOn ? "#f0fdf9" : "transparent", marginBottom: "2px", transition: "background 0.15s" }}
+                          >
+                            <div
+                              onClick={() => toggleSymptom(s.id)}
+                              style={{ width: "18px", height: "18px", borderRadius: "5px", border: isOn ? "2px solid #0e7c6a" : "2px solid #d1d5db", background: isOn ? "#0e7c6a" : "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, transition: "all 0.15s", cursor: "pointer" }}
+                            >
+                              {isOn && <span style={{ color: "#fff", fontSize: "11px", fontWeight: 700 }}>✓</span>}
+                            </div>
+                            <span onClick={() => toggleSymptom(s.id)} style={{ fontSize: "13px", color: isOn ? "#065f46" : "#374151", fontWeight: isOn ? 600 : 400, lineHeight: 1.4 }}>{s.label}</span>
+                          </label>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* RIGHT: Results */}
+        <div>
+          {selected.size === 0 ? (
+            <div style={{ background: "#fff", borderRadius: "14px", padding: "60px 40px", textAlign: "center", boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
+              <div style={{ fontSize: "56px", marginBottom: "16px" }}>🩺</div>
+              <h3 style={{ color: "#02343f", fontFamily: "Georgia, serif", fontSize: "20px", margin: "0 0 10px" }}>Selecione os sintomas do paciente</h3>
+              <p style={{ color: "#6b7280", fontSize: "14px", maxWidth: "380px", margin: "0 auto", lineHeight: 1.7 }}>
+                Marque os sintomas presentes no painel à esquerda. O sistema irá sugerir as possíveis doenças e os antimicrobianos indicados pelo guia do Ceará.
+              </p>
+              <div style={{ display: "flex", gap: "12px", justifyContent: "center", marginTop: "28px", flexWrap: "wrap" }}>
+                {["Pele", "Respiratório", "Digestivo", "Urinário", "ISTs"].map((t) => (
+                  <span key={t} style={{ background: "#f0fdf9", color: "#0e7c6a", border: "1px solid #a7f3d0", fontSize: "12px", padding: "5px 14px", borderRadius: "20px", fontWeight: 600 }}>{t}</span>
+                ))}
+              </div>
+            </div>
+          ) : scored.length === 0 ? (
+            <div style={{ background: "#fff", borderRadius: "14px", padding: "50px 40px", textAlign: "center", boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
+              <div style={{ fontSize: "48px", marginBottom: "14px" }}>🔍</div>
+              <h3 style={{ color: "#374151", fontSize: "18px", margin: "0 0 8px" }}>Nenhuma condição encontrada</h3>
+              <p style={{ color: "#6b7280", fontSize: "14px" }}>A combinação de sintomas selecionada não corresponde às condições do guia. Revise os sintomas ou consulte diretamente o guia completo.</p>
+            </div>
+          ) : (
+            <>
+              <div style={{ marginBottom: "14px", display: "flex", alignItems: "center", gap: "10px" }}>
+                <h2 style={{ margin: 0, fontSize: "16px", fontWeight: 700, color: "#02343f" }}>Possíveis diagnósticos</h2>
+                <span style={{ background: "#0e7c6a", color: "#fff", fontSize: "11px", fontWeight: 700, padding: "2px 10px", borderRadius: "20px" }}>{scored.length} encontrado{scored.length > 1 ? "s" : ""}</span>
+              </div>
+              {scored.map((c, i) => (
+                <div
+                  key={c.id}
+                  onClick={() => setModal(c)}
+                  style={{ background: "#fff", borderRadius: "12px", padding: "18px 20px", marginBottom: "12px", cursor: "pointer", boxShadow: "0 2px 10px rgba(0,0,0,0.06)", border: "1px solid transparent", transition: "all 0.2s", position: "relative" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#0e7c6a40"; e.currentTarget.style.boxShadow = "0 4px 20px rgba(14,124,106,0.12)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = "transparent"; e.currentTarget.style.boxShadow = "0 2px 10px rgba(0,0,0,0.06)"; }}
+                >
+                  {i === 0 && (
+                    <div style={{ position: "absolute", top: "12px", right: "14px", background: "#fef3c7", color: "#92400e", fontSize: "10px", fontWeight: 700, padding: "2px 8px", borderRadius: "20px", letterSpacing: "0.5px" }}>
+                      ★ MAIOR CORRESPONDÊNCIA
+                    </div>
+                  )}
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "10px" }}>
+                    <span style={{ fontSize: "26px" }}>{c.emoji}</span>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                        <span style={{ fontWeight: 700, color: "#02343f", fontSize: "15px", fontFamily: "Georgia, serif" }}>{c.name}</span>
+                        <span style={{ fontSize: "10px", color: "#9ca3af", fontWeight: 600 }}>CAP. {c.chapter}</span>
+                      </div>
+                      <ScoreBar score={c.score} />
+                    </div>
+                  </div>
+                  <p style={{ margin: "0 0 12px", color: "#4b5563", fontSize: "13px", lineHeight: 1.6 }}>{c.description}</p>
+                  <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                    {c.treatments.slice(0, 3).map((t, j) => (
+                      <span key={j} style={{ fontSize: "11px", fontWeight: 600, padding: "3px 10px", borderRadius: "20px", ...getTreatmentBadgeStyle(t.type) }}>
+                        {t.name.split(" ")[0]}
+                      </span>
+                    ))}
+                    {c.treatments.length > 3 && (
+                      <span style={{ fontSize: "11px", fontWeight: 600, padding: "3px 10px", borderRadius: "20px", background: "#f1f5f9", color: "#6b7280" }}>
+                        +{c.treatments.length - 3} opções
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ marginTop: "12px", borderTop: "1px solid #f3f4f6", paddingTop: "10px", fontSize: "12px", color: "#0e7c6a", fontWeight: 600, display: "flex", alignItems: "center", gap: "4px" }}>
+                    Ver posologia completa e alertas clínicos →
+                  </div>
+                </div>
+              ))}
+              <div style={{ marginTop: "16px", padding: "12px 16px", background: "#fff7ed", border: "1px solid #fde68a", borderRadius: "10px", fontSize: "12px", color: "#92400e", lineHeight: 1.6 }}>
+                <strong>⚠️ Aviso:</strong> Este guia é auxiliar à decisão clínica. Os resultados são sugestivos e devem ser interpretados pelo profissional de saúde, considerando a anamnese completa, o exame físico e os fatores individuais de cada paciente.
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      <Modal condition={modal} onClose={() => setModal(null)} />
+    </div>
+  );
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(React.createElement(App));
+
+</script>
+</body>
+</html>
