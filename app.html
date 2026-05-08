@@ -676,6 +676,15 @@ body {
   .g2, .g3   { grid-template-columns: 1fr; }
   .span2      { grid-column: span 1; }
   .card       { padding: 16px 12px; }
+  css
+ /* Linha 5 mobile: 2 colunas */
+  .drug-row[style*="grid-template-columns:1fr 3fr"] {
+    grid-template-columns: 1fr 1fr !important;
+  }
+  .drug-row[style*="grid-template-columns:1fr 3fr"] .field:nth-child(1),
+  .drug-row[style*="grid-template-columns:1fr 3fr"] .field:nth-child(2) {
+    grid-column: span 2;
+  }
 
   /* Topbar empilhado */
   .topbar {
@@ -1392,7 +1401,7 @@ function clearDrug(n) {
     if (el) el.value = '';
   });
   // selects
-  ['_via','_forma','_unidade'].forEach(s => {
+  ['_via','_forma','_unidade','_unid_forn'].forEach(s => {
     const el = document.getElementById(`d${n}${s}`);
     if (el) el.selectedIndex = 0;
   });
@@ -1518,7 +1527,11 @@ function getDrugs() {
     const inicio  = v(`d${n}_inicio`);
     const dur     = v(`d${n}_dur`);
     const obs     = v(`d${n}_obs`);
-    const qtd     = v(`d${n}_qtd`);
+    const qtdNum2   = v(`d${n}_qtd`);
+    const unidForn  = v(`d${n}_unid_forn`);
+    const qtd  = qtdNum2 && unidForn
+                          ? `${qtdNum2} ${pluralize(unidForn, qtdNum2)}`
+                          : qtdNum2 || '';
     const continuo = document.getElementById(`d${n}_continuo`)?.checked ? 'Uso contínuo' : '';
 
     // Build posologia string for PDF
