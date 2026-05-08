@@ -1138,21 +1138,37 @@ function addDrug() {
     </div>
 
     <!-- Linha 5: Início do tratamento + Conclusão / Observação + Quantidade total dispensada -->
-    <div class="drug-row r3">
+    <!-- Linha 5: Início do tratamento + Conclusão / Observação + Quantidade Prescrita + Unidade de fornecimento -->
+    <div class="drug-row" style="display:grid;grid-template-columns:1fr 3fr 1fr 1fr;gap:8px;margin-bottom:8px;">
       <div class="field">
         <label>Início do tratamento</label>
         <input type="date" id="d${n}_inicio">
       </div>
       <div class="field">
         <label>Conclusão / Observação</label>
-        <input id="d${n}_obs" placeholder="Ex: Retorno em 30 dias">
+        <input id="d${n}_obs" placeholder="Ex: Retorno em 30 dias, alergia a penicilina...">
       </div>
       <div class="field">
-        <label>Quantidade total dispensada</label>
-        <input id="d${n}_qtd" placeholder="Ex: 21 comprimidos, 1 frasco">
+        <label>Quantidade Prescrita</label>
+        <input id="d${n}_qtd" type="number" min="1" placeholder="Ex: 21">
+      </div>
+      <div class="field">
+        <label>Unidade de fornecimento</label>
+        <select id="d${n}_unid_forn">
+          <option value="">Selecione...</option>
+          <option value="comprimido(s)">Comprimido(s)</option>
+          <option value="cápsula(s)">Cápsula(s)</option>
+          <option value="frasco(s)">Frasco(s)</option>
+          <option value="ampola(s)">Ampola(s)</option>
+          <option value="bisnaga(s)">Bisnaga(s)</option>
+          <option value="cartela(s)">Cartela(s)</option>
+          <option value="envelope(s)">Envelope(s)</option>
+          <option value="adesivo(s)">Adesivo(s)</option>
+          <option value="supositório(s)">Supositório(s)</option>
+          <option value="unidade(s)">Unidade(s)</option>
+        </select>
       </div>
     </div>
-
   </div>
   `;
   document.getElementById('drugList').appendChild(div);
