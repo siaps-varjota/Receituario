@@ -839,7 +839,7 @@ body {
             </div>
             <div class="field">
               <label>CPF do Profissional</label>
-              <input id="e_cpf" placeholder="000.000.000-00" id="e_cpf_input" data-mask="cpf">
+              <input id="e_cpf" placeholder="000.000.000-00" data-mask="cpf">
             </div>
           </div>
           <div class="gd3">
@@ -898,7 +898,7 @@ body {
       </button>
       <div class="protocol-dropdown" id="protocolDropdown">
         <div class="protocol-search">
-          <input type="text" id="protocolSearch" placeholder="🔍 Buscar medicamento ou protocolo..." id="protocolSearch" autocomplete="off">
+          <input type="text" id="protocolSearch" placeholder="🔍 Buscar medicamento ou protocolo..." autocomplete="off">
         </div>
         <div class="protocol-groups" id="protocolGroups"></div>
       </div>
@@ -943,7 +943,6 @@ function setDrugTipo(n, tipo) {
   const di = document.getElementById('di_' + n);
   if (!di) return;
   di.dataset.tipo = tipo;
-  // atualizar visual dos botões
   document.getElementById(`d${n}_tipo_simples`).className =
     'drug-type-btn' + (tipo === 'simples' ? ' active-simples' : '');
   document.getElementById(`d${n}_tipo_antibiotico`).className =
@@ -1164,7 +1163,6 @@ function addDrug() {
       </div>
     </div>
 
-    <!-- Linha 5: Início do tratamento + PROTOCOLO DE REFERÊNCIA (MS) + Quantidade total dispensada -->
     <!-- Linha 5: Início do tratamento + PROTOCOLO DE REFERÊNCIA (MS) + Quantidade Prescrita + Unidade de fornecimento -->
     <div class="drug-row" style="display:grid;grid-template-columns:1fr 3fr 1fr 1fr;gap:8px;margin-bottom:8px;">
       <div class="field">
@@ -1206,7 +1204,6 @@ function setupDrugAutocomplete(n) {
   const input = document.getElementById(`d${n}_nome`);
   if (!input) return;
 
-  // Cria o dropdown de autocomplete dentro do .drug-ac-wrap
   const ac = document.createElement('div');
   ac.className = 'drug-ac';
   ac.id = `d${n}_ac`;
@@ -1274,7 +1271,6 @@ function setupDrugAutocomplete(n) {
   });
 
   input.addEventListener('blur', function() {
-    // Delay para permitir o click no item do dropdown
     setTimeout(() => { ac.style.display = 'none'; selectedIdx = -1; }, 200);
   });
 
@@ -1287,7 +1283,6 @@ function setupDrugAutocomplete(n) {
 }
 
 function applyProtocolToDrug(n, p) {
-  // Fecha autocomplete
   const ac = document.getElementById(`d${n}_ac`);
   if (ac) ac.style.display = 'none';
 
@@ -1296,7 +1291,6 @@ function applyProtocolToDrug(n, p) {
   setVal(`d${n}_conc`, p.conc);
   updateDrugPreview(n);
 
-  // Via de administração
   const viaEl = document.getElementById(`d${n}_via`);
   if (viaEl) {
     const opt = Array.from(viaEl.options).find(o =>
@@ -1305,7 +1299,6 @@ function applyProtocolToDrug(n, p) {
     if (opt) viaEl.value = opt.value;
   }
 
-  // Forma farmacêutica
   const formaEl = document.getElementById(`d${n}_forma`);
   if (formaEl) {
     const formaSimple = p.forma.split(/[,/]/)[0].trim();
@@ -1316,11 +1309,9 @@ function applyProtocolToDrug(n, p) {
     if (opt) formaEl.value = opt.value;
   }
 
-  // Posologia e protocolo (mesmos campos do selectProtocol)
   setVal(`d${n}_pos`, p.uso);
   setVal(`d${n}_obs`, p.protocolo);
 
-  // Foca no próximo campo relevante
   const concEl = document.getElementById(`d${n}_conc`);
   if (concEl) concEl.focus();
 }
@@ -1332,10 +1323,7 @@ function setPeriodTab(n, tab, btn) {
   });
   const panel = document.getElementById(`d${n}_panel_${tab}`);
   panel.classList.add('show');
-  // fix display
-  if (tab === 'intervalo') panel.style.display = 'block';
-  else if (tab === 'frequencia') panel.style.display = 'block';
-  else panel.style.display = 'block';
+  panel.style.display = 'block';
 
   btn.closest('.period-tabs').querySelectorAll('.period-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -1413,52 +1401,40 @@ function updateDrugPreview(n) {
 }
 
 function clearDrug(n) {
-  // inputs de texto / number / date
   ['_nome','_conc','_pos','_obs','_qtd','_qtddose','_durnum','_inicio','_intcustom','_freqcustom'].forEach(s => {
     const el = document.getElementById(`d${n}${s}`);
     if (el) el.value = '';
   });
-  // selects
   ['_via','_forma','_unidade','_unid_forn'].forEach(s => {
     const el = document.getElementById(`d${n}${s}`);
     if (el) el.selectedIndex = 0;
   });
-  // radio tipo de dose → Comum
   const rdComum = document.querySelector(`input[name="d${n}_tipodose"][value="Comum"]`);
   if (rdComum) rdComum.checked = true;
-  // radio duração → Dia(s)
   const rdDia = document.querySelector(`input[name="d${n}_durun"][value="Dia(s)"]`);
   if (rdDia) rdDia.checked = true;
-  // hidden fields
   ['_intervalo','_frequencia','_dur'].forEach(s => {
     const el = document.getElementById(`d${n}${s}`);
     if (el) el.value = '';
   });
-  // botões de intervalo → resetar para 8h
   const intBtns = document.querySelectorAll(`#d${n}_panel_intervalo .int-btn`);
   intBtns.forEach(b => b.classList.remove('active'));
   const btn8h = [...intBtns].find(b => b.textContent.trim() === '8h');
   if (btn8h) { btn8h.classList.add('active'); document.getElementById(`d${n}_intervalo`).value = '8h'; }
-  // botões de frequência → desmarcar
   document.querySelectorAll(`#d${n}_panel_frequencia .int-btn`).forEach(b => b.classList.remove('active'));
-  // turnos → desmarcar
   ['manha','tarde','noite','madrugada'].forEach(t => {
     const el = document.getElementById(`d${n}_t_${t}`);
     if (el) el.checked = false;
   });
-  // checkboxes
   const cont = document.getElementById(`d${n}_continuo`);
   if (cont) cont.checked = false;
   const imp = document.getElementById(`d${n}_imprimir`);
   if (imp) imp.checked = true;
-  // tipo de prescrição → antibiotico
   setDrugTipo(n, 'antibiotico');
-  // aba de periodicidade → Intervalo
   const tabIntervalo = document.querySelector(`#di_${n} .period-tab`);
   if (tabIntervalo) setPeriodTab(n, 'intervalo', tabIntervalo);
 }
 
-/* ── Limpar dados do paciente ── */
 function clearPaciente() {
   ['p_nome','p_doc','p_end'].forEach(id => {
     const el = document.getElementById(id);
@@ -1468,28 +1444,22 @@ function clearPaciente() {
   if (nasc) nasc.value = '';
 }
 
-/* ── Limpar paciente + todas as prescrições ── */
 function clearTudo() {
   if (!confirm('Isso vai limpar os dados do paciente e todas as prescrições. Deseja continuar?')) return;
   clearPaciente();
-  // Limpar cada prescrição existente
   drugs.forEach(n => clearDrug(n));
 }
 
-/* ── Plural helper para unidades ── */
 function pluralize(unidade, qty) {
   const n = parseFloat(qty);
   if (!unidade) return unidade;
   if (n <= 1) {
-    // singular: remove o sufixo de plural
     return unidade.replace(/\(s\)/gi, '').replace(/\(ões\)/gi, 'ão').replace(/\(es\)/gi, '').trim();
   } else {
-    // plural: aplica o sufixo
     return unidade.replace(/\(s\)/gi, 's').replace(/\(ões\)/gi, 'ões').replace(/\(es\)/gi, 'es').trim();
   }
 }
 
-/* ── Plural helper para formas farmacêuticas ── */
 function pluralizeForma(forma, qty) {
   const n = parseFloat(qty);
   if (!forma || n <= 1) return forma;
@@ -1527,7 +1497,6 @@ function getDrugs() {
     const tipodose = (document.querySelector(`input[name="d${n}_tipodose"]:checked`) || {}).value || '';
     const qtddose = v(`d${n}_qtddose`);
     const unidade = v(`d${n}_unidade`);
-    // periodicidade
     const activeTab = document.querySelector(`#di_${n} .period-tab.active`);
     let periodo = '';
     if (activeTab) {
@@ -1553,14 +1522,12 @@ function getDrugs() {
                           : qtdNum2 || '';
     const continuo = document.getElementById(`d${n}_continuo`)?.checked ? 'Uso contínuo' : '';
 
-    // Build posologia string for PDF
     const partes = [];
     if (qtddose && unidade) partes.push(`${qtddose} ${pluralize(unidade, qtddose)}`);
     if (via) partes.push(via);
     if (tipodose && tipodose !== 'Comum') partes.push(`(${tipodose})`);
     if (periodo) partes.push(periodo);
     if (pos) partes.push(pos);
-    // "continuo" nao entra mais na posologia — aparece ao lado do nome no PDF
 
     const qtdNum = parseFloat(qtd) || parseFloat(qtddose) || 0;
 
@@ -1578,7 +1545,6 @@ function getDrugs() {
   }).filter(d => d.nome);
 }
 
-/* ── Date helpers ── */
 function fmtShort(iso) {
   if (!iso) return '';
   const [y, m, d] = iso.split('-');
@@ -1592,7 +1558,6 @@ function fmtLong(iso) {
   return `${parseInt(d)} de ${meses[parseInt(m)-1]} de ${y}`;
 }
 
-/* ── Type labels ── */
 const typeTitles = {
   especial:   'RECEITUÁRIO DE CONTROLE ESPECIAL',
   simples:    'RECEITUÁRIO SIMPLES',
@@ -1604,7 +1569,7 @@ const viaLabels = {
   antibiotico: ['1ª VIA - RETENÇÃO NA FARMÁCIA OU DROGARIA', '2ª VIA - ORIENTAÇÃO AO PACIENTE'],
 };
 
-const LOGO_B64 = "data:image/jpeg;base64,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";
+const LOGO_B64 = "data:image/jpeg;base64,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";
 
 /* ══════════════════════════════════════════
    PDF GENERATION
@@ -1616,7 +1581,6 @@ function generatePDF(mode = 'save') {
   const drugList = getDrugs();
   if (!drugList.length) { alert('Adicione pelo menos um medicamento.'); return; }
 
-  // Agrupar medicamentos por tipo mantendo a ordem de inserção
   const grupos = [];
   let grupoAtual = null;
   for (const dr of drugList) {
@@ -1627,7 +1591,6 @@ function generatePDF(mode = 'save') {
     grupoAtual.drugs.push(dr);
   }
 
-  // Gerar um PDF por grupo de tipo
   grupos.forEach((grupo, gi) => {
     const d = {
       tipo:       grupo.tipo,
@@ -1652,7 +1615,6 @@ function generatePDF(mode = 'save') {
   const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
   const PW = 297, PH = 210, half = PW / 2;
 
-  /* truncate text to fit max width */
   function fit(text, maxW, fs, font = 'helvetica', style = 'normal') {
     if (!text) return '';
     doc.setFont(font, style);
@@ -1665,56 +1627,31 @@ function generatePDF(mode = 'save') {
   function drawVia(ox, viaIdx, pgAtual, pgTotal) {
     const lm = ox + 7, cw = half - 14, rm = lm + cw;
 
-    /* ════════════════════════════════════════════════════
-       ESPAÇAMENTOS — edite aqui para ajustar o layout
-       Todas as medidas em milímetros (mm)
-    ════════════════════════════════════════════════════ */
     const SP = {
-      // ── Margem superior da página ──
-      topoY:            5,     // y inicial (distância do topo da página)
-
-      // ── Cabeçalho (logo + linha separadora) ──
-      logoW:            30,    // largura do logo
-      logoAposLinha:    2,     // espaço após a linha que separa o cabeçalho
-
-      // ── Título (RECEITUÁRIO SIMPLES / CONTROLE ESPECIAL) ──
-      tituloApos:       14,    // espaço que y avança após o bloco do título
-
-      // ── Section labels (EMITENTE, CIDADÃO, MEDICAMENTOS…) ──
-      sectionAposLabel: 1.5,   // espaço entre o texto do label e a linha
-      sectionAposLinha: 4.5,   // espaço após a linha da section
-
-      // ── Emitente ──
-      emitenteLinha:    4,     // espaço entre cada linha do emitente
-      emitenteApos:     2,     // espaço extra após o bloco do emitente
-
-      // ── Cidadão ──
-      cidadaoLinha:     4,     // espaço entre cada linha do cidadão
-      cidadaoApos:      2,   // espaço extra após o bloco do cidadão
-
-      // ── Medicamentos: box do nome (cabeçalho do card) ──
-      nomeLinhaPasso:   4.3,   // altura de cada linha do nome (↓ = mais compacto)
-      nomeY:            3.8,   // posição y do texto dentro do cabeçalho (baseline 1ª linha)
-      headerMinH:       9,     // altura mínima do cabeçalho quando nome tem 1 linha
-      headerPadding:    1.5,     // padding extra acima/abaixo do nome no cabeçalho
-
-      // ── Medicamentos: corpo do card (posologia) ──
-      posologiaInicioY: 3.8,     // distância do divisor até a 1ª linha da posologia
-      posologiaLinha:   4,     // espaço entre linhas da posologia
-      cardPaddingInf:   1.5,     // padding inferior do card (evita texto colado na borda)
-
-      // ── Espaço entre cards de medicamentos ──
+      topoY:            5,
+      logoW:            30,
+      logoAposLinha:    2,
+      tituloApos:       14,
+      sectionAposLabel: 1.5,
+      sectionAposLinha: 4.5,
+      emitenteLinha:    4,
+      emitenteApos:     2,
+      cidadaoLinha:     4,
+      cidadaoApos:      2,
+      nomeLinhaPasso:   4.3,
+      nomeY:            3.8,
+      headerMinH:       9,
+      headerPadding:    1.5,
+      posologiaInicioY: 3.8,
+      posologiaLinha:   4,
+      cardPaddingInf:   1.5,
       entreCards:       1.2,
-
-      // ── Espaço após o bloco de medicamentos ──
       aposSection:      4,
     };
-    /* ════════════════════════════════════════════════════ */
 
     let y = SP.topoY;
 
-    /* ── HEADER ── */
-    const logoH = SP.logoW * 104 / 259; // proporcional 259x104
+    const logoH = SP.logoW * 104 / 259;
     doc.addImage(LOGO_B64, 'JPEG', lm, y, SP.logoW, logoH);
 
     const tx = lm + SP.logoW + 4;
@@ -1731,7 +1668,6 @@ function generatePDF(mode = 'save') {
     doc.line(lm, y + logoH + 1, rm, y + logoH + 1);
     y += logoH + SP.logoAposLinha;
 
-    /* ── TITLE ── */
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(10);
     doc.text(typeTitles[d.tipo], lm, y + 4);
@@ -1740,7 +1676,6 @@ function generatePDF(mode = 'save') {
     doc.line(lm, y + 6.5, rm, y + 6.5);
     y += SP.tituloApos;
 
-    /* ── Section helper ── */
     function section(label) {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9);
@@ -1753,7 +1688,6 @@ function generatePDF(mode = 'save') {
       y += SP.sectionAposLinha;
     }
 
-    /* ── EMITENTE ── */
     section('EMITENTE');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(10.5);
@@ -1768,7 +1702,6 @@ function generatePDF(mode = 'save') {
     }
     y += SP.emitenteApos;
 
-    /* ── CIDADÃO ── */
     section('CIDADÃO');
     doc.setFontSize(10.5);
     const cidNasc = d.p_nasc ? ` — Nasc.: ${fmtShort(d.p_nasc)}` : '';
@@ -1777,11 +1710,9 @@ function generatePDF(mode = 'save') {
     if (d.p_end) { doc.text(fit(d.p_end, cw - 4, 10.5), lm + 3, y); y += SP.cidadaoLinha; }
     y += SP.cidadaoApos;
 
-    /* ── MEDICAMENTOS ── */
     section('MEDICAMENTOS');
     y -= 2;
     d.drugs.forEach((dr, i) => {
-      // ── Calcular linhas do nome com "— uso contínuo" inline no final ──
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9.0);
       const continuoTag  = ' — uso contínuo';
@@ -1792,7 +1723,7 @@ function generatePDF(mode = 'save') {
         return w;
       })() : 0;
 
-      const nomeMaxW = cw * 0.63; // largura da coluna do nome menos padding
+      const nomeMaxW = cw * 0.63;
       const nomeTexto = `${i+1}. ${dr.nome}`;
       const nomeLines = doc.splitTextToSize(nomeTexto, nomeMaxW);
 
@@ -1815,7 +1746,6 @@ function generatePDF(mode = 'save') {
       doc.rect(lm, y, cw, boxH);
       doc.line(lm, y + headerH, rm, y + headerH);
 
-      // ── Nome: centralizado verticalmente no headerH ──
       const nomeHTotal = nomeLinhas * SP.nomeLinhaPasso;
       const nomeYStart = y + (headerH - nomeHTotal) / 2 + SP.nomeLinhaPasso * 0.75;
 
@@ -1843,7 +1773,6 @@ function generatePDF(mode = 'save') {
         doc.setTextColor(0);
       }
 
-      // ── Qtd + Forma: alinhados à direita, centralizados verticalmente no headerH ──
       const midH = y + headerH / 2;
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9);
@@ -1852,7 +1781,6 @@ function generatePDF(mode = 'save') {
       doc.setFontSize(8);
       if (dr.forma){ doc.text(dr.forma,  rm - 2, midH + 2.5, { align: 'right' }); }
 
-      // posologia
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(9.5);
       let ty = y + headerH + SP.posologiaInicioY;
@@ -1864,7 +1792,6 @@ function generatePDF(mode = 'save') {
 
     y += SP.aposSection;
 
-    /* ── PROTOCOLOS DE REFERÊNCIA ── */
     const sanitize = s => s
       .replace(/[\u2013\u2014]/g, '-')
       .replace(/[\u2018\u2019]/g, "'")
@@ -1893,12 +1820,10 @@ function generatePDF(mode = 'save') {
       y += 2;
     }
 
-    /* ── ASSINATURA ── */
     const sigDate = fmtLong(d.sig_data);
     const sigLine = `${d.sig_cidade}${sigDate ? ', ' + sigDate : ''}`;
     const cx = lm + cw / 2;
 
-    // Assinatura centralizada (sem carimbo)
     const sigLineW = cw * 0.55;
     const sigStartX = lm + (cw - sigLineW) / 2;
     const sigEndX   = sigStartX + sigLineW;
@@ -1922,7 +1847,6 @@ function generatePDF(mode = 'save') {
       doc.text(fit(d.e_cargo, sigLineW, 6.5), cx, y + boxH - 3.5, { align: 'center' });
     }
 
-    // Date below both boxes
     y += boxH + 0.5;
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(6.5);
@@ -1930,7 +1854,6 @@ function generatePDF(mode = 'save') {
     doc.text(fit(sigLine, cw, 8), cx, y, { align: 'center' });
     doc.setTextColor(0);
 
-    /* ── COMPRADOR / FORNECEDOR — somente Controle Especial (antibiotico) ── */
     if (d.tipo === 'antibiotico') {
       const compY = PH - 49;
       const compH = 26;
@@ -1970,11 +1893,9 @@ function generatePDF(mode = 'save') {
 
       const fb = fornY + 9;
       doc.setDrawColor(0); doc.setLineWidth(0.25);
-      // Linha de assinatura
       doc.line(lm + 4, fb + 2, lm + cw * .44, fb + 2);
       doc.setFont('helvetica', 'normal'); doc.setFontSize(6);
       doc.text('Assinatura do farmaceutico', lm + cw * .23, fb + 4.5, { align: 'center' });
-      // Data de fornecimento — traços alinhados com o label
       const dx = lm + cw * .68;
       doc.line(dx,      fb + 2, dx + 8,  fb + 2);
       doc.text('/', dx + 9,  fb + 2);
@@ -1984,7 +1905,6 @@ function generatePDF(mode = 'save') {
       doc.text('Data de fornecimento', dx + 15, fb + 4.5, { align: 'center' });
     }
 
-    /* footer */
     const nowStr = new Date().toLocaleString('pt-BR');
     doc.setFont('helvetica', 'normal'); doc.setFontSize(5); doc.setTextColor(120);
     doc.text(`Impresso em ${nowStr} por ${d.e_nome}.`, lm, PH - 2);
@@ -1993,7 +1913,6 @@ function generatePDF(mode = 'save') {
     doc.setTextColor(0);
   }
 
-  /* ---- helper: divisor tracejado ---- */
   function drawDivider() {
     doc.setDrawColor(140);
     doc.setLineDashPattern([1.5, 1.5], 0);
@@ -2001,7 +1920,6 @@ function generatePDF(mode = 'save') {
     doc.setLineDashPattern([], 0);
   }
 
-  /* ---- helper: calcular numero de linhas do nome de um medicamento ---- */
   function calcNomeLines(dr) {
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(9.0);
@@ -2009,23 +1927,18 @@ function generatePDF(mode = 'save') {
     return doc.splitTextToSize(`1. ${dr.nome}`, nomeMaxW).length;
   }
 
-  /* ---- paginacao dinamica para antibiotico ---- */
   const allDrugs = d.drugs;
 
   let lotes = [];
   if (d.tipo !== 'antibiotico') {
-    // simples: tudo em uma pagina
     lotes = [allDrugs];
   } else {
-    // antibiotico: max 2 por receita, mas nome longo (>1 linha) = sozinho
     let lote = [];
     for (const dr of allDrugs) {
       const linhas = calcNomeLines(dr);
       const nomeQuebraTexto = linhas > 1;
       if (nomeQuebraTexto) {
-        // flush lote atual se tiver algo
         if (lote.length) { lotes.push(lote); lote = []; }
-        // este medicamento fica sozinho
         lotes.push([dr]);
       } else {
         lote.push(dr);
@@ -2058,7 +1971,7 @@ function generatePDF(mode = 'save') {
   } else {
     doc.save(fname);
   }
-  }); // fim forEach grupos
+  });
 }
 
 function printPDF() { generatePDF('print'); }
@@ -2101,7 +2014,9 @@ const PROTOCOLS = [
   { group: "2. Contracepção e saúde sexual/reprodutiva", nome: "Implante subdérmico de etonogestrel", conc: "68mg", forma: "Implante subdérmico", via: "Subcutânea", uso: "Contracepção de longa duração (LARC)", protocolo: "Saúde Sexual e Saúde Reprodutiva (Caderno de Atenção Básica nº 26), 2010" },
   { group: "2. Contracepção e saúde sexual/reprodutiva", nome: "DIU de cobre", conc: "TCu 380A", forma: "Dispositivo intrauterino", via: "Intrauterino", uso: "Contracepção de longa duração não hormonal", protocolo: "Saúde Sexual e Saúde Reprodutiva (Caderno de Atenção Básica nº 26), 2010" },
   { group: "2. Contracepção e saúde sexual/reprodutiva", nome: "DIU hormonal – levonorgestrel", conc: "19,5mg e 52mg", forma: "Dispositivo intrauterino", via: "Intrauterino", uso: "Contracepção de longa duração com liberação hormonal local", protocolo: "Saúde Sexual e Saúde Reprodutiva (Caderno de Atenção Básica nº 26), 2010" },
-    { group: "3. PEP e PrEP ao HIV", nome: "Zidovudina/lamivudina (AZT/3TC)", conc: "300mg + 150mg", forma: "Comprimido", via: "Oral", uso: "Antirretroviral em esquema alternativo de PEP", protocolo: "PCDT para Profilaxia Pós-Exposição (PEP) de Risco à Infecção por HIV, ISTs e Hepatites Virais, 2024" },
+
+  // 3. PEP e PrEP ao HIV
+  { group: "3. PEP e PrEP ao HIV", nome: "Zidovudina/lamivudina (AZT/3TC)", conc: "300mg + 150mg", forma: "Comprimido", via: "Oral", uso: "Antirretroviral em esquema alternativo de PEP", protocolo: "PCDT para Profilaxia Pós-Exposição (PEP) de Risco à Infecção por HIV, ISTs e Hepatites Virais, 2024" },
   { group: "3. PEP e PrEP ao HIV", nome: "Darunavir (DRV) + ritonavir (RTV)", conc: "800mg + 100mg", forma: "Comprimido", via: "Oral", uso: "Antirretroviral em esquema alternativo de PEP", protocolo: "PCDT para Profilaxia Pós-Exposição (PEP) de Risco à Infecção por HIV, ISTs e Hepatites Virais, 2024" },
   { group: "3. PEP e PrEP ao HIV", nome: "Fumarato de tenofovir desoproxila + emtricitabina (TDF+FTC)", conc: "300mg + 200mg", forma: "Comprimido", via: "Oral", uso: "Antirretroviral utilizado em PrEP", protocolo: "PCDT para Profilaxia Pré-Exposição (PrEP) Oral à Infecção pelo HIV, 2025" },
 
@@ -2208,12 +2123,11 @@ const PROTOCOLS = [
   { group: "10. Dengue", nome: "Dipirona sódica", conc: "50mg/mL e 500mg/mL / 500mg", forma: "Solução oral (gotas/xarope) / Comprimido", via: "Oral", uso: "Analgésico/Antipirético", protocolo: "Dengue: manual de enfermagem, 2013; Dengue: diagnóstico e manejo clínico: adulto e criança, 2024" },
   { group: "10. Dengue", nome: "Paracetamol", conc: "200mg/mL / 500mg", forma: "Solução oral / Comprimido", via: "Oral", uso: "Analgésico/Antipirético", protocolo: "Dengue: manual de enfermagem, 2013; Dengue: diagnóstico e manejo clínico: adulto e criança, 2024" },
   { group: "10. Dengue", nome: "Sais de reidratação oral (SRO) – Dengue", conc: "Eletrólitos balanceados", forma: "Pó para solução oral", via: "Oral", uso: "Hidratação oral", protocolo: "Dengue: manual de enfermagem, 2013; Dengue: diagnóstico e manejo clínico: adulto e criança, 2024" },
-  { group: "10. Dengue", nome: "Soro Fisiológico ", conc: "0,9%", forma: "Solução endovenosa", via: "Intravenosa", uso: "Hidratação venosa", protocolo: "Nota Técnica nº 001/2024 - COES/COFEN: Competências e Atribuições do Enfermeiro para enfrentamento a epidemia de dengue em situação de emergência em saúde pública, 2024" },
- 
-// 11. Profilaxia Pré, Pós e Reexposição da Raiva Humana
-  { group: "Profilaxia Pré, Pós e Reexposição da Raiva Humana", nome: "Vacina Antirrábica (Inativada)", conc: "2,5 UI", forma: "Suspensão injetável", via: "IM e ID", uso: "Profilaxia Antirrábica - Fazer IM ou ID nos dias 0, 1, 3, 7 e 14", protocolo: "Protocolo de Profilaxia Pré, Pós e Reexposição da Raiva Humana no Brasil (Nota Técnica nº 8/2022-CGZV/DEIDT/SVS/MS), 2022; Resolução COFEN nº 795/2025" },
+  { group: "10. Dengue", nome: "Soro Fisiológico", conc: "0,9%", forma: "Solução endovenosa", via: "Intravenosa", uso: "Hidratação venosa", protocolo: "Nota Técnica nº 001/2024 - COES/COFEN: Competências e Atribuições do Enfermeiro para enfrentamento a epidemia de dengue em situação de emergência em saúde pública, 2024" },
 
- ];
+  // 11. Profilaxia Pré, Pós e Reexposição da Raiva Humana
+  { group: "Profilaxia Pré, Pós e Reexposição da Raiva Humana", nome: "Vacina Antirrábica (Inativada)", conc: "2,5 UI", forma: "Suspensão injetável", via: "IM e ID", uso: "Profilaxia Antirrábica - Fazer IM ou ID nos dias 0, 1, 3, 7 e 14", protocolo: "Protocolo de Profilaxia Pré, Pós e Reexposição da Raiva Humana no Brasil (Nota Técnica nº 8/2022-CGZV/DEIDT/SVS/MS), 2022; Resolução COFEN nº 795/2025" },
+];
 
 /* ── Protocol dropdown logic ── */
 function renderProtocolGroups(list) {
@@ -2250,7 +2164,6 @@ function toggleProtocolDropdown() {
   btn.classList.toggle('open', open);
   if (open) {
     renderProtocolGroups(PROTOCOLS);
-    // Rolar para que o botão fique no topo da viewport, mostrando o dropdown abaixo
     setTimeout(() => {
       btn.scrollIntoView({ behavior: 'smooth', block: 'start' });
       document.getElementById('protocolSearch').focus();
@@ -2272,12 +2185,10 @@ function filterProtocols() {
 }
 
 function selectProtocol(p) {
-  // Fechar dropdown
   document.getElementById('protocolDropdown').classList.remove('open');
   document.getElementById('protocolToggle').classList.remove('open');
   document.getElementById('protocolSearch').value = '';
 
-  // Verificar se já existe uma prescrição em branco (nome vazio) para reutilizar
   let n = null;
   for (const id of drugs) {
     const nomeEl = document.getElementById(`d${id}_nome`);
@@ -2287,26 +2198,22 @@ function selectProtocol(p) {
     }
   }
 
-  // Se não encontrou prescrição vazia, cria uma nova
   if (n === null) {
     addDrug();
     n = drugCount;
   }
 
-  // Preencher campos
   const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
   setVal(`d${n}_nome`, p.nome);
   setVal(`d${n}_conc`, p.conc);
   updateDrugPreview(n);
 
-  // Via de administração
   const viaEl = document.getElementById(`d${n}_via`);
   if (viaEl) {
     const opt = Array.from(viaEl.options).find(o => o.value === p.via || o.text.toLowerCase() === p.via.toLowerCase());
     if (opt) viaEl.value = opt.value;
   }
 
-  // Forma farmacêutica
   const formaEl = document.getElementById(`d${n}_forma`);
   if (formaEl) {
     const formaSimple = p.forma.split(/[,/]/)[0].trim();
@@ -2317,13 +2224,9 @@ function selectProtocol(p) {
     if (opt) formaEl.value = opt.value;
   }
 
-  // Posologia hint from uso
   setVal(`d${n}_pos`, p.uso);
-
-  // Protocolo in obs
   setVal(`d${n}_obs`, p.protocolo);
 
-  // Scroll e destaque
   const el = document.getElementById(`di_${n}`);
   if (el) {
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2413,7 +2316,6 @@ document.getElementById('sig_data').value = new Date().toISOString().slice(0, 10
     return;
   }
 
-  // Leitura inicial ao abrir o receituário
   chrome.storage.local.get('pacienteESUS', function(result) {
     var dados = result && result.pacienteESUS;
     if (dados && (dados.nome || dados.cpf || dados.cns)) {
@@ -2422,7 +2324,6 @@ document.getElementById('sig_data').value = new Date().toISOString().slice(0, 10
     }
   });
 
-  // Escuta mudanças em tempo real — dispara imediatamente quando o content.js salva novo paciente
   chrome.storage.onChanged.addListener(function(changes, area) {
     if (area !== 'local' || !changes.pacienteESUS) return;
     var dados = changes.pacienteESUS.newValue;
@@ -2460,7 +2361,6 @@ function maskPhone(el) {
 function maskCPFouCNS(el) {
   const digits = el.value.replace(/\D/g, '');
   if (digits.length <= 11) {
-    // Formato CPF: 000.000.000-00
     let v = digits.slice(0, 11);
     if (v.length > 9)      v = v.replace(/^(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
     else if (v.length > 6) v = v.replace(/^(\d{3})(\d{3})(\d{0,3})/,        '$1.$2.$3');
@@ -2468,7 +2368,6 @@ function maskCPFouCNS(el) {
     else v = digits;
     el.value = v;
   } else {
-    // Formato CNS: 000 0000 0000 0000 (15 dígitos)
     let v = digits.slice(0, 15);
     v = v.replace(/^(\d{3})(\d{0,4})(\d{0,4})(\d{0,4})/, (_, a, b, c, d) =>
       [a, b, c, d].filter(Boolean).join(' '));
@@ -2477,23 +2376,17 @@ function maskCPFouCNS(el) {
 }
 
 /* ── Bind de eventos ── */
-/* O script está no final do <body>, então o DOM já existe quando executa.
-   NÃO usamos DOMContentLoaded pois em páginas de extensão (chrome-extension://)
-   esse evento já disparou antes do script ser avaliado. */
 (function bindEventos() {
-  // Botões do topbar
   var btnPrint = document.getElementById('btn-print');
   if (btnPrint) btnPrint.addEventListener('click', printPDF);
 
   var btnGen = document.getElementById('btn-genpdf');
   if (btnGen) btnGen.addEventListener('click', generatePDF);
 
-  // Unidade collapsible header
   var hdrUnidade = document.getElementById('hdr-unidade');
   if (hdrUnidade) hdrUnidade.addEventListener('click', function() { toggleCard('card_unidade'); });
 
-  // Inputs de máscara
-  var eCpf = document.getElementById('e_cpf_input') || document.getElementById('e_cpf');
+  var eCpf = document.getElementById('e_cpf');
   if (eCpf) eCpf.addEventListener('input', function() { maskCPF(this); });
 
   var eTel = document.querySelector('[data-mask="phone"]');
@@ -2502,69 +2395,15 @@ function maskCPFouCNS(el) {
   var pDoc = document.querySelector('[data-mask="cpfcns"]') || document.getElementById('p_doc');
   if (pDoc) pDoc.addEventListener('input', function() { maskCPFouCNS(this); });
 
-  // Busca de protocolo
   var psearch = document.getElementById('protocolSearch');
   if (psearch) psearch.addEventListener('input', filterProtocols);
 
-  // Protocolo toggle
   var ptoggle = document.getElementById('protocolToggle');
   if (ptoggle) ptoggle.addEventListener('click', toggleProtocolDropdown);
 
-  // Adicionar medicamento
   var btnAddDrug = document.getElementById('btn-add-drug');
   if (btnAddDrug) btnAddDrug.addEventListener('click', addDrug);
 
-  // Carregar paciente manualmente do e-SUS
-  var btnReloadPac = document.getElementById('btn-reload-pac');
-  if (btnReloadPac) btnReloadPac.addEventListener('click', function() {
-    if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.local) {
-      alert('chrome.storage indisponível. Abra esta página pela extensão.');
-      return;
-    }
-    chrome.storage.local.get('pacienteESUS', function(result) {
-      var dados = result && result.pacienteESUS;
-      if (!dados || (!dados.nome && !dados.cpf && !dados.cns)) {
-        alert('Nenhum paciente encontrado.\nAbra a página SOAP de um atendimento no e-SUS primeiro.');
-        return;
-      }
-      // Força preenchimento mesmo que seja o mesmo paciente
-      ['p_nome','p_doc','p_end'].forEach(function(id) {
-        var el = document.getElementById(id); if (el) el.value = '';
-      });
-      var nascEl = document.getElementById('p_nasc'); if (nascEl) nascEl.value = '';
-
-      var nomeEl = document.getElementById('p_nome');
-      if (nomeEl && dados.nome) { nomeEl.value = dados.nome.toUpperCase(); nomeEl.dispatchEvent(new Event('input')); }
-
-      var nasc2 = document.getElementById('p_nasc');
-      if (nasc2 && dados.nascimento) { nasc2.value = dados.nascimento; nasc2.dispatchEvent(new Event('input')); }
-
-      var docEl = document.getElementById('p_doc');
-      if (docEl) {
-        if (dados.cpf) {
-          docEl.value = dados.cpf;
-        } else if (dados.cns) {
-          var digits = dados.cns.replace(/\D/g, '').slice(0, 15);
-          docEl.value = digits.replace(/^(\d{3})(\d{0,4})(\d{0,4})(\d{0,4})/, function(_, a, b, c, d) {
-            return [a, b, c, d].filter(Boolean).join(' ');
-          });
-        }
-        if (docEl.value) docEl.dispatchEvent(new Event('input'));
-      }
-
-      // Feedback visual no botão
-      btnReloadPac.textContent = '✅ Carregado!';
-      btnReloadPac.style.borderColor = '#27ae60';
-      btnReloadPac.style.color = '#27ae60';
-      setTimeout(function() {
-        btnReloadPac.textContent = '🔄 Carregar do e-SUS';
-        btnReloadPac.style.borderColor = '#0f3460';
-        btnReloadPac.style.color = '#0f3460';
-      }, 2500);
-    });
-  });
-
-  // Limpar paciente
   var btnClearPac = document.getElementById('btn-clear-pac');
   if (btnClearPac) btnClearPac.addEventListener('click', clearPaciente);
 
@@ -2572,18 +2411,15 @@ function maskCPFouCNS(el) {
   if (btnClearTudo) btnClearTudo.addEventListener('click', clearTudo);
 })();
 
-/* ── Delegação de eventos para elementos dinâmicos (CSP-safe) ── */
+/* ── Delegação de eventos para elementos dinâmicos ── */
 document.addEventListener('click', function(e) {
   const t = e.target;
-  const id = t.id || '';
 
-  // drug-header toggle
   const drugHeader = t.closest('.drug-header');
   if (drugHeader) {
     const di = drugHeader.closest('.drug-item');
     if (di) {
       const n = di.id.replace('di_', '');
-      // Se clicou em botão dentro do header, não faz toggle
       if (!t.closest('button') && !t.closest('label') && !t.closest('.drug-type-btns')) {
         toggleDrug(n);
         return;
@@ -2591,12 +2427,10 @@ document.addEventListener('click', function(e) {
     }
   }
 
-  // drug-type-btns: stopPropagation já não é necessário, mas garantimos
   if (t.closest('.drug-type-btns')) {
     e.stopPropagation && e.stopPropagation();
   }
 
-  // Tipo simples/antibiotico
   if (t.classList.contains('drug-type-btn')) {
     const di = t.closest('.drug-item');
     if (di) {
@@ -2607,7 +2441,6 @@ document.addEventListener('click', function(e) {
     return;
   }
 
-  // Limpar drug
   if (t.classList.contains('clear-btn') && t.title && t.title.includes('prescrição')) {
     e.stopPropagation();
     const di = t.closest('.drug-item');
@@ -2615,7 +2448,6 @@ document.addEventListener('click', function(e) {
     return;
   }
 
-  // Remover drug
   if (t.classList.contains('del-btn')) {
     e.stopPropagation();
     const di = t.closest('.drug-item');
@@ -2623,7 +2455,6 @@ document.addEventListener('click', function(e) {
     return;
   }
 
-  // Period tabs
   if (t.classList.contains('period-tab')) {
     const di = t.closest('.drug-item');
     if (di) {
@@ -2635,7 +2466,6 @@ document.addEventListener('click', function(e) {
     return;
   }
 
-  // int-btn (intervalos)
   if (t.classList.contains('int-btn') && t.closest('#protocolGroups') === null) {
     const di = t.closest('.drug-item');
     if (di) {
@@ -2652,7 +2482,6 @@ document.addEventListener('click', function(e) {
     return;
   }
 
-  // Protocol item
   if (t.classList.contains('protocol-item') || t.closest('.protocol-item')) {
     const item = t.closest('.protocol-item');
     if (item && item.dataset.protocol) {
@@ -2662,7 +2491,6 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// Delegação de input
 document.addEventListener('input', function(e) {
   const t = e.target;
   const id = t.id || '';
@@ -2691,6 +2519,53 @@ if (btnLogout) btnLogout.addEventListener('click', function() {
   sessionStorage.removeItem('receituario_auth');
   window.location.replace('index.html');
 });
+
+/* ── Preencher paciente via extensão (localStorage) ── */
+function preencherDaURL() {
+  var raw = null;
+  try { raw = localStorage.getItem('pacienteESUS_pendente'); } catch(e) {}
+  if (!raw) return;
+  var dados = null;
+  try { dados = JSON.parse(raw); } catch(e) { return; }
+  if (!dados || (!dados.nome && !dados.cpf && !dados.cns)) return;
+  try { localStorage.removeItem('pacienteESUS_pendente'); } catch(e) {}
+  var nomeEl = document.getElementById('p_nome');
+  if (nomeEl && dados.nome) {
+    nomeEl.value = dados.nome.toUpperCase();
+    nomeEl.dispatchEvent(new Event('input'));
+  }
+  var nascEl = document.getElementById('p_nasc');
+  if (nascEl && dados.nascimento) {
+    nascEl.value = dados.nascimento;
+    nascEl.dispatchEvent(new Event('input'));
+  }
+  var docEl = document.getElementById('p_doc');
+  if (docEl) {
+    if (dados.cpf) {
+      docEl.value = dados.cpf;
+    } else if (dados.cns) {
+      var digits = dados.cns.replace(/\D/g, '').slice(0, 15);
+      docEl.value = digits.replace(/^(\d{3})(\d{0,4})(\d{0,4})(\d{0,4})/, function(_, a, b, c, d) {
+        return [a, b, c, d].filter(Boolean).join(' ');
+      });
+    }
+    if (docEl.value) docEl.dispatchEvent(new Event('input'));
+  }
+  console.log('[Receituário] Paciente preenchido via localStorage:', dados.nome);
+}
+preencherDaURL();
+var _esus_poll = 0;
+var _esus_timer = setInterval(function() {
+  _esus_poll++;
+  try {
+    if (localStorage.getItem('pacienteESUS_pendente')) {
+      preencherDaURL();
+      clearInterval(_esus_timer);
+      return;
+    }
+  } catch(e) {}
+  if (_esus_poll >= 30) clearInterval(_esus_timer);
+}, 500);
 
 </script>
 </body>
