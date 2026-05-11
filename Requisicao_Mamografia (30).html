@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Requisição de Mamografia — Ministério da Saúde</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: #f0f2f5;
+  min-height: 100vh;
+  color: #1a1a2e;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  background: #0f3460;
+  color: white;
+  padding: 10px 32px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  box-shadow: 0 2px 12px rgba(0,0,0,.25);
+  height: 56px;
+}
+.topbar-info { flex: 1; }
+.topbar-icon {
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,.15);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.topbar h1 { font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
+.topbar p  { font-size: 12px; opacity: .55; margin-top: 1px; }
+.topbar-gen-btn {
+  background: #e94560;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  transition: background .15s, transform .1s;
+  flex-shrink: 0;
+  letter-spacing: .02em;
+}
+.topbar-gen-btn:hover  { background: #c73050; transform: translateY(-1px); }
+.topbar-gen-btn:active { transform: translateY(0); }
+
+/* ── PAGE LAYOUT ── */
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 18px 20px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── CARD ── */
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px 18px 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07), 0 2px 8px rgba(0,0,0,.05);
+  border: 1px solid #e4e8f0;
+}
+/* ── COLLAPSIBLE SECTIONS ── */
+.card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f3460;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1.5px solid #eef0f5;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  cursor: pointer;
+  user-select: none;
+  justify-content: space-between;
+  transition: color .15s;
+}
+.card-title:hover { color: #1a56a8; }
+.card-title .title-left { display: flex; align-items: center; gap: 7px; }
+.card-title .chevron {
+  font-size: 13px;
+  transition: transform .25s ease;
+  color: #0f3460;
+  flex-shrink: 0;
+}
+.card-title.collapsed .chevron { transform: rotate(-90deg); }
+.card-title.collapsed { margin-bottom: 0; border-bottom-color: transparent; }
+.card-body {
+  overflow: hidden;
+  transition: max-height .3s ease, opacity .25s ease;
+  max-height: 4000px;
+  opacity: 1;
+}
+.card-body.collapsed {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* ── GRIDS ── */
+.gd1  { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.gd2  { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.gd3  { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.gd4  { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
+.gd21 { display: grid; grid-template-columns: 2fr 1fr; gap: 8px; }
+.gd31 { display: grid; grid-template-columns: 3fr 1fr; gap: 8px; }
+.gd211{ display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px; }
+.gd3111{ display: grid; grid-template-columns: 3fr 1fr 1fr 1fr; gap: 8px; }
+.gd221{ display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 8px; }
+.gd321{ display: grid; grid-template-columns: 3fr 2fr 1fr; gap: 8px; }
+.gd2111{ display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 8px; }
+.gds2 { grid-column: span 2; }
+.gds3 { grid-column: span 3; }
+.gds4 { grid-column: span 4; }
+
+/* ── FIELD ── */
+.field { display: flex; flex-direction: column; gap: 3px; }
+.field label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #7a8099;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+}
+.field input, .field select, .field textarea {
+  padding: 7px 10px;
+  border: 1.5px solid #dde1ec;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 14px;
+  color: #1a1a2e;
+  background: #fafbfd;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: #0f3460;
+  box-shadow: 0 0 0 3px rgba(15,52,96,.1);
+  background: #fff;
+}
+.field select { cursor: pointer; }
+.field textarea { resize: vertical; min-height: 60px; }
+
+/* ── CHECKBOX GROUP ── */
+.check-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.check-group label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #7a8099;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  margin-bottom: 2px;
+  display: block;
+}
+.check-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #1a1a2e;
+  white-space: nowrap;
+}
+.check-item input[type=checkbox],
+.check-item input[type=radio] {
+  width: 15px; height: 15px;
+  accent-color: #0f3460;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ── RADIO BUTTONS ── */
+.radio-group { display: flex; flex-wrap: wrap; gap: 8px; }
+.radio-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #1a1a2e;
+}
+.radio-item input[type=radio] {
+  width: 15px; height: 15px;
+  accent-color: #0f3460;
+  cursor: pointer;
+}
+
+/* ── SECTION DIVIDER ── */
+.sec-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0f3460;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  padding: 4px 10px;
+  background: #eef2f8;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+/* ── QUESTION BLOCK ── */
+.question-block {
+  background: #f8f9fc;
+  border: 1px solid #e8eaf2;
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.question-block .q-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #0f3460;
+  margin-bottom: 4px;
+}
+.question-block .q-sub {
+  font-size: 11px;
+  color: #888;
+  font-style: italic;
+  margin-top: 2px;
+}
+
+/* Two-column breast layout */
+.mama-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.mama-col {
+  background: #f8f9fc;
+  border: 1px solid #e8eaf2;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.mama-col-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f3460;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #dde1ec;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── CHECKBOXES GRID ── */
+.chk-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+}
+.chk-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
+}
+
+/* ── INLINE FIELD (for year input inline with text) ── */
+.inline-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.inline-field input {
+  width: 90px;
+  padding: 5px 8px;
+  border: 1.5px solid #dde1ec;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 13px;
+  background: #fafbfd;
+  outline: none;
+}
+.inline-field input:focus {
+  border-color: #0f3460;
+  box-shadow: 0 0 0 3px rgba(15,52,96,.1);
+}
+.inline-field span {
+  font-size: 13px;
+  color: #555;
+}
+
+/* ── SURGERY TABLE ── */
+.surg-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.surg-table th {
+  background: #eef2f8;
+  color: #0f3460;
+  font-weight: 700;
+  padding: 7px 10px;
+  text-align: center;
+  border: 1px solid #dde1ec;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+.surg-table td {
+  padding: 6px 10px;
+  border: 1px solid #e8eaf2;
+  vertical-align: middle;
+}
+.surg-table td:first-child { color: #444; font-size: 12.5px; }
+.surg-table td.center { text-align: center; }
+.surg-table input[type=checkbox] { width: 15px; height: 15px; accent-color: #0f3460; cursor: pointer; }
+.surg-table input[type=text] {
+  width: 90px; padding: 3px 6px;
+  border: 1.5px solid #dde1ec;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 12px;
+  background: #fafbfd;
+  outline: none;
+}
+.surg-table input[type=text]:focus {
+  border-color: #0f3460;
+  box-shadow: 0 0 0 2px rgba(15,52,96,.08);
+}
+
+/* ── INDICACAO SECTION ── */
+.indicacao-sub {
+  background: #fff8f0;
+  border: 1.5px solid #ffe0b2;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+.indicacao-sub-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e65100;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 8px;
+}
+
+.localiz-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+
+/* ── ORIENTACOES ── */
+.orientacoes-card {
+  background: #f0f4ff;
+  border: 1px solid #c5cae9;
+  border-radius: 10px;
+  padding: 14px 18px;
+}
+.orientacoes-card .card-title { color: #3949ab; border-color: #c5cae9; }
+.orient-row {
+  display: flex;
+  gap: 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid #dde1f0;
+  font-size: 12.5px;
+}
+.orient-row:last-child { border-bottom: none; }
+.orient-row .orient-key { font-weight: 700; color: #3949ab; min-width: 200px; flex-shrink: 0; }
+.orient-row .orient-val { color: #444; line-height: 1.5; }
+
+/* ── FOOTER FIELDS ── */
+.footer-fields {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
+  align-items: end;
+}
+
+/* ── BADGE REQUIRED ── */
+.req { color: #e94560; font-size: 13px; margin-left: 2px; }
+
+/* ── NOTE BOX ── */
+.note-box {
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  border-radius: 7px;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #5d4037;
+  line-height: 1.5;
+}
+.note-box strong { color: #e65100; }
+
+/* ── RISCO BOX ── */
+.risco-box {
+  background: #fce4ec;
+  border: 1px solid #f48fb1;
+  border-radius: 7px;
+  padding: 8px 12px;
+  font-size: 11.5px;
+  color: #880e4f;
+  line-height: 1.6;
+  margin-top: 6px;
+}
+.risco-box strong { color: #ad1457; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-icon">🩺</div>
+  <div class="topbar-info">
+    <h1>Requisição de Mamografia</h1>
+    <p>Programa Nacional de Controle do Câncer de Mama — Ministério da Saúde</p>
+  </div>
+  <button class="topbar-gen-btn" onclick="gerarPDF()">
+    <span>📄</span> Gerar PDF
+  </button>
+</div>
+
+<div class="page">
+
+  <!-- ═══ IDENTIFICAÇÃO DA UNIDADE ═══ -->
+  <div class="card">
+    <div class="card-title" onclick="toggleSection(this)" id="sec-unidade">
+      <span class="title-left"><span class="icon">🏥</span> Identificação da Unidade de Saúde</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+    <div class="gd3" style="margin-bottom:8px">
+      <div class="field">
+        <label>UF <span class="req">*</span></label>
+        <select id="uf">
+          <option value="">Selecione...</option>
+          <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+          <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+          <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+          <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+          <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+          <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+          <option>SP</option><option>SE</option><option>TO</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>CNES da Unidade de Saúde <span class="req">*</span></label>
+        <input type="text" id="cnes" maxlength="7" placeholder="0000000" oninput="this.value=this.value.replace(/\D/g,'')">
+      </div>
+      <div class="field">
+        <label>Nº Protocolo <span style="font-size:10px;font-weight:400;color:#aaa;">(gerado pelo SISCAN)</span></label>
+        <input type="text" id="protocolo" placeholder="Preenchido pelo SISCAN">
+      </div>
+    </div>
+    <div class="gd1" style="margin-bottom:8px">
+      <div class="field">
+        <label>Unidade de Saúde <span class="req">*</span></label>
+        <input type="text" id="unidade_saude" placeholder="Nome da Unidade de Saúde">
+      </div>
+    </div>
+    <div class="gd211" style="margin-bottom:8px; grid-template-columns: 1fr 2fr 1fr">
+      <div class="field">
+        <label>Código Município</label>
+        <input type="text" id="cod_municipio_unidade" maxlength="7" placeholder="0000000">
+      </div>
+      <div class="field">
+        <label>Município <span class="req">*</span></label>
+        <input type="text" id="municipio_unidade" placeholder="Nome do Município">
+      </div>
+      <div class="field">
+        <label>Prontuário</label>
+        <input type="text" id="prontuario" placeholder="Nº Prontuário">
+      </div>
+    </div>
+    </div><!-- /card-body -->
+  </div>
+
+  <!-- ═══ INFORMAÇÕES PESSOAIS ═══ -->
+  <div class="card">
+    <div class="card-title" onclick="toggleSection(this)" id="sec-pessoais">
+      <span class="title-left"><span class="icon">👤</span> Informações Pessoais</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+
+      <!-- Linha 1: CPF + CNS + Sexo -->
+      <div class="gd3" style="margin-bottom:8px">
+        <div class="field">
+          <label>Cartão SUS <span class="req">*</span></label>
+          <input type="text" id="cartao_sus" maxlength="18" placeholder="000 0000 0000 0000"
+            oninput="maskCNS(this)">
+        </div>
+        <div class="field">
+          <label>CPF</label>
+          <input type="text" id="cpf" maxlength="14" placeholder="000.000.000-00" oninput="maskCPF(this)">
+        </div>
+        <div class="check-group">
+          <label>Sexo <span class="req">*</span></label>
+          <div class="radio-group" style="margin-top:6px">
+            <label class="radio-item"><input type="radio" name="sexo" value="Masculino"> Masculino</label>
+            <label class="radio-item"><input type="radio" name="sexo" value="Feminino" checked> Feminino</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Linha 2: Nome Completo -->
+      <div class="gd1" style="margin-bottom:8px">
+        <div class="field">
+          <label>Nome Completo da(o) Paciente <span class="req">*</span></label>
+          <input type="text" id="nome_paciente" placeholder="Nome completo">
+        </div>
+      </div>
+
+      <!-- Linha 3: Nome da Mãe + Apelido -->
+      <div class="gd21" style="margin-bottom:8px">
+        <div class="field">
+          <label>Nome Completo da Mãe <span class="req">*</span></label>
+          <input type="text" id="nome_mae" placeholder="Nome completo da mãe">
+        </div>
+        <div class="field">
+          <label>Apelido da(o) Paciente</label>
+          <input type="text" id="apelido" placeholder="Apelido (opcional)">
+        </div>
+      </div>
+
+      <!-- Linha 4: Data Nasc + Idade + Cor/Raça + Nacionalidade -->
+      <div style="display:grid;grid-template-columns:1fr 0.5fr 2.2fr 1fr;gap:8px;margin-bottom:8px">
+        <div class="field">
+          <label>Data de Nascimento <span class="req">*</span></label>
+          <input type="date" id="data_nascimento">
+        </div>
+        <div class="field">
+          <label>Idade <span class="req">*</span></label>
+          <input type="number" id="idade" min="0" max="130" placeholder="Anos">
+        </div>
+        <div class="check-group">
+          <label>Cor/Raça</label>
+          <div class="radio-group" style="margin-top:6px">
+            <label class="radio-item"><input type="radio" name="raca" value="Branca"> Branca</label>
+            <label class="radio-item"><input type="radio" name="raca" value="Preta"> Preta</label>
+            <label class="radio-item"><input type="radio" name="raca" value="Parda"> Parda</label>
+            <label class="radio-item"><input type="radio" name="raca" value="Amarela"> Amarela</label>
+            <label class="radio-item"><input type="radio" name="raca" value="Indígena"> Indígena/Etnia</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Nacionalidade</label>
+          <input type="text" id="nacionalidade" placeholder="Ex.: Brasileira">
+        </div>
+      </div>
+
+      <!-- Dados Residenciais -->
+      <div style="margin:12px 0 8px">
+        <span class="sec-label">🏠 Dados Residenciais</span>
+      </div>
+
+      <div class="gd1" style="margin-bottom:8px">
+        <div class="field">
+          <label>Logradouro</label>
+          <input type="text" id="logradouro" placeholder="Rua, Av., etc.">
+        </div>
+      </div>
+
+      <div class="gd211" style="margin-bottom:8px">
+        <div class="field">
+          <label>Complemento</label>
+          <input type="text" id="complemento" placeholder="Apto, Bloco...">
+        </div>
+        <div class="field">
+          <label>Número</label>
+          <input type="text" id="numero_res" placeholder="Nº">
+        </div>
+        <div class="field">
+          <label>Bairro</label>
+          <input type="text" id="bairro" placeholder="Bairro">
+        </div>
+      </div>
+
+      <div class="gd211" style="margin-bottom:8px">
+        <div class="field">
+          <label>Município</label>
+          <input type="text" id="municipio_pac" placeholder="Município">
+        </div>
+        <div class="field">
+          <label>Código Município</label>
+          <input type="text" id="cod_mun_pac" maxlength="7" placeholder="0000000">
+        </div>
+        <div class="field">
+          <label>UF</label>
+          <select id="uf_pac">
+            <option value="">UF</option>
+            <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+            <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+            <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+            <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+            <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+            <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+            <option>SP</option><option>SE</option><option>TO</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="gd3" style="margin-bottom:8px">
+        <div class="field">
+          <label>CEP</label>
+          <input type="text" id="cep" maxlength="9" placeholder="00000-000" oninput="maskCEP(this)">
+        </div>
+        <div class="field">
+          <label>DDD + Telefone</label>
+          <input type="text" id="telefone" maxlength="15" placeholder="(00) 00000-0000" oninput="maskPhone(this)">
+        </div>
+        <div class="field">
+          <label>Ponto de Referência</label>
+          <input type="text" id="ponto_ref" placeholder="Ponto de referência">
+        </div>
+      </div>
+
+      <div class="check-group">
+        <label>Escolaridade</label>
+        <div class="radio-group" style="margin-top:4px; flex-wrap:wrap">
+          <label class="radio-item"><input type="radio" name="escolaridade" value="Analfabeto(a)"> Analfabeto(a)</label>
+          <label class="radio-item"><input type="radio" name="escolaridade" value="Ensino Fundamental Incompleto"> Fund. Incompleto</label>
+          <label class="radio-item"><input type="radio" name="escolaridade" value="Ensino Fundamental Completo"> Fund. Completo</label>
+          <label class="radio-item"><input type="radio" name="escolaridade" value="Ensino Médio Completo"> Médio Completo</label>
+          <label class="radio-item"><input type="radio" name="escolaridade" value="Ensino Superior Completo"> Superior Completo</label>
+        </div>
+      </div>
+
+    </div><!-- /card-body -->
+  </div>
+
+  <!-- ═══ DADOS DA ANAMNESE ═══ -->
+  <div class="card">
+    <div class="card-title" onclick="toggleSection(this)" id="sec-anamnese">
+      <span class="title-left"><span class="icon">📋</span> Dados da Anamnese (Unidade Solicitante)</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+
+    <div class="note-box" style="margin-bottom:14px">
+      <strong>ATENÇÃO:</strong> Os campos marcados com <strong>*</strong> são obrigatórios.
+    </div>
+
+    <!-- Q1 -->
+    <div class="question-block" style="margin-bottom:10px">
+      <div class="q-title">1. Tem nódulo ou caroço na mama? <span class="req">*</span></div>
+      <div style="display:flex; flex-direction:column; gap:5px">
+        <label class="check-item"><input type="checkbox" name="nodulo" value="Sim, mama direita"> Sim, mama direita</label>
+        <label class="check-item"><input type="checkbox" name="nodulo" value="Sim, mama esquerda"> Sim, mama esquerda</label>
+        <label class="check-item"><input type="checkbox" name="nodulo" value="Não"> Não</label>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-block" style="margin-bottom:10px">
+      <div class="q-title">2. Apresenta risco elevado* para câncer de mama? <span class="req">*</span></div>
+      <div style="display:flex; flex-direction:column; gap:5px">
+        <label class="radio-item"><input type="radio" name="risco_elevado" value="Sim"> Sim</label>
+        <label class="radio-item"><input type="radio" name="risco_elevado" value="Não"> Não</label>
+        <label class="radio-item"><input type="radio" name="risco_elevado" value="Não sabe"> Não sabe</label>
+      </div>
+      <div class="risco-box">
+        <strong>* Risco elevado são:</strong><br>
+        Mulheres com história familiar de, pelo menos, um parente de primeiro grau com diagnóstico de:<br>
+        – câncer de mama antes dos 50 anos de idade;<br>
+        – câncer de mama bilateral ou câncer de ovário em qualquer faixa etária;<br>
+        Mulheres com história familiar de câncer de mama masculino;<br>
+        Mulheres com diagnóstico histopatológico de lesão mamária proliferativa com atipia ou neoplasia lobular in situ;<br>
+        Mulheres com história pessoal de câncer de mama
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-block" style="margin-bottom:10px">
+      <div class="q-title">3. Antes desta consulta, teve suas mamas examinadas por um profissional de saúde? <span class="req">*</span></div>
+      <div style="display:flex; flex-direction:column; gap:5px">
+        <label class="radio-item"><input type="radio" name="examinada" value="Sim"> Sim</label>
+        <label class="radio-item"><input type="radio" name="examinada" value="Nunca foram examinadas anteriormente"> Nunca foram examinadas anteriormente</label>
+        <label class="radio-item"><input type="radio" name="examinada" value="Não sabe"> Não sabe</label>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question-block" style="margin-bottom:10px">
+      <div class="q-title">4. Fez mamografia alguma vez? <span class="req">*</span></div>
+      <div style="display:flex; flex-direction:column; gap:8px">
+        <div>
+          <label class="radio-item">
+            <input type="radio" name="fez_mamografia" value="Sim"> Sim — Quando fez a última mamografia? Ano:
+          </label>
+          <div style="margin-left:22px; margin-top:5px">
+            <div class="field" style="width:120px">
+              <input type="text" id="ano_ultima_mamo" maxlength="4" placeholder="AAAA">
+            </div>
+          </div>
+        </div>
+        <label class="radio-item"><input type="radio" name="fez_mamografia" value="Não"> Não</label>
+        <label class="radio-item"><input type="radio" name="fez_mamografia" value="Não sabe"> Não sabe</label>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-block" style="margin-bottom:10px">
+      <div class="q-title">5. Fez radioterapia na mama ou no plastrão? Em que ano? <span class="req">*</span></div>
+      <div style="display:flex; flex-direction:column; gap:8px">
+        <div>
+          <label class="check-item"><input type="checkbox" id="radio_md"> Sim, mama direita</label>
+          <div style="margin-left:22px; margin-top:5px">
+            <div class="field" style="width:120px">
+              <input type="text" id="ano_radio_md" maxlength="4" placeholder="Ano">
+            </div>
+          </div>
+        </div>
+        <div>
+          <label class="check-item"><input type="checkbox" id="radio_me"> Sim, mama esquerda</label>
+          <div style="margin-left:22px; margin-top:5px">
+            <div class="field" style="width:120px">
+              <input type="text" id="ano_radio_me" maxlength="4" placeholder="Ano">
+            </div>
+          </div>
+        </div>
+        <label class="radio-item"><input type="radio" name="radioterapia_nao" value="Não"> Não</label>
+        <label class="radio-item"><input type="radio" name="radioterapia_nao" value="Não sabe"> Não sabe</label>
+      </div>
+    </div>
+
+    <!-- Q6 — Cirurgia -->
+    <div class="question-block">
+      <div class="q-title">6. Fez cirurgia de mama? Em que ano? <span class="req">*</span></div>
+      <div style="overflow-x:auto">
+        <table class="surg-table">
+          <thead>
+            <tr>
+              <th>Tipo de Cirurgia</th>
+              <th>Mama Direita</th>
+              <th>Ano</th>
+              <th>Mama Esquerda</th>
+              <th>Ano</th>
+            </tr>
+          </thead>
+          <tbody id="surg-tbody">
+            <!-- gerado por JS -->
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:8px">
+        <label class="check-item"><input type="checkbox" id="nao_fez_cirurgia"> Não fez cirurgia</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ INDICAÇÃO CLÍNICA ═══ -->
+  <div class="card">
+    <div class="card-title" onclick="toggleSection(this)" id="sec-indicacao">
+      <span class="title-left"><span class="icon">🔬</span> Indicação Clínica <span class="req">*</span></span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+
+    <!-- 7 — Mamografia Diagnóstica -->
+    <div class="indicacao-sub" style="margin-bottom:12px">
+      <div class="indicacao-sub-title">7 — Mamografia Diagnóstica</div>
+
+      <!-- 7a -->
+      <div style="margin-bottom:10px">
+        <label class="check-item" style="margin-bottom:8px">
+          <input type="checkbox" id="indicacao_7a"> <strong>7a. Achados no exame clínico</strong>
+        </label>
+
+        <div class="mama-cols" style="margin-top:8px">
+          <!-- MAMA DIREITA -->
+          <div class="mama-col">
+            <div class="mama-col-title">⬤ Mama Direita</div>
+
+            <label class="check-item" style="margin-bottom:6px"><input type="checkbox" id="md_lesao_papilar"> Lesão papilar</label>
+
+            <div style="margin-bottom:8px">
+              <div style="font-size:11px; font-weight:700; color:#888; text-transform:uppercase; margin-bottom:4px">Descarga papilar</div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap">
+                <label class="check-item"><input type="checkbox" id="md_desc_cristalina"> Cristalina</label>
+                <label class="check-item"><input type="checkbox" id="md_desc_hemorragica"> Hemorrágica</label>
+              </div>
+            </div>
+
+            <div style="font-size:11px; font-weight:700; color:#888; text-transform:uppercase; margin-bottom:4px">Nódulo — Localização</div>
+            <div class="localiz-grid" style="margin-bottom:8px">
+              <label class="check-item"><input type="checkbox" id="md_nod_qsl"> QSL</label>
+              <label class="check-item"><input type="checkbox" id="md_nod_qil"> QIL</label>
+              <label class="check-item"><input type="checkbox" id="md_nod_qsm"> QSM</label>
+              <label class="check-item"><input type="checkbox" id="md_nod_qim"> QIM</label>
+              <label class="check-item"><input type="checkbox" id="md_nod_uqlat"> UQlat</label>
+              <label class="check-item"><input type="checkbox" id="md_nod_uqsup"> UQsup</label>
+              <label class="check-item"><input type="checkbox" id="md_nod_uqmed"> UQmed</label>
+              <label class="check-item"><input type="checkbox" id="md_nod_uqinf"> UQinf</label>
+              <label class="check-item"><input type="checkbox" id="md_nod_rra"> RRA</label>
+              <label class="check-item"><input type="checkbox" id="md_nod_pa"> PA</label>
+            </div>
+
+            <div style="font-size:11px; font-weight:700; color:#888; text-transform:uppercase; margin-bottom:4px">Espessamento — Localização</div>
+            <div class="localiz-grid" style="margin-bottom:8px">
+              <label class="check-item"><input type="checkbox" id="md_esp_qsl"> QSL</label>
+              <label class="check-item"><input type="checkbox" id="md_esp_qil"> QIL</label>
+              <label class="check-item"><input type="checkbox" id="md_esp_qsm"> QSM</label>
+              <label class="check-item"><input type="checkbox" id="md_esp_qim"> QIM</label>
+              <label class="check-item"><input type="checkbox" id="md_esp_uqlat"> UQlat</label>
+              <label class="check-item"><input type="checkbox" id="md_esp_uqsup"> UQsup</label>
+              <label class="check-item"><input type="checkbox" id="md_esp_uqmed"> UQmed</label>
+              <label class="check-item"><input type="checkbox" id="md_esp_uqinf"> UQinf</label>
+              <label class="check-item"><input type="checkbox" id="md_esp_rra"> RRA</label>
+              <label class="check-item"><input type="checkbox" id="md_esp_pa"> PA</label>
+            </div>
+
+            <div style="font-size:11px; font-weight:700; color:#888; text-transform:uppercase; margin-bottom:4px">Linfonodo palpável</div>
+            <div style="display:flex; gap:8px">
+              <label class="check-item"><input type="checkbox" id="md_linfo_axilar"> Axilar</label>
+              <label class="check-item"><input type="checkbox" id="md_linfo_supra"> Supraclavicular</label>
+            </div>
+          </div>
+
+          <!-- MAMA ESQUERDA -->
+          <div class="mama-col">
+            <div class="mama-col-title">⬤ Mama Esquerda</div>
+
+            <label class="check-item" style="margin-bottom:6px"><input type="checkbox" id="me_lesao_papilar"> Lesão papilar</label>
+
+            <div style="margin-bottom:8px">
+              <div style="font-size:11px; font-weight:700; color:#888; text-transform:uppercase; margin-bottom:4px">Descarga papilar</div>
+              <div style="display:flex; gap:8px; flex-wrap:wrap">
+                <label class="check-item"><input type="checkbox" id="me_desc_cristalina"> Cristalina</label>
+                <label class="check-item"><input type="checkbox" id="me_desc_hemorragica"> Hemorrágica</label>
+              </div>
+            </div>
+
+            <div style="font-size:11px; font-weight:700; color:#888; text-transform:uppercase; margin-bottom:4px">Nódulo — Localização</div>
+            <div class="localiz-grid" style="margin-bottom:8px">
+              <label class="check-item"><input type="checkbox" id="me_nod_qsl"> QSL</label>
+              <label class="check-item"><input type="checkbox" id="me_nod_qil"> QIL</label>
+              <label class="check-item"><input type="checkbox" id="me_nod_qsm"> QSM</label>
+              <label class="check-item"><input type="checkbox" id="me_nod_qim"> QIM</label>
+              <label class="check-item"><input type="checkbox" id="me_nod_uqlat"> UQlat</label>
+              <label class="check-item"><input type="checkbox" id="me_nod_uqsup"> UQsup</label>
+              <label class="check-item"><input type="checkbox" id="me_nod_uqmed"> UQmed</label>
+              <label class="check-item"><input type="checkbox" id="me_nod_uqinf"> UQinf</label>
+              <label class="check-item"><input type="checkbox" id="me_nod_rra"> RRA</label>
+              <label class="check-item"><input type="checkbox" id="me_nod_pa"> PA</label>
+            </div>
+
+            <div style="font-size:11px; font-weight:700; color:#888; text-transform:uppercase; margin-bottom:4px">Espessamento — Localização</div>
+            <div class="localiz-grid" style="margin-bottom:8px">
+              <label class="check-item"><input type="checkbox" id="me_esp_qsl"> QSL</label>
+              <label class="check-item"><input type="checkbox" id="me_esp_qil"> QIL</label>
+              <label class="check-item"><input type="checkbox" id="me_esp_qsm"> QSM</label>
+              <label class="check-item"><input type="checkbox" id="me_esp_qim"> QIM</label>
+              <label class="check-item"><input type="checkbox" id="me_esp_uqlat"> UQlat</label>
+              <label class="check-item"><input type="checkbox" id="me_esp_uqsup"> UQsup</label>
+              <label class="check-item"><input type="checkbox" id="me_esp_uqmed"> UQmed</label>
+              <label class="check-item"><input type="checkbox" id="me_esp_uqinf"> UQinf</label>
+              <label class="check-item"><input type="checkbox" id="me_esp_rra"> RRA</label>
+              <label class="check-item"><input type="checkbox" id="me_esp_pa"> PA</label>
+            </div>
+
+            <div style="font-size:11px; font-weight:700; color:#888; text-transform:uppercase; margin-bottom:4px">Linfonodo palpável</div>
+            <div style="display:flex; gap:8px">
+              <label class="check-item"><input type="checkbox" id="me_linfo_axilar"> Axilar</label>
+              <label class="check-item"><input type="checkbox" id="me_linfo_supra"> Supraclavicular</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7b -->
+      <div style="background:#fff; border:1px solid #e8eaf2; border-radius:7px; padding:10px 12px; margin-bottom:10px">
+        <label class="check-item" style="margin-bottom:8px; font-weight:700">
+          <input type="checkbox" id="indicacao_7b"> <strong>7b. Controle radiológico — Categoria 3 (BI-RADS®)</strong>
+        </label>
+        <div class="mama-cols">
+          <div>
+            <div style="font-size:11px; font-weight:700; color:#0f3460; margin-bottom:6px">Mama Direita</div>
+            <div style="display:flex; flex-direction:column; gap:4px">
+              <label class="check-item"><input type="checkbox" id="7b_md_nod"> Nódulo</label>
+              <label class="check-item"><input type="checkbox" id="7b_md_micro"> Microcalcificação</label>
+              <label class="check-item"><input type="checkbox" id="7b_md_assim_focal"> Assimetria focal</label>
+              <label class="check-item"><input type="checkbox" id="7b_md_assim_difusa"> Assimetria difusa</label>
+              <label class="check-item"><input type="checkbox" id="7b_md_area_densa"> Área densa</label>
+              <label class="check-item"><input type="checkbox" id="7b_md_distorcao"> Distorção focal</label>
+              <label class="check-item"><input type="checkbox" id="7b_md_linfo"> Linfonodo axilar</label>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px; font-weight:700; color:#0f3460; margin-bottom:6px">Mama Esquerda</div>
+            <div style="display:flex; flex-direction:column; gap:4px">
+              <label class="check-item"><input type="checkbox" id="7b_me_nod"> Nódulo</label>
+              <label class="check-item"><input type="checkbox" id="7b_me_micro"> Microcalcificação</label>
+              <label class="check-item"><input type="checkbox" id="7b_me_assim_focal"> Assimetria focal</label>
+              <label class="check-item"><input type="checkbox" id="7b_me_assim_difusa"> Assimetria difusa</label>
+              <label class="check-item"><input type="checkbox" id="7b_me_area_densa"> Área densa</label>
+              <label class="check-item"><input type="checkbox" id="7b_me_distorcao"> Distorção focal</label>
+              <label class="check-item"><input type="checkbox" id="7b_me_linfo"> Linfonodo axilar</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7c -->
+      <div style="background:#fff; border:1px solid #e8eaf2; border-radius:7px; padding:10px 12px; margin-bottom:10px">
+        <label class="check-item" style="margin-bottom:8px; font-weight:700">
+          <input type="checkbox" id="indicacao_7c"> <strong>7c. Lesão com diagnóstico de câncer</strong>
+        </label>
+        <div class="mama-cols">
+          <div>
+            <div style="font-size:11px; font-weight:700; color:#0f3460; margin-bottom:6px">Mama Direita</div>
+            <div style="display:flex; flex-direction:column; gap:4px">
+              <label class="check-item"><input type="checkbox" id="7c_md_nod"> Nódulo</label>
+              <label class="check-item"><input type="checkbox" id="7c_md_micro"> Microcalcificação</label>
+              <label class="check-item"><input type="checkbox" id="7c_md_assim_focal"> Assimetria focal</label>
+              <label class="check-item"><input type="checkbox" id="7c_md_assim_difusa"> Assimetria difusa</label>
+              <label class="check-item"><input type="checkbox" id="7c_md_area_densa"> Área densa</label>
+              <label class="check-item"><input type="checkbox" id="7c_md_distorcao"> Distorção focal</label>
+              <label class="check-item"><input type="checkbox" id="7c_md_linfo"> Linfonodo axilar</label>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px; font-weight:700; color:#0f3460; margin-bottom:6px">Mama Esquerda</div>
+            <div style="display:flex; flex-direction:column; gap:4px">
+              <label class="check-item"><input type="checkbox" id="7c_me_nod"> Nódulo</label>
+              <label class="check-item"><input type="checkbox" id="7c_me_micro"> Microcalcificação</label>
+              <label class="check-item"><input type="checkbox" id="7c_me_assim_focal"> Assimetria focal</label>
+              <label class="check-item"><input type="checkbox" id="7c_me_assim_difusa"> Assimetria difusa</label>
+              <label class="check-item"><input type="checkbox" id="7c_me_area_densa"> Área densa</label>
+              <label class="check-item"><input type="checkbox" id="7c_me_distorcao"> Distorção focal</label>
+              <label class="check-item"><input type="checkbox" id="7c_me_linfo"> Linfonodo axilar</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7d -->
+      <div style="background:#fff; border:1px solid #e8eaf2; border-radius:7px; padding:10px 12px; margin-bottom:10px">
+        <label class="check-item" style="margin-bottom:8px; font-weight:700">
+          <input type="checkbox" id="indicacao_7d"> <strong>7d. Avaliação da resposta de QT neoadjuvante</strong>
+        </label>
+        <div style="display:flex; gap:16px">
+          <label class="check-item"><input type="checkbox" id="7d_md"> Mama direita</label>
+          <label class="check-item"><input type="checkbox" id="7d_me"> Mama esquerda</label>
+        </div>
+      </div>
+
+      <!-- 7e -->
+      <div style="background:#fff; border:1px solid #e8eaf2; border-radius:7px; padding:10px 12px; margin-bottom:10px">
+        <label class="check-item" style="margin-bottom:8px; font-weight:700">
+          <input type="checkbox" id="indicacao_7e"> <strong>7e. Revisão de mamografia com lesão, realizada em outra instituição</strong>
+        </label>
+        <div class="mama-cols">
+          <div>
+            <div style="font-size:11px; font-weight:700; color:#0f3460; margin-bottom:6px">Mama Direita</div>
+            <div style="display:flex; flex-direction:column; gap:4px">
+              <label class="check-item"><input type="radio" name="7e_md_cat" value="Categoria 0"> Categoria 0</label>
+              <label class="check-item"><input type="radio" name="7e_md_cat" value="Categoria 3"> Categoria 3</label>
+              <label class="check-item"><input type="radio" name="7e_md_cat" value="Categoria 4"> Categoria 4</label>
+              <label class="check-item"><input type="radio" name="7e_md_cat" value="Categoria 5"> Categoria 5</label>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px; font-weight:700; color:#0f3460; margin-bottom:6px">Mama Esquerda</div>
+            <div style="display:flex; flex-direction:column; gap:4px">
+              <label class="check-item"><input type="radio" name="7e_me_cat" value="Categoria 0"> Categoria 0</label>
+              <label class="check-item"><input type="radio" name="7e_me_cat" value="Categoria 3"> Categoria 3</label>
+              <label class="check-item"><input type="radio" name="7e_me_cat" value="Categoria 4"> Categoria 4</label>
+              <label class="check-item"><input type="radio" name="7e_me_cat" value="Categoria 5"> Categoria 5</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7f -->
+      <div style="background:#fff; border:1px solid #e8eaf2; border-radius:7px; padding:10px 12px">
+        <label class="check-item" style="margin-bottom:8px; font-weight:700">
+          <input type="checkbox" id="indicacao_7f"> <strong>7f. Controle de lesão após biópsia de fragmento ou PAAF com resultado benigno</strong>
+        </label>
+        <div class="mama-cols">
+          <div>
+            <div style="font-size:11px; font-weight:700; color:#0f3460; margin-bottom:6px">Mama Direita</div>
+            <div style="display:flex; flex-direction:column; gap:4px">
+              <label class="check-item"><input type="checkbox" id="7f_md_nod"> Nódulo</label>
+              <label class="check-item"><input type="checkbox" id="7f_md_micro"> Microcalcificação</label>
+              <label class="check-item"><input type="checkbox" id="7f_md_assim_focal"> Assimetria focal</label>
+              <label class="check-item"><input type="checkbox" id="7f_md_assim_difusa"> Assimetria difusa</label>
+              <label class="check-item"><input type="checkbox" id="7f_md_area_densa"> Área densa</label>
+              <label class="check-item"><input type="checkbox" id="7f_md_distorcao"> Distorção focal</label>
+              <label class="check-item"><input type="checkbox" id="7f_md_linfo"> Linfonodo axilar</label>
+            </div>
+          </div>
+          <div>
+            <div style="font-size:11px; font-weight:700; color:#0f3460; margin-bottom:6px">Mama Esquerda</div>
+            <div style="display:flex; flex-direction:column; gap:4px">
+              <label class="check-item"><input type="checkbox" id="7f_me_nod"> Nódulo</label>
+              <label class="check-item"><input type="checkbox" id="7f_me_micro"> Microcalcificação</label>
+              <label class="check-item"><input type="checkbox" id="7f_me_assim_focal"> Assimetria focal</label>
+              <label class="check-item"><input type="checkbox" id="7f_me_assim_difusa"> Assimetria difusa</label>
+              <label class="check-item"><input type="checkbox" id="7f_me_area_densa"> Área densa</label>
+              <label class="check-item"><input type="checkbox" id="7f_me_distorcao"> Distorção focal</label>
+              <label class="check-item"><input type="checkbox" id="7f_me_linfo"> Linfonodo axilar</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8 — Mamografia de Rastreamento -->
+    <div class="indicacao-sub" style="background:#f0f9f4; border-color:#a5d6a7">
+      <div class="indicacao-sub-title" style="color:#2e7d32">8 — Mamografia de Rastreamento</div>
+      <div style="display:flex; gap:16px; flex-wrap:wrap">
+        <label class="check-item"><input type="checkbox" id="rastr_8a"> <strong>8a.</strong> População alvo</label>
+        <label class="check-item"><input type="checkbox" id="rastr_8b"> <strong>8b.</strong> População de risco elevado (história familiar)</label>
+        <label class="check-item"><input type="checkbox" id="rastr_8c"> <strong>8c.</strong> Paciente já tratado de câncer de mama</label>
+      </div>
+    </div>
+    </div><!-- /card-body -->
+  </div>
+
+  <!-- ═══ DATA / RESPONSÁVEL / NÚMERO DO EXAME ═══ -->
+  <div class="card">
+    <div class="card-title" onclick="toggleSection(this)" id="sec-solicitacao">
+      <span class="title-left"><span class="icon">✍️</span> Solicitação</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="card-body">
+    <div class="gd3" style="margin-bottom:8px">
+      <div class="field">
+        <label>Data da Solicitação <span class="req">*</span></label>
+        <input type="date" id="data_solicitacao">
+      </div>
+      <div class="field gds2">
+        <label>Responsável <span class="req">*</span></label>
+        <input type="text" id="responsavel" placeholder="Nome do profissional responsável">
+      </div>
+    </div>
+    <div class="gd2" style="margin-bottom:8px">
+      <div class="field">
+        <label>Número do Exame</label>
+        <input type="text" id="num_exame" placeholder="Número do exame">
+      </div>
+      <div class="field">
+        <label style="font-size:10px; color:#aaa">Número a ser preenchido pelo serviço de mamografia</label>
+        <input type="text" id="num_servico" placeholder="A ser preenchido pelo serviço">
+      </div>
+    </div>
+    <div class="field">
+      <label>Observações / Informações adicionais</label>
+      <textarea id="observacoes" placeholder="Informações adicionais relevantes..."></textarea>
+    </div>
+    </div><!-- /card-body -->
+  </div>
+
+  <!-- ═══ ORIENTAÇÕES PARA PREENCHIMENTO ═══ -->
+  <div class="card orientacoes-card">
+    <div class="card-title" onclick="toggleSection(this)" id="sec-orientacoes" style="color:#3949ab; border-color:#c5cae9">
+      <span class="title-left"><span class="icon">📌</span> Orientações para Preenchimento</span>
+      <span class="chevron" style="color:#3949ab">▼</span>
+    </div>
+    <div class="card-body">
+    <div class="orient-row">
+      <div class="orient-key">7 — Mamografia Diagnóstica</div>
+      <div class="orient-val"></div>
+    </div>
+    <div class="orient-row">
+      <div class="orient-key">7a — Achados no exame clínico</div>
+      <div class="orient-val">Mamografia realizada nas mulheres com sinal e sintoma de câncer de mama (os sinais e sintomas contemplados no formulário são: lesão papilar, descarga papilar espontânea, nódulo, espessamento e linfonodo axilar e supraclavicular)</div>
+    </div>
+    <div class="orient-row">
+      <div class="orient-key">7b — Controle radiológico Categoria 3 (BI-RADS®)</div>
+      <div class="orient-val">Mamografia realizada em paciente com laudo anterior de lesão provavelmente benigna</div>
+    </div>
+    <div class="orient-row">
+      <div class="orient-key">7c — Lesão com diagnóstico de câncer</div>
+      <div class="orient-val">Mamografia realizada em paciente já com diagnóstico de câncer de mama, por histopatológico, mas antes do tratamento</div>
+    </div>
+    <div class="orient-row">
+      <div class="orient-key">7d — Avaliação de resposta à quimioterapia neoadjuvante</div>
+      <div class="orient-val">Mamografia realizada após a quimioterapia neoadjuvante, para avaliação da resposta</div>
+    </div>
+    <div class="orient-row">
+      <div class="orient-key">7e — Revisão de mamografia com lesão, realizada em outra instituição</div>
+      <div class="orient-val">Mamografia realizada em paciente com laudo anterior de outra instituição nas categorias 0, 3, 4 e 5 para revisão de resultado</div>
+    </div>
+    <div class="orient-row">
+      <div class="orient-key">7f — Controle de lesão após biópsia ou PAAF com resultado benigno</div>
+      <div class="orient-val">Mamografia realizada em paciente com laudo anterior de biópsia de fragmento ou PAAF de lesões benignas</div>
+    </div>
+    <div class="orient-row">
+      <div class="orient-key">8 — Mamografia de Rastreamento</div>
+      <div class="orient-val">Mamografia realizada nas mulheres assintomáticas (sem sinais e sintomas de câncer de mama), com idade entre 50 e 69 anos (população alvo) ou maiores de 35 anos com histórico familiar (população de risco elevado — história familiar) ou histórico pessoal de câncer de mama (pacientes já tratados). Atenção: mastalgia não é sinal de câncer de mama</div>
+    </div>
+    <div class="orient-row" style="border-bottom:none">
+      <div class="orient-key">Localização</div>
+      <div class="orient-val" style="display:grid; grid-template-columns:1fr 1fr; gap:2px 20px; font-size:11.5px">
+        <span><strong>QSL</strong> — Quadrante superior lateral</span>
+        <span><strong>UQinf</strong> — União dos quadrantes inferiores</span>
+        <span><strong>QIL</strong> — Quadrante inferior lateral</span>
+        <span><strong>UQmed</strong> — União dos quadrantes mediais</span>
+        <span><strong>QSM</strong> — Quadrante superior medial</span>
+        <span><strong>RRA</strong> — Região retroareolar</span>
+        <span><strong>QIM</strong> — Quadrante inferior medial</span>
+        <span><strong>RC</strong> — Região central (todos os quadrantes)</span>
+        <span><strong>UQlat</strong> — União dos quadrantes laterais</span>
+        <span><strong>PA</strong> — Prolongamento axilar</span>
+        <span><strong>UQsup</strong> — União dos quadrantes superiores</span>
+        <span><strong>NR</strong> — Não realizado</span>
+      </div>
+    </div>
+    </div><!-- /card-body -->
+  </div>
+
+</div><!-- /page -->
+
+<script>
+// ── CIRURGIAS TABLE ──
+const cirurgias = [
+  'Biópsia cirúrgica incisional',
+  'Biópsia cirúrgica excisional',
+  'Centralectomia',
+  'Segmentectomia',
+  'Dutectomia',
+  'Mastectomia',
+  'Mastectomia poupadora de pele',
+  'Mastectomia poupadora de pele e complexo aréolo-papilar',
+  'Linfadenectomia axilar',
+  'Biópsia de linfonodo sentinela',
+  'Reconstrução mamária',
+  'Mastoplastia redutora',
+  'Inclusão de implantes',
+];
+
+const tbody = document.getElementById('surg-tbody');
+cirurgias.forEach((c, i) => {
+  const tr = document.createElement('tr');
+  const safeId = 'surg_' + i;
+  tr.innerHTML = `
+    <td>${c}</td>
+    <td class="center"><input type="checkbox" id="${safeId}_md"></td>
+    <td class="center"><input type="text" id="${safeId}_md_ano" placeholder="Ano" maxlength="4"></td>
+    <td class="center"><input type="checkbox" id="${safeId}_me"></td>
+    <td class="center"><input type="text" id="${safeId}_me_ano" placeholder="Ano" maxlength="4"></td>
+  `;
+  tbody.appendChild(tr);
+});
+
+// ── INIT ──
+document.getElementById('data_solicitacao').value = new Date().toISOString().slice(0, 10);
+
+// ── COLLAPSIBLE SECTIONS ──
+function toggleSection(titleEl) {
+  const body = titleEl.nextElementSibling;
+  const isCollapsed = body.classList.contains('collapsed');
+  body.classList.toggle('collapsed', !isCollapsed);
+  titleEl.classList.toggle('collapsed', !isCollapsed);
+}
+
+// ── MÁSCARAS ──
+function maskCPF(el) {
+  let v = el.value.replace(/\D/g, '').slice(0, 11);
+  if (v.length > 9)      v = v.replace(/^(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
+  else if (v.length > 6) v = v.replace(/^(\d{3})(\d{3})(\d{0,3})/, '$1.$2.$3');
+  else if (v.length > 3) v = v.replace(/^(\d{3})(\d{0,3})/, '$1.$2');
+  el.value = v;
+}
+function maskPhone(el) {
+  let v = el.value.replace(/\D/g, '').slice(0, 11);
+  if (v.length === 11)      v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
+  else if (v.length === 10) v = v.replace(/^(\d{2})(\d{4})(\d{4})$/, '($1) $2-$3');
+  else if (v.length > 6)    v = v.replace(/^(\d{2})(\d{4,5})(\d*)/, '($1) $2-$3');
+  else if (v.length > 2)    v = v.replace(/^(\d{2})(\d*)/, '($1) $2');
+  el.value = v;
+}
+function maskCEP(el) {
+  let v = el.value.replace(/\D/g, '').slice(0, 8);
+  if (v.length > 5) v = v.replace(/^(\d{5})(\d{0,3})/, '$1-$2');
+  el.value = v;
+}
+function maskCNS(el) {
+  let v = el.value.replace(/\D/g, '').slice(0, 15);
+  v = v.replace(/^(\d{3})(\d{0,4})(\d{0,4})(\d{0,4})/, (_, a, b, c, d) =>
+    [a, b, c, d].filter(Boolean).join(' '));
+  el.value = v;
+}
+
+// ── HELPER ──
+function gv(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function gc(id) { const el = document.getElementById(id); return el ? el.checked : false; }
+function gr(name) {
+  const sel = document.querySelector(`input[name="${name}"]:checked`);
+  return sel ? sel.value : '';
+}
+function gcGroup(name) {
+  return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(e => e.value);
+}
+
+// ── PDF GENERATOR — layout fiel ao modelo oficial, exatamente 2 páginas A4 ──
+const LOGO_B64 = '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Tg8yzOjAr9qvHCRqibozghF3EE5+ULx4TLMBkDeIr1Ly7vT7lq7v5/mb1sXicy/d046eX6s+zf2SP2bLf9nXwHNZalcwXvifXHS41e6hH7tdoIjgjJAJRNzcnGWZjgDAHyOd5s81rpxVoR2X6/M9rL8H9Tp2fxPc/MP4MfFb/hSPxo034n/2D/bX9iz3v+g/avs3m+dBNB/rNj7cebu+6c7ccZyP0bMMF/aGElhubl5ra2vs09tOx8vhq/1auqtr2v8A5H1p/wAPV/8Aqg//AJdH/wByV8v/AKmf9P8A/wAl/wDtj1/7d/6d/j/wD7u0HVP7b0PTta8jyft9pDdeVu3bN6BtucDOM4zgV8VVh7Obh2dj3oS5oqXcvVBQUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQAUAFABQB/9k=';
+function gerarPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+  // ── Constantes de layout ──
+  const PW = 210, PH = 297;
+  const ML = 8, MR = 8, MT = 6;
+  const CW = PW - ML - MR;
+  let y = MT;
+
+  // ── Paleta ──
+  const BK  = [0,0,0];
+  const WH  = [255,255,255];
+  const LG  = [220,220,220];   // cinza claro (bordas)
+  const HG  = [240,240,240];   // cabeçalhos de tabela
+  const BLD = [0,0,0];
+
+  // ── Primitivos ──
+  const sf = (style, size, color) => {
+    doc.setFont('helvetica', style);
+    doc.setFontSize(size * 1.2);
+    doc.setTextColor(...(color || BK));
+  };
+  const border = (x, y, w, h, lw) => {
+    doc.setDrawColor(...LG);
+    doc.setLineWidth(lw || 0.3);
+    doc.rect(x, y, w, h, 'S');
+  };
+  const fillRect = (x, y, w, h, rgb) => {
+    doc.setFillColor(...rgb);
+    doc.setDrawColor(...LG);
+    doc.setLineWidth(0.3);
+    doc.rect(x, y, w, h, 'FD');
+  };
+  const ln = (x1,y1,x2,y2,lw,color) => {
+    doc.setDrawColor(...(color||LG));
+    doc.setLineWidth(lw||0.3);
+    doc.line(x1,y1,x2,y2);
+  };
+
+  // Texto dentro de célula com padding
+  const ct = (text, x, y, opts) => {
+    if (!text && text !== 0) text = '';
+    doc.text(String(text), x, y, opts || {});
+  };
+
+  // Formata data YYYY-MM-DD → DD/MM/AAAA
+  const fmtDate = (v) => {
+    if (!v) return '';
+    const m = v.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (m) return m[3]+'/'+m[2]+'/'+m[1];
+    return v;
+  };
+
+  // Caixa de texto com label pequeno acima e valor
+  const cell = (label, value, x, y, w, h) => {
+    border(x, y, w, h);
+    sf('bold', 6, [80,80,80]);
+    ct(label, x + 1, y + 2.8);
+    sf('normal', 8, BK);
+    ct(value || '', x + 1, y + h - 1.2);
+  };
+
+  // Cabeçalho de seção (banda cinza escura)
+  const secHead = (label, yy) => {
+    fillRect(ML, yy, CW, 5.5, [50,50,50]);
+    sf('bold', 8, WH);
+    ct(label.toUpperCase(), ML + 2, yy + 4);
+    return yy + 5.5;
+  };
+
+  // Cabeçalho de bloco (banda cinza claro)
+  const blockHead = (label, yy, bold) => {
+    fillRect(ML, yy, CW, 5, HG);
+    sf(bold ? 'bold' : 'bold', 7.5, BK);
+    ct(label, ML + 2, yy + 3.6);
+    return yy + 5;
+  };
+
+  // Checkbox texto
+  const chk = v => v ? '[X]' : '[ ]';
+
+  // Linha de checkboxes horizontal dentro de uma altura fixa
+  const hChecks = (items, x, yy, totalW, h, fontSize) => {
+    const fs = fontSize || 6.5;
+    const iw = totalW / items.length;
+    border(x, yy, totalW, h);
+    items.forEach((item, i) => {
+      sf('normal', fs, BK);
+      ct(chk(item.c) + ' ' + item.l, x + i*iw + 1, yy + h/2 + fs*0.18);
+    });
+  };
+
+  // Coluna de checkboxes vertical
+  const vChecks = (items, x, yy, w, rowH, fontSize) => {
+    const fs = fontSize || 6.5;
+    items.forEach((item, i) => {
+      border(x, yy + i*rowH, w, rowH);
+      sf('normal', fs, BK);
+      ct(chk(item.c) + ' ' + item.l, x + 1, yy + i*rowH + rowH/2 + fs*0.18);
+    });
+    return yy + items.length * rowH;
+  };
+
+  // ══════════════════════════════════════════════════════════════
+  //  PÁGINA 1
+  // ══════════════════════════════════════════════════════════════
+
+  // ── CABEÇALHO ──
+  const hdrH = 12;
+  border(ML, y, CW, hdrH);
+  sf('bold', 9, BK);
+  ct('MINISTÉRIO DA SAÚDE', ML + 2, y + 5.5);
+  sf('bold', 10, BK);
+  ct('REQUISIÇÃO DE MAMOGRAFIA', PW - MR - 2, y + 4.8, { align:'right' });
+  sf('italic', 6.5, [60,60,60]);
+  ct('Programa Nacional de Controle do Câncer de Mama', PW - MR - 2, y + 9.2, { align:'right' });
+  // Logo centralizado
+  const logoW = 28, logoH = 10;
+  const logoX = ML + (CW - logoW) / 2;
+  const logoY = y + (hdrH - logoH) / 2;
+  try { doc.addImage('data:image/jpeg;base64,' + LOGO_B64, 'JPEG', logoX, logoY, logoW, logoH); } catch(e) {}
+  y += hdrH;
+
+  // ── LINHA 1: UF | CNES | Nº Protocolo ──
+  const r1h = 9;
+  const wUF=20, wCNES=60, wProt=CW-wUF-wCNES;
+  cell('UF', gv('uf'), ML, y, wUF, r1h);
+  cell('CNES da Unidade de Saúde', gv('cnes'), ML+wUF, y, wCNES, r1h);
+  cell('Nº Protocolo (gerado pelo SISCAN)', gv('protocolo'), ML+wUF+wCNES, y, wProt, r1h);
+  y += r1h;
+
+  // Unidade de Saúde
+  cell('Unidade de Saúde', gv('unidade_saude'), ML, y, CW, r1h);
+  y += r1h;
+
+  // Código Município | Município | Prontuário
+  const wCod=50, wMun=CW-50-40, wPron=40;
+  cell('Código Município', gv('cod_municipio_unidade'), ML, y, wCod, r1h);
+  cell('Município', gv('municipio_unidade'), ML+wCod, y, wMun, r1h);
+  cell('Prontuário', gv('prontuario'), ML+wCod+wMun, y, wPron, r1h);
+  y += r1h;
+
+  // ── INFORMAÇÕES PESSOAIS ──
+  y = secHead('INFORMAÇÕES PESSOAIS', y);
+
+  // Linha 1: CPF | Cartão SUS | Sexo
+  const wCPF=CW/3, wSUS=CW/3, wSexo=CW/3;
+  cell('Cartão SUS*', gv('cartao_sus'), ML, y, wSUS, r1h);
+  cell('CPF', gv('cpf'), ML+wSUS, y, wCPF, r1h);
+  border(ML+wSUS+wCPF, y, wSexo, r1h);
+  sf('bold', 6, [80,80,80]); ct('Sexo', ML+wCPF+wSUS+1, y+2.8);
+  sf('normal', 7, BK);
+  ct(chk(gr('sexo')==='Masculino')+' Masculino   '+chk(gr('sexo')==='Feminino')+' Feminino', ML+wSUS+wCPF+2, y+r1h-1.2);
+  y += r1h;
+
+  // Linha 2: Nome completo
+  cell('Nome Completo do(a) Paciente*', gv('nome_paciente'), ML, y, CW, r1h);
+  y += r1h;
+
+  // Linha 3: Nome mãe | Apelido
+  const wMae = CW*0.62, wApel = CW - wMae;
+  cell('Nome Completo da Mãe*', gv('nome_mae'), ML, y, wMae, r1h);
+  cell('Apelido do(a) Paciente', gv('apelido'), ML+wMae, y, wApel, r1h);
+  y += r1h;
+
+  // Linha 4: Data Nasc | Idade | Cor/Raça | Nacionalidade
+  const wDN=35, wId=16, wNac=50, wRaca=CW-wDN-wId-wNac;
+  cell('Data de Nascimento*', fmtDate(gv('data_nascimento')), ML, y, wDN, r1h);
+  cell('Idade*', gv('idade')?gv('idade')+' a':'', ML+wDN, y, wId, r1h);
+  border(ML+wDN+wId, y, wRaca, r1h);
+  sf('bold', 6, [80,80,80]); ct('Cor/Raça', ML+wDN+wId+1, y+2.8);
+  sf('normal', 6.5, BK);
+  const racas = ['Branca','Preta','Parda','Amarela','Indígena'];
+  const rSelec = gr('raca');
+  let rx = ML+wDN+wId+1;
+  racas.forEach(r => {
+    ct(chk(rSelec===r)+' '+r, rx, y+r1h-1.2);
+    rx += r === 'Indígena' ? 22 : (r.length * 1.75 + 7);
+  });
+  cell('Nacionalidade', gv('nacionalidade'), ML+wDN+wId+wRaca, y, wNac, r1h);
+  y += r1h;
+
+  // ── DADOS RESIDENCIAIS ──
+  border(ML, y, CW, 4);
+  sf('bold', 6.5, [60,60,60]); ct('Dados Residenciais', ML+CW/2, y+2.8, {align:'center'});
+  y += 4;
+
+  // Logradouro
+  cell('Logradouro', gv('logradouro'), ML, y, CW, r1h);
+  y += r1h;
+
+  // Número | Complemento | Bairro 
+  const wNum=25, wComp=75, wBair=CW-wNum-wComp;
+  cell('Número', gv('numero_res'), ML, y, wNum, r1h);
+  cell('Complemento', gv('complemento'), ML+wNum, y, wComp, r1h);
+  cell('Bairro', gv('bairro'), ML+wNum+wComp, y, wBair, r1h);
+  y += r1h;
+
+  // Cód Mun | Município | UF
+  const wCM2=50, wMun2=CW-wCM2-20; wUFr=20;
+  cell('Código Município', gv('cod_mun_pac'), ML, y, wCM2, r1h);
+  cell('Município', gv('municipio_pac'), ML+wCM2, y, wMun2, r1h);
+  cell('UF', gv('uf_pac'), ML+wCM2+wMun2, y, wUFr, r1h);
+  y += r1h;
+
+  // CEP | DDD+Tel | Ponto de Referência
+  const wCEP=50, wTel=50, wRef=CW-wCEP-wTel;
+  cell('CEP', gv('cep'), ML, y, wCEP, r1h);
+  cell('DDD + Telefone', gv('telefone'), ML+wCEP, y, wTel, r1h);
+  cell('Ponto de Referência', gv('ponto_ref'), ML+wCEP+wTel, y, wRef, r1h);
+  y += r1h;
+
+  // Escolaridade
+  border(ML, y, CW, r1h);
+  sf('bold', 6, [80,80,80]); ct('Escolaridade', ML+1, y+2.8);
+  sf('normal', 6.5, BK);
+  const escols = ['Analfabeto(a)','Fund. Incompleto','Fund. Completo','Médio Completo','Superior Completo'];
+  const escVals = ['Analfabeto(a)','Ensino Fundamental Incompleto','Ensino Fundamental Completo','Ensino Médio Completo','Ensino Superior Completo'];
+  const escSel = gr('escolaridade');
+  let ex = ML+28;
+  escols.forEach((e,i) => {
+    ct(chk(escSel===escVals[i])+' '+e, ex, y+r1h-1.2);
+    ex += e.length * 1.6 + 5;
+  });
+  y += r1h;
+
+  // ── DADOS DA ANAMNESE ──
+  y = secHead('DADOS DA ANAMNESE (UNIDADE SOLICITANTE)', y);
+
+  // ── Layout linear: pergunta (linha inteira) + opções (linha inteira, horizontal) ──
+  const qH  = 6;   // altura da linha de pergunta
+  const opH = 5.5; // altura da linha de opções
+
+  // Helper: linha de pergunta (fundo cinza claro, texto bold)
+  const qLine = (txt) => {
+    fillRect(ML, y, CW, qH, [245,245,245]);
+    sf('bold', 7, BK); ct(txt, ML+2, y+4.2);
+    y += qH;
+  };
+
+  // Helper: linha de opções horizontais (texto separado por espaços)
+  const opLine = (opts) => {
+    border(ML, y, CW, opH);
+    sf('normal', 7, BK);
+    let ox = ML + 3;
+    opts.forEach(o => {
+      ct(chk(o.c)+' '+o.l, ox, y+3.8);
+      ox += o.l.length * 1.72 + 10;
+    });
+    y += opH;
+  };
+
+  // ── Q1 ──
+  const nodDirChecked = Array.from(document.querySelectorAll('input[name="nodulo"]:checked')).some(e=>e.value.includes('direita'));
+  const nodEsqChecked = Array.from(document.querySelectorAll('input[name="nodulo"]:checked')).some(e=>e.value.includes('esquerda'));
+  const nodNao        = Array.from(document.querySelectorAll('input[name="nodulo"]:checked')).some(e=>e.value==='Não');
+  qLine('1 - Tem nódulo ou caroço na mama?*');
+  opLine([{c:nodDirChecked,l:'Sim, mama direita'},{c:nodEsqChecked,l:'Sim, mama esquerda'},{c:nodNao,l:'Não'}]);
+
+  // ── Q2 ──
+  qLine('2. Apresenta risco elevado* para câncer de mama?*');
+  opLine([{c:gr('risco_elevado')==='Sim',l:'Sim'},{c:gr('risco_elevado')==='Não',l:'Não'},{c:gr('risco_elevado')==='Não sabe',l:'Não sabe'}]);
+
+  // ── Q3 ──
+  qLine('3. Antes desta consulta, teve suas mamas examinadas por um profissional de saúde?*');
+  opLine([{c:gr('examinada')==='Sim',l:'Sim'},{c:gr('examinada')==='Nunca foram examinadas anteriormente',l:'Nunca foram examinadas anteriormente'},{c:gr('examinada')==='Não sabe',l:'Não sabe'}]);
+
+  // ── Q4 ──
+  const anoM = gv('ano_ultima_mamo');
+  qLine('4. Fez mamografia alguma vez?*');
+  opLine([{c:gr('fez_mamografia')==='Sim',l:'Sim. Última mamografia? Ano: '+anoM},{c:gr('fez_mamografia')==='Não',l:'Não'},{c:gr('fez_mamografia')==='Não sabe',l:'Não sabe'}]);
+
+  // ── Q5 ──
+  const rmd = gc('radio_md'), rme = gc('radio_me');
+  qLine('5. Fez radioterapia na mama ou plastrão?*');
+  opLine([
+    {c:rmd, l:'Sim, mama direita  Ano: '+(rmd?gv('ano_radio_md'):'____')},
+    {c:rme, l:'Sim, mama esquerda  Ano: '+(rme?gv('ano_radio_me'):'____')},
+    {c:gr('radioterapia_nao')==='Não', l:'Não'},
+    {c:gr('radioterapia_nao')==='Não sabe', l:'Não sabe'},
+  ]);
+
+  // ── Q6 — Cirurgias (tabela largura total) ──
+  qLine('6. Fez cirurgia de mama? Em que ano?*');
+
+  const cNome=CW*0.42, cCol=(CW-CW*0.42)/4, cMD=cCol, cAMD=cCol, cME=cCol, cAME=cCol;
+  fillRect(ML, y, CW, 5, HG);
+  sf('bold',6.5,BK);
+  ct('Cirurgia',      ML+2, y+3.4);
+  ct('Mama Direita',  ML+cNome+cMD/2,               y+3.4, {align:'center'});
+  ct('Ano',           ML+cNome+cMD+cAMD/2,          y+3.4, {align:'center'});
+  ct('Mama Esquerda', ML+cNome+cMD+cAMD+cME/2,      y+3.4, {align:'center'});
+  ct('Ano',           ML+cNome+cMD+cAMD+cME+cAME/2, y+3.4, {align:'center'});
+  y += 5;
+
+  cirurgias.forEach((c, i) => {
+    const rh = 4.5;
+    const mdc = gc('surg_'+i+'_md'), mec = gc('surg_'+i+'_me');
+    const mdA = gv('surg_'+i+'_md_ano'), meA = gv('surg_'+i+'_me_ano');
+    border(ML,          y, cNome, rh); sf('normal',6.5,BK); ct(c, ML+2, y+3.2);
+    border(ML+cNome,    y, cMD,   rh); sf('normal',7,BK);   ct(chk(mdc), ML+cNome+cMD/2,               y+3.2, {align:'center'});
+    border(ML+cNome+cMD, y, cAMD, rh); sf('normal',6.5,BK); ct(mdA||'', ML+cNome+cMD+cAMD/2,          y+3.2, {align:'center'});
+    border(ML+cNome+cMD+cAMD,     y, cME,  rh); sf('normal',7,BK);   ct(chk(mec), ML+cNome+cMD+cAMD+cME/2,      y+3.2, {align:'center'});
+    border(ML+cNome+cMD+cAMD+cME, y, cAME, rh); sf('normal',6.5,BK); ct(meA||'', ML+cNome+cMD+cAMD+cME+cAME/2, y+3.2, {align:'center'});
+    y += rh;
+  });
+  // Não fez cirurgia
+  border(ML, y, CW, opH); sf('normal',7,BK); ct(chk(gc('nao_fez_cirurgia'))+' Não fez cirurgia', ML+3, y+3.8); y+=opH;
+
+  // ══════════════════════════════════════════════════════════════
+  //  PÁGINA 2
+  // ══════════════════════════════════════════════════════════════
+  doc.addPage();
+  y = MT;
+
+  // ── INDICAÇÃO CLÍNICA ──
+  y = secHead('INDICAÇÃO CLÍNICA*', y);
+
+  // ── 7 — MAMOGRAFIA DIAGNÓSTICA ──
+  border(ML, y, CW, 5);
+  sf('bold', 7.5, BK); ct('7 - Mamografia diagnóstica', ML+2, y+3.5);
+  y += 5;
+
+  // ── 7a — Achados no exame clínico ──
+  border(ML, y, CW, 4.5);
+  sf('bold', 7, BK); ct(chk(gc('indicacao_7a'))+' 7a. Achados no exame clínico', ML+2, y+3.2);
+  y += 4.5;
+
+  // Bloco 7a — 2 colunas MD / ME
+  const mamaW = CW / 2;
+
+  // Cabeçalhos MD / ME
+  fillRect(ML,        y, mamaW, 5, HG); sf('bold',7.5,BK); ct('Mama direita', ML+2, y+3.5);
+  fillRect(ML+mamaW,  y, mamaW, 5, HG); sf('bold',7.5,BK); ct('Mama esquerda', ML+mamaW+2, y+3.5);
+  y += 5;
+
+  // Lesão papilar
+  const rowH7a = 4.2;
+  const lpRow = (label_md, chkMD, label_me, chkME) => {
+    border(ML, y, mamaW, rowH7a);
+    sf('normal',7,BK); ct(chk(chkMD)+' '+label_md, ML+1, y+3);
+    border(ML+mamaW, y, mamaW, rowH7a);
+    sf('normal',7,BK); ct(chk(chkME)+' '+label_me, ML+mamaW+1, y+3);
+    y += rowH7a;
+  };
+
+  lpRow('Lesão papilar', gc('md_lesao_papilar'), 'Lesão papilar', gc('me_lesao_papilar'));
+
+  // Descarga papilar — tudo na mesma linha
+  border(ML, y, mamaW, rowH7a);
+  sf('bold',7,[80,80,80]); ct('Descarga papilar:', ML+1, y+3); sf('normal',7,BK);
+  ct(chk(gc('md_desc_cristalina'))+' Cristalina', ML+32, y+3);
+  ct(chk(gc('md_desc_hemorragica'))+' Hemorrágica', ML+58, y+3);
+  border(ML+mamaW, y, mamaW, rowH7a);
+  sf('bold',7,[80,80,80]); ct('Descarga papilar:', ML+mamaW+1, y+3); sf('normal',7,BK);
+  ct(chk(gc('me_desc_cristalina'))+' Cristalina', ML+mamaW+32, y+3);
+  ct(chk(gc('me_desc_hemorragica'))+' Hemorrágica', ML+mamaW+58, y+3);
+  y += rowH7a;
+
+  // Nódulo — localizações em grid 5+5 por mama
+  const locKeys7a_nod_md = ['md_nod_qsl','md_nod_qil','md_nod_qsm','md_nod_qim','md_nod_uqlat','md_nod_uqsup','md_nod_uqmed','md_nod_uqinf','md_nod_rra','md_nod_pa'];
+  const locKeys7a_nod_me = ['me_nod_qsl','me_nod_qil','me_nod_qsm','me_nod_qim','me_nod_uqlat','me_nod_uqsup','me_nod_uqmed','me_nod_uqinf','me_nod_rra','me_nod_pa'];
+  const locLabels = ['QSL','QIL','QSM','QIM','UQlat','UQsup','UQmed','UQinf','RRA','PA'];
+
+  const locGrid = (keysL, keysR, titleLabel, rh) => {
+    // Título
+    border(ML, y, mamaW, rh);
+    sf('bold',5.5,[80,80,80]); ct('Nódulo — Localização', ML+1, y+rh*0.5+0.5);
+    // 5 por linha, 2 linhas
+    const cellW = mamaW / 5;
+    const rows2 = [keysL.slice(0,5), keysL.slice(5,10)];
+    const rows2R = [keysR.slice(0,5), keysR.slice(5,10)];
+    const labRows = [locLabels.slice(0,5), locLabels.slice(5,10)];
+    rows2.forEach((row, ri) => {
+      row.forEach((k,ci) => {
+        border(ML + ci*cellW, y + ri*rh, cellW, rh);
+        sf('normal',5.5,BK); ct(chk(gc(k))+' '+labRows[ri][ci], ML+ci*cellW+1, y+ri*rh+rh*0.65);
+      });
+      rows2R[ri].forEach((k,ci) => {
+        border(ML+mamaW + ci*cellW, y + ri*rh, cellW, rh);
+        sf('normal',5.5,BK); ct(chk(gc(k))+' '+labRows[ri][ci], ML+mamaW+ci*cellW+1, y+ri*rh+rh*0.65);
+      });
+    });
+    y += 2 * rh;
+  };
+
+  // Título linha nódulo
+  border(ML, y, mamaW, 3.5); sf('bold',6,[80,80,80]); ct('Nódulo — Localização', ML+1, y+2.5);
+  border(ML+mamaW, y, mamaW, 3.5); sf('bold',6,[80,80,80]); ct('Nódulo — Localização', ML+mamaW+1, y+2.5);
+  y += 3.5;
+  const locRh = 4;
+  const cellW5 = mamaW / 5;
+  [locKeys7a_nod_md.slice(0,5),locKeys7a_nod_md.slice(5)].forEach((row,ri)=>{
+    row.forEach((k,ci)=>{
+      border(ML+ci*cellW5, y+ri*locRh, cellW5, locRh);
+      sf('normal',6,BK); ct(chk(gc(k))+' '+locLabels[ri*5+ci], ML+ci*cellW5+1, y+ri*locRh+2.7);
+    });
+    locKeys7a_nod_me.slice(ri*5,(ri+1)*5).forEach((k,ci)=>{
+      border(ML+mamaW+ci*cellW5, y+ri*locRh, cellW5, locRh);
+      sf('normal',6,BK); ct(chk(gc(k))+' '+locLabels[ri*5+ci], ML+mamaW+ci*cellW5+1, y+ri*locRh+2.7);
+    });
+  });
+  y += 2*locRh;
+
+  // Espessamento — localizações
+  border(ML, y, mamaW, 3.5); sf('bold',6,[80,80,80]); ct('Espessamento — Localização', ML+1, y+2.5);
+  border(ML+mamaW, y, mamaW, 3.5); sf('bold',6,[80,80,80]); ct('Espessamento — Localização', ML+mamaW+1, y+2.5);
+  y += 3.5;
+  const espKeysL = ['md_esp_qsl','md_esp_qil','md_esp_qsm','md_esp_qim','md_esp_uqlat','md_esp_uqsup','md_esp_uqmed','md_esp_uqinf','md_esp_rra','md_esp_pa'];
+  const espKeysR = ['me_esp_qsl','me_esp_qil','me_esp_qsm','me_esp_qim','me_esp_uqlat','me_esp_uqsup','me_esp_uqmed','me_esp_uqinf','me_esp_rra','me_esp_pa'];
+  [espKeysL.slice(0,5),espKeysL.slice(5)].forEach((row,ri)=>{
+    row.forEach((k,ci)=>{
+      border(ML+ci*cellW5, y+ri*locRh, cellW5, locRh);
+      sf('normal',6,BK); ct(chk(gc(k))+' '+locLabels[ri*5+ci], ML+ci*cellW5+1, y+ri*locRh+2.7);
+    });
+    espKeysR.slice(ri*5,(ri+1)*5).forEach((k,ci)=>{
+      border(ML+mamaW+ci*cellW5, y+ri*locRh, cellW5, locRh);
+      sf('normal',6,BK); ct(chk(gc(k))+' '+locLabels[ri*5+ci], ML+mamaW+ci*cellW5+1, y+ri*locRh+2.7);
+    });
+  });
+  y += 2*locRh;
+
+  // Linfonodo palpável
+  lpRow('Linf. palpável: '+chk(gc('md_linfo_axilar'))+' Axilar   '+chk(gc('md_linfo_supra'))+' Supraclavicular', false,
+        'Linf. palpável: '+chk(gc('me_linfo_axilar'))+' Axilar   '+chk(gc('me_linfo_supra'))+' Supraclavicular', false);
+
+  // ── Blocos 7b, 7c, 7d em linha ──
+  const b7bw = CW*0.35, b7cw = CW*0.38, b7dw = CW - b7bw - b7cw;
+  const xb = ML, xc = ML+b7bw, xd = ML+b7bw+b7cw;
+  const bHdr = 4.5;
+
+  // 7b header
+  fillRect(xb, y, b7bw, bHdr, HG); sf('bold',6.5,BK); ct(chk(gc('indicacao_7b'))+' 7b. Categ. 3 (BI-RADS®)', xb+1, y+3.4);
+  fillRect(xc, y, b7cw, bHdr, HG); sf('bold',6.5,BK); ct(chk(gc('indicacao_7c'))+' 7c. Lesão c/ diagnóstico câncer', xc+1, y+3.4);
+  fillRect(xd, y, b7dw, bHdr, HG); sf('bold',6.5,BK); ct(chk(gc('indicacao_7d'))+' 7d. QT neoadjuvante', xd+1, y+3.4);
+  y += bHdr;
+
+  // Sub-headers MD/ME para 7b e 7c
+  const hh = 3.5;
+  const mdW7b = b7bw/2, meW7b = b7bw/2;
+  const mdW7c = b7cw/2, meW7c = b7cw/2;
+  fillRect(xb, y, mdW7b, hh, [248,248,248]); sf('bold',6,BK); ct('Mama direita', xb+1, y+2.8);
+  fillRect(xb+mdW7b, y, meW7b, hh, [248,248,248]); sf('bold',6,BK); ct('Mama esquerda', xb+mdW7b+1, y+2.8);
+  fillRect(xc, y, mdW7c, hh, [248,248,248]); sf('bold',6,BK); ct('Mama direita', xc+1, y+2.8);
+  fillRect(xc+mdW7c, y, meW7c, hh, [248,248,248]); sf('bold',6,BK); ct('Mama esquerda', xc+mdW7c+1, y+2.8);
+  fillRect(xd, y, b7dw, hh, [248,248,248]); sf('bold',6,BK); ct('', xd+1, y+2.8);
+  y += hh;
+
+  const items7bcd = ['Nódulo','Microcalcificação','Assimetria focal','Assimetria difusa','Área densa','Distorção focal','Linfonodo axilar'];
+  const keys7bMD = ['7b_md_nod','7b_md_micro','7b_md_assim_focal','7b_md_assim_difusa','7b_md_area_densa','7b_md_distorcao','7b_md_linfo'];
+  const keys7bME = ['7b_me_nod','7b_me_micro','7b_me_assim_focal','7b_me_assim_difusa','7b_me_area_densa','7b_me_distorcao','7b_me_linfo'];
+  const keys7cMD = ['7c_md_nod','7c_md_micro','7c_md_assim_focal','7c_md_assim_difusa','7c_md_area_densa','7c_md_distorcao','7c_md_linfo'];
+  const keys7cME = ['7c_me_nod','7c_me_micro','7c_me_assim_focal','7c_me_assim_difusa','7c_me_area_densa','7c_me_distorcao','7c_me_linfo'];
+  const rh7 = 4.2;
+
+  items7bcd.forEach((lbl, i) => {
+    border(xb, y+i*rh7, mdW7b, rh7); sf('normal',6.5,BK); ct(chk(gc(keys7bMD[i]))+' '+lbl, xb+1, y+i*rh7+3);
+    border(xb+mdW7b, y+i*rh7, meW7b, rh7); sf('normal',6.5,BK); ct(chk(gc(keys7bME[i]))+' '+lbl, xb+mdW7b+1, y+i*rh7+3);
+    border(xc, y+i*rh7, mdW7c, rh7); sf('normal',6.5,BK); ct(chk(gc(keys7cMD[i]))+' '+lbl, xc+1, y+i*rh7+3);
+    border(xc+mdW7c, y+i*rh7, meW7c, rh7); sf('normal',6.5,BK); ct(chk(gc(keys7cME[i]))+' '+lbl, xc+mdW7c+1, y+i*rh7+3);
+    if (i<2) { border(xd, y+i*rh7, b7dw, rh7); sf('normal',6.5,BK); ct(i===0?chk(gc('7d_md'))+' Mama direita':chk(gc('7d_me'))+' Mama esquerda', xd+1, y+i*rh7+3); }
+    else { border(xd, y+i*rh7, b7dw, rh7); }
+  });
+  y += items7bcd.length * rh7;
+
+  // ── 7e e 7f em linha ──
+  const b7ew = CW*0.38, b7fw = CW - b7ew;
+  const xe = ML, xf = ML+b7ew;
+
+  fillRect(xe, y, b7ew, bHdr, HG); sf('bold',6.5,BK); ct(chk(gc('indicacao_7e'))+' 7e. Revisão em outra instituição', xe+1, y+3.4);
+  fillRect(xf, y, b7fw, bHdr, HG); sf('bold',6.5,BK); ct(chk(gc('indicacao_7f'))+' 7f. Controle pós-biópsia/PAAF benigno', xf+1, y+3.4);
+  y += bHdr;
+
+  // Sub-headers
+  const mdW7e = b7ew/2, meW7e = b7ew/2;
+  const mdW7f = b7fw/2, meW7f = b7fw/2;
+  fillRect(xe, y, mdW7e, hh, [248,248,248]); sf('bold',6,BK); ct('Mama direita', xe+1, y+2.8);
+  fillRect(xe+mdW7e, y, meW7e, hh, [248,248,248]); sf('bold',6,BK); ct('Mama esquerda', xe+mdW7e+1, y+2.8);
+  fillRect(xf, y, mdW7f, hh, [248,248,248]); sf('bold',6,BK); ct('Mama direita', xf+1, y+2.8);
+  fillRect(xf+mdW7f, y, meW7f, hh, [248,248,248]); sf('bold',6,BK); ct('Mama esquerda', xf+mdW7f+1, y+2.8);
+  y += hh;
+
+  const cats7e = ['Categoria 0','Categoria 3','Categoria 4','Categoria 5'];
+  const items7f = ['Nódulo','Microcalcificação','Assimetria focal','Assimetria difusa','Área densa','Distorção focal','Linfonodo axilar'];
+  const keys7fMD = ['7f_md_nod','7f_md_micro','7f_md_assim_focal','7f_md_assim_difusa','7f_md_area_densa','7f_md_distorcao','7f_md_linfo'];
+  const keys7fME = ['7f_me_nod','7f_me_micro','7f_me_assim_focal','7f_me_assim_difusa','7f_me_area_densa','7f_me_distorcao','7f_me_linfo'];
+  const maxR7 = Math.max(cats7e.length, items7f.length);
+
+  for (let i=0; i<maxR7; i++) {
+    if (i < cats7e.length) {
+      border(xe, y+i*rh7, mdW7e, rh7); sf('normal',6.5,BK); ct(chk(gr('7e_md_cat')===cats7e[i])+' '+cats7e[i], xe+1, y+i*rh7+3);
+      border(xe+mdW7e, y+i*rh7, meW7e, rh7); sf('normal',6.5,BK); ct(chk(gr('7e_me_cat')===cats7e[i])+' '+cats7e[i], xe+mdW7e+1, y+i*rh7+3);
+    } else { border(xe, y+i*rh7, b7ew, rh7); }
+    if (i < items7f.length) {
+      border(xf, y+i*rh7, mdW7f, rh7); sf('normal',6.5,BK); ct(chk(gc(keys7fMD[i]))+' '+items7f[i], xf+1, y+i*rh7+3);
+      border(xf+mdW7f, y+i*rh7, meW7f, rh7); sf('normal',6.5,BK); ct(chk(gc(keys7fME[i]))+' '+items7f[i], xf+mdW7f+1, y+i*rh7+3);
+    } else { border(xf, y+i*rh7, b7fw, rh7); }
+  }
+  y += maxR7 * rh7;
+
+  // ── 8 — MAMOGRAFIA DE RASTREAMENTO ──
+  const rast8h = 13;
+  border(ML, y, CW, rast8h);
+  sf('bold',7.5,BK); ct('8 - Mamografia de rastreamento', ML+2, y+5);
+  const r8items = [
+    {c:gc('rastr_8a'),l:'8a. População alvo'},
+    {c:gc('rastr_8b'),l:'8b. Risco elevado (história familiar)'},
+    {c:gc('rastr_8c'),l:'8c. Paciente já tratado de câncer de mama'},
+  ];
+  // Segunda linha: itens lado a lado
+  const r8slotW = CW / 3;
+  r8items.forEach((item, i) => {
+    const rx = ML + i * r8slotW;
+    sf('normal',7,BK);
+    ct(chk(item.c)+' '+item.l, rx + 2, y + 10.5);
+  });
+  y += rast8h;
+
+  // ── DATA / RESPONSÁVEL / NÚMERO EXAME ──
+  const datH = 9;
+  const wData=38, wResp=CW-wData-50, wExame=50;
+  cell('Data da Solicitação*', fmtDate(gv('data_solicitacao')), ML, y, wData, datH);
+  cell('Responsável*', gv('responsavel'), ML+wData, y, wResp, datH);
+  cell('Número do Exame', gv('num_exame'), ML+wData+wResp, y, wExame, datH);
+  y += datH;
+
+  // Obs (se preenchido)
+  if (gv('observacoes')) {
+    const obsH = 8;
+    cell('Observações', gv('observacoes'), ML, y, CW, obsH);
+    y += obsH;
+  }
+
+  // ── ORIENTAÇÕES PARA PREENCHIMENTO ──
+  y = secHead('ORIENTAÇÕES PARA PREENCHIMENTO', y);
+
+  const orientData = [
+    ['7a - Achados no exame clínico','Mamografia nas mulheres com sinal/sintoma de câncer de mama (lesão papilar, descarga papilar, nódulo, espessamento, linfonodo axilar e supraclavicular).'],
+    ['7b - Controle radiológico Cat. 3','Mamografia em paciente com laudo anterior de lesão provavelmente benigna.'],
+    ['7c - Lesão com diagnóstico de câncer','Mamografia em paciente com diagnóstico de câncer de mama (histopatológico), antes do tratamento.'],
+    ['7d - Avaliação resposta QT neoadjuvante','Mamografia após quimioterapia neoadjuvante, para avaliação da resposta.'],
+    ['7e - Revisão em outra instituição','Mamografia em paciente com laudo de outra instituição (categorias 0, 3, 4 e 5) para revisão.'],
+    ['7f - Controle pós-biópsia/PAAF benigno','Mamografia em paciente com laudo de biópsia de fragmento ou PAAF de lesões benignas.'],
+    ['8 - Mamografia de Rastreamento','Mulheres assintomáticas: 50-69 anos (população alvo), >35 anos c/ histórico familiar (risco elevado) ou histórico pessoal de câncer. Mastalgia NÃO é sinal de câncer de mama.'],
+  ];
+
+  const oriW1 = 58, oriW2 = CW - oriW1;
+  const oriRh = 8;
+  orientData.forEach((row, i) => {
+    border(ML, y+i*oriRh, oriW1, oriRh);
+    sf('bold', 6.5, BK);
+    const l1 = doc.splitTextToSize(row[0], oriW1-2);
+    l1.forEach((ln2, li) => ct(ln2, ML+1, y+i*oriRh+3.5+li*3.5));
+
+    border(ML+oriW1, y+i*oriRh, oriW2, oriRh);
+    sf('normal', 6.5, BK);
+    const l2 = doc.splitTextToSize(row[1], oriW2-2);
+    l2.forEach((ln2, li) => ct(ln2, ML+oriW1+1, y+i*oriRh+3.5+li*3.5));
+  });
+  y += orientData.length * oriRh;
+
+  // Localizações
+  const locDefW = CW/2;
+  const locDefs = [
+    ['QSL - Quadrante superior lateral','UQinf - União dos quadrantes inferiores'],
+    ['QIL - Quadrante inferior lateral','UQmed - União dos quadrantes mediais'],
+    ['QSM - Quadrante superior medial','RRA - Região retroareolar'],
+    ['QIM - Quadrante inferior medial','RC - Região central (todos os quadrantes)'],
+    ['UQlat - União dos quadrantes laterais','PA - Prolongamento axilar'],
+    ['UQsup - União dos quadrantes superiores','NR - Não realizado'],
+  ];
+  const locOriRh = 4.2;
+  border(ML, y, oriW1, locOriRh);
+  sf('bold',6.5,BK); ct('Localização:', ML+1, y+3);
+  border(ML+oriW1, y, oriW2, locOriRh);
+  y += locOriRh;
+  locDefs.forEach((row, i) => {
+    border(ML, y+i*locOriRh, locDefW, locOriRh);
+    sf('normal',6,BK); ct(row[0], ML+1, y+i*locOriRh+3);
+    border(ML+locDefW, y+i*locOriRh, locDefW, locOriRh);
+    sf('normal',6,BK); ct(row[1], ML+locDefW+1, y+i*locOriRh+3);
+  });
+  y += locDefs.length * locOriRh;
+
+  // Footer
+  y += 4;
+  sf('bold', 5.5, [120,120,120]);
+  ct('PROTOCOLO DE REFERÊNCIA:', ML, y);
+  sf('normal', 5.5, [120,120,120]);
+  ct('1. Cadernos de Atenção Básica nº 13 - Controle dos Cânceres do Colo do Útero e da Mama, Ministério da Saúde, 2006', ML + doc.getTextWidth('PROTOCOLO DE REFERÊNCIA: '), y);
+  y += 4;
+  sf('normal', 5.5, [120,120,120]);
+  ct('Formulário nº 332 — Ministério da Saúde / SCTIE — Programa Nacional de Controle do Câncer de Mama     Gerado em: '+new Date().toLocaleDateString('pt-BR'), ML, y);
+
+  doc.save('Requisicao_Mamografia.pdf');
+}
+</script>
+</body>
+</html>
