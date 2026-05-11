@@ -6,7 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Receituário de Controle Especial — e-SUS</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<!-- Google Fonts removido para compatibilidade com CSP da extensão -->
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -406,7 +405,6 @@ body {
 .drug-row.r3   { grid-template-columns: 1fr 1fr 1fr; }
 .drug-row.r211 { grid-template-columns: 2fr 1fr 1fr; }
 .drug-row.r1   { grid-template-columns: 1fr; }
-/* desktop: drug rows go wider */
 .drug-row.r4   { grid-template-columns: 1fr 1fr 1fr 1fr; }
 .drug-row.r123 { grid-template-columns: 0.6fr 1fr 1fr; }
 .drug-row.r321 { grid-template-columns: 0.6fr 1fr 1fr; }
@@ -617,7 +615,7 @@ body {
   grid-column: 2; grid-row: 1 / 3; align-self: center;
 }
 
-/* ── GENERATE BUTTON (legacy, not used but kept) ── */
+/* ── GENERATE BUTTON (legacy) ── */
 .gen-btn {
   width: 100%; padding: 13px 24px;
   background: #0f3460; color: #fff; border: none; border-radius: 9px;
@@ -657,37 +655,24 @@ body {
   .drug-row.r4 { grid-template-columns: 1fr 1fr; }
   .drug-row.r211c .field:first-child { grid-column: span 2; }
 }
-  font-family: inherit;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  box-shadow: 0 4px 16px rgba(30,95,168,.35);
-  transition: background .15s, transform .1s;
-}
-.gen-btn:hover  { background: #154e8d; transform: translateY(-1px); }
-.gen-btn:active { transform: translateY(0); }
-.gen-btn .ico   { font-size: 24px; }
 
 @media (max-width: 600px) {
   .type-grid { grid-template-columns: 1fr; }
   .g2, .g3   { grid-template-columns: 1fr; }
   .span2      { grid-column: span 1; }
   .card       { padding: 16px 12px; }
-  css
- /* Linha 5 mobile: 2 colunas */
-  .drug-row[style*="grid-template-columns:1fr 3fr"] {
-    grid-template-columns: 1fr 1fr !important;
-  }
-  .drug-row[style*="grid-template-columns:1fr 3fr"] .field:nth-child(1),
-  .drug-row[style*="grid-template-columns:1fr 3fr"] .field:nth-child(2) {
-    grid-column: span 2;
-  }
-
-  /* Topbar empilhado */
+  .drug-row.r211 { grid-template-columns: 1fr 1fr; }
+  .drug-row.r211 .field:first-child { grid-column: span 2; }
+  .drug-row.r4 { grid-template-columns: 1fr 1fr; }
+  .drug-row.r211c { grid-template-columns: 1fr 1fr; }
+  .drug-row.r211c .field:first-child { grid-column: span 2; }
+  .drug-row.r3 { grid-template-columns: 1fr 1fr; }
+  .drug-row.r3 .field:last-child { grid-column: span 2; }
+  .drug-row.r1 { grid-template-columns: 1fr; }
+  .period-tab { font-size: 14.4px; padding: 5px 8px; }
+  .int-btn    { font-size: 14.4px; padding: 5px 8px; }
+  .drug-header { flex-wrap: wrap; gap: 6px; }
+  .paciente-grid-1 { grid-template-columns: 1fr; }
   .topbar {
     flex-direction: column;
     align-items: flex-start;
@@ -700,30 +685,6 @@ body {
     font-size: 16.8px;
     padding: 10px 14px;
   }
-
-  /* Linha 1: nome em linha cheia, concentração + via lado a lado */
-  .drug-row.r211 { grid-template-columns: 1fr 1fr; }
-  .drug-row.r211 .field:first-child { grid-column: span 2; }
-
-  /* Linha 2 (4 campos): 2 colunas */
-  .drug-row.r4 { grid-template-columns: 1fr 1fr; }
-
-  /* Linha 3: periodicidade em linha cheia, duração + uso contínuo lado a lado */
-  .drug-row.r211c { grid-template-columns: 1fr 1fr; }
-  .drug-row.r211c .field:first-child { grid-column: span 2; }
-
-  /* Linha 5: início + conclusão lado a lado, qtd total abaixo */
-  .drug-row.r3 { grid-template-columns: 1fr 1fr; }
-  .drug-row.r3 .field:last-child { grid-column: span 2; }
-
-  /* Linha 4 e outros de 1 coluna */
-  .drug-row.r1 { grid-template-columns: 1fr; }
-
-  /* Botões menores */
-  .period-tab { font-size: 14.4px; padding: 5px 8px; }
-  .int-btn    { font-size: 14.4px; padding: 5px 8px; }
-  .drug-header { flex-wrap: wrap; gap: 6px; }
-  .paciente-grid-1 { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -774,87 +735,86 @@ body {
               <option value="ARARINHA">Unidade Básica de Saúde do Ararinha</option>
               <option value="CENTRO">Unidade Básica de Saúde do Centro -Sede 1</option>
               <option value="CENTRO">Unidade Básica de Saúde do Centro -Sede 2</option>
-              <option value="CENTRO" >Unidade Básica de Saúde do Centro -Sede 3</option>
+              <option value="CENTRO">Unidade Básica de Saúde do Centro -Sede 3</option>
               <option value="CROATÁ">Unidade Básica de Saúde do Croatá dos Martins</option>
               <option value="EMPRÉSTIMOS">Unidade Básica de Saúde do Empréstimos</option>
               <option value="PEDREIRAS">Unidade Básica de Saúde da Pedreira</option>
               <option value="VILA NAIARA">Unidade Básica de Saúde da Vila Naiara</option>
-             </select>
-            </div>
+            </select>
           </div>
-            <div class="gd311">
-            <div class="field">
-              <label>Endereço da Unidade</label>
-              <input id="e_end" value="Rua 31 de Marco, S/n - Pedreira - Varjota/CE">
-            </div>
-            <div class="field">
-              <label>Município</label>
-              <input id="u_municipio" value="VARJOTA">
-            </div>
-            <div class="field">
-              <label>Estado</label>
-              <select id="u_estado">
-                <option value="CEARÁ" selected>CE — Ceará</option>
-                <option value="ACRE">AC — Acre</option>
-                <option value="ALAGOAS">AL — Alagoas</option>
-                <option value="AMAPÁ">AP — Amapá</option>
-                <option value="AMAZONAS">AM — Amazonas</option>
-                <option value="BAHIA">BA — Bahia</option>
-                <option value="DISTRITO FEDERAL">DF — Distrito Federal</option>
-                <option value="ESPÍRITO SANTO">ES — Espírito Santo</option>
-                <option value="GOIÁS">GO — Goiás</option>
-                <option value="MARANHÃO">MA — Maranhão</option>
-                <option value="MATO GROSSO">MT — Mato Grosso</option>
-                <option value="MATO GROSSO DO SUL">MS — Mato Grosso do Sul</option>
-                <option value="MINAS GERAIS">MG — Minas Gerais</option>
-                <option value="PARÁ">PA — Pará</option>
-                <option value="PARAÍBA">PB — Paraíba</option>
-                <option value="PARANÁ">PR — Paraná</option>
-                <option value="PERNAMBUCO">PE — Pernambuco</option>
-                <option value="PIAUÍ">PI — Piauí</option>
-                <option value="RIO DE JANEIRO">RJ — Rio de Janeiro</option>
-                <option value="RIO GRANDE DO NORTE">RN — Rio Grande do Norte</option>
-                <option value="RIO GRANDE DO SUL">RS — Rio Grande do Sul</option>
-                <option value="RONDÔNIA">RO — Rondônia</option>
-                <option value="RORAIMA">RR — Roraima</option>
-                <option value="SANTA CATARINA">SC — Santa Catarina</option>
-                <option value="SÃO PAULO">SP — São Paulo</option>
-                <option value="SERGIPE">SE — Sergipe</option>
-                <option value="TOCANTINS">TO — Tocantins</option>
-              </select>
-            </div>
+        </div>
+        <div class="gd311">
+          <div class="field">
+            <label>Endereço da Unidade</label>
+            <input id="e_end" value="Rua 31 de Marco, S/n - Pedreira - Varjota/CE">
           </div>
           <div class="field">
-            <label>Nome Completo do Profissional *</label>
-            <input id="e_nome" value="Alidemberg Araujo Loiola">
+            <label>Município</label>
+            <input id="u_municipio" value="VARJOTA">
           </div>
-          <div class="gd3">
-            <div class="field">
-              <label>Conselho / Registro *</label>
-              <input id="e_conselho" value="COREN - CE 134611 - ENF" placeholder="Ex: COREN-CE 134611-ENF">
-            </div>
-            <div class="field">
-              <label>Cargo / Especialidade</label>
-              <input id="e_cargo" value="Enfermeiro da Estratégia de Saúde da Família" placeholder="Enfermeiro da Estratégia de Saúde da Família">
-            </div>
-            <div class="field">
-              <label>CPF do Profissional</label>
-              <input id="e_cpf" placeholder="000.000.000-00" data-mask="cpf">
-            </div>
+          <div class="field">
+            <label>Estado</label>
+            <select id="u_estado">
+              <option value="CEARÁ" selected>CE — Ceará</option>
+              <option value="ACRE">AC — Acre</option>
+              <option value="ALAGOAS">AL — Alagoas</option>
+              <option value="AMAPÁ">AP — Amapá</option>
+              <option value="AMAZONAS">AM — Amazonas</option>
+              <option value="BAHIA">BA — Bahia</option>
+              <option value="DISTRITO FEDERAL">DF — Distrito Federal</option>
+              <option value="ESPÍRITO SANTO">ES — Espírito Santo</option>
+              <option value="GOIÁS">GO — Goiás</option>
+              <option value="MARANHÃO">MA — Maranhão</option>
+              <option value="MATO GROSSO">MT — Mato Grosso</option>
+              <option value="MATO GROSSO DO SUL">MS — Mato Grosso do Sul</option>
+              <option value="MINAS GERAIS">MG — Minas Gerais</option>
+              <option value="PARÁ">PA — Pará</option>
+              <option value="PARAÍBA">PB — Paraíba</option>
+              <option value="PARANÁ">PR — Paraná</option>
+              <option value="PERNAMBUCO">PE — Pernambuco</option>
+              <option value="PIAUÍ">PI — Piauí</option>
+              <option value="RIO DE JANEIRO">RJ — Rio de Janeiro</option>
+              <option value="RIO GRANDE DO NORTE">RN — Rio Grande do Norte</option>
+              <option value="RIO GRANDE DO SUL">RS — Rio Grande do Sul</option>
+              <option value="RONDÔNIA">RO — Rondônia</option>
+              <option value="RORAIMA">RR — Roraima</option>
+              <option value="SANTA CATARINA">SC — Santa Catarina</option>
+              <option value="SÃO PAULO">SP — São Paulo</option>
+              <option value="SERGIPE">SE — Sergipe</option>
+              <option value="TOCANTINS">TO — Tocantins</option>
+            </select>
           </div>
-          <div class="gd3">
-            <div class="field">
-              <label>Telefone / Contato</label>
-              <input id="e_telefone" placeholder="(00) 00000-0000" data-mask="phone">
-            </div>
-            <div class="field">
-              <label>Cidade (para assinatura)</label>
-              <input id="sig_cidade" value="Varjota - CE">
-            </div>
-            <div class="field">
-              <label>Data da Prescrição *</label>
-              <input id="sig_data" type="date">
-            </div>
+        </div>
+        <div class="field">
+          <label>Nome Completo do Profissional *</label>
+          <input id="e_nome" value="Alidemberg Araujo Loiola">
+        </div>
+        <div class="gd3">
+          <div class="field">
+            <label>Conselho / Registro *</label>
+            <input id="e_conselho" value="COREN - CE 134611 - ENF" placeholder="Ex: COREN-CE 134611-ENF">
+          </div>
+          <div class="field">
+            <label>Cargo / Especialidade</label>
+            <input id="e_cargo" value="Enfermeiro da Estratégia de Saúde da Família" placeholder="Enfermeiro da Estratégia de Saúde da Família">
+          </div>
+          <div class="field">
+            <label>CPF do Profissional</label>
+            <input id="e_cpf" placeholder="000.000.000-00" data-mask="cpf">
+          </div>
+        </div>
+        <div class="gd3">
+          <div class="field">
+            <label>Telefone / Contato</label>
+            <input id="e_telefone" placeholder="(00) 00000-0000" data-mask="phone">
+          </div>
+          <div class="field">
+            <label>Cidade (para assinatura)</label>
+            <input id="sig_cidade" value="Varjota - CE">
+          </div>
+          <div class="field">
+            <label>Data da Prescrição *</label>
+            <input id="sig_data" type="date">
           </div>
         </div>
       </div>
@@ -1163,7 +1123,7 @@ function addDrug() {
       </div>
     </div>
 
-    <!-- Linha 5: Início do tratamento + PROTOCOLO DE REFERÊNCIA (MS) + Quantidade Prescrita + Unidade de fornecimento -->
+    <!-- Linha 5: Início + Protocolo + Qtd Prescrita + Unidade fornecimento -->
     <div class="drug-row" style="display:grid;grid-template-columns:1fr 3fr 1fr 1fr;gap:8px;margin-bottom:8px;">
       <div class="field">
         <label>Início do tratamento</label>
@@ -1569,8 +1529,8 @@ const viaLabels = {
   antibiotico: ['1ª VIA - RETENÇÃO NA FARMÁCIA OU DROGARIA', '2ª VIA - ORIENTAÇÃO AO PACIENTE'],
 };
 
-const LOGO_B64 = "data:image/jpeg;base64,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";
-
+const LOGO_B64 = "./favicon.ico";
+  
 /* ══════════════════════════════════════════
    PDF GENERATION
 ══════════════════════════════════════════ */
@@ -1999,7 +1959,6 @@ const PROTOCOLS = [
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Ácido tricloroacético (ATA)", conc: "80–90%", forma: "Solução tópica", via: "Tópica", uso: "Tratamento de verrugas anogenitais (HPV)", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas para Atenção Integral às Pessoas com Infecções Sexualmente Transmissíveis (IST), 2024" },
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Podofilina", conc: "10–25%", forma: "Solução tópica", via: "Tópica", uso: "Tratamento de verrugas anogenitais (HPV)", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas para Atenção Integral às Pessoas com Infecções Sexualmente Transmissíveis (IST), 2024" },
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Imiquimode", conc: "50mg/g", forma: "Creme", via: "Tópica", uso: "Tratamento de verrugas anogenitais (HPV)", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas para Atenção Integral às Pessoas com Infecções Sexualmente Transmissíveis (IST), 2024" },
-
   // 2. Contracepção e saúde sexual/reprodutiva
   { group: "2. Contracepção e saúde sexual/reprodutiva", nome: "Etinilestradiol + levonorgestrel", conc: "0,03mg + 0,15mg", forma: "Comprimido", via: "Oral", uso: "Contracepção hormonal combinada oral", protocolo: "Saúde Sexual e Saúde Reprodutiva (Caderno de Atenção Básica nº 26), 2010; Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "2. Contracepção e saúde sexual/reprodutiva", nome: "Etinilestradiol + desogestrel", conc: "20mcg + 150mcg / 30mcg + 150mcg", forma: "Comprimido", via: "Oral", uso: "Contracepção hormonal combinada oral", protocolo: "Saúde Sexual e Saúde Reprodutiva (Caderno de Atenção Básica nº 26), 2010; Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
@@ -2014,12 +1973,10 @@ const PROTOCOLS = [
   { group: "2. Contracepção e saúde sexual/reprodutiva", nome: "Implante subdérmico de etonogestrel", conc: "68mg", forma: "Implante subdérmico", via: "Subcutânea", uso: "Contracepção de longa duração (LARC)", protocolo: "Saúde Sexual e Saúde Reprodutiva (Caderno de Atenção Básica nº 26), 2010" },
   { group: "2. Contracepção e saúde sexual/reprodutiva", nome: "DIU de cobre", conc: "TCu 380A", forma: "Dispositivo intrauterino", via: "Intrauterino", uso: "Contracepção de longa duração não hormonal", protocolo: "Saúde Sexual e Saúde Reprodutiva (Caderno de Atenção Básica nº 26), 2010" },
   { group: "2. Contracepção e saúde sexual/reprodutiva", nome: "DIU hormonal – levonorgestrel", conc: "19,5mg e 52mg", forma: "Dispositivo intrauterino", via: "Intrauterino", uso: "Contracepção de longa duração com liberação hormonal local", protocolo: "Saúde Sexual e Saúde Reprodutiva (Caderno de Atenção Básica nº 26), 2010" },
-
   // 3. PEP e PrEP ao HIV
   { group: "3. PEP e PrEP ao HIV", nome: "Zidovudina/lamivudina (AZT/3TC)", conc: "300mg + 150mg", forma: "Comprimido", via: "Oral", uso: "Antirretroviral em esquema alternativo de PEP", protocolo: "PCDT para Profilaxia Pós-Exposição (PEP) de Risco à Infecção por HIV, ISTs e Hepatites Virais, 2024" },
   { group: "3. PEP e PrEP ao HIV", nome: "Darunavir (DRV) + ritonavir (RTV)", conc: "800mg + 100mg", forma: "Comprimido", via: "Oral", uso: "Antirretroviral em esquema alternativo de PEP", protocolo: "PCDT para Profilaxia Pós-Exposição (PEP) de Risco à Infecção por HIV, ISTs e Hepatites Virais, 2024" },
   { group: "3. PEP e PrEP ao HIV", nome: "Fumarato de tenofovir desoproxila + emtricitabina (TDF+FTC)", conc: "300mg + 200mg", forma: "Comprimido", via: "Oral", uso: "Antirretroviral utilizado em PrEP", protocolo: "PCDT para Profilaxia Pré-Exposição (PrEP) Oral à Infecção pelo HIV, 2025" },
-
   // 4. Atenção à Saúde da Mulher
   { group: "4. Atenção à Saúde da Mulher", nome: "Dipirona", conc: "500-1.000mg", forma: "Comprimido", via: "Oral", uso: "Analgésico/Antitérmico", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "4. Atenção à Saúde da Mulher", nome: "Estriol", conc: "1mg/g", forma: "Creme vaginal", via: "Vaginal", uso: "Ressecamento vaginal ou colpite atrófica", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
@@ -2034,7 +1991,6 @@ const PROTOCOLS = [
   { group: "4. Atenção à Saúde da Mulher", nome: "Ciprofloxacino", conc: "500mg", forma: "Comprimido", via: "Oral", uso: "ITU não complicada – agentes de segunda linha (resistência)", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "4. Atenção à Saúde da Mulher", nome: "Levofloxacino", conc: "750mg", forma: "Comprimido", via: "Oral", uso: "ITU não complicada – agentes de segunda linha (resistência)", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "4. Atenção à Saúde da Mulher", nome: "Sulfato ferroso", conc: "40mg de ferro elementar", forma: "Comprimido", via: "Oral", uso: "Suplementação no puerpério/Anemia", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
-
   // 5. Pré-natal
   { group: "5. Pré-natal", nome: "Aciclovir", conc: "200mg", forma: "Comprimido", via: "Oral", uso: "Herpes simples", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "5. Pré-natal", nome: "Ácido acetilsalicílico", conc: "100mg", forma: "Comprimido", via: "Oral", uso: "Profilaxia de pré-eclâmpsia", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
@@ -2060,14 +2016,13 @@ const PROTOCOLS = [
   { group: "5. Pré-natal", nome: "Penicilina benzatina", conc: "1.200.000 UI", forma: "Pó para solução injetável", via: "Intramuscular", uso: "Sífilis", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "5. Pré-natal", nome: "Sulfato ferroso", conc: "40mg / 25mg/ml", forma: "Comprimido / Solução oral", via: "Oral", uso: "Suplementação no pré-natal / Anemia", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "5. Pré-natal", nome: "Tiabendazol", conc: "500mg", forma: "Comprimido", via: "Oral", uso: "Estrongiloidíase", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
-
   // 6. Atenção à Saúde da Criança
   { group: "6. Atenção à Saúde da Criança", nome: "Amoxicilina", conc: "250mg/5ml", forma: "Suspensão oral", via: "Oral", uso: "Pneumonia ou infecção aguda do ouvido ou infecção moderada de garganta", protocolo: "Manual de quadros de procedimentos: AIDPI criança: 2 meses a 5 anos, 2017" },
   { group: "6. Atenção à Saúde da Criança", nome: "Amoxicilina + Clavulanato", conc: "250mg/5ml", forma: "Suspensão oral", via: "Oral", uso: "Pneumonia ou infecção aguda do ouvido ou infecção moderada de garganta", protocolo: "Manual de quadros de procedimentos: AIDPI criança: 2 meses a 5 anos, 2017" },
   { group: "6. Atenção à Saúde da Criança", nome: "Eritromicina", conc: "250mg/5ml", forma: "Suspensão oral", via: "Oral", uso: "Pneumonia ou infecção aguda do ouvido ou infecção moderada de garganta", protocolo: "Manual de quadros de procedimentos: AIDPI criança: 2 meses a 5 anos, 2017" },
   { group: "6. Atenção à Saúde da Criança", nome: "Penicilina benzatina", conc: "Frasco-ampola 600.000 UI e 1.200.000 UI", forma: "Pó para suspensão injetável", via: "Intramuscular", uso: "Infecção moderada de garganta", protocolo: "Manual de quadros de procedimentos: AIDPI criança: 2 meses a 5 anos, 2017" },
   { group: "6. Atenção à Saúde da Criança", nome: "Ceftriaxona", conc: "500mg", forma: "Pó para suspensão injetável", via: "Intramuscular", uso: "Disenteria", protocolo: "Manual de quadros de procedimentos: AIDPI criança: 2 meses a 5 anos, 2017" },
-  { group: "6. Atenção à Saúde da Criança", nome: "Sulfametoxazol + trimetroprim", conc: "200mg + 40mg/5ml", forma: "Suspensão oral", via: "Oral", uso: "Disenteria/Cólera", protocolo: "Manual de quadros de procedimentos: AIDPI criança: 2 meses a 5 anos, 2017" },
+  { group: "6. Atenção à Saúde da Criança", nome: "Sulfametoxazol + trimetropim", conc: "200mg + 40mg/5ml", forma: "Suspensão oral", via: "Oral", uso: "Disenteria/Cólera", protocolo: "Manual de quadros de procedimentos: AIDPI criança: 2 meses a 5 anos, 2017" },
   { group: "6. Atenção à Saúde da Criança", nome: "Azitromicina", conc: "200mg/5ml", forma: "Suspensão oral", via: "Oral", uso: "Cólera", protocolo: "Manual de quadros de procedimentos: AIDPI criança: 2 meses a 5 anos, 2017" },
   { group: "6. Atenção à Saúde da Criança", nome: "Paracetamol", conc: "200mg/ml", forma: "Solução oral", via: "Oral", uso: "Febre, dor de ouvido e dor de garganta", protocolo: "Manual de quadros de procedimentos: AIDPI criança: 2 meses a 5 anos, 2017" },
   { group: "6. Atenção à Saúde da Criança", nome: "Dipirona", conc: "500mg/ml", forma: "Solução oral", via: "Oral", uso: "Febre, dor de ouvido e dor de garganta", protocolo: "Manual de quadros de procedimentos: AIDPI criança: 2 meses a 5 anos, 2017" },
@@ -2082,7 +2037,6 @@ const PROTOCOLS = [
   { group: "6. Atenção à Saúde da Criança", nome: "Cefalexina", conc: "250mg/5ml", forma: "Suspensão oral", via: "Oral", uso: "Pústulas na pele ou infecção no umbigo", protocolo: "Manual AIDPI neonatal: quadro de procedimentos, 2014" },
   { group: "6. Atenção à Saúde da Criança", nome: "Mupirocina", conc: "20mg/g", forma: "Pomada dermatológica", via: "Tópica", uso: "Pústulas na pele ou infecção no umbigo", protocolo: "Manual AIDPI neonatal: quadro de procedimentos, 2014" },
   { group: "6. Atenção à Saúde da Criança", nome: "Neomicina + bacitracina", conc: "5mg/g + 250UI/g", forma: "Pomada dermatológica", via: "Tópica", uso: "Pústulas na pele ou infecção no umbigo", protocolo: "Manual AIDPI neonatal: quadro de procedimentos, 2014" },
-
   // 7. Tuberculose e hanseníase
   { group: "7. Tuberculose e hanseníase", nome: "Isoniazida", conc: "100 e 300mg", forma: "Comprimido", via: "Oral", uso: "Tratamento da tuberculose e Infecção Latente da Tuberculose (ILTB)", protocolo: "Manual de recomendações para o controle da tuberculose no Brasil, 2019; Protocolo de vigilância da infecção latente pelo Mycobacterium tuberculosis no Brasil, 2022" },
   { group: "7. Tuberculose e hanseníase", nome: "Rifampicina", conc: "300mg", forma: "Cápsula", via: "Oral", uso: "Tuberculose e hanseníase", protocolo: "Manual de recomendações para o controle da tuberculose no Brasil, 2019; Protocolo clínico e diretrizes terapêuticas da hanseníase, 2022" },
@@ -2092,7 +2046,6 @@ const PROTOCOLS = [
   { group: "7. Tuberculose e hanseníase", nome: "Dapsona", conc: "100mg e 50mg", forma: "Comprimido", via: "Oral", uso: "Hanseníase – parte da PQT", protocolo: "Protocolo clínico e diretrizes terapêuticas da hanseníase, 2022" },
   { group: "7. Tuberculose e hanseníase", nome: "Clofazimina", conc: "50mg e 100mg", forma: "Cápsula", via: "Oral", uso: "Hanseníase – parte da PQT", protocolo: "Protocolo clínico e diretrizes terapêuticas da hanseníase, 2022" },
   { group: "7. Tuberculose e hanseníase", nome: "Rifapentina (P) + Isoniazida (H)", conc: "150mg + 300mg", forma: "Comprimido", via: "Oral", uso: "Tratamento de ILTB", protocolo: "Protocolo de vigilância da infecção latente pelo Mycobacterium tuberculosis no Brasil, 2022" },
-
   // 8. Diabetes, hipertensão e risco cardiovascular
   { group: "8. Diabetes, hipertensão e risco cardiovascular", nome: "Cloridrato de metformina", conc: "500mg e 850mg", forma: "Comprimido (inclusive liberação prolongada)", via: "Oral", uso: "Tratamento do Diabetes mellitus (DM)", protocolo: "Caderno de Atenção Básica nº 36, 2013" },
   { group: "8. Diabetes, hipertensão e risco cardiovascular", nome: "Gliclazida", conc: "30mg, 60mg e 80mg", forma: "Comprimido de liberação controlada", via: "Oral", uso: "Tratamento do DM", protocolo: "Caderno de Atenção Básica nº 36, 2013" },
@@ -2115,17 +2068,14 @@ const PROTOCOLS = [
   { group: "8. Diabetes, hipertensão e risco cardiovascular", nome: "Captopril", conc: "25mg", forma: "Comprimido", via: "Oral", uso: "Tratamento da hipertensão arterial", protocolo: "Caderno de Atenção Básica nº 37, 2014" },
   { group: "8. Diabetes, hipertensão e risco cardiovascular", nome: "Losartana potássica", conc: "50mg", forma: "Comprimido", via: "Oral", uso: "Tratamento da hipertensão arterial", protocolo: "Caderno de Atenção Básica nº 37, 2014; Caderno AB nº 14 – Prevenção clínica de DCV na Atenção Básica, 2006" },
   { group: "8. Diabetes, hipertensão e risco cardiovascular", nome: "Ácido acetilsalicílico", conc: "100mg", forma: "Comprimido", via: "Oral", uso: "Prevenção secundária de eventos cardiovasculares", protocolo: "Caderno AB nº 14 – Prevenção clínica de DCV na Atenção Básica, 2006" },
-
   // 9. Tabagismo
   { group: "9. Tabagismo", nome: "Nicotina", conc: "2mg / 7mg / 14mg / 21mg", forma: "Goma de mascar / Adesivo transdérmico", via: "Oral", uso: "Terapia de reposição de nicotina no tratamento da pessoa tabagista", protocolo: "Estratégias para o cuidado da pessoa com doença crônica: cuidado da pessoa tabagista (Caderno de Atenção Básica nº 40), 2015" },
-
   // 10. Dengue
   { group: "10. Dengue", nome: "Dipirona sódica", conc: "50mg/mL e 500mg/mL / 500mg", forma: "Solução oral (gotas/xarope) / Comprimido", via: "Oral", uso: "Analgésico/Antipirético", protocolo: "Dengue: manual de enfermagem, 2013; Dengue: diagnóstico e manejo clínico: adulto e criança, 2024" },
   { group: "10. Dengue", nome: "Paracetamol", conc: "200mg/mL / 500mg", forma: "Solução oral / Comprimido", via: "Oral", uso: "Analgésico/Antipirético", protocolo: "Dengue: manual de enfermagem, 2013; Dengue: diagnóstico e manejo clínico: adulto e criança, 2024" },
   { group: "10. Dengue", nome: "Sais de reidratação oral (SRO) – Dengue", conc: "Eletrólitos balanceados", forma: "Pó para solução oral", via: "Oral", uso: "Hidratação oral", protocolo: "Dengue: manual de enfermagem, 2013; Dengue: diagnóstico e manejo clínico: adulto e criança, 2024" },
   { group: "10. Dengue", nome: "Soro Fisiológico", conc: "0,9%", forma: "Solução endovenosa", via: "Intravenosa", uso: "Hidratação venosa", protocolo: "Nota Técnica nº 001/2024 - COES/COFEN: Competências e Atribuições do Enfermeiro para enfrentamento a epidemia de dengue em situação de emergência em saúde pública, 2024" },
-
-  // 11. Profilaxia Pré, Pós e Reexposição da Raiva Humana
+  // 11. Profilaxia Raiva
   { group: "Profilaxia Pré, Pós e Reexposição da Raiva Humana", nome: "Vacina Antirrábica (Inativada)", conc: "2,5 UI", forma: "Suspensão injetável", via: "IM e ID", uso: "Profilaxia Antirrábica - Fazer IM ou ID nos dias 0, 1, 3, 7 e 14", protocolo: "Protocolo de Profilaxia Pré, Pós e Reexposição da Raiva Humana no Brasil (Nota Técnica nº 8/2022-CGZV/DEIDT/SVS/MS), 2022; Resolução COFEN nº 795/2025" },
 ];
 
@@ -2249,7 +2199,9 @@ document.addEventListener('click', e => {
 addDrug();
 document.getElementById('sig_data').value = new Date().toISOString().slice(0, 10);
 
-/* ── Auto preenchimento + detecção de troca de paciente em tempo real ── */
+/* ══════════════════════════════════════════
+   AUTO PREENCHIMENTO DO PACIENTE via extensão
+══════════════════════════════════════════ */
 (function autoPreencherPaciente() {
 
   var _ultimoTs = 0;
@@ -2265,7 +2217,7 @@ document.getElementById('sig_data').value = new Date().toISOString().slice(0, 10
 
   function preencherCampos(dados) {
     if (!dados) return;
-    console.log('[Receituário] Preenchendo campos com:', dados);
+    console.log('[Receituário] Preenchendo paciente com:', dados);
 
     ['p_nome','p_doc','p_end'].forEach(function(id) {
       var el = document.getElementById(id);
@@ -2337,7 +2289,195 @@ document.getElementById('sig_data').value = new Date().toISOString().slice(0, 10
 
 })();
 
+/* ══════════════════════════════════════════
+   AUTO PREENCHIMENTO DE MEDICAMENTOS via extensão
+   Escuta pacienteESUS.medicamentos + _tsMed
+   Separado do paciente para não haver conflito de _ts
+══════════════════════════════════════════ */
+(function autoPreencherMedicamentos() {
+  if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.local) return;
 
+  var _ultimoTsMed = 0;
+
+  // ── Tabela de mapeamento via (texto e-SUS → value do <select>) ──
+  var VIA_MAP = {
+    'oral':           'Oral',
+    'sublingual':     'Sublingual',
+    'intradérmica':   'Intradérmica',
+    'intradermica':   'Intradérmica',
+    'intramuscular':  'Intramuscular',
+    'intravenosa':    'Intravenosa',
+    'subcutânea':     'Subcutânea',
+    'subcutanea':     'Subcutânea',
+    'tópica':         'Tópica',
+    'topica':         'Tópica',
+    'nasal':          'Nasal',
+    'inalatória':     'Inalatória',
+    'inalatoria':     'Inalatória',
+    'ocular':         'Ocular',
+    'auricular':      'Auricular',
+    'retal':          'Retal',
+    'vaginal':        'Vaginal',
+  };
+
+  // ── Tabela de mapeamento unidade de medida ──
+  var UNID_MAP = {
+    'comprimido':      'comprimido(s)',
+    'comprimidos':     'comprimido(s)',
+    'cápsula':         'cápsula(s)',
+    'cápsulas':        'cápsula(s)',
+    'capsula':         'cápsula(s)',
+    'capsulas':        'cápsula(s)',
+    'mg':              'mg',
+    'mcg':             'mcg',
+    'ml':              'mL',
+    'gota':            'gota(s)',
+    'gotas':           'gota(s)',
+    'ui':              'UI',
+    'u.i.':            'UI',
+    'ampola':          'ampola(s)',
+    'ampolas':         'ampola(s)',
+    'frasco':          'frasco(s)',
+    'frascos':         'frasco(s)',
+    'aplicação':       'aplicação(ões)',
+    'aplicacoes':      'aplicação(ões)',
+    'supositório':     'supositório(s)',
+    'supositorio':     'supositório(s)',
+    'adesivo':         'adesivo(s)',
+  };
+
+  function mapear(mapa, texto) {
+    if (!texto) return '';
+    return mapa[texto.toLowerCase().trim()] || '';
+  }
+
+  function setSelectValue(el, valor) {
+    if (!el || !valor) return false;
+    // match exato
+    var opt = Array.from(el.options).find(function(o) {
+      return o.value === valor || o.value.toLowerCase() === valor.toLowerCase();
+    });
+    if (opt) { el.value = opt.value; return true; }
+    // match parcial
+    opt = Array.from(el.options).find(function(o) {
+      return o.value.toLowerCase().includes(valor.toLowerCase()) ||
+             valor.toLowerCase().includes(o.value.toLowerCase().replace(/[()]/g,''));
+    });
+    if (opt) { el.value = opt.value; return true; }
+    return false;
+  }
+
+  function preencherMedicamentos(meds) {
+    if (!meds || !meds.length) return;
+    console.log('[Receituário] Preenchendo medicamentos:', meds);
+
+    meds.forEach(function(med) {
+      // Achar slot vazio ou criar novo
+      var n = null;
+      for (var i = 0; i < drugs.length; i++) {
+        var nomeEl = document.getElementById('d' + drugs[i] + '_nome');
+        if (nomeEl && nomeEl.value.trim() === '') { n = drugs[i]; break; }
+      }
+      if (n === null) { addDrug(); n = drugCount; }
+
+      var setVal = function(id, val) {
+        var el = document.getElementById(id);
+        if (el && val !== undefined && val !== null && val !== '') el.value = val;
+      };
+
+      // ── Princípio ativo ──
+      // descricao do e-SUS já vem como "Nome Concentracao"; se concentracao vier separada,
+      // retiramos do nome para não duplicar
+      var nomePuro = (med.descricao || '').trim();
+      var conc     = (med.concentracao || '').trim();
+      if (conc && nomePuro.toLowerCase().endsWith(conc.toLowerCase())) {
+        nomePuro = nomePuro.slice(0, nomePuro.length - conc.length).trim();
+      }
+      setVal('d' + n + '_nome', nomePuro);
+      setVal('d' + n + '_conc', conc);
+      updateDrugPreview(n);
+
+      // ── Via de administração ──
+      var viaMapeada = mapear(VIA_MAP, med.via);
+      if (!viaMapeada && med.via) viaMapeada = med.via; // fallback: valor bruto
+      setSelectValue(document.getElementById('d' + n + '_via'), viaMapeada);
+
+      // ── Quantidade da dose ──
+      setVal('d' + n + '_qtddose', med.quantidadeDose);
+
+      // ── Unidade de medida ──
+      var unidMapeada = mapear(UNID_MAP, med.unidadeMedida);
+      setSelectValue(document.getElementById('d' + n + '_unidade'), unidMapeada);
+
+      // ── Posologia / recomendações ──
+      setVal('d' + n + '_pos', med.posologia);
+
+      // ── Quantidade prescrita ──
+      if (med.quantidade) setVal('d' + n + '_qtd', med.quantidade);
+
+      // Garante que o drug item esteja aberto
+      var di = document.getElementById('di_' + n);
+      if (di && !di.classList.contains('open')) di.classList.add('open');
+    });
+
+    // Banner de confirmação (verde, offset para não sobrepor o do paciente)
+    var bannerVelho = document.getElementById('esus-med-banner');
+    if (bannerVelho) bannerVelho.remove();
+    var banner = document.createElement('div');
+    banner.id = 'esus-med-banner';
+    banner.style.cssText = [
+      'position:fixed',
+      'top:115px',           // abaixo do banner de paciente (64px)
+      'right:18px',
+      'z-index:99999',
+      'background:#1a6b3a',
+      'color:#fff',
+      'border-radius:10px',
+      'padding:11px 16px',
+      'font-family:sans-serif',
+      'font-size:13px',
+      'box-shadow:0 4px 20px rgba(0,0,0,.3)',
+      'max-width:300px',
+      'line-height:1.6',
+      'cursor:pointer',
+      'animation:esusIn2 .3s ease',
+    ].join(';');
+    var linhas = meds.slice(0, 4).map(function(m) {
+      return '<span style="display:block;opacity:.85;font-size:12px;">💊 ' + m.descricao + '</span>';
+    }).join('');
+    var mais = meds.length > 4
+      ? '<span style="display:block;opacity:.55;font-size:11px;">+ ' + (meds.length - 4) + ' medicamento(s)...</span>'
+      : '';
+    banner.innerHTML = '<b>💊 ' + meds.length + ' medicamento(s) adicionado(s)</b><br>'
+      + linhas + mais
+      + '<span style="display:block;opacity:.5;font-size:11px;margin-top:4px;">Clique para fechar</span>';
+    banner.onclick = function() { banner.remove(); };
+    document.body.appendChild(banner);
+    setTimeout(function() { if (banner.parentNode) banner.remove(); }, 8000);
+  }
+
+  // ── Leitura inicial (página já aberta com medicamentos salvos) ──
+  chrome.storage.local.get('pacienteESUS', function(result) {
+    var dados = result && result.pacienteESUS;
+    if (dados && dados.medicamentos && dados.medicamentos.length) {
+      _ultimoTsMed = dados._tsMed || 0;
+      preencherMedicamentos(dados.medicamentos);
+    }
+  });
+
+  // ── Listener em tempo real (médico salva prescrição no e-SUS) ──
+  chrome.storage.onChanged.addListener(function(changes, area) {
+    if (area !== 'local' || !changes.pacienteESUS) return;
+    var dados = changes.pacienteESUS.newValue;
+    if (!dados || !dados.medicamentos || !dados.medicamentos.length) return;
+    var ts = dados._tsMed || 0;
+    if (ts !== _ultimoTsMed) {
+      _ultimoTsMed = ts;
+      preencherMedicamentos(dados.medicamentos);
+    }
+  });
+
+})();
 
 /* ── MÁSCARAS DE INPUT ── */
 function maskCPF(el) {
@@ -2520,7 +2660,7 @@ if (btnLogout) btnLogout.addEventListener('click', function() {
   window.location.replace('index.html');
 });
 
-/* ── Preencher paciente via extensão (localStorage) ── */
+/* ── Preencher paciente via localStorage (fallback sem extensão) ── */
 function preencherDaURL() {
   var raw = null;
   try { raw = localStorage.getItem('pacienteESUS_pendente'); } catch(e) {}
