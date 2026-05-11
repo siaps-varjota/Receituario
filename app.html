@@ -1761,7 +1761,7 @@ function generatePDF(mode = 'save') {
 
     const protocolosList = [...new Set(d.drugs.map(dr => dr.obs).filter(Boolean))];
     if (protocolosList.length) {
-      section('PROTOCOLOS DE REFERÊNCIA (MS)');
+      section('PROTOCOLOS/DOCUMENTOS DE REFERÊNCIA (MS)');
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(9);
       doc.setTextColor(40);
