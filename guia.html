@@ -118,7 +118,6 @@ const SYMPTOM_CATEGORIES = [
 // ─────────────────────────────────────────────────────────────────────────────
 
 const CONDITIONS = [
-  // ── CAP 01 ──────────────────────────────────────────────────────────────────
   {
     id: "impetigo", chapter: "01", name: "Impetigo", emoji: "🩹",
     description: "Infecção superficial da pele causada por Streptococcus ssp. e/ou Staphylococcus aureus. Afeta principalmente crianças, mais comum em face e extremidades.",
@@ -133,8 +132,6 @@ const CONDITIONS = [
     ],
     alerts: ["Crianças podem retornar à escola 24h após início do tratamento eficaz."],
   },
-
-  // ── CAP 02 ──────────────────────────────────────────────────────────────────
   {
     id: "celulite", chapter: "02", name: "Celulite / Erisipela", emoji: "🔴",
     description: "Infecção bacteriana da pele e tecido subcutâneo. Agentes: Staphylococcus aureus e Streptococcus spp. Quadro geralmente UNILATERAL e agudo.",
@@ -154,8 +151,6 @@ const CONDITIONS = [
       "Tratar portas de entrada (onicomicose, tinea pedis) para evitar recorrência.",
     ],
   },
-
-  // ── CAP 03 ──────────────────────────────────────────────────────────────────
   {
     id: "faringoamigdalite", chapter: "03", name: "Faringoamigdalite Aguda", emoji: "🦷",
     description: "Maioria viral (coriza + conjuntivite + tosse = viral). 20-40% bacteriana (Streptococcus pyogenes). Usar Critérios de Centor Modificado para definir conduta.",
@@ -175,8 +170,6 @@ const CONDITIONS = [
       "Coriza + tosse + conjuntivite = etiologia provavelmente VIRAL. Não prescrever antibiótico.",
     ],
   },
-
-  // ── CAP 04 ──────────────────────────────────────────────────────────────────
   {
     id: "gastroenterocolite", chapter: "04", name: "Gastroenterocolite Aguda", emoji: "🤢",
     description: "Aumento na frequência de evacuações ou diminuição da consistência das fezes. Maioria autolimitada. Antimicrobiano apenas em casos graves ou pacientes de alto risco.",
@@ -194,8 +187,6 @@ const CONDITIONS = [
       "Considerar encaminhamento para emergência em casos graves.",
     ],
   },
-
-  // ── CAP 05 ──────────────────────────────────────────────────────────────────
   {
     id: "h_pylori", chapter: "05", name: "Infecção por H. pylori", emoji: "🧫",
     description: "Associada a gastrite crônica, úlcera péptica, linfoma MALT e câncer gástrico. Investigar em dispepsia persistente >45 anos ou sinais de alarme.",
@@ -210,8 +201,6 @@ const CONDITIONS = [
       "Encaminhar ao especialista: sinais de alarme (sangramento, perda de peso, vômitos, disfagia, anemia), >45 anos com dispepsia de início recente, falha após 2 tentativas.",
     ],
   },
-
-  // ── CAP 06 ──────────────────────────────────────────────────────────────────
   {
     id: "pneumonia", chapter: "06", name: "Infecção Respiratória Inferior / Pneumonia", emoji: "🫁",
     description: "Inclui PAC, exacerbação de DPOC e síndrome gripal. Síndrome gripal (febre + tosse/dor de garganta + coriza/mialgia): NÃO prescrever antibiótico. PAC requer alteração de ausculta e/ou radiografia. Exacerbação de DPOC: tratar se aumento ou piora do aspecto da secreção.",
@@ -235,8 +224,6 @@ const CONDITIONS = [
       "Exacerbação DPOC: tratar SOMENTE se aumento/piora do aspecto da secreção. Manter SatO2 entre 88-92%.",
     ],
   },
-
-  // ── CAP 07 ──────────────────────────────────────────────────────────────────
   {
     id: "candidíase_vaginal", chapter: "07", name: "Candidíase Vulvovaginal", emoji: "🔬",
     description: "Infecção fúngica vaginal. Comum na gestação. Corrimento grumoso SEM odor, prurido e ardência são características.",
@@ -299,8 +286,6 @@ const CONDITIONS = [
       "INTERNAÇÃO se: abscesso tubo-ovariano, gravidez, sem resposta em 72h, intolerância a antibióticos orais, estado grave (náuseas/vômitos/febre).",
     ],
   },
-
-  // ── CAP 08 ──────────────────────────────────────────────────────────────────
   {
     id: "uretrite", chapter: "08", name: "Uretrite / IST (Gonorreia/Clamídia)", emoji: "💉",
     description: "Inflamação uretral com corrimento mucopurulento. Agentes: Neisseria gonorrhoeae, Chlamydia trachomatis, Ureaplasma, Mycoplasma.",
@@ -411,8 +396,6 @@ const CONDITIONS = [
       "Investigar outras ISTs: HIV, sífilis, Hepatite B e C.",
     ],
   },
-
-  // ── CAP 09 ──────────────────────────────────────────────────────────────────
   {
     id: "itu_cistite", chapter: "09", name: "ITU — Cistite (infecção urinária baixa)", emoji: "💧",
     description: "Infecção do trato urinário baixo. Muito frequente em mulheres. Sem comprometimento sistêmico (sem febre significativa ou dor lombar).",
@@ -454,8 +437,6 @@ const CONDITIONS = [
       "Internação mandatória se: sepse, febre persistente, impossibilidade de tratamento oral, suspeita de obstrução.",
     ],
   },
-
-  // ── CAP 10 ──────────────────────────────────────────────────────────────────
   {
     id: "mordedura", chapter: "10", name: "Mordedura por Animal (Cão/Gato)", emoji: "🐾",
     description: "Risco de infecção local, tétano e raiva. Agentes: Staphylococcus, Streptococcus, Pasteurella multocida, Capnocytophaga, anaeróbios.",
@@ -475,8 +456,6 @@ const CONDITIONS = [
       "Lesões complexas ou em face: encaminhar para cirurgião.",
     ],
   },
-
-  // ── CAP 11 ──────────────────────────────────────────────────────────────────
   {
     id: "otite", chapter: "11", name: "Otite Média Aguda (OMA)", emoji: "👂",
     description: "Infecção do ouvido médio. Agentes: Moraxella catarrhalis, H. influenzae, S. pneumoniae. A maioria se resolve espontaneamente.",
@@ -498,8 +477,6 @@ const CONDITIONS = [
       "Alta proporção de resistência de S. pneumoniae a macrolídeos no Brasil — não usar sistematicamente.",
     ],
   },
-
-  // ── CAP 12 ──────────────────────────────────────────────────────────────────
   {
     id: "profilaxia_odonto", chapter: "12", name: "Profilaxia Antimicrobiana em Odontologia", emoji: "🦷",
     description: "Indicada em dois cenários: (1) prevenção de infecção de sítio cirúrgico em procedimentos orais selecionados; (2) prevenção de endocardite infecciosa em pacientes de ALTO RISCO cardíaco submetidos a procedimentos invasivos.",
@@ -519,8 +496,6 @@ const CONDITIONS = [
       "Sítio cirúrgico: extração por osteotomia (3º molares) e implantes complexos → Amoxicilina 2g pré-operatória.",
     ],
   },
-
-  // ── CAP 13 ──────────────────────────────────────────────────────────────────
   {
     id: "rinossinusite", chapter: "13", name: "Rinossinusite Aguda", emoji: "🤧",
     description: "Causas mais comuns: alergia e vírus (>80%). Antimicrobiano APENAS se sintomas >10 dias ou piora após 5° dia (bacteriana pós-viral).",
@@ -568,7 +543,6 @@ const PEDIATRIC_DOSING = [
 
 // ─────────────────────────────────────────────────────────────────────────────
 // REFERENCE DATA — Ajuste Renal (Cap. 16)
-// clearance de creatinina em mL/min
 // ─────────────────────────────────────────────────────────────────────────────
 
 const RENAL_DOSING = [
@@ -586,6 +560,112 @@ const RENAL_DOSING = [
   { drug: "Norfloxacino", normal: "400mg VO, 12/12h", moderate: "400mg VO 1x/dia", severe: "400mg VO 1x/dia", dialysis: "400mg 1x/dia (após sessão)" },
   { drug: "Oseltamivir", normal: "75mg VO, 12/12h", moderate: "30mg VO 12/12h (ClCr 30-60)", severe: "30mg VO 1x/dia (ClCr 10-30)", dialysis: "30mg 1x/dia (após sessão)" },
   { drug: "SMX-TMP (800/160mg)", normal: "VO, 12/12h", moderate: "Sem ajuste (ClCr 30-50) / 400/80mg 12/12h (ClCr 10-30)", severe: "⚠️ EVITAR", dialysis: "❌ EVITAR. Se necessário: 400/80mg 1x/dia" },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// REFERENCE DATA — Siglas e Abreviações
+// ─────────────────────────────────────────────────────────────────────────────
+
+const SIGLAS = [
+  {
+    category: "Vias de Administração",
+    icon: "💊",
+    items: [
+      { abbr: "VO", full: "Via Oral" },
+      { abbr: "IM", full: "Intramuscular" },
+      { abbr: "IV", full: "Intravenoso / Endovenoso" },
+      { abbr: "SC", full: "Subcutâneo" },
+    ],
+  },
+  {
+    category: "Condições / Diagnósticos",
+    icon: "🩺",
+    items: [
+      { abbr: "APS", full: "Atenção Primária à Saúde" },
+      { abbr: "DIP", full: "Doença Inflamatória Pélvica" },
+      { abbr: "DII", full: "Doença Inflamatória Intestinal" },
+      { abbr: "DPOC", full: "Doença Pulmonar Obstrutiva Crônica" },
+      { abbr: "IST", full: "Infecção Sexualmente Transmissível" },
+      { abbr: "ITU", full: "Infecção do Trato Urinário" },
+      { abbr: "LGV", full: "Linfogranuloma Venéreo" },
+      { abbr: "OMA", full: "Otite Média Aguda" },
+      { abbr: "PAC", full: "Pneumonia Adquirida na Comunidade" },
+      { abbr: "SIRS", full: "Síndrome de Resposta Inflamatória Sistêmica" },
+    ],
+  },
+  {
+    category: "Comorbidades / Condições Clínicas",
+    icon: "🏥",
+    items: [
+      { abbr: "DM", full: "Diabetes Mellitus" },
+      { abbr: "EI", full: "Endocardite Infecciosa" },
+      { abbr: "HAS", full: "Hipertensão Arterial Sistêmica" },
+      { abbr: "ICC", full: "Insuficiência Cardíaca Congestiva" },
+      { abbr: "IMC", full: "Índice de Massa Corporal" },
+      { abbr: "IRC", full: "Insuficiência Renal Crônica" },
+    ],
+  },
+  {
+    category: "Sinais Vitais / Monitorização",
+    icon: "📊",
+    items: [
+      { abbr: "FC", full: "Frequência Cardíaca (bpm)" },
+      { abbr: "FR", full: "Frequência Respiratória (irpm)" },
+      { abbr: "PAS", full: "Pressão Arterial Sistólica (mmHg)" },
+      { abbr: "SatO₂", full: "Saturação de Oxigênio (SpO₂)" },
+      { abbr: "Tax", full: "Temperatura Axilar (°C)" },
+    ],
+  },
+  {
+    category: "Exames / Laboratório",
+    icon: "🔬",
+    items: [
+      { abbr: "ClCr", full: "Clearance de Creatinina (mL/min)" },
+      { abbr: "IBP", full: "Inibidor de Bomba de Prótons" },
+      { abbr: "INR", full: "International Normalized Ratio (tempo de protrombina)" },
+      { abbr: "RPR", full: "Rapid Plasma Reagin (exame para sífilis)" },
+      { abbr: "VDRL", full: "Venereal Disease Research Laboratory (exame para sífilis)" },
+    ],
+  },
+  {
+    category: "Microrganismos / Patógenos",
+    icon: "🦠",
+    items: [
+      { abbr: "HSV", full: "Herpes Simplex Virus (Vírus Herpes Simples) — tipos 1 e 2" },
+      { abbr: "H. pylori", full: "Helicobacter pylori" },
+      { abbr: "MALT", full: "Mucosa-Associated Lymphoid Tissue (Tecido Linfoide Associado à Mucosa)" },
+      { abbr: "MRSA", full: "Staphylococcus aureus Resistente à Meticilina" },
+    ],
+  },
+  {
+    category: "Prevenção / HIV",
+    icon: "🛡️",
+    items: [
+      { abbr: "HIV", full: "Human Immunodeficiency Virus (Vírus da Imunodeficiência Humana)" },
+      { abbr: "HSH", full: "Homens que fazem Sexo com Homens" },
+      { abbr: "PEP", full: "Profilaxia Pós-Exposição (ao HIV)" },
+      { abbr: "PrEP", full: "Profilaxia Pré-Exposição (ao HIV)" },
+    ],
+  },
+  {
+    category: "Medicamentos / Antimicrobianos",
+    icon: "💉",
+    items: [
+      { abbr: "AB", full: "Antibiótico / Antimicrobiano" },
+      { abbr: "SF", full: "Soro Fisiológico (Solução Fisiológica 0,9% NaCl)" },
+      { abbr: "SMX-TMP", full: "Sulfametoxazol-Trimetoprim (Cotrimoxazol)" },
+      { abbr: "UI", full: "Unidades Internacionais" },
+    ],
+  },
+  {
+    category: "Serviços / Instituições",
+    icon: "🏢",
+    items: [
+      { abbr: "ESF", full: "Estratégia Saúde da Família" },
+      { abbr: "UBS", full: "Unidade Básica de Saúde" },
+      { abbr: "UPA", full: "Unidade de Pronto Atendimento" },
+    ],
+  },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -720,12 +800,25 @@ function Modal({ condition, onClose }) {
 
 function ReferenceModal({ onClose }) {
   const [tab, setTab] = useState("pediatria");
+  const [siglaSearch, setSiglaSearch] = useState("");
 
   const tabs = [
-    { id: "pediatria", label: "👶 Posologia Pediátrica" },
-    { id: "renal", label: "🫘 Ajuste Renal" },
-    { id: "sepse", label: "🚨 Identificação de Sepse" },
+    { id: "pediatria", label: "👶 Pediátrica" },
+    { id: "renal", label: "🫘 Renal" },
+    { id: "sepse", label: "🚨 Sepse" },
+    { id: "siglas", label: "🔤 Siglas" },
   ];
+
+  const filteredSiglas = useMemo(() => {
+    const q = siglaSearch.toLowerCase().trim();
+    if (!q) return SIGLAS;
+    return SIGLAS.map(cat => ({
+      ...cat,
+      items: cat.items.filter(
+        item => item.abbr.toLowerCase().includes(q) || item.full.toLowerCase().includes(q)
+      ),
+    })).filter(cat => cat.items.length > 0);
+  }, [siglaSearch]);
 
   return (
     <div
@@ -745,7 +838,7 @@ function ReferenceModal({ onClose }) {
             </div>
             <button onClick={onClose} style={{ background: "rgba(255,255,255,0.15)", border: "none", color: "#fff", borderRadius: "8px", width: "34px", height: "34px", cursor: "pointer", fontSize: "18px", display: "flex", alignItems: "center", justifyContent: "center" }}>✕</button>
           </div>
-          <div style={{ display: "flex", gap: "4px" }}>
+          <div style={{ display: "flex", gap: "4px", flexWrap: "wrap" }}>
             {tabs.map(t => (
               <button key={t.id} onClick={() => setTab(t.id)} style={{
                 padding: "8px 16px", fontSize: "12px", fontWeight: 700, border: "none", cursor: "pointer", borderRadius: "8px 8px 0 0",
@@ -826,7 +919,6 @@ function ReferenceModal({ onClose }) {
                 Fluxograma de reconhecimento precoce de sepse (Capítulo 14). Aplicar em todos os pacientes com suspeita ou confirmação de infecção.
               </p>
 
-              {/* Critérios SIRS */}
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px", marginBottom: "20px" }}>
                 <div style={{ background: "#fff7ed", border: "1px solid #fed7aa", borderRadius: "10px", padding: "16px" }}>
                   <div style={{ fontWeight: 700, color: "#9a3412", fontSize: "13px", marginBottom: "10px" }}>⚡ Critérios de SIRS (≥2)</div>
@@ -849,7 +941,6 @@ function ReferenceModal({ onClose }) {
                 </div>
               </div>
 
-              {/* Exames laboratoriais */}
               <div style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: "10px", padding: "14px 18px", marginBottom: "16px" }}>
                 <div style={{ fontWeight: 700, color: "#475569", fontSize: "12px", marginBottom: "8px" }}>🔬 EXAMES LABORATORIAIS (se disponível)</div>
                 <div style={{ display: "flex", gap: "24px", flexWrap: "wrap" }}>
@@ -861,7 +952,6 @@ function ReferenceModal({ onClose }) {
                 </div>
               </div>
 
-              {/* Conduta */}
               <div style={{ background: "#dc2626", borderRadius: "10px", padding: "16px 20px" }}>
                 <div style={{ fontWeight: 700, color: "#fff", fontSize: "14px", marginBottom: "12px" }}>🏥 CONDUTA — SEPSE / CHOQUE SÉPTICO</div>
                 {[
@@ -878,6 +968,85 @@ function ReferenceModal({ onClose }) {
               </div>
             </div>
           )}
+
+          {/* TAB: Siglas */}
+          {tab === "siglas" && (
+            <div>
+              <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "14px", lineHeight: 1.6 }}>
+                Glossário de siglas e abreviações utilizadas no Guia Antimicrobiano — APS Ceará (Jan/2026).
+              </p>
+
+              {/* Search box */}
+              <div style={{ position: "relative", marginBottom: "20px" }}>
+                <span style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", fontSize: "14px", color: "#9ca3af" }}>🔍</span>
+                <input
+                  type="text"
+                  placeholder="Buscar sigla ou significado..."
+                  value={siglaSearch}
+                  onChange={e => setSiglaSearch(e.target.value)}
+                  style={{
+                    width: "100%", padding: "10px 14px 10px 36px", fontSize: "13px",
+                    border: "1px solid #d1d5db", borderRadius: "8px", outline: "none",
+                    background: "#f9fafb", color: "#1f2937",
+                    transition: "border-color 0.2s",
+                  }}
+                  onFocus={e => e.target.style.borderColor = "#0e7c6a"}
+                  onBlur={e => e.target.style.borderColor = "#d1d5db"}
+                />
+                {siglaSearch && (
+                  <button
+                    onClick={() => setSiglaSearch("")}
+                    style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#9ca3af", fontSize: "16px", lineHeight: 1 }}
+                  >✕</button>
+                )}
+              </div>
+
+              {filteredSiglas.length === 0 ? (
+                <div style={{ textAlign: "center", padding: "40px 20px", color: "#9ca3af", fontSize: "14px" }}>
+                  <div style={{ fontSize: "36px", marginBottom: "10px" }}>🔍</div>
+                  Nenhuma sigla encontrada para "<strong>{siglaSearch}</strong>"
+                </div>
+              ) : (
+                filteredSiglas.map((cat, ci) => (
+                  <div key={ci} style={{ marginBottom: "20px" }}>
+                    <div style={{
+                      display: "flex", alignItems: "center", gap: "8px",
+                      padding: "8px 12px", borderRadius: "8px",
+                      background: "linear-gradient(90deg, #f0fdf9 0%, #f8fafc 100%)",
+                      border: "1px solid #d1fae5", marginBottom: "8px",
+                    }}>
+                      <span style={{ fontSize: "16px" }}>{cat.icon}</span>
+                      <span style={{ fontWeight: 700, color: "#065f46", fontSize: "12px", letterSpacing: "0.6px", textTransform: "uppercase" }}>{cat.category}</span>
+                      <span style={{ marginLeft: "auto", background: "#0e7c6a22", color: "#0e7c6a", fontSize: "10px", fontWeight: 700, padding: "1px 8px", borderRadius: "10px" }}>{cat.items.length}</span>
+                    </div>
+                    <div style={{ display: "grid", gap: "4px" }}>
+                      {cat.items.map((item, ii) => (
+                        <div key={ii} style={{
+                          display: "flex", alignItems: "baseline", gap: "12px",
+                          padding: "8px 12px", borderRadius: "6px",
+                          background: ii % 2 === 0 ? "#fff" : "#f8fafc",
+                          border: "1px solid #f1f5f9",
+                        }}>
+                          <span style={{
+                            fontFamily: "monospace", fontWeight: 700, fontSize: "13px",
+                            color: "#0e7c6a", minWidth: "90px", flexShrink: 0,
+                            background: "#f0fdf9", padding: "2px 8px", borderRadius: "4px",
+                            border: "1px solid #d1fae5",
+                          }}>{item.abbr}</span>
+                          <span style={{ fontSize: "13px", color: "#374151", lineHeight: 1.5 }}>{item.full}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))
+              )}
+
+              <div style={{ marginTop: "8px", padding: "10px 14px", background: "#f1f5f9", borderRadius: "8px", fontSize: "11px", color: "#94a3b8", textAlign: "center" }}>
+                {SIGLAS.reduce((acc, cat) => acc + cat.items.length, 0)} siglas cadastradas · Guia Antimicrobiano APS Ceará Jan/2026
+              </div>
+            </div>
+          )}
+
         </div>
       </div>
     </div>
@@ -1032,7 +1201,7 @@ function App() {
                 ))}
               </div>
               <button onClick={() => setRefModal(true)} style={{ marginTop: "24px", background: "#02343f", color: "#a3e4d8", border: "none", borderRadius: "20px", padding: "10px 24px", fontSize: "13px", fontWeight: 700, cursor: "pointer" }}>
-                📚 Ver Referências (Pediatria, Renal, Sepse)
+                📚 Ver Referências (Pediatria, Renal, Sepse, Siglas)
               </button>
             </div>
           ) : scored.length === 0 ? (
