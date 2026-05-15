@@ -158,6 +158,7 @@ const CONDITIONS = [
     required: ["dor_garganta"],
     supporting: ["febre", "exsudato_amigdalas", "adenopatia_cervical", "sem_tosse"],
     excluding: ["tosse", "coriza", "diarreia", "disuria", "otorreia", "congestao_nasal"],
+    hasCalculator: "centor",
     treatments: [
       { name: "Penicilina Benzatina", type: "Primeira opção (IM)", color: "#0e7c6a", adult: "1,2 milhão UI IM, dose única", child: "≤27kg: 600 mil UI IM / >27kg: 1,2 milhão UI IM, dose única" },
       { name: "Amoxicilina", type: "Primeira opção (oral)", color: "#0e7c6a", adult: "500mg VO, de 8/8h por 10 dias", child: "50mg/kg/dia (máx 500mg/dose) de 8/8h por 10 dias" },
@@ -677,23 +678,19 @@ function scoreCondition(condition, selected) {
   const sel = new Set(selected);
   if (sel.size === 0) return 0;
 
-  // Exclusion check — any excluding symptom present = discard
   const excluded = condition.excluding.filter((s) => sel.has(s));
   if (excluded.length > 0) return -1;
 
-  // requiredAny: at least ONE of the listed symptoms must be present (OR logic)
   if (condition.requiredAny && condition.requiredAny.length > 0) {
     const anyMatch = condition.requiredAny.some((s) => sel.has(s));
     if (!anyMatch) return 0;
   }
 
-  // required: ALL must be present (AND logic)
   const requiredMatches = condition.required.filter((s) => sel.has(s));
   if (condition.required.length > 0 && requiredMatches.length === 0) return 0;
 
   const reqScore = requiredMatches.length / Math.max(condition.required.length, 1);
 
-  // requiredAny contribution to score
   const reqAnyMatches = condition.requiredAny
     ? condition.requiredAny.filter((s) => sel.has(s)).length
     : 0;
@@ -704,8 +701,6 @@ function scoreCondition(condition, selected) {
   const totalDenom = Math.max(condition.supporting.length + condition.required.length + reqAnyTotal, 1);
   const supScore = supMatches.length / totalDenom;
 
-  // Weight: required(AND) 50% + requiredAny(OR) 30% + supporting 20%
-  // If no AND-required, shift weight: requiredAny 60% + supporting 40%
   let score;
   if (condition.required.length > 0) {
     score = reqScore * 50 + reqAnyScore * 20 + supScore * 30;
@@ -743,6 +738,205 @@ function getTreatmentBadgeStyle(type) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// CENTOR CALCULATOR COMPONENT
+// ─────────────────────────────────────────────────────────────────────────────
+
+function CentorCalculator() {
+  const [febre, setFebre] = useState(false);
+  const [semTosse, setSemTosse] = useState(false);
+  const [adenopatia, setAdenopatia] = useState(false);
+  const [exsudato, setExsudato] = useState(false);
+  const [faixaEtaria, setFaixaEtaria] = useState(null); // "3-14" | "15-44" | "45+"
+
+  const score =
+    (febre ? 1 : 0) +
+    (semTosse ? 1 : 0) +
+    (adenopatia ? 1 : 0) +
+    (exsudato ? 1 : 0) +
+    (faixaEtaria === "3-14" ? 1 : faixaEtaria === "45+" ? -1 : 0);
+
+  const getRecommendation = () => {
+    if (score <= 2) return {
+      text: "NÃO prescrever antimicrobiano",
+      sub: "Alta probabilidade de etiologia viral. Conduta: sintomáticos.",
+      color: "#16a34a", bg: "#f0fdf4", border: "#bbf7d0", icon: "✅", barColor: "#22c55e",
+    };
+    if (score === 3) return {
+      text: "Considerar antimicrobiano",
+      sub: "Avaliar outros sinais de infecção bacteriana. Teste rápido de estreptococo pode guiar a decisão.",
+      color: "#d97706", bg: "#fffbeb", border: "#fde68a", icon: "⚠️", barColor: "#f59e0b",
+    };
+    return {
+      text: "Prescrever antimicrobiano",
+      sub: "Alta probabilidade bacteriana (Streptococcus pyogenes). Iniciar tratamento.",
+      color: "#dc2626", bg: "#fef2f2", border: "#fecaca", icon: "💊", barColor: "#ef4444",
+    };
+  };
+
+  const rec = getRecommendation();
+  const maxScore = 5;
+  const minScore = -1;
+  const pct = Math.max(0, Math.min(100, ((score - minScore) / (maxScore - minScore)) * 100));
+
+  const criterios = [
+    { label: "Febre (Tax > 37,8°C)", value: febre, toggle: () => setFebre(v => !v), points: "+1" },
+    { label: "Ausência de tosse", value: semTosse, toggle: () => setSemTosse(v => !v), points: "+1" },
+    { label: "Adenopatia cervical anterior", value: adenopatia, toggle: () => setAdenopatia(v => !v), points: "+1" },
+    { label: "Exsudato / pus nas amígdalas", value: exsudato, toggle: () => setExsudato(v => !v), points: "+1" },
+  ];
+
+  const faixas = [
+    { id: "3-14", label: "3–14 anos", points: "+1" },
+    { id: "15-44", label: "15–44 anos", points: "0" },
+    { id: "45+", label: "≥ 45 anos", points: "−1" },
+  ];
+
+  return (
+    <div style={{ background: "#f0f9ff", border: "1px solid #7dd3fc", borderRadius: "12px", padding: "18px 20px", marginBottom: "16px" }}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px" }}>
+        <div>
+          <div style={{ fontWeight: 700, color: "#0369a1", fontSize: "12px", letterSpacing: "0.8px", textTransform: "uppercase" }}>
+            🎯 Calculadora — Critérios de Centor Modificado
+          </div>
+          <div style={{ fontSize: "11px", color: "#64748b", marginTop: "2px" }}>
+            Marque os critérios presentes e selecione a faixa etária
+          </div>
+        </div>
+        {/* Score badge */}
+        <div style={{
+          width: "52px", height: "52px", borderRadius: "50%",
+          background: `conic-gradient(${rec.barColor} ${pct * 3.6}deg, #e0f2fe ${pct * 3.6}deg)`,
+          display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, position: "relative",
+        }}>
+          <div style={{
+            width: "38px", height: "38px", borderRadius: "50%", background: "#fff",
+            display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+          }}>
+            <span style={{ fontSize: "18px", fontWeight: 800, color: rec.color, lineHeight: 1 }}>{score}</span>
+            <span style={{ fontSize: "8px", color: "#94a3b8", fontWeight: 600, lineHeight: 1 }}>pts</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Critérios checkboxes */}
+      <div style={{ marginBottom: "12px" }}>
+        {criterios.map((item, i) => (
+          <div
+            key={i}
+            onClick={item.toggle}
+            style={{
+              display: "flex", alignItems: "center", gap: "10px",
+              padding: "8px 10px", borderRadius: "8px", cursor: "pointer",
+              background: item.value ? "#dbeafe" : "rgba(255,255,255,0.7)",
+              marginBottom: "4px", border: item.value ? "1px solid #93c5fd" : "1px solid transparent",
+              transition: "all 0.15s", userSelect: "none",
+            }}
+          >
+            <div style={{
+              width: "20px", height: "20px", borderRadius: "6px", flexShrink: 0,
+              border: item.value ? "2px solid #0284c7" : "2px solid #bae6fd",
+              background: item.value ? "#0284c7" : "#fff",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              transition: "all 0.15s",
+            }}>
+              {item.value && <span style={{ color: "#fff", fontSize: "12px", fontWeight: 800 }}>✓</span>}
+            </div>
+            <span style={{ fontSize: "13px", color: item.value ? "#1e3a5f" : "#374151", fontWeight: item.value ? 600 : 400, flex: 1 }}>
+              {item.label}
+            </span>
+            <span style={{
+              fontSize: "11px", fontWeight: 700, color: "#0284c7",
+              background: "#e0f2fe", padding: "2px 8px", borderRadius: "10px",
+              border: "1px solid #bae6fd",
+            }}>{item.points}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Faixa etária */}
+      <div style={{ marginBottom: "14px" }}>
+        <div style={{ fontSize: "11px", fontWeight: 700, color: "#475569", marginBottom: "8px", letterSpacing: "0.5px" }}>
+          FAIXA ETÁRIA DO PACIENTE
+        </div>
+        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+          {faixas.map(opt => {
+            const isSelected = faixaEtaria === opt.id;
+            return (
+              <button
+                key={opt.id}
+                onClick={() => setFaixaEtaria(isSelected ? null : opt.id)}
+                style={{
+                  padding: "7px 14px", borderRadius: "20px", cursor: "pointer",
+                  border: isSelected ? "2px solid #0284c7" : "2px solid #bae6fd",
+                  background: isSelected ? "#0284c7" : "rgba(255,255,255,0.85)",
+                  color: isSelected ? "#fff" : "#0369a1",
+                  fontSize: "12px", fontWeight: 700, display: "flex", alignItems: "center", gap: "5px",
+                  transition: "all 0.15s",
+                }}
+              >
+                {opt.label}
+                <span style={{
+                  fontSize: "11px", opacity: 0.85,
+                  background: isSelected ? "rgba(255,255,255,0.25)" : "#e0f2fe",
+                  padding: "0 5px", borderRadius: "8px",
+                }}>{opt.points}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Resultado */}
+      <div style={{
+        display: "flex", gap: "12px", alignItems: "flex-start",
+        padding: "14px 16px",
+        background: rec.bg, border: `1.5px solid ${rec.border}`,
+        borderRadius: "10px",
+      }}>
+        <span style={{ fontSize: "22px", flexShrink: 0, marginTop: "1px" }}>{rec.icon}</span>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontWeight: 800, color: rec.color, fontSize: "14px", marginBottom: "4px" }}>
+            Escore {score}: {rec.text}
+          </div>
+          <div style={{ fontSize: "12px", color: "#475569", lineHeight: 1.6 }}>{rec.sub}</div>
+          <div style={{ marginTop: "8px", display: "flex", gap: "6px", flexWrap: "wrap" }}>
+            {[
+              { range: "0–2", label: "Sem AB", color: "#16a34a", active: score <= 2 },
+              { range: "3", label: "Considerar", color: "#d97706", active: score === 3 },
+              { range: "≥ 4", label: "Tratar", color: "#dc2626", active: score >= 4 },
+            ].map((item, i) => (
+              <span key={i} style={{
+                fontSize: "10px", fontWeight: 700, padding: "2px 8px", borderRadius: "10px",
+                background: item.active ? item.color : "#f1f5f9",
+                color: item.active ? "#fff" : "#9ca3af",
+                border: item.active ? `1px solid ${item.color}` : "1px solid #e5e7eb",
+              }}>
+                {item.range}: {item.label}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Reset */}
+      {(febre || semTosse || adenopatia || exsudato || faixaEtaria) && (
+        <button
+          onClick={() => { setFebre(false); setSemTosse(false); setAdenopatia(false); setExsudato(false); setFaixaEtaria(null); }}
+          style={{
+            marginTop: "10px", width: "100%", padding: "6px",
+            background: "none", border: "1px solid #cbd5e1", borderRadius: "8px",
+            color: "#64748b", fontSize: "12px", cursor: "pointer", fontWeight: 600,
+          }}
+        >
+          ↺ Limpar calculadora
+        </button>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // CONDITION MODAL
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -758,6 +952,7 @@ function Modal({ condition, onClose }) {
         style={{ background: "#fff", borderRadius: "16px", maxWidth: "720px", width: "100%", maxHeight: "88vh", overflowY: "auto", boxShadow: "0 32px 80px rgba(0,0,0,0.25)" }}
         onClick={(e) => e.stopPropagation()}
       >
+        {/* Header */}
         <div style={{ background: "linear-gradient(135deg, #02343f 0%, #0e7c6a 100%)", borderRadius: "16px 16px 0 0", padding: "24px 28px 20px" }}>
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
             <div>
@@ -773,6 +968,7 @@ function Modal({ condition, onClose }) {
         </div>
 
         <div style={{ padding: "24px 28px" }}>
+          {/* Diagnose / Conduta */}
           <div style={{ background: "#f0fdf9", border: "1px solid #a7f3d0", borderRadius: "10px", padding: "14px 18px", marginBottom: "20px" }}>
             <div style={{ fontWeight: 700, color: "#065f46", fontSize: "12px", letterSpacing: "0.8px", marginBottom: "8px" }}>🔍 DIAGNÓSTICO / CONDUTA</div>
             {diagLines.map((line, i) =>
@@ -781,6 +977,7 @@ function Modal({ condition, onClose }) {
             )}
           </div>
 
+          {/* Treatments */}
           <div style={{ marginBottom: "20px" }}>
             <div style={{ fontWeight: 700, color: "#02343f", fontSize: "13px", letterSpacing: "0.8px", marginBottom: "12px", textTransform: "uppercase" }}>💊 Antimicrobianos</div>
             {condition.treatments.map((t, i) => (
@@ -803,15 +1000,25 @@ function Modal({ condition, onClose }) {
             ))}
           </div>
 
-          {condition.alerts.length > 0 && (
-            <div style={{ background: "#fffbeb", border: "1px solid #fcd34d", borderRadius: "10px", padding: "14px 18px" }}>
-              <div style={{ fontWeight: 700, color: "#92400e", fontSize: "12px", letterSpacing: "0.8px", marginBottom: "8px" }}>⚠️ ALERTAS CLÍNICOS</div>
-              {condition.alerts.map((a, i) => (
-                <div key={i} style={{ display: "flex", gap: "8px", marginBottom: i < condition.alerts.length - 1 ? "6px" : 0 }}>
-                  <span style={{ color: "#d97706", flexShrink: 0 }}>•</span>
-                  <span style={{ color: "#78350f", fontSize: "13px", lineHeight: 1.6 }}>{a}</span>
+          {/* Alerts — with optional Centor calculator */}
+          {(condition.alerts.length > 0 || condition.hasCalculator) && (
+            <div>
+              <div style={{ fontWeight: 700, color: "#02343f", fontSize: "13px", letterSpacing: "0.8px", marginBottom: "12px", textTransform: "uppercase" }}>⚠️ Alertas Clínicos</div>
+
+              {/* Centor Calculator — rendered inside the alerts section */}
+              {condition.hasCalculator === "centor" && <CentorCalculator />}
+
+              {/* Alert items */}
+              {condition.alerts.length > 0 && (
+                <div style={{ background: "#fffbeb", border: "1px solid #fcd34d", borderRadius: "10px", padding: "14px 18px" }}>
+                  {condition.alerts.map((a, i) => (
+                    <div key={i} style={{ display: "flex", gap: "8px", marginBottom: i < condition.alerts.length - 1 ? "6px" : 0 }}>
+                      <span style={{ color: "#d97706", flexShrink: 0 }}>•</span>
+                      <span style={{ color: "#78350f", fontSize: "13px", lineHeight: 1.6 }}>{a}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              )}
             </div>
           )}
 
@@ -1006,7 +1213,6 @@ function ReferenceModal({ onClose }) {
                 Glossário de siglas e abreviações utilizadas no Guia Antimicrobiano — APS Ceará (Jan/2026).
               </p>
 
-              {/* Search box */}
               <div style={{ position: "relative", marginBottom: "20px" }}>
                 <span style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", fontSize: "14px", color: "#9ca3af" }}>🔍</span>
                 <input
@@ -1266,6 +1472,9 @@ function App() {
                       <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
                         <span style={{ fontWeight: 700, color: "#02343f", fontSize: "15px", fontFamily: "Georgia, serif" }}>{c.name}</span>
                         <span style={{ fontSize: "10px", color: "#9ca3af", fontWeight: 600 }}>CAP. {c.chapter}</span>
+                        {c.hasCalculator && (
+                          <span style={{ fontSize: "10px", fontWeight: 700, background: "#dbeafe", color: "#1d4ed8", padding: "1px 7px", borderRadius: "10px", border: "1px solid #93c5fd" }}>🎯 calculadora</span>
+                        )}
                       </div>
                       <ScoreBar score={c.score} />
                     </div>
