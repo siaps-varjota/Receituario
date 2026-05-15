@@ -500,8 +500,9 @@ const CONDITIONS = [
     id: "rinossinusite", chapter: "13", name: "Rinossinusite Aguda", emoji: "🤧",
     description: "Causas mais comuns: alergia e vírus (>80%). Antimicrobiano APENAS se sintomas >10 dias ou piora após 5° dia (bacteriana pós-viral).",
     diagnosis: "Clínico. Indicativo bacteriano: duração >10 dias, piora após 5° dia, rinorreia unilateral/purulenta, dor facial intensa (especialmente unilateral), febre ≥37,8°C.\n\nAlta resistência no Brasil: S. pneumoniae a macrolídeos (50%) e SMX-TMP (40%). Alta sensibilidade à penicilina (90%). Alta sensibilidade de H. influenzae à amoxicilina (80%).",
-    required: ["congestao_nasal"],
-    supporting: ["dor_facial", "coriza", "febre", "dor_garganta"],
+    required: [],
+    requiredAny: ["congestao_nasal", "coriza"],
+    supporting: ["dor_facial", "coriza", "congestao_nasal", "febre", "dor_garganta"],
     excluding: ["diarreia", "disuria", "otalgia", "ulcera_genital"],
     treatments: [
       { name: "Amoxicilina", type: "Primeira opção", color: "#0e7c6a", adult: "500mg VO, de 8/8h por 5-7 dias", child: "50-90mg/kg/dia VO de 8/8h por 5-7 dias" },
@@ -675,14 +676,43 @@ const SIGLAS = [
 function scoreCondition(condition, selected) {
   const sel = new Set(selected);
   if (sel.size === 0) return 0;
+
+  // Exclusion check — any excluding symptom present = discard
   const excluded = condition.excluding.filter((s) => sel.has(s));
   if (excluded.length > 0) return -1;
+
+  // requiredAny: at least ONE of the listed symptoms must be present (OR logic)
+  if (condition.requiredAny && condition.requiredAny.length > 0) {
+    const anyMatch = condition.requiredAny.some((s) => sel.has(s));
+    if (!anyMatch) return 0;
+  }
+
+  // required: ALL must be present (AND logic)
   const requiredMatches = condition.required.filter((s) => sel.has(s));
   if (condition.required.length > 0 && requiredMatches.length === 0) return 0;
+
   const reqScore = requiredMatches.length / Math.max(condition.required.length, 1);
+
+  // requiredAny contribution to score
+  const reqAnyMatches = condition.requiredAny
+    ? condition.requiredAny.filter((s) => sel.has(s)).length
+    : 0;
+  const reqAnyTotal = condition.requiredAny ? condition.requiredAny.length : 0;
+  const reqAnyScore = reqAnyTotal > 0 ? reqAnyMatches / reqAnyTotal : 1;
+
   const supMatches = condition.supporting.filter((s) => sel.has(s));
-  const supScore = supMatches.length / Math.max(condition.supporting.length + condition.required.length, 1);
-  return Math.round((reqScore * 70 + supScore * 30) * 100) / 100;
+  const totalDenom = Math.max(condition.supporting.length + condition.required.length + reqAnyTotal, 1);
+  const supScore = supMatches.length / totalDenom;
+
+  // Weight: required(AND) 50% + requiredAny(OR) 30% + supporting 20%
+  // If no AND-required, shift weight: requiredAny 60% + supporting 40%
+  let score;
+  if (condition.required.length > 0) {
+    score = reqScore * 50 + reqAnyScore * 20 + supScore * 30;
+  } else {
+    score = reqAnyScore * 65 + supScore * 35;
+  }
+  return Math.round(score * 100) / 100;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
