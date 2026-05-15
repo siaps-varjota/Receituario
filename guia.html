@@ -1,3 +1,5 @@
+html
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -207,7 +209,8 @@ const CONDITIONS = [
     description: "Inclui PAC, exacerbação de DPOC e síndrome gripal. Síndrome gripal (febre + tosse/dor de garganta + coriza/mialgia): NÃO prescrever antibiótico. PAC requer alteração de ausculta e/ou radiografia. Exacerbação de DPOC: tratar se aumento ou piora do aspecto da secreção.",
     diagnosis: "Avaliar gravidade: FR≥30, hipotensão (PAS<90), SatO2≤94%, confusão mental → encaminhar imediatamente.\n\nSíndrome gripal com fatores de risco: Oseltamivir (influenza) ou Paxlovid (COVID-19).\nPAC sem fatores de risco: Amoxicilina (ou Doxiciclina se alergia).\nPAC com fatores de risco: Amox-Clavulanato + macrolídeo.\nExacerbação DPOC: Amox-Clavulanato + macrolídeo (± Ciprofloxacino se risco Pseudomonas).\n\n*Fatores de risco PAC: ≥65a, DM, ICC, imunossupressão, neoplasia, IRC, cirrose.",
     required: ["tosse"],
-    supporting: ["febre", "dispneia", "alteracao_ausculta", "mal_estar"],
+    requiredAny: ["alteracao_ausculta", "dispneia"],
+    supporting: ["febre", "mal_estar"],
     excluding: ["diarreia", "disuria", "lesao_pele", "ulcera_genital"],
     treatments: [
       { name: "Amoxicilina", type: "PAC sem fatores de risco", color: "#0e7c6a", adult: "500mg VO, de 8/8h por 5-7 dias", child: "50-90mg/kg/dia de 8/8h (máx 500mg/dose)" },
@@ -219,6 +222,7 @@ const CONDITIONS = [
     ],
     alerts: [
       "Síndrome gripal (febre + tosse/dor garganta + coriza/mialgia): NÃO prescrever antibiótico.",
+      "PAC requer tosse + alteração de ausculta e/ou dispneia significativa.",
       "Encaminhar IMEDIATAMENTE: FR≥30, PAS<90, SatO2≤94%, confusão mental.",
       "Fatores de risco Influenza: gestantes, ≥60 anos, indígenas, pneumopatias, DM, cardiovasculopatias, imunossupressão, IMC≥40.",
       "Fatores de risco COVID-19: ≥75 anos; ≥65 anos com comorbidades; ≥18 anos imunossuprimidos.",
@@ -503,7 +507,7 @@ const CONDITIONS = [
     diagnosis: "Clínico. Indicativo bacteriano: duração >10 dias, piora após 5° dia, rinorreia unilateral/purulenta, dor facial intensa (especialmente unilateral), febre ≥37,8°C.\n\nAlta resistência no Brasil: S. pneumoniae a macrolídeos (50%) e SMX-TMP (40%). Alta sensibilidade à penicilina (90%). Alta sensibilidade de H. influenzae à amoxicilina (80%).",
     required: [],
     requiredAny: ["congestao_nasal", "coriza"],
-    supporting: ["dor_facial", "coriza", "congestao_nasal", "febre", "dor_garganta"],
+    supporting: ["dor_facial", "febre", "dor_garganta"],
     excluding: ["diarreia", "disuria", "otalgia", "ulcera_genital"],
     treatments: [
       { name: "Amoxicilina", type: "Primeira opção", color: "#0e7c6a", adult: "500mg VO, de 8/8h por 5-7 dias", child: "50-90mg/kg/dia VO de 8/8h por 5-7 dias" },
@@ -671,7 +675,7 @@ const SIGLAS = [
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
-// SCORING
+// SCORING — v2: required exige TODOS; requiredAny exige pelo menos 1
 // ─────────────────────────────────────────────────────────────────────────────
 
 function scoreCondition(condition, selected) {
@@ -681,31 +685,48 @@ function scoreCondition(condition, selected) {
   const excluded = condition.excluding.filter((s) => sel.has(s));
   if (excluded.length > 0) return -1;
 
+  // requiredAny: pelo menos 1 obrigatório
   if (condition.requiredAny && condition.requiredAny.length > 0) {
     const anyMatch = condition.requiredAny.some((s) => sel.has(s));
     if (!anyMatch) return 0;
   }
 
-  const requiredMatches = condition.required.filter((s) => sel.has(s));
-  if (condition.required.length > 0 && requiredMatches.length === 0) return 0;
+  // required: TODOS obrigatórios — score 0 se qualquer um faltar
+  if (condition.required.length > 0) {
+    const allPresent = condition.required.every((s) => sel.has(s));
+    if (!allPresent) return 0;
+  }
 
-  const reqScore = requiredMatches.length / Math.max(condition.required.length, 1);
-
-  const reqAnyMatches = condition.requiredAny
-    ? condition.requiredAny.filter((s) => sel.has(s)).length
-    : 0;
-  const reqAnyTotal = condition.requiredAny ? condition.requiredAny.length : 0;
+  const reqAnyList = condition.requiredAny || [];
+  const reqAnyMatches = reqAnyList.filter((s) => sel.has(s)).length;
+  const reqAnyTotal = reqAnyList.length;
   const reqAnyScore = reqAnyTotal > 0 ? reqAnyMatches / reqAnyTotal : 1;
 
   const supMatches = condition.supporting.filter((s) => sel.has(s));
-  const totalDenom = Math.max(condition.supporting.length + condition.required.length + reqAnyTotal, 1);
-  const supScore = supMatches.length / totalDenom;
+  const hasReq = condition.required.length > 0;
+  const hasReqAny = reqAnyTotal > 0;
 
   let score;
-  if (condition.required.length > 0) {
-    score = reqScore * 50 + reqAnyScore * 20 + supScore * 30;
+  if (hasReq && !hasReqAny) {
+    // Só required: base 50 + até 50 pelos supporting
+    const supExtra = condition.supporting.length > 0
+      ? (supMatches.length / condition.supporting.length) * 50
+      : 50;
+    score = 50 + supExtra;
+  } else if (hasReqAny && !hasReq) {
+    // Só requiredAny: base 40 + bônus por cobertura + supporting
+    const base = 40 + reqAnyScore * 25;
+    const supExtra = condition.supporting.length > 0
+      ? (supMatches.length / condition.supporting.length) * 35
+      : 0;
+    score = base + supExtra;
   } else {
-    score = reqAnyScore * 65 + supScore * 35;
+    // Ambos required + requiredAny: base 50 + bônus reqAny + supporting
+    const base = 50 + reqAnyScore * 20;
+    const supExtra = condition.supporting.length > 0
+      ? (supMatches.length / condition.supporting.length) * 30
+      : 0;
+    score = base + supExtra;
   }
   return Math.round(score * 100) / 100;
 }
@@ -746,7 +767,7 @@ function CentorCalculator() {
   const [semTosse, setSemTosse] = useState(false);
   const [adenopatia, setAdenopatia] = useState(false);
   const [exsudato, setExsudato] = useState(false);
-  const [faixaEtaria, setFaixaEtaria] = useState(null); // "3-14" | "15-44" | "45+"
+  const [faixaEtaria, setFaixaEtaria] = useState(null);
 
   const score =
     (febre ? 1 : 0) +
@@ -793,7 +814,6 @@ function CentorCalculator() {
 
   return (
     <div style={{ background: "#f0f9ff", border: "1px solid #7dd3fc", borderRadius: "12px", padding: "18px 20px", marginBottom: "16px" }}>
-      {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "14px" }}>
         <div>
           <div style={{ fontWeight: 700, color: "#0369a1", fontSize: "12px", letterSpacing: "0.8px", textTransform: "uppercase" }}>
@@ -803,7 +823,6 @@ function CentorCalculator() {
             Marque os critérios presentes e selecione a faixa etária
           </div>
         </div>
-        {/* Score badge */}
         <div style={{
           width: "52px", height: "52px", borderRadius: "50%",
           background: `conic-gradient(${rec.barColor} ${pct * 3.6}deg, #e0f2fe ${pct * 3.6}deg)`,
@@ -819,7 +838,6 @@ function CentorCalculator() {
         </div>
       </div>
 
-      {/* Critérios checkboxes */}
       <div style={{ marginBottom: "12px" }}>
         {criterios.map((item, i) => (
           <div
@@ -854,7 +872,6 @@ function CentorCalculator() {
         ))}
       </div>
 
-      {/* Faixa etária */}
       <div style={{ marginBottom: "14px" }}>
         <div style={{ fontSize: "11px", fontWeight: 700, color: "#475569", marginBottom: "8px", letterSpacing: "0.5px" }}>
           FAIXA ETÁRIA DO PACIENTE
@@ -887,7 +904,6 @@ function CentorCalculator() {
         </div>
       </div>
 
-      {/* Resultado */}
       <div style={{
         display: "flex", gap: "12px", alignItems: "flex-start",
         padding: "14px 16px",
@@ -919,7 +935,6 @@ function CentorCalculator() {
         </div>
       </div>
 
-      {/* Reset */}
       {(febre || semTosse || adenopatia || exsudato || faixaEtaria) && (
         <button
           onClick={() => { setFebre(false); setSemTosse(false); setAdenopatia(false); setExsudato(false); setFaixaEtaria(null); }}
@@ -952,7 +967,6 @@ function Modal({ condition, onClose }) {
         style={{ background: "#fff", borderRadius: "16px", maxWidth: "720px", width: "100%", maxHeight: "88vh", overflowY: "auto", boxShadow: "0 32px 80px rgba(0,0,0,0.25)" }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div style={{ background: "linear-gradient(135deg, #02343f 0%, #0e7c6a 100%)", borderRadius: "16px 16px 0 0", padding: "24px 28px 20px" }}>
           <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
             <div>
@@ -968,7 +982,6 @@ function Modal({ condition, onClose }) {
         </div>
 
         <div style={{ padding: "24px 28px" }}>
-          {/* Diagnose / Conduta */}
           <div style={{ background: "#f0fdf9", border: "1px solid #a7f3d0", borderRadius: "10px", padding: "14px 18px", marginBottom: "20px" }}>
             <div style={{ fontWeight: 700, color: "#065f46", fontSize: "12px", letterSpacing: "0.8px", marginBottom: "8px" }}>🔍 DIAGNÓSTICO / CONDUTA</div>
             {diagLines.map((line, i) =>
@@ -977,7 +990,6 @@ function Modal({ condition, onClose }) {
             )}
           </div>
 
-          {/* Treatments */}
           <div style={{ marginBottom: "20px" }}>
             <div style={{ fontWeight: 700, color: "#02343f", fontSize: "13px", letterSpacing: "0.8px", marginBottom: "12px", textTransform: "uppercase" }}>💊 Antimicrobianos</div>
             {condition.treatments.map((t, i) => (
@@ -1000,15 +1012,10 @@ function Modal({ condition, onClose }) {
             ))}
           </div>
 
-          {/* Alerts — with optional Centor calculator */}
           {(condition.alerts.length > 0 || condition.hasCalculator) && (
             <div>
               <div style={{ fontWeight: 700, color: "#02343f", fontSize: "13px", letterSpacing: "0.8px", marginBottom: "12px", textTransform: "uppercase" }}>⚠️ Alertas Clínicos</div>
-
-              {/* Centor Calculator — rendered inside the alerts section */}
               {condition.hasCalculator === "centor" && <CentorCalculator />}
-
-              {/* Alert items */}
               {condition.alerts.length > 0 && (
                 <div style={{ background: "#fffbeb", border: "1px solid #fcd34d", borderRadius: "10px", padding: "14px 18px" }}>
                   {condition.alerts.map((a, i) => (
@@ -1066,7 +1073,6 @@ function ReferenceModal({ onClose }) {
         style={{ background: "#fff", borderRadius: "16px", maxWidth: "860px", width: "100%", maxHeight: "90vh", display: "flex", flexDirection: "column", boxShadow: "0 32px 80px rgba(0,0,0,0.25)" }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         <div style={{ background: "linear-gradient(135deg, #02343f 0%, #0e7c6a 100%)", borderRadius: "16px 16px 0 0", padding: "20px 28px 0" }}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "16px" }}>
             <div>
@@ -1086,10 +1092,8 @@ function ReferenceModal({ onClose }) {
           </div>
         </div>
 
-        {/* Content */}
         <div style={{ flex: 1, overflowY: "auto", padding: "24px 28px" }}>
 
-          {/* TAB: Pediatria */}
           {tab === "pediatria" && (
             <div>
               <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "16px", lineHeight: 1.6 }}>
@@ -1116,7 +1120,6 @@ function ReferenceModal({ onClose }) {
             </div>
           )}
 
-          {/* TAB: Renal */}
           {tab === "renal" && (
             <div>
               <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "16px", lineHeight: 1.6 }}>
@@ -1149,7 +1152,6 @@ function ReferenceModal({ onClose }) {
             </div>
           )}
 
-          {/* TAB: Sepse */}
           {tab === "sepse" && (
             <div>
               <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "16px", lineHeight: 1.6 }}>
@@ -1206,7 +1208,6 @@ function ReferenceModal({ onClose }) {
             </div>
           )}
 
-          {/* TAB: Siglas */}
           {tab === "siglas" && (
             <div>
               <p style={{ fontSize: "13px", color: "#6b7280", marginBottom: "14px", lineHeight: 1.6 }}>
@@ -1346,7 +1347,6 @@ function App() {
   return (
     <div style={{ fontFamily: "'Segoe UI', system-ui, sans-serif", background: "#f1f5f9", minHeight: "100vh" }}>
 
-      {/* Top bar */}
       <div style={{ background: "linear-gradient(135deg, #02343f 0%, #0a5c4e 100%)", padding: "18px 24px", boxShadow: "0 2px 20px rgba(0,0,0,0.2)" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "10px" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -1376,7 +1376,6 @@ function App() {
 
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "24px 16px", display: "grid", gridTemplateColumns: "360px 1fr", gap: "20px", alignItems: "start" }}>
 
-        {/* LEFT: Symptom selector */}
         <div style={{ position: "sticky", top: "16px" }}>
           <div style={{ background: "#fff", borderRadius: "14px", boxShadow: "0 2px 12px rgba(0,0,0,0.08)", overflow: "hidden" }}>
             <div style={{ padding: "16px 20px 12px", borderBottom: "1px solid #f1f5f9" }}>
@@ -1422,7 +1421,6 @@ function App() {
           </div>
         </div>
 
-        {/* RIGHT: Results */}
         <div>
           {selected.size === 0 ? (
             <div style={{ background: "#fff", borderRadius: "14px", padding: "60px 40px", textAlign: "center", boxShadow: "0 2px 12px rgba(0,0,0,0.06)" }}>
