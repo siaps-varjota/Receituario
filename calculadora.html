@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Gestacional</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #e8405a;
+    --rose-light: #fde8ec;
+    --rose-mid: #f4b8c3;
+    --blush: #fdf0f3;
+    --cream: #fffaf8;
+    --text: #2d1f25;
+    --text-mid: #6b4f58;
+    --text-soft: #a07a87;
+    --border: #f0d6dc;
+    --green: #2d7a5f;
+    --green-light: #e6f5ef;
+    --amber: #c4782a;
+    --amber-light: #fef5ea;
+    --blue: #2a5fa8;
+    --blue-light: #eaf0fb;
+    --purple: #6b3d9e;
+    --purple-light: #f3edfa;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(232,64,90,0.06) 0%, transparent 50%),
+      radial-gradient(circle at 85% 80%, rgba(232,64,90,0.04) 0%, transparent 50%);
+  }
+
+  header {
+    background: white;
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 1rem;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(232,64,90,0.07);
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--rose);
+    letter-spacing: -0.02em;
+  }
+
+  header p {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+    margin-top: 0.2rem;
+    font-weight: 300;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 4rem;
+  }
+
+  /* CARD */
+  .card {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 12px rgba(232,64,90,0.05);
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--rose);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* LABEL & INPUT */
+  label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-mid);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.4rem;
+  }
+
+  input[type="date"], input[type="number"] {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    background: var(--cream);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    appearance: none;
+  }
+
+  input:focus {
+    border-color: var(--rose);
+    box-shadow: 0 0 0 3px rgba(232,64,90,0.1);
+  }
+
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+  }
+
+  .input-hint {
+    font-size: 0.73rem;
+    color: var(--text-soft);
+    margin-top: 0.3rem;
+  }
+
+  .use-today {
+    font-size: 0.75rem;
+    color: var(--rose);
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 0.3rem;
+    display: inline-block;
+    font-weight: 500;
+  }
+  .use-today:hover { opacity: 0.7; }
+
+  /* TABS */
+  .tab-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1.2rem;
+  }
+
+  .tab-btn {
+    padding: 0.7rem;
+    border: none;
+    background: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-soft);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .tab-btn.active {
+    background: var(--rose);
+    color: white;
+  }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* BUTTON */
+  .btn-calc {
+    width: 100%;
+    padding: 0.9rem;
+    background: var(--rose);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.01em;
+    margin-top: 0.5rem;
+  }
+
+  .btn-calc:hover { background: #c93050; }
+  .btn-calc:active { transform: scale(0.98); }
+
+  /* RESULTS */
+  #results { display: none; }
+
+  .result-grid {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0.9rem;
+    background: var(--blush);
+    border-radius: 10px;
+    border-left: 3px solid var(--rose-mid);
+  }
+
+  .result-label {
+    font-size: 0.82rem;
+    color: var(--text-mid);
+    font-weight: 500;
+  }
+
+  .result-value {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--rose);
+    text-align: right;
+    max-width: 60%;
+  }
+
+  .result-ig {
+    background: var(--rose);
+    color: white;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 0.6rem;
+  }
+
+  .result-ig .ig-label {
+    font-size: 0.75rem;
+    opacity: 0.85;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .result-ig .ig-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.1;
+    margin: 0.2rem 0;
+  }
+
+  .result-ig .ig-trimestre {
+    font-size: 0.8rem;
+    opacity: 0.85;
+    background: rgba(255,255,255,0.2);
+    display: inline-block;
+    padding: 0.1rem 0.6rem;
+    border-radius: 20px;
+  }
+
+  /* TIMELINE */
+  .timeline-bar {
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    margin: 1rem 0 0.3rem;
+    overflow: hidden;
+  }
+
+  .timeline-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rose), #f08090);
+    border-radius: 4px;
+    transition: width 0.8s ease;
+  }
+
+  .timeline-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.68rem;
+    color: var(--text-soft);
+  }
+
+  /* CONDUTAS */
+  .conduta-section {
+    margin-bottom: 1rem;
+  }
+
+  .conduta-header {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .conduta-header.exames { background: var(--blue-light); color: var(--blue); }
+  .conduta-header.orientacoes { background: var(--green-light); color: var(--green); }
+  .conduta-header.suplementacao { background: var(--amber-light); color: var(--amber); }
+  .conduta-header.vacinas { background: var(--purple-light); color: var(--purple); }
+  .conduta-header.consultas { background: var(--rose-light); color: var(--rose); }
+
+  .conduta-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .conduta-list li {
+    font-size: 0.84rem;
+    color: var(--text);
+    padding: 0.45rem 0.7rem;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    line-height: 1.4;
+  }
+
+  .conduta-list li::before {
+    content: '•';
+    color: var(--rose-mid);
+    font-weight: 900;
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  /* ALERT */
+  .alert {
+    padding: 0.7rem 0.9rem;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    line-height: 1.4;
+  }
+
+  .alert.info { background: var(--blue-light); color: var(--blue); border: 1px solid #c5d9f5; }
+  .alert.warn { background: var(--amber-light); color: var(--amber); border: 1px solid #f5d9aa; }
+
+  /* MEDIDAS FETAIS */
+  .medidas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+  }
+
+  .medida-box {
+    background: var(--blush);
+    border-radius: 12px;
+    padding: 0.8rem 0.6rem;
+    text-align: center;
+    border: 1px solid var(--rose-light);
+  }
+
+  .medida-icon { font-size: 1.3rem; margin-bottom: 0.3rem; }
+
+  .medida-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--rose);
+    font-weight: 600;
+  }
+
+  .medida-label {
+    font-size: 0.68rem;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 0.2rem;
+  }
+
+  /* USG fields */
+  .usg-hint {
+    font-size: 0.75rem;
+    color: var(--text-soft);
+    font-style: italic;
+    margin-bottom: 0.8rem;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 480px) {
+    .medidas-grid { grid-template-columns: 1fr 1fr; }
+    .input-row { grid-template-columns: 1fr; }
+    header h1 { font-size: 1.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌸 Calculadora Gestacional</h1>
+  <p>Idade gestacional, DPP e condutas no pré-natal — pela DUM ou USG, em qualquer data</p>
+</header>
+
+<div class="container">
+
+  <!-- DATA DE REFERÊNCIA -->
+  <div class="card">
+    <div class="card-title">📅 Data de referência</div>
+    <label>Para qual data calcular?</label>
+    <input type="date" id="dataRef">
+    <span class="use-today" onclick="usarHoje()">Usar hoje</span>
+  </div>
+
+  <!-- MÉTODO -->
+  <div class="card">
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="switchTab('dum')">🩸 Pela DUM</button>
+      <button class="tab-btn" onclick="switchTab('usg')">🔊 Pela USG</button>
+    </div>
+
+    <!-- DUM -->
+    <div id="tab-dum" class="tab-panel active">
+      <label>Data da Última Menstruação (DUM)</label>
+      <input type="date" id="dataDUM">
+    </div>
+
+    <!-- USG -->
+    <div id="tab-usg" class="tab-panel">
+      <p class="usg-hint">Informe a data em que o ultrassom foi realizado e a idade gestacional que o exame apontou.</p>
+      <div class="input-row">
+        <div>
+          <label>Data do USG</label>
+          <input type="date" id="dataUSG">
+        </div>
+        <div>
+          <label>Semanas no USG</label>
+          <input type="number" id="semanasUSG" min="4" max="42" placeholder="Ex: 12">
+        </div>
+      </div>
+      <div style="margin-top:0.8rem;">
+        <label>Dias adicionais (opcional)</label>
+        <input type="number" id="diasUSG" min="0" max="6" placeholder="0–6 dias">
+        <p class="input-hint">Ex: se o USG disse "12 semanas e 3 dias", coloque 12 semanas e 3 dias</p>
+      </div>
+    </div>
+
+    <button class="btn-calc" onclick="calcular()">Calcular →</button>
+  </div>
+
+  <!-- RESULTADOS -->
+  <div id="results">
+
+    <!-- IG destaque -->
+    <div class="card" style="padding:1rem;">
+      <div class="result-ig" id="igDestaque"></div>
+      <div class="timeline-bar"><div class="timeline-fill" id="timelineFill" style="width:0%"></div></div>
+      <div class="timeline-labels">
+        <span>Semana 0</span>
+        <span>1º tri</span>
+        <span>2º tri</span>
+        <span>3º tri</span>
+        <span>Semana 42</span>
+      </div>
+    </div>
+
+    <!-- Dados gerais -->
+    <div class="card">
+      <div class="card-title">📊 Dados da gestação</div>
+      <div class="result-grid" id="dadosGerais"></div>
+    </div>
+
+    <!-- Medidas fetais -->
+    <div class="card">
+      <div class="card-title">👶 Desenvolvimento fetal estimado</div>
+      <div class="medidas-grid" id="medidasFetais"></div>
+    </div>
+
+    <!-- Condutas -->
+    <div class="card">
+      <div class="card-title">🩺 Condutas no pré-natal</div>
+      <div id="condutas"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// ─── UTILIDADES ───────────────────────────────────────────────
+function usarHoje() {
+  const hoje = new Date();
+  document.getElementById('dataRef').value = formatDateInput(hoje);
+}
+
+function formatDateInput(d) {
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+function formatDateBR(d) {
+  const dd = String(d.getDate()).padStart(2,'0');
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const yyyy = d.getFullYear();
+  return `${dd}/${mm}/${yyyy}`;
+}
+
+function parseDate(s) {
+  if (!s) return null;
+  const [y,m,d] = s.split('-').map(Number);
+  return new Date(y,m-1,d);
+}
+
+function addDias(date, dias) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + dias);
+  return d;
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', (i===0&&tab==='dum')||(i===1&&tab==='usg')));
+  document.getElementById('tab-dum').classList.toggle('active', tab==='dum');
+  document.getElementById('tab-usg').classList.toggle('active', tab==='usg');
+}
+
+// ─── CÁLCULO PRINCIPAL ────────────────────────────────────────
+function calcular() {
+  const dataRefStr = document.getElementById('dataRef').value;
+  if (!dataRefStr) { alert('Por favor, informe a data de referência.'); return; }
+  const dataRef = parseDate(dataRefStr);
+
+  const isUSG = document.getElementById('tab-usg').classList.contains('active');
+
+  let diasTotais = 0;
+  let dum;
+
+  if (!isUSG) {
+    const dumStr = document.getElementById('dataDUM').value;
+    if (!dumStr) { alert('Informe a DUM.'); return; }
+    dum = parseDate(dumStr);
+    if (dum > dataRef) { alert('A DUM não pode ser posterior à data de referência.'); return; }
+    diasTotais = Math.floor((dataRef - dum) / 86400000);
+  } else {
+    const usgStr = document.getElementById('dataUSG').value;
+    const semanasUSG = parseInt(document.getElementById('semanasUSG').value) || 0;
+    const diasUSG = parseInt(document.getElementById('diasUSG').value) || 0;
+    if (!usgStr || !semanasUSG) { alert('Informe a data e a IG do USG.'); return; }
+    const dataUSG = parseDate(usgStr);
+    const igEmDias = semanasUSG * 7 + diasUSG;
+    const diasDesdeUSG = Math.floor((dataRef - dataUSG) / 86400000);
+    diasTotais = igEmDias + diasDesdeUSG;
+    // DUM corrigida
+    dum = new Date(dataRef - diasTotais * 86400000);
+  }
+
+  if (diasTotais < 0) { alert('Data inválida.'); return; }
+
+  const semanas = Math.floor(diasTotais / 7);
+  const diasResto = diasTotais % 7;
+
+  // DPP (280 dias da DUM)
+  const dpp = addDias(dum, 280);
+
+  // Altura uterina estimada
+  const altUterina = calcAlturaUterina(semanas);
+
+  // Medidas fetais
+  const medidas = calcMedidasFetais(semanas);
+
+  // Trimestre
+  let trimestre = '';
+  if (semanas < 14) trimestre = '1º Trimestre (1–13 sem)';
+  else if (semanas < 28) trimestre = '2º Trimestre (14–27 sem)';
+  else trimestre = '3º Trimestre (28–42 sem)';
+
+  // Exibir resultados
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({behavior:'smooth', block:'start'});
+
+  // IG destaque
+  document.getElementById('igDestaque').innerHTML = `
+    <div class="ig-label">Idade Gestacional</div>
+    <div class="ig-value">${semanas} sem${diasResto > 0 ? ` e ${diasResto} dia${diasResto>1?'s':''}` : ''}</div>
+    <div class="ig-trimestre">${trimestre}</div>
+  `;
+
+  // Timeline
+  const pct = Math.min((diasTotais / 280) * 100, 100);
+  document.getElementById('timelineFill').style.width = pct + '%';
+
+  // Dados gerais
+  document.getElementById('dadosGerais').innerHTML = `
+    <div class="result-item"><span class="result-label">DPP (data provável do parto)</span><span class="result-value">${formatDateBR(dpp)}</span></div>
+    <div class="result-item"><span class="result-label">DUM calculada</span><span class="result-value">${formatDateBR(dum)}</span></div>
+    <div class="result-item"><span class="result-label">Semanas completas</span><span class="result-value">${semanas} semanas</span></div>
+    <div class="result-item"><span class="result-label">Dias totais de gestação</span><span class="result-value">${diasTotais} dias</span></div>
+    <div class="result-item"><span class="result-label">Dias até o parto estimado</span><span class="result-value">${Math.max(0, Math.floor((dpp-dataRef)/86400000))} dias</span></div>
+    <div class="result-item"><span class="result-label">Altura uterina estimada</span><span class="result-value">${altUterina}</span></div>
+  `;
+
+  // Medidas fetais
+  document.getElementById('medidasFetais').innerHTML = `
+    <div class="medida-box"><div class="medida-icon">⚖️</div><div class="medida-val">${medidas.peso}</div><div class="medida-label">Peso estimado</div></div>
+    <div class="medida-box"><div class="medida-icon">📏</div><div class="medida-val">${medidas.comprimento}</div><div class="medida-label">Comprimento</div></div>
+    <div class="medida-box"><div class="medida-icon">🫀</div><div class="medida-val">${medidas.dbp}</div><div class="medida-label">DBP (diâm. biparietal)</div></div>
+    <div class="medida-box"><div class="medida-icon">🦴</div><div class="medida-val">${medidas.cf}</div><div class="medida-label">Comprimento do fêmur</div></div>
+    <div class="medida-box"><div class="medida-icon">🔵</div><div class="medida-val">${medidas.ca}</div><div class="medida-label">Circunferência abdominal</div></div>
+    <div class="medida-box"><div class="medida-icon">🟡</div><div class="medida-val">${medidas.cc}</div><div class="medida-label">Circunferência cefálica</div></div>
+  `;
+
+  // Condutas
+  document.getElementById('condutas').innerHTML = buildCondutas(semanas);
+}
+
+// ─── ALTURA UTERINA ───────────────────────────────────────────
+function calcAlturaUterina(sem) {
+  if (sem < 12) return '< 12 cm (útero não palpável acima da sínfise)';
+  if (sem === 12) return '≈ 12 cm (palpável na sínfise pubiana)';
+  if (sem <= 16) return `≈ ${sem - 2} cm (entre sínfise e umbigo)`;
+  if (sem === 20) return '≈ 18–20 cm (ao nível do umbigo)';
+  if (sem <= 36) return `≈ ${Math.round(sem * 0.9)} cm (estimativa)`;
+  if (sem <= 40) return `≈ ${Math.round(sem * 0.88)} cm (estimativa)`;
+  return '≈ 34–36 cm (próximo do termo)';
+}
+
+// ─── MEDIDAS FETAIS (tabelas de referência simplificadas) ─────
+function calcMedidasFetais(sem) {
+  // Tabelas baseadas em valores de referência clínica (Hadlock/ACOG)
+  const tabela = {
+    4:  {peso:'< 1 g', comprimento:'0,2 cm', dbp:'—', cf:'—', ca:'—', cc:'—'},
+    6:  {peso:'< 1 g', comprimento:'0,5 cm', dbp:'—', cf:'—', ca:'—', cc:'—'},
+    8:  {peso:'1 g', comprimento:'1,6 cm', dbp:'—', cf:'—', ca:'—', cc:'—'},
+    10: {peso:'4 g', comprimento:'3,1 cm', dbp:'—', cf:'—', ca:'—', cc:'—'},
+    12: {peso:'14 g', comprimento:'5,4 cm', dbp:'2,1 cm', cf:'0,8 cm', ca:'5,6 cm', cc:'7,0 cm'},
+    14: {peso:'43 g', comprimento:'8,7 cm', dbp:'2,8 cm', cf:'1,4 cm', ca:'7,5 cm', cc:'9,8 cm'},
+    16: {peso:'100 g', comprimento:'11,6 cm', dbp:'3,4 cm', cf:'2,0 cm', ca:'9,5 cm', cc:'12,4 cm'},
+    18: {peso:'190 g', comprimento:'14,2 cm', dbp:'4,1 cm', cf:'2,7 cm', ca:'11,5 cm', cc:'15,0 cm'},
+    20: {peso:'300 g', comprimento:'16,4 cm', dbp:'4,8 cm', cf:'3,3 cm', ca:'13,5 cm', cc:'17,5 cm'},
+    22: {peso:'430 g', comprimento:'19,0 cm', dbp:'5,4 cm', cf:'3,9 cm', ca:'15,6 cm', cc:'20,0 cm'},
+    24: {peso:'600 g', comprimento:'21,0 cm', dbp:'6,1 cm', cf:'4,4 cm', ca:'17,5 cm', cc:'22,2 cm'},
+    26: {peso:'760 g', comprimento:'23,0 cm', dbp:'6,7 cm', cf:'5,0 cm', ca:'19,3 cm', cc:'24,2 cm'},
+    28: {peso:'1005 g', comprimento:'25,0 cm', dbp:'7,2 cm', cf:'5,5 cm', ca:'21,0 cm', cc:'26,0 cm'},
+    30: {peso:'1300 g', comprimento:'27,0 cm', dbp:'7,7 cm', cf:'5,9 cm', ca:'22,8 cm', cc:'27,8 cm'},
+    32: {peso:'1700 g', comprimento:'29,0 cm', dbp:'8,2 cm', cf:'6,4 cm', ca:'24,5 cm', cc:'29,5 cm'},
+    34: {peso:'2100 g', comprimento:'32,0 cm', dbp:'8,6 cm', cf:'6,7 cm', ca:'26,2 cm', cc:'31,0 cm'},
+    36: {peso:'2600 g', comprimento:'35,0 cm', dbp:'9,0 cm', cf:'7,0 cm', ca:'27,8 cm', cc:'32,3 cm'},
+    38: {peso:'3100 g', comprimento:'38,0 cm', dbp:'9,3 cm', cf:'7,3 cm', ca:'29,3 cm', cc:'33,4 cm'},
+    40: {peso:'3400 g', comprimento:'50,0 cm', dbp:'9,5 cm', cf:'7,5 cm', ca:'30,5 cm', cc:'34,0 cm'},
+    42: {peso:'3600 g', comprimento:'51,0 cm', dbp:'9,6 cm', cf:'7,6 cm', ca:'31,0 cm', cc:'34,5 cm'},
+  };
+  if (sem < 4) return {peso:'< 1 g', comprimento:'< 0,1 cm', dbp:'—', cf:'—', ca:'—', cc:'—'};
+  // Interpolação simples: achar semana mais próxima
+  const keys = Object.keys(tabela).map(Number).sort((a,b)=>a-b);
+  let lower = keys[0], upper = keys[keys.length-1];
+  for (let i=0; i<keys.length-1; i++) {
+    if (sem >= keys[i] && sem <= keys[i+1]) { lower = keys[i]; upper = keys[i+1]; break; }
+    if (sem > keys[i+1]) { lower = upper = keys[i+1]; }
+  }
+  if (sem >= 42) return tabela[42];
+  return tabela[lower] || tabela[4];
+}
+
+// ─── CONDUTAS ─────────────────────────────────────────────────
+function buildCondutas(sem) {
+  const condutas = getCondutas(sem);
+  if (!condutas) return '<p style="color:var(--text-soft);font-size:0.85rem;">IG fora do período de acompanhamento pré-natal (> 42 semanas).</p>';
+
+  let html = '';
+
+  if (condutas.alerta) {
+    html += `<div class="alert warn">⚠️ ${condutas.alerta}</div>`;
+  }
+  if (condutas.info) {
+    html += `<div class="alert info">ℹ️ ${condutas.info}</div>`;
+  }
+
+  const sections = [
+    { key: 'exames', label: '🔬 Exames a solicitar', cls: 'exames' },
+    { key: 'suplementacao', label: '💊 Suplementação', cls: 'suplementacao' },
+    { key: 'vacinas', label: '💉 Vacinação', cls: 'vacinas' },
+    { key: 'orientacoes', label: '💬 Orientações', cls: 'orientacoes' },
+    { key: 'consultas', label: '📋 Consultas e encaminhamentos', cls: 'consultas' },
+  ];
+
+  for (const s of sections) {
+    if (condutas[s.key] && condutas[s.key].length > 0) {
+      html += `<div class="conduta-section">
+        <div class="conduta-header ${s.cls}">${s.label}</div>
+        <ul class="conduta-list">
+          ${condutas[s.key].map(i=>`<li>${i}</li>`).join('')}
+        </ul>
+      </div>`;
+    }
+  }
+
+  return html;
+}
+
+function getCondutas(sem) {
+  // ── PRÉ-NATAL COMPLETO POR FAIXA DE IG ──────────────────────
+
+  if (sem < 6) {
+    return {
+      info: 'Gestação muito inicial. Confirmar implantação e desconsiderar pseudo-saco gestacional.',
+      exames: [
+        'β-hCG sérico quantitativo (repetir em 48h se duvidoso)',
+        'Tipagem sanguínea e fator Rh',
+        'Hemograma completo',
+        'Urina I + urocultura',
+        'Glicemia de jejum',
+        'Sorologia: HIV, VDRL/RPR, HBsAg, HCV, Toxoplasma IgG/IgM, CMV IgG/IgM, Rubéola IgG',
+        'TSH',
+        'Papanicolaou (se indicado)',
+      ],
+      suplementacao: [
+        'Ácido fólico 400–800 mcg/dia (iniciar antes de 12 semanas)',
+        'Se alto risco para DTN: ácido fólico 4 mg/dia',
+      ],
+      orientacoes: [
+        'Interromper tabagismo, álcool e drogas ilícitas',
+        'Evitar medicamentos sem prescrição médica',
+        'Dieta equilibrada e hidratação adequada',
+        'Sono e repouso adequados',
+        'Informar sobre sinais de alarme: sangramento, cólica intensa, febre',
+      ],
+      consultas: [
+        'Agendar 1ª consulta pré-natal',
+        'USG obstétrico 1º trimestre (6–10 semanas) para confirmar vitalidade',
+      ],
+    };
+  }
+
+  if (sem <= 13) {
+    return {
+      info: `1º Trimestre (${sem} semanas). Fase de organogênese — cuidado com exposições teratogênicas.`,
+      exames: [
+        'Hemograma completo',
+        'Glicemia de jejum',
+        'Urina I + urocultura',
+        'Tipagem e Rh; Coombs indireto (se Rh negativo)',
+        'VDRL/RPR (sífilis)',
+        'HIV (ELISA ou teste rápido)',
+        'HBsAg (Hepatite B)',
+        'Anti-HCV (Hepatite C)',
+        'Toxoplasma IgG e IgM',
+        'Rubéola IgG (se não vacinada)',
+        'TSH',
+        'Eletroforese de hemoglobina (triagem para hemoglobinopatias)',
+        'Papanicolaou (se atrasado)',
+        'USG morfológico 1º trimestre (11–14 semanas) + translucência nucal',
+        'Rastreio de pré-eclâmpsia com artérias uterinas (11–14 semanas, se disponível)',
+      ],
+      suplementacao: [
+        'Ácido fólico 400–800 mcg/dia (até 12 semanas)',
+        'Sulfato ferroso 40 mg/dia de ferro elementar (iniciar em áreas de alta prevalência de anemia)',
+      ],
+      vacinas: [
+        'dTpa (tríplice bacteriana acelular): se não vacinada nessa gestação — pode aplicar a partir de 20 semanas; é recomendada, mas se necessário inicia antes',
+        'Influenza: a qualquer momento',
+        'COVID-19: a qualquer momento',
+        'Hepatite B: se soronegativa (série de 3 doses)',
+      ],
+      orientacoes: [
+        'Orientar sobre tontura, náuseas e vômitos (fisiológicos no 1º trimestre)',
+        'Evitar álcool, tabaco e drogas',
+        'Evitar medicamentos sem prescrição',
+        'Atividade física moderada (salvo contraindicação)',
+        'Orientar sobre sinal de alarme: sangramento vaginal, dor abdominal intensa, febre > 37,8°C',
+        'Informar sobre higiene dentária e risco de doença periodontal',
+      ],
+      consultas: [
+        '1ª consulta pré-natal com exame físico completo',
+        'Retorno em 4 semanas ou conforme necessidade',
+        'Encaminhar para dentista',
+        'Nutricionista se IMC alterado ou ganho de peso inadequado',
+      ],
+    };
+  }
+
+  if (sem <= 19) {
+    const retorno = {};
+    retorno.info = `Início do 2º Trimestre (${sem} semanas). Período de movimento fetal — atenção à percepção dos movimentos a partir de 18–20 semanas.`;
+    retorno.exames = [
+      'Repetir VDRL/RPR (rastreio 2º trimestre)',
+      'Toxoplasma IgM/IgG se suscetível (repetir mensalmente)',
+      'Urina I + urocultura se sintomas',
+      'Coombs indireto (se Rh negativo)',
+      'USG morfológico 2º trimestre (20–24 semanas) — programar',
+      'Rastreio de anomalias cromossômicas (se indicado: teste combinado, NIPT)',
+    ];
+    retorno.suplementacao = [
+      'Sulfato ferroso 40 mg/dia de ferro elementar',
+      'Carbonato de cálcio 1 g/dia (previne pré-eclâmpsia)',
+      'Vitamina D se deficiência documentada',
+    ];
+    retorno.vacinas = [
+      'dTpa: aplicar entre 20–36 semanas',
+      'Influenza: qualquer trimestre',
+      'COVID-19: qualquer trimestre',
+    ];
+    retorno.orientacoes = [
+      'Início dos movimentos fetais entre 18–20 semanas (primigesta) ou 16–18 semanas (multigesta)',
+      'Orientar sobre posição de dormir (decúbito lateral esquerdo)',
+      'Orientar higiene oral — sangramento gengival pode ser fisiológico',
+      'Ganho de peso esperado: ~0,4 kg/semana',
+      'Orientar sobre uso de cinto de segurança adaptado para gestantes',
+    ];
+    retorno.consultas = [
+      'Consulta de rotina a cada 4 semanas',
+      'Medir e registrar altura uterina e BCF (batimentos cardiofetais)',
+    ];
+    return retorno;
+  }
+
+  if (sem <= 27) {
+    return {
+      info: `2º Trimestre (${sem} semanas). Fase de crescimento acelerado do feto.`,
+      exames: [
+        'TOTG (teste oral de tolerância à glicose 75g) — 24–28 semanas: glicemia jejum, 1h e 2h',
+        'Hemograma (verificar anemia)',
+        'Repetir VDRL',
+        'Toxoplasma IgM/IgG se suscetível',
+        'Urina I + urocultura',
+        'Coombs indireto (se Rh negativo)',
+        'USG obstétrico com dopplerfluxometria se indicado',
+        'Ecocardiografia fetal (20–28 sem) se fator de risco',
+      ],
+      suplementacao: [
+        'Sulfato ferroso 40 mg/dia',
+        'Carbonato de cálcio 1–2 g/dia',
+        'Ácido fólico (manter até 28 semanas conforme protocolo local)',
+      ],
+      vacinas: [
+        'dTpa: preferencialmente entre 27–36 semanas',
+        'Influenza, COVID-19: qualquer momento',
+      ],
+      orientacoes: [
+        'Monitorar movimentos fetais: ≥ 10 movimentos em 2h (após 28 semanas)',
+        'Orientar sobre sinais de pré-eclâmpsia: cefaleia, escotomas, epigastralgia, edema de face/mãos',
+        'Orientar sinais de trabalho de parto prematuro: contrações regulares, perda de líquido, sangramento',
+        'Incentivar continuidade do trabalho físico e atividade moderada',
+        'Orientar sobre preparo para amamentação',
+      ],
+      consultas: [
+        'Consulta a cada 4 semanas',
+        'Medir PA, peso, AU, BCF e edema em todas as consultas',
+        'Encaminhar ao pré-natal de alto risco se DMG ou pré-eclâmpsia diagnosticada',
+      ],
+    };
+  }
+
+  if (sem <= 33) {
+    return {
+      info: `3º Trimestre inicial (${sem} semanas). Maturação pulmonar e ganho de peso acelerado.`,
+      exames: [
+        'Hemograma — reavaliação de anemia',
+        'VDRL (repetir no 3º trimestre)',
+        'Urina I + urocultura',
+        'Toxoplasma IgM/IgG se suscetível',
+        'Coombs indireto (se Rh negativo)',
+        'USG obstétrico com apresentação fetal e avaliação de líquido amniótico',
+        'Cardiotocografia (CTG) se indicada (> 34 semanas ou risco fetal)',
+        'Exame de estreptococo do grupo B (coleta entre 35–37 semanas)',
+      ],
+      suplementacao: [
+        'Sulfato ferroso 40 mg/dia',
+        'Carbonato de cálcio 1–2 g/dia',
+      ],
+      vacinas: [
+        'dTpa: se ainda não aplicada, aplicar antes de 36 semanas (ideal 27–36 sem)',
+        'Influenza e COVID-19: qualquer momento',
+      ],
+      orientacoes: [
+        'Monitorar movimentos fetais diariamente: contagem de 10 movimentos em 2h',
+        'Posição de repouso: decúbito lateral esquerdo',
+        'Orientar sobre contrações de Braxton Hicks (fisiológicas) vs. trabalho de parto',
+        'Preparação para amamentação — Banco de Leite Humano, pega correta',
+        'Planejar local do parto e documentação necessária',
+        'Orientar sobre sinais de trabalho de parto: contrações regulares a cada 5 min por 1h',
+        'Sinais de alarme: diminuição de movimentos fetais, sangramento, perda de líquido, cefaleia intensa',
+      ],
+      consultas: [
+        'Consulta a cada 2–3 semanas (a partir de 28 sem)',
+        'Curva de crescimento fetal se RCIU suspeita',
+        'Encaminhar para maternidade de referência se alto risco',
+      ],
+    };
+  }
+
+  if (sem <= 37) {
+    return {
+      info: `3º Trimestre (${sem} semanas). Fase pré-termo tardio / pré-termo. Feto com boa chance de viabilidade; evitar parto desnecessário antes de 39 semanas.`,
+      exames: [
+        'Cultura de Streptococcus do grupo B (35–37 semanas) — swab vaginal/anal',
+        'Hemograma e plaquetas',
+        'VDRL e HIV (repetir se necessário)',
+        'Urina I + urocultura',
+        'USG com perfil biofísico fetal e índice de líquido amniótico',
+        'Cardiotocografia (CTG) se indicada',
+      ],
+      suplementacao: [
+        'Sulfato ferroso — manter se anemia',
+        'Suspender carbonato de cálcio ao término da gestação conforme orientação',
+      ],
+      vacinas: [
+        'dTpa: última chance antes de 36 semanas (não aplicar após 36 semanas — risco de imunização inadequada antes do parto)',
+      ],
+      orientacoes: [
+        'Sinais de trabalho de parto ativo: contrações regulares + dilatação cervical',
+        'Orientar sobre o plano de parto',
+        'Orientar sobre cuidados com o recém-nascido',
+        'Preparação para amamentação exclusiva',
+        'Evitar viagens longas após 36 semanas',
+      ],
+      consultas: [
+        'Consultas semanais a partir de 36 semanas',
+        'Avaliar apresentação fetal (se cefálica ou pélvica — indicar versão se pélvica até 36 sem)',
+        'Discutir via de parto e plano de nascimento',
+      ],
+    };
+  }
+
+  if (sem <= 41) {
+    return {
+      alerta: sem >= 41 ? 'Gestação de 41+ semanas — avaliar indução do parto conforme protocolo institucional (ACOG recomenda discutir a partir de 39–40 semanas, e risco aumenta após 41 semanas).' : undefined,
+      info: `Gestação de termo (${sem} semanas). Parto pode ocorrer a qualquer momento.`,
+      exames: [
+        'Cardiotocografia (CTG) — monitoração do bem-estar fetal',
+        'USG com índice de líquido amniótico (ILA) — semanalmente se pós-termo',
+        'Perfil biofísico fetal se indicado',
+        'Hemograma, coagulograma e bioquímica pré-parto',
+      ],
+      suplementacao: [
+        'Manter sulfato ferroso se anemia diagnosticada',
+      ],
+      vacinas: [],
+      orientacoes: [
+        'Contagem diária de movimentos fetais — ir à maternidade se < 10 em 2h',
+        'Ir à maternidade se: contrações regulares, perda de líquido, sangramento ou diminuição de movimentos',
+        'Bolsa de maternidade preparada',
+        'Orientar sobre aleitamento materno e cuidados com o RN',
+        'Mapeamento da rota até a maternidade',
+      ],
+      consultas: [
+        'Consulta semanal',
+        'Internação eletiva ou indução conforme protocolo a partir de 41 semanas',
+        'Monitoração intensiva após 41 semanas',
+      ],
+    };
+  }
+
+  if (sem >= 42) {
+    return {
+      alerta: 'Gestação pós-termo (≥ 42 semanas) — indicação de resolução da gestação (internação imediata para indução ou cesariana conforme avaliação obstétrica).',
+      exames: [
+        'CTG imediata',
+        'USG com ILA e perfil biofísico urgente',
+        'Avaliação hospitalar imediata',
+      ],
+      orientacoes: [
+        'Encaminhar para maternidade imediatamente',
+        'Risco de síndrome de pós-maturidade, líquido meconial e óbito fetal aumentado',
+      ],
+      consultas: ['Internação e resolução da gestação — urgente'],
+    };
+  }
+
+  return null;
+}
+
+// Inicializar data de referência com hoje
+window.onload = function() {
+  usarHoje();
+};
+</script>
+
+</body>
+</html>
