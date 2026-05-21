@@ -63,6 +63,34 @@ body {
 .topbar-gen-btn:active { transform: translateY(0); }
 .topbar-gen-btn .ico   { font-size: 18px; }
 
+/* ── TOPBAR PRINT BUTTON (compacto: ícone + label em coluna) ── */
+.topbar-print-btn {
+  background: #1e5fa8;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.2;
+  width: 72px;
+  min-height: 56px;
+  transition: background .15s, transform .1s;
+  flex-shrink: 0;
+  letter-spacing: .01em;
+}
+.topbar-print-btn:hover  { background: #174d8a; transform: translateY(-1px); }
+.topbar-print-btn:active { transform: translateY(0); }
+.topbar-print-btn .ico   { font-size: 20px; line-height: 1; }
+
 /* ── PAGE LAYOUT ── */
 .page {
   max-width: 1400px;
@@ -339,26 +367,6 @@ body {
   gap: 4px;
 }
 .clear-btn:hover { background: #f39c12; color: #fff; }
-.topbar-print-btn {
-  background: #1e5fa8;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 20px;
-  font-size: 15.6px;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  white-space: nowrap;
-  transition: background .15s, transform .1s;
-  flex-shrink: 0;
-  letter-spacing: .02em;
-}
-.topbar-print-btn:hover  { background: #174d8a; transform: translateY(-1px); }
-.topbar-print-btn:active { transform: translateY(0); }
-.topbar-print-btn .ico   { font-size: 18px; }
 .drug-type-btns {
   display: flex;
   gap: 5px;
@@ -678,12 +686,15 @@ body {
     align-items: flex-start;
     gap: 10px;
     padding: 12px 14px;
+    height: auto;
   }
-  .topbar-gen-btn {
-    width: 100%;
-    justify-content: center;
-    font-size: 16.8px;
-    padding: 10px 14px;
+  .topbar-print-btn {
+    width: auto;
+    min-height: 44px;
+    flex-direction: row;
+    gap: 6px;
+    font-size: 13px;
+    padding: 7px 14px;
   }
 }
 </style>
@@ -692,7 +703,9 @@ body {
 
 <!-- ══════ TOP BAR ══════ -->
 <div class="topbar">
-<div class="topbar-icon"><img src="saude-logo-512.png" alt="Logo Saúde" style="width:70px;height:70px;border-radius:50%;object-fit:cover;"></div>
+  <div class="topbar-icon">
+    <img src="saude-logo-512.png" alt="Logo Saúde" style="width:70px;height:70px;border-radius:50%;object-fit:cover;">
+  </div>
   <div class="topbar-info">
     <h1>Receituário Simples e de Controle Especial (Antibióticos) para Enfermeiro(a)s</h1>
     <p>Gerador de prescrições — Sec. da Saúde de Varjota/SESAVAR - Desenvolvido por Alidemberg Araújo - Coord. do e-SUS Municipal</p>
@@ -701,12 +714,15 @@ body {
     <span class="ico">🖨️</span> Imprimir
   </button>
   <button class="topbar-print-btn" id="btn-guia" style="background:#0e7c6a;" onclick="window.open('guia.html','_blank')">
-    <span class="ico">🦠</span> Guia Antimicrobiano
+    <span class="ico">🦠</span> Guia Antimi&shy;crobiano
   </button>
   <button class="topbar-print-btn" id="btn-mamografia" style="background:#6b21a8;" onclick="window.open('Requisicao_Mamografia.html','_blank')">
-    <span class="ico">📄</span> Requisição Mamografia
- </button>
-   <button class="topbar-print-btn" id="btn-logout" style="background:#555;">
+    <span class="ico">📄</span> Req. Mamografia
+  </button>
+  <button class="topbar-print-btn" id="btn-calculadora" style="background:#c0392b;" onclick="window.open('calculadora.html','_blank')">
+    <span class="ico">🌸</span> Calc. Gestacional
+  </button>
+  <button class="topbar-print-btn" id="btn-logout" style="background:#555;">
     <span class="ico">🔒</span> Sair
   </button>
 </div>
@@ -822,7 +838,13 @@ body {
 
     <!-- Paciente — card largo, sempre visível -->
     <div class="card paciente-card">
-      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;"><span><span class="icon">🧑</span> Dados do Paciente</span><div style="display:flex;gap:6px;align-items:center;"><button class="clear-btn" id="btn-clear-pac" title="Limpar dados do paciente">🧹 Limpar</button><button class="clear-btn" id="btn-clear-tudo" title="Limpar identificação do paciente e todas as prescrições" style="border-color:#c0392b;color:#c0392b;">🗑️ Limpar Tudo (Identificação e prescrições)</button></div></div>
+      <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;">
+        <span><span class="icon">🧑</span> Dados do Paciente</span>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button class="clear-btn" id="btn-clear-pac" title="Limpar dados do paciente">🧹 Limpar</button>
+          <button class="clear-btn" id="btn-clear-tudo" title="Limpar identificação do paciente e todas as prescrições" style="border-color:#c0392b;color:#c0392b;">🗑️ Limpar Tudo (Identificação e prescrições)</button>
+        </div>
+      </div>
       <div class="paciente-grid-1">
         <div class="field">
           <label>Nome Completo *</label>
