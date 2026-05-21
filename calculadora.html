@@ -582,7 +582,7 @@ function calcular() {
   document.getElementById('results').style.display = 'block';
   const resultsEl = document.getElementById('results');
   const headerHeight = document.querySelector('header').offsetHeight;
-  const top = resultsEl.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
+  const top = resultsEl.getBoundingClientRect().top + window.pageYOffset - headerHeight - 10;
 window.scrollTo({ top, behavior: 'smooth' });
   // IG destaque
   document.getElementById('igDestaque').innerHTML = `
