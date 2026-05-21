@@ -429,24 +429,23 @@
     </div>
 
     <!-- USG -->
-    <div id="tab-usg" class="tab-panel">
-      <p class="usg-hint">Informe a data em que o ultrassom foi realizado e a idade gestacional que o exame apontou.</p>
-      <div class="input-row">
-        <div>
-          <label>Data do USG</label>
-          <input type="date" id="dataUSG">
-        </div>
-        <div>
-          <label>Semanas no USG</label>
-          <input type="number" id="semanasUSG" min="4" max="42" placeholder="Ex: 12">
-        </div>
-      </div>
-      <div style="margin-top:0.8rem;">
-        <label>Dias adicionais (opcional)</label>
-        <input type="number" id="diasUSG" min="0" max="6" placeholder="0–6 dias">
-        <p class="input-hint">Ex: se o USG disse "12 semanas e 3 dias", coloque 12 semanas e 3 dias</p>
-      </div>
+   <div id="tab-usg" class="tab-panel">
+  <p class="usg-hint">Informe a data em que o ultrassom foi realizado e a idade gestacional que o exame apontou.</p>
+  <div class="input-row" style="grid-template-columns: 1fr 1fr 1fr;">
+    <div>
+      <label>Data do USG</label>
+      <input type="date" id="dataUSG">
     </div>
+    <div>
+      <label>Semanas no USG</label>
+      <input type="number" id="semanasUSG" min="4" max="42" placeholder="Ex: 12">
+    </div>
+    <div>
+      <label>Dias adicionais</label>
+      <input type="number" id="diasUSG" min="0" max="6" placeholder="0–6">
+    </div>
+  </div>
+</div
 
     <button class="btn-calc" onclick="calcular()">Calcular →</button>
   </div>
