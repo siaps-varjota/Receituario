@@ -580,8 +580,10 @@ function calcular() {
 
   // Exibir resultados
   document.getElementById('results').style.display = 'block';
-  document.getElementById('results').scrollIntoView({behavior:'smooth', block:'start'});
-
+  const resultsEl = document.getElementById('results');
+  const headerHeight = document.querySelector('header').offsetHeight;
+  const top = resultsEl.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
+window.scrollTo({ top, behavior: 'smooth' });
   // IG destaque
   document.getElementById('igDestaque').innerHTML = `
     <div class="ig-label">Idade Gestacional</div>
