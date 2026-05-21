@@ -578,11 +578,13 @@ function calcular() {
   else trimestre = '3º Trimestre (28–42 sem)';
 
   // Exibir resultados
-  document.getElementById('results').style.display = 'block';
- const resultsEl = document.getElementById('results');
- const headerHeight = document.querySelector('header').offsetHeight;
- const top = resultsEl.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
- window.scrollTo({ top, behavior: 'smooth' });
+ document.getElementById('results').style.display = 'block';
+setTimeout(() => {
+  const resultsEl = document.getElementById('results');
+  const headerHeight = document.querySelector('header').offsetHeight;
+  const top = resultsEl.getBoundingClientRect().top + window.pageYOffset - headerHeight - 12;
+  window.scrollTo({ top, behavior: 'smooth' });
+}, 50);
   // IG destaque
   document.getElementById('igDestaque').innerHTML = `
     <div class="ig-label">Idade Gestacional</div>
