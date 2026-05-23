@@ -944,21 +944,21 @@ function gerarPDF() {
   y=secHead('Requisição','Campos 1–16',y);
 
   // Linha 1: Nº Requisição | Unidade | CNES — mesma linha
-  const wNreq=42, wCNES=35, wUnid=CW-wNreq-wCNES;
+  const wNreq=50, wCNES=50, wUnid=CW-wNreq-wCNES;
   cell('1 — Nº Requisição',gv('nreq')||'_________________',ML,y,wNreq,RH);
   cell('2 — Unidade de Saúde (ou outra fonte)*',gv('unidade'),ML+wNreq,y,wUnid,RH);
   cell('3 — CNES*',gv('cnes'),ML+wNreq+wUnid,y,wCNES,RH);
   y+=RH;
 
   // Linha 3: Município Atend | UF | IBGE
-  const wMun=CW-25-30, wUF=25, wIBGE=30;
+  const wMun=CW-wUF-wIBGE, wUF=25, wIBGE=50;
   cell('4 — Município de Atendimento',gv('mun_atend'),ML,y,wMun,RH);
   cell('5 — UF',gv('uf_atend'),ML+wMun,y,wUF,RH);
   cell('6 — Código IBGE*',gv('ibge_atend'),ML+wMun+wUF,y,wIBGE,RH);
   y+=RH;
 
   // Linha 4: Prof | Registro | Assinatura
-  const wProf=CW*0.5, wReg=CW*0.3, wAss=CW-wProf-wReg;
+  const wProf=CW*0.3, wReg=CW*0.5, wAss=CW-wProf-wReg;
   cell('7 — Nome do Profissional de Saúde*',gv('prof_nome'),ML,y,wProf,RH);
   cell('8 — Registro Profissional/Matrícula*',gv('prof_reg'),ML+wProf,y,wReg,RH);
   cell('9 — Assinatura',gv('prof_ass'),ML+wProf+wReg,y,wAss,RH);
