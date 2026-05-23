@@ -2,19 +2,17 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<link rel="shortcut icon" href="saude-logo-512.png?v=2" type="image/png">
-<link rel="icon" href="saude-logo-512.png?v=2" type="image/png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hanseníase — Guia Clínico PCDT 2022</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --green-dark: #0d3d2b;
-  --green: #1a5c3a;
-  --green-mid: #236b45;
-  --green-light: #2d8a58;
-  --green-pale: #e6f4ed;
-  --green-border: #b8ddc9;
+  --green-dark: #1e0a3c;
+  --green: #6d28d9;
+  --green-mid: #7c3aed;
+  --green-light: #8b5cf6;
+  --green-pale: #ede9fe;
+  --green-border: #c4b5fd;
   --amber: #c47a1e;
   --amber-light: #fef5e7;
   --amber-border: #f0c882;
@@ -36,6 +34,7 @@
   --shadow: 0 2px 12px rgba(13,61,43,0.08);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; }
 body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
 /* HEADER */
@@ -44,6 +43,12 @@ body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: v
 .header-icon { font-size: 1.5rem; background: var(--green-mid); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .header-title h1 { font-size: 1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
 .header-title p { font-size: 0.68rem; opacity: 0.6; font-weight: 300; margin-top: 0.1rem; }
+
+.font-ctrl { display: flex; align-items: center; gap: 0.3rem; margin-left: 0.5rem; flex-shrink: 0; }
+.font-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: white; border-radius: 6px; width: 28px; height: 28px; font-size: 1.1rem; cursor: pointer; line-height: 1; display: flex; align-items: center; justify-content: center; transition: background 0.15s; font-family: inherit; }
+.font-btn:hover { background: rgba(255,255,255,0.28); }
+.font-label { font-size: 0.65rem; color: rgba(255,255,255,0.5); white-space: nowrap; }
+
 .badge-ms { font-size: 0.62rem; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 0.15rem 0.45rem; margin-left: auto; white-space: nowrap; letter-spacing: 0.04em; }
 
 /* NAV */
@@ -51,7 +56,7 @@ body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: v
 .nav-scroll::-webkit-scrollbar { display: none; }
 .nav-btn { padding: 0.65rem 0.9rem; border: none; background: transparent; color: rgba(255,255,255,0.6); font-family: 'IBM Plex Sans', sans-serif; font-size: 0.72rem; font-weight: 500; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.15s; letter-spacing: 0.02em; }
 .nav-btn:hover { color: rgba(255,255,255,0.9); }
-.nav-btn.active { color: white; border-bottom-color: #4cd98a; }
+.nav-btn.active { color: white; border-bottom-color: #a78bfa; }
 
 /* MAIN */
 .main { max-width: 720px; margin: 0 auto; padding: 1.2rem 1rem 5rem; }
@@ -211,6 +216,11 @@ body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: v
     <div class="header-title">
       <h1>Hanseníase</h1>
       <p>Protocolo Clínico e Diretrizes Terapêuticas — PCDT 2022</p>
+    </div>
+    <div class="font-ctrl">
+      <span class="font-label">A</span>
+      <button class="font-btn" onclick="adjustFont(-0.05)" title="Diminuir fonte">−</button>
+      <button class="font-btn" onclick="adjustFont(0.05)" title="Aumentar fonte">＋</button>
     </div>
     <span class="badge-ms">MS/SVS • SUS</span>
   </div>
@@ -941,6 +951,16 @@ body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: v
 </div><!-- /main -->
 
 <script>
+// ── FONTE ──────────────────────────────────────
+let fontScale = parseFloat(localStorage.getItem('hans_font_scale') || '1.2');
+document.documentElement.style.fontSize = (16 * fontScale) + 'px';
+
+function adjustFont(delta) {
+  fontScale = Math.min(2, Math.max(0.75, fontScale + delta));
+  document.documentElement.style.fontSize = (16 * fontScale) + 'px';
+  localStorage.setItem('hans_font_scale', fontScale.toFixed(2));
+}
+
 function goSection(id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
