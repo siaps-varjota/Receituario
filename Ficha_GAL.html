@@ -944,14 +944,14 @@ function gerarPDF() {
   y=secHead('Requisição','Campos 1–16',y);
 
   // Linha 1: Nº Requisição | Unidade | CNES — mesma linha
-  const wNreq=50, wCNES=50, wUnid=CW-wNreq-wCNES;
+  const wNreq=50, wCNES=40, wUnid=CW-wNreq-wCNES;
   cell('1 — Nº Requisição',gv('nreq')||'_________________',ML,y,wNreq,RH);
   cell('2 — Unidade de Saúde (ou outra fonte)*',gv('unidade'),ML+wNreq,y,wUnid,RH);
   cell('3 — CNES*',gv('cnes'),ML+wNreq+wUnid,y,wCNES,RH);
   y+=RH;
 
   // Linha 3: Município Atend | UF | IBGE
-  const wUF=25, wIBGE=50, wMun=CW-wUF-wIBGE;
+  const wUF=25, wIBGE=40, wMun=CW-wUF-wIBGE;
   cell('4 — Município de Atendimento',gv('mun_atend'),ML,y,wMun,RH);
   cell('5 — UF',gv('uf_atend'),ML+wMun,y,wUF,RH);
   cell('6 — Código IBGE*',gv('ibge_atend'),ML+wMun+wUF,y,wIBGE,RH);
