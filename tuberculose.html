@@ -901,11 +901,11 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
 
 <script>
 // ── FONTE ──────────────────────────────────────
-let fontScale = parseFloat(localStorage.getItem('tb_font_scale') || '1');
+let fontScale = parseFloat(localStorage.getItem('tb_font_scale') || '1.2');
 document.documentElement.style.fontSize = (16 * fontScale) + 'px';
 
 function adjustFont(delta) {
-  fontScale = Math.min(1.6, Math.max(0.75, fontScale + delta));
+  fontScale = Math.min(2, Math.max(0.75, fontScale + delta));
   document.documentElement.style.fontSize = (16 * fontScale) + 'px';
   localStorage.setItem('tb_font_scale', fontScale.toFixed(2));
 }
