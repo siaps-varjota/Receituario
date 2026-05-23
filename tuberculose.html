@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tuberculose — Guia Clínico</title>
+<title>Tuberculose — Protocolo de Enfermagem APS</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -22,6 +22,9 @@
   --blue: #1a4b8c;
   --blue-light: #e8f0fb;
   --blue-border: #b0c8f0;
+  --purple: #6a3fa0;
+  --purple-light: #f3eeff;
+  --purple-border: #d0b8f5;
   --text: #1a1a1a;
   --text-mid: #3d3d3d;
   --text-soft: #666;
@@ -30,554 +33,184 @@
   --border: #d4e4d8;
   --shadow: 0 2px 12px rgba(13,61,43,0.08);
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
-body {
-  font-family: 'IBM Plex Sans', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-}
+.app-header { background: var(--green-dark); color: white; position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 16px rgba(0,0,0,0.25); }
+.header-top { display: flex; align-items: center; gap: 0.8rem; padding: 0.9rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.header-icon { font-size: 1.5rem; background: var(--green-mid); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.header-title h1 { font-size: 1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.header-title p { font-size: 0.68rem; opacity: 0.6; font-weight: 300; margin-top: 0.1rem; }
+.badge-ms { font-size: 0.62rem; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 0.15rem 0.45rem; margin-left: auto; white-space: nowrap; letter-spacing: 0.04em; }
 
-/* ── HEADER ── */
-.app-header {
-  background: var(--green-dark);
-  color: white;
-  padding: 0;
-  position: sticky;
-  top: 0;
-  z-index: 200;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.25);
-}
-
-.header-top {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  padding: 0.9rem 1rem;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-.header-icon {
-  font-size: 1.5rem;
-  background: var(--green-mid);
-  width: 40px; height: 40px;
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-
-.header-title h1 {
-  font-size: 1rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.header-title p {
-  font-size: 0.68rem;
-  opacity: 0.6;
-  font-weight: 300;
-  margin-top: 0.1rem;
-}
-
-/* ── NAV ── */
-.nav-scroll {
-  display: flex;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  gap: 0;
-}
+.nav-scroll { display: flex; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
 .nav-scroll::-webkit-scrollbar { display: none; }
-
-.nav-btn {
-  padding: 0.65rem 1rem;
-  border: none;
-  background: transparent;
-  color: rgba(255,255,255,0.6);
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-  border-bottom: 2px solid transparent;
-  transition: all 0.15s;
-  letter-spacing: 0.02em;
-}
-
+.nav-btn { padding: 0.65rem 0.9rem; border: none; background: transparent; color: rgba(255,255,255,0.6); font-family: 'IBM Plex Sans', sans-serif; font-size: 0.72rem; font-weight: 500; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.15s; letter-spacing: 0.02em; }
 .nav-btn:hover { color: rgba(255,255,255,0.9); }
 .nav-btn.active { color: white; border-bottom-color: #4cd98a; }
 
-/* ── MAIN ── */
 .main { max-width: 720px; margin: 0 auto; padding: 1.2rem 1rem 5rem; }
-
-/* ── SECTION ── */
 .section { display: none; }
 .section.active { display: block; }
 
-/* ── CARD ── */
-.card {
-  background: var(--white);
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  padding: 1.2rem;
-  margin-bottom: 0.9rem;
-  box-shadow: var(--shadow);
-}
+.card { background: var(--white); border-radius: 12px; border: 1px solid var(--border); padding: 1.2rem; margin-bottom: 0.9rem; box-shadow: var(--shadow); }
+.card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+.card-icon { font-size: 1rem; background: var(--green-pale); width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.card-title { font-size: 0.85rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.06em; }
 
-.card-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.card-icon {
-  font-size: 1rem;
-  background: var(--green-pale);
-  width: 32px; height: 32px;
-  border-radius: 8px;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-
-.card-title {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--green);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-/* ── ALGO ── */
-.algo-question {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 1rem;
-  line-height: 1.4;
-}
-
-.btn-group {
-  display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 0.5rem;
-}
-
-.btn-opt {
-  padding: 0.55rem 1.1rem;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  background: white;
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.15s;
-  color: var(--text-mid);
-}
-
+/* ALGORITHM */
+.algo-question { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 1rem; line-height: 1.4; }
+.btn-group { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+.btn-opt { padding: 0.55rem 1.1rem; border: 1.5px solid var(--border); border-radius: 8px; background: white; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.15s; color: var(--text-mid); }
 .btn-opt:hover { border-color: var(--green-light); color: var(--green); background: var(--green-pale); }
-
 .btn-opt.selected { background: var(--green); color: white; border-color: var(--green); }
-
-.btn-restart {
-  padding: 0.5rem 1rem;
-  background: transparent;
-  border: 1.5px solid var(--green-border);
-  border-radius: 8px;
-  color: var(--green);
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 0.8rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 1rem;
-  transition: all 0.15s;
-}
+.btn-restart { padding: 0.5rem 1rem; background: transparent; border: 1.5px solid var(--green-border); border-radius: 8px; color: var(--green); font-family: 'IBM Plex Sans', sans-serif; font-size: 0.8rem; font-weight: 600; cursor: pointer; margin-top: 1rem; transition: all 0.15s; }
 .btn-restart:hover { background: var(--green-pale); }
 
-/* ── RESULT BOX ── */
-.result-box {
-  border-radius: 10px;
-  padding: 1rem;
-  margin-top: 0.8rem;
-  border: 1.5px solid;
-}
-
+.result-box { border-radius: 10px; padding: 1rem; margin-top: 0.8rem; border: 1.5px solid; }
 .result-box.green { background: var(--green-pale); border-color: var(--green-border); }
 .result-box.amber { background: var(--amber-light); border-color: var(--amber-border); }
 .result-box.red { background: var(--red-light); border-color: var(--red-border); }
 .result-box.blue { background: var(--blue-light); border-color: var(--blue-border); }
-
-.result-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
-  margin-bottom: 0.6rem;
-}
-
+.result-badge { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.2rem 0.6rem; border-radius: 4px; margin-bottom: 0.6rem; }
 .result-badge.green { background: var(--green); color: white; }
 .result-badge.amber { background: var(--amber); color: white; }
 .result-badge.red { background: var(--red); color: white; }
 .result-badge.blue { background: var(--blue); color: white; }
-
-.result-title {
-  font-size: 0.9rem;
-  font-weight: 700;
-  margin-bottom: 0.4rem;
-  color: var(--text);
-}
-
-.result-body {
-  font-size: 0.83rem;
-  color: var(--text-mid);
-  line-height: 1.55;
-}
-
+.result-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text); }
+.result-body { font-size: 0.83rem; color: var(--text-mid); line-height: 1.55; }
 .result-body ul { padding-left: 1.2rem; margin-top: 0.4rem; }
 .result-body li { margin-bottom: 0.3rem; }
+.step-trail { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 1rem; }
+.step-chip { font-size: 0.72rem; background: var(--green-pale); color: var(--green); border: 1px solid var(--green-border); padding: 0.18rem 0.55rem; border-radius: 20px; font-weight: 500; }
 
-.step-trail {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  margin-bottom: 1rem;
-}
+.acc-item { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.5rem; overflow: hidden; }
+.acc-header { padding: 0.75rem 1rem; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #fafcfa; transition: background 0.15s; color: var(--text-mid); }
+.acc-header:hover { background: var(--green-pale); color: var(--green); }
+.acc-item.open .acc-header { background: var(--green-pale); color: var(--green); }
+.acc-arrow { font-size: 0.7rem; transition: transform 0.2s; }
+.acc-item.open .acc-arrow { transform: rotate(90deg); }
+.acc-body { display: none; padding: 0.9rem 1rem; font-size: 0.83rem; color: var(--text-mid); line-height: 1.6; border-top: 1px solid var(--border); }
+.acc-item.open .acc-body { display: block; }
+.acc-body ul { padding-left: 1.1rem; margin-top: 0.4rem; }
+.acc-body li { margin-bottom: 0.35rem; }
+.acc-body strong { color: var(--text); }
+.acc-body p { margin-bottom: 0.5rem; }
 
-.step-chip {
-  font-size: 0.72rem;
-  background: var(--green-pale);
-  color: var(--green);
-  border: 1px solid var(--green-border);
-  padding: 0.18rem 0.55rem;
-  border-radius: 20px;
-  font-weight: 500;
-}
+.info-box { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.75rem 0.9rem; border-radius: 8px; font-size: 0.82rem; line-height: 1.5; margin-bottom: 0.8rem; }
+.info-box.green { background: var(--green-pale); border: 1px solid var(--green-border); color: var(--green-dark); }
+.info-box.amber { background: var(--amber-light); border: 1px solid var(--amber-border); color: #7a4c0e; }
+.info-box.red { background: var(--red-light); border: 1px solid var(--red-border); color: #7a1a1a; }
+.info-box.blue { background: var(--blue-light); border: 1px solid var(--blue-border); color: #1a3a6a; }
+.info-box.purple { background: var(--purple-light); border: 1px solid var(--purple-border); color: #3a1a6a; }
 
-/* ── TREATMENT TABLE ── */
-.trat-section { margin-bottom: 1.4rem; }
+.scheme-box { background: #f8fbf9; border: 1.5px solid var(--green-border); border-radius: 10px; padding: 1rem; margin-bottom: 0.8rem; }
+.scheme-name { font-size: 0.88rem; font-weight: 700; color: var(--green); margin-bottom: 0.25rem; }
+.scheme-desc { font-size: 0.78rem; color: var(--text-soft); margin-bottom: 0.6rem; }
 
-.trat-title {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--green);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 0.7rem;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
+.trat-title { font-size: 0.8rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.7rem; padding-top: 0.2rem; }
+.trat-section { margin-bottom: 1.2rem; }
 
-.scheme-box {
-  background: var(--green-pale);
-  border: 1px solid var(--green-border);
-  border-radius: 10px;
-  padding: 0.9rem;
-  margin-bottom: 0.7rem;
-}
+.phase-row { display: grid; grid-template-columns: 80px 1fr; gap: 0.5rem; margin-bottom: 0.5rem; font-size: 0.82rem; }
+.phase-label { background: var(--green); color: white; padding: 0.3rem 0.5rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-align: center; display: flex; align-items: center; justify-content: center; line-height: 1.2; }
+.phase-content { background: white; border: 1px solid var(--border); border-radius: 6px; padding: 0.4rem 0.7rem; color: var(--text-mid); line-height: 1.4; }
 
-.scheme-name {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--green-dark);
-  margin-bottom: 0.3rem;
-}
+.weight-selector { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+.weight-btn { padding: 0.45rem 0.85rem; border: 1.5px solid var(--green-border); border-radius: 20px; background: white; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.78rem; font-weight: 500; cursor: pointer; color: var(--green); transition: all 0.15s; }
+.weight-btn:hover, .weight-btn.active { background: var(--green); color: white; border-color: var(--green); }
+.dose-result { background: var(--green-pale); border: 1px solid var(--green-border); border-radius: 8px; padding: 0.85rem; font-size: 0.82rem; color: var(--green-dark); line-height: 1.65; display: none; }
 
-.scheme-desc {
-  font-size: 0.8rem;
-  color: var(--text-soft);
-  margin-bottom: 0.7rem;
-}
+.reac-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-bottom: 0.5rem; }
+.reac-table th { background: var(--green-pale); color: var(--green); padding: 0.6rem 0.7rem; text-align: left; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.reac-table td { padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-mid); line-height: 1.5; }
+.reac-table tr:last-child td { border-bottom: none; }
 
-.phase-row {
-  display: grid;
-  grid-template-columns: 80px 1fr;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
-  font-size: 0.82rem;
-}
+.score-item { background: white; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.6rem; overflow: hidden; }
+.score-item-header { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0.9rem; font-size: 0.85rem; font-weight: 600; background: var(--green-pale); border-bottom: 1px solid var(--border); }
+.score-options { padding: 0.7rem 0.9rem; }
+.score-radio { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.45rem 0; cursor: pointer; font-size: 0.82rem; line-height: 1.4; }
+.score-radio input[type=radio] { flex-shrink: 0; margin-top: 0.15rem; accent-color: var(--green); }
+.score-total-box { background: var(--green-dark); color: white; border-radius: 10px; padding: 1rem; text-align: center; margin-top: 0.5rem; }
+.score-number { font-family: 'IBM Plex Mono', monospace; font-size: 2.5rem; font-weight: 600; line-height: 1; }
+.score-interpretation { font-size: 0.85rem; margin-top: 0.5rem; padding: 0.5rem 0.8rem; border-radius: 6px; font-weight: 500; }
 
-.phase-label {
-  background: var(--green);
-  color: white;
-  padding: 0.3rem 0.5rem;
-  border-radius: 6px;
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1.2;
-}
-
-.phase-content {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.4rem 0.7rem;
-  color: var(--text-mid);
-  line-height: 1.4;
-}
-
-table.dose-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.78rem;
-  margin-top: 0.7rem;
-}
-
-table.dose-table th {
-  background: var(--green);
-  color: white;
-  padding: 0.4rem 0.5rem;
-  text-align: left;
-  font-weight: 600;
-}
-
-table.dose-table td {
-  padding: 0.35rem 0.5rem;
-  border-bottom: 1px solid var(--border);
-  vertical-align: top;
-}
-
+/* DOSE TABLE */
+table.dose-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 0.7rem; }
+table.dose-table th { background: var(--green); color: white; padding: 0.4rem 0.5rem; text-align: left; font-weight: 600; }
+table.dose-table td { padding: 0.35rem 0.5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
 table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
 
-.weight-selector {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 0.7rem 0 0.4rem;
-}
-
-.weight-btn {
-  padding: 0.35rem 0.7rem;
-  border: 1.5px solid var(--border);
-  border-radius: 6px;
-  background: white;
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'IBM Plex Sans', sans-serif;
-  transition: all 0.15s;
-  color: var(--text-mid);
-}
-.weight-btn:hover { border-color: var(--green-light); background: var(--green-pale); color: var(--green); }
-.weight-btn.active { background: var(--green); color: white; border-color: var(--green); }
-
-.dose-result {
-  background: var(--green-dark);
-  color: white;
-  padding: 0.8rem 1rem;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  line-height: 1.6;
-  display: none;
-}
-
-/* ── ESCORE ── */
-.score-item {
-  background: white;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  margin-bottom: 0.6rem;
-  overflow: hidden;
-}
-
-.score-item-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.65rem 0.9rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  background: var(--green-pale);
-  border-bottom: 1px solid var(--border);
-}
-
-.score-options { padding: 0.7rem 0.9rem; }
-
-.score-radio {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-  padding: 0.45rem 0;
-  cursor: pointer;
-  font-size: 0.82rem;
-  line-height: 1.4;
-}
-
-.score-radio input[type=radio] { flex-shrink: 0; margin-top: 0.15rem; accent-color: var(--green); }
-
-.score-total-box {
-  background: var(--green-dark);
-  color: white;
-  border-radius: 10px;
-  padding: 1rem;
-  text-align: center;
-  margin-top: 0.5rem;
-}
-
-.score-number {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 2.5rem;
-  font-weight: 600;
-  line-height: 1;
-}
-
-.score-interpretation {
-  font-size: 0.85rem;
-  margin-top: 0.5rem;
-  padding: 0.5rem 0.8rem;
-  border-radius: 6px;
-  font-weight: 500;
-}
-
-/* ── REAÇÕES ── */
-.reac-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-.reac-table th {
-  background: var(--green);
-  color: white;
-  padding: 0.5rem 0.7rem;
-  text-align: left;
-  font-weight: 600;
-  font-size: 0.75rem;
-}
-.reac-table td {
-  padding: 0.5rem 0.7rem;
-  border-bottom: 1px solid var(--border);
-  vertical-align: top;
-  line-height: 1.4;
-}
-.reac-table tr:nth-child(even) td { background: #f9fbf9; }
-
-.severity-badge {
-  display: inline-block;
-  padding: 0.1rem 0.4rem;
-  border-radius: 4px;
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-}
-.sev-minor { background: var(--amber-light); color: var(--amber); }
-.sev-major { background: var(--red-light); color: var(--red); }
-
-/* ── RESISTÊNCIA ── */
-.resist-card {
-  border: 1.5px solid var(--border);
-  border-radius: 10px;
-  margin-bottom: 0.8rem;
-  overflow: hidden;
-}
-
-.resist-header {
-  background: var(--green);
-  color: white;
-  padding: 0.7rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.resist-title {
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.resist-subtitle {
-  font-size: 0.72rem;
-  opacity: 0.8;
-  margin-top: 0.1rem;
-}
-
-.resist-body {
-  padding: 0.9rem 1rem;
-  font-size: 0.83rem;
-  line-height: 1.55;
-  color: var(--text-mid);
-}
-
+/* RESIST */
+.resist-card { border: 1.5px solid var(--border); border-radius: 10px; margin-bottom: 0.8rem; overflow: hidden; }
+.resist-header { color: white; padding: 0.7rem 1rem; }
+.resist-title { font-size: 0.9rem; font-weight: 700; }
+.resist-subtitle { font-size: 0.72rem; opacity: 0.8; margin-top: 0.1rem; }
+.resist-body { padding: 0.9rem 1rem; font-size: 0.83rem; line-height: 1.55; color: var(--text-mid); }
 .resist-body strong { color: var(--text); }
 
-.mono-tag {
-  font-family: 'IBM Plex Mono', monospace;
-  background: var(--green-pale);
-  color: var(--green-dark);
-  padding: 0.1rem 0.4rem;
-  border-radius: 4px;
-  font-size: 0.85em;
-  font-weight: 600;
-}
+.mono-tag { font-family: 'IBM Plex Mono', monospace; background: var(--green-pale); color: var(--green-dark); padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.85em; font-weight: 600; }
 
-.drug-group {
-  margin-bottom: 0.8rem;
-}
-
-.group-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--green);
-  margin-bottom: 0.3rem;
-}
-
-.drug-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-}
-
-.drug-pill {
-  font-size: 0.78rem;
-  padding: 0.2rem 0.6rem;
-  border-radius: 20px;
-  font-weight: 500;
-}
-
+.drug-group { margin-bottom: 0.8rem; }
+.group-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green); margin-bottom: 0.3rem; }
+.drug-pills { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.drug-pill { font-size: 0.78rem; padding: 0.2rem 0.6rem; border-radius: 20px; font-weight: 500; }
 .pill-a { background: #dbeafe; color: #1e40af; }
 .pill-b { background: #fef3c7; color: #92400e; }
 .pill-c { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
 .pill-d { background: #f5f5f5; color: #444; border: 1px solid #e0e0e0; }
 
-/* ── INFO BOXES ── */
-.info-box {
-  border-radius: 8px;
-  padding: 0.7rem 0.9rem;
-  margin-bottom: 0.7rem;
-  font-size: 0.82rem;
-  line-height: 1.5;
-  display: flex;
-  gap: 0.5rem;
-  align-items: flex-start;
-}
-.info-box.green { background: var(--green-pale); border: 1px solid var(--green-border); color: var(--green-dark); }
-.info-box.amber { background: var(--amber-light); border: 1px solid var(--amber-border); color: #7a4a10; }
-.info-box.red { background: var(--red-light); border: 1px solid var(--red-border); color: #6b1515; }
+/* TIMELINE */
+.timeline { position: relative; padding-left: 1.4rem; }
+.timeline::before { content: ''; position: absolute; left: 0.45rem; top: 0; bottom: 0; width: 2px; background: var(--green-border); }
+.tl-item { position: relative; margin-bottom: 1rem; }
+.tl-dot { position: absolute; left: -1rem; top: 0.2rem; width: 10px; height: 10px; border-radius: 50%; background: var(--green); border: 2px solid white; box-shadow: 0 0 0 2px var(--green-border); }
+.tl-title { font-size: 0.83rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+.tl-body { font-size: 0.8rem; color: var(--text-mid); line-height: 1.5; }
 
-/* ── ACCORDION ── */
-.acc-item { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.5rem; overflow: hidden; }
-.acc-header { padding: 0.7rem 0.9rem; font-size: 0.85rem; font-weight: 600; cursor: pointer; background: white; display: flex; justify-content: space-between; align-items: center; }
-.acc-header:hover { background: var(--green-pale); }
-.acc-body { display: none; padding: 0.8rem 0.9rem; border-top: 1px solid var(--border); font-size: 0.82rem; line-height: 1.6; color: var(--text-mid); }
-.acc-item.open .acc-body { display: block; }
-.acc-arrow { transition: transform 0.2s; }
-.acc-item.open .acc-arrow { transform: rotate(90deg); }
+/* SR CLASSIFICATION */
+.risk-grid { display: grid; gap: 0.5rem; margin-bottom: 0.8rem; }
+.risk-row { display: grid; grid-template-columns: 36px 1fr; gap: 0.6rem; align-items: flex-start; padding: 0.7rem 0.9rem; border-radius: 8px; border: 1.5px solid; }
+.risk-row.imediato { background: var(--red-light); border-color: var(--red-border); }
+.risk-row.prioritario { background: var(--amber-light); border-color: var(--amber-border); }
+.risk-row.dia { background: var(--blue-light); border-color: var(--blue-border); }
+.risk-icon { font-size: 1.4rem; line-height: 1; }
+.risk-title { font-size: 0.82rem; font-weight: 700; margin-bottom: 0.25rem; }
+.risk-row.imediato .risk-title { color: var(--red); }
+.risk-row.prioritario .risk-title { color: var(--amber); }
+.risk-row.dia .risk-title { color: var(--blue); }
+.risk-desc { font-size: 0.78rem; color: var(--text-mid); line-height: 1.4; }
+
+/* VULN PILLS */
+.vuln-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.8rem; }
+.vuln-chip { font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.65rem; border-radius: 20px; background: var(--purple-light); border: 1px solid var(--purple-border); color: var(--purple); }
+
+/* CONTACT TABLE */
+.contact-table { width: 100%; border-collapse: collapse; font-size: 0.79rem; margin-bottom: 0.5rem; }
+.contact-table th { background: var(--green-pale); color: var(--green); padding: 0.55rem 0.7rem; text-align: left; font-weight: 600; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.contact-table td { padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-mid); line-height: 1.4; }
+.contact-table tr:last-child td { border-bottom: none; }
+
+/* TDO */
+.tdo-freq { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+.tdo-chip { font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.8rem; border-radius: 20px; }
+.tdo-chip.fase1 { background: #dbeafe; color: #1e40af; }
+.tdo-chip.fase2 { background: #d1fae5; color: #065f46; }
+
+/* VIGILÂNCIA FLOW */
+.vig-flow { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.8rem; }
+.vig-step { display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem; }
+.vig-num { background: var(--green); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; }
+.vig-arrow { color: var(--green-border); font-size: 0.8rem; padding-left: 11px; }
+
+/* SINAN TABLE */
+.sinan-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.sinan-table th { background: var(--green); color: white; padding: 0.4rem 0.6rem; text-align: left; font-weight: 600; font-size: 0.74rem; }
+.sinan-table td { padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.4; color: var(--text-mid); }
+.sinan-table tr:nth-child(even) td { background: var(--green-pale); }
 
 @media (max-width: 480px) {
   .phase-row { grid-template-columns: 70px 1fr; }
+  .risk-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -587,33 +220,36 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
   <div class="header-top">
     <div class="header-icon">🫁</div>
     <div class="header-title">
-      <h1>Tuberculose — Algoritmo</h1>
-      <p>Manual de Recomendações MS/SVS · 2ª Edição</p>
+      <h1>Tuberculose — Enfermagem APS</h1>
+      <p>Protocolo de Enfermagem MS · 2022 · Manual de Recomendações MS/SVS 2ª Ed.</p>
     </div>
+    <div class="badge-ms">MS · 2022</div>
   </div>
   <div class="nav-scroll">
     <button class="nav-btn active" onclick="goSection('algo')">Algoritmo</button>
+    <button class="nav-btn" onclick="goSection('acolhimento')">Acolhimento SR</button>
     <button class="nav-btn" onclick="goSection('trat')">Tratamento</button>
+    <button class="nav-btn" onclick="goSection('tdo')">TDO</button>
     <button class="nav-btn" onclick="goSection('escore')">Escore Pediátrico</button>
     <button class="nav-btn" onclick="goSection('reac')">Reações Adversas</button>
     <button class="nav-btn" onclick="goSection('resist')">TB Resistente</button>
     <button class="nav-btn" onclick="goSection('iltb')">ILTB</button>
+    <button class="nav-btn" onclick="goSection('vigilancia')">Vigilância</button>
+    <button class="nav-btn" onclick="goSection('populacoes')">Populações Vulneráveis</button>
   </div>
 </div>
 
 <div class="main">
 
-<!-- ══════════════════════════════════════════════
-     SEÇÃO: ALGORITMO DIAGNÓSTICO
-══════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════
+     ALGORITMO DIAGNÓSTICO
+═══════════════════════════════════════════ -->
 <div id="sec-algo" class="section active">
-
   <div class="card">
     <div class="card-header">
       <div class="card-icon">🔬</div>
       <div class="card-title">Algoritmo Diagnóstico</div>
     </div>
-
     <div id="algo-trail" class="step-trail" style="display:none"></div>
     <div id="algo-step"></div>
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem">
@@ -623,38 +259,121 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <div class="card-icon">⚠️</div>
-      <div class="card-title">Sinais de Alarme</div>
+    <div class="card-header"><div class="card-icon">⚠️</div><div class="card-title">Sinais de Alarme</div></div>
+    <div class="info-box red"><span>🚨</span><span><strong>TB Meningoencefálica:</strong> encaminhar para hospital imediatamente. Esquema 2RHZE/10RH + corticosteroide.</span></div>
+    <div class="info-box amber"><span>⚡</span><span><strong>Resistência à Rifampicina (TRM-TB +):</strong> encaminhar imediatamente para referência terciária. Não aguardar novos exames.</span></div>
+    <div class="info-box green"><span>🔬</span><span><strong>Todo paciente com TB deve ser testado para HIV</strong> no momento do diagnóstico, preferencialmente com teste rápido.</span></div>
+    <div class="info-box blue"><span>📋</span><span><strong>Notificação compulsória:</strong> notificar toda TB confirmada (laboratorial ou clínica) no Sinan. Não notificar casos suspeitos.</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ACOLHIMENTO DO SINTOMÁTICO RESPIRATÓRIO
+═══════════════════════════════════════════ -->
+<div id="sec-acolhimento" class="section">
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🩺</div><div class="card-title">Definição de Sintomático Respiratório (SR)</div></div>
+    <div class="info-box green"><span>📌</span><span>O enfermeiro deve abordar e questionar a presença e duração de tosse em <strong>todos os setores da UBS</strong>: acolhimento, triagem, recepção, laboratório, farmácia e consultório.</span></div>
+
+    <div class="contact-table" style="overflow-x:auto">
+    <table class="contact-table">
+      <thead><tr><th>População</th><th>Tempo de Tosse</th><th>Como Buscar</th></tr></thead>
+      <tbody>
+        <tr><td><strong>População geral adscrita (ESF)</strong></td><td>≥ 3 semanas</td><td>Visitas domiciliares, atividades comunitárias</td></tr>
+        <tr><td><strong>População geral na UBS</strong></td><td>≥ 2 semanas</td><td>Sala de espera, triagem</td></tr>
+        <tr><td><strong>Pessoas com Diabetes Mellitus</strong></td><td>≥ 2 semanas</td><td>Consultas de rotina, visitas domiciliares</td></tr>
+        <tr><td><strong>Contatos de TB pulmonar/laríngea; PVHIV; PPL; PSR; indígenas; imigrantes; profissionais de saúde</strong></td><td><strong>Qualquer tempo de tosse</strong></td><td>UBS, visitas domiciliares, busca ativa</td></tr>
+      </tbody>
+    </table>
     </div>
-    <div class="info-box red">
-      <span>🚨</span>
-      <span><strong>TB Meningoencefálica:</strong> encaminhar para hospital imediatamente. Usar esquema 2RHZE/10RH + corticosteroide.</span>
+    <p style="font-size:0.73rem;color:var(--text-soft);margin-top:0.5rem">Meta: 1% da população adscrita identificada como SR/ano. Registrar obrigatoriamente no Livro de Registro de Sintomático Respiratório.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🚦</div><div class="card-title">Classificação de Risco no Acolhimento</div></div>
+    <p style="font-size:0.82rem;color:var(--text-soft);margin-bottom:0.9rem">Ao identificar tosse + outros sintomas, classificar conforme critérios abaixo (Figura 3 do Protocolo):</p>
+
+    <div class="risk-grid">
+      <div class="risk-row imediato">
+        <div class="risk-icon">🚨</div>
+        <div>
+          <div class="risk-title">ATENDIMENTO IMEDIATO — Alto risco de morte</div>
+          <div class="risk-desc">Comprometimento de vias aéreas; dispneia grave; sinais de choque (taquicardia, hipotensão, palidez); hemoptise; alteração de consciência; taquipneia (FR >30 irpm); PAD <60 ou PAS <90 mmHg.<br><br><strong>Ação:</strong> Avaliação médica imediata. Encaminhar à urgência/emergência ou referência terciária de TB.</div>
+        </div>
+      </div>
+      <div class="risk-row prioritario">
+        <div class="risk-icon">⚡</div>
+        <div>
+          <div class="risk-title">ATENDIMENTO PRIORITÁRIO — Risco moderado</div>
+          <div class="risk-desc">Febre + emagrecimento + sudorese noturna; fatores de risco (DM, alcoolismo, hepatopatia, cardiopatia); populações vulneráveis: PVHIV, profissionais de saúde, PPL, PSR, indígenas, contatos de TB.<br><br><strong>Ação:</strong> Investigar TB imediatamente. Acomodar separado. Ofertar máscara cirúrgica.</div>
+        </div>
+      </div>
+      <div class="risk-row dia">
+        <div class="risk-icon">📅</div>
+        <div>
+          <div class="risk-title">ATENDIMENTO NO DIA — Risco baixo/vulnerabilidade</div>
+          <div class="risk-desc">Outras queixas não clássicas de TB, mas com tosse presente.<br><br><strong>Ação:</strong> Avaliar e tratar queixa aguda. Ofertar máscara cirúrgica e investigar TB no mesmo dia.</div>
+        </div>
+      </div>
     </div>
+
     <div class="info-box amber">
-      <span>⚡</span>
-      <span><strong>Resistência à Rifampicina (TRM-TB positivo):</strong> encaminhar imediatamente para referência terciária. Não aguardar resultado dos novos exames.</span>
-    </div>
-    <div class="info-box green">
-      <span>🔬</span>
-      <span><strong>Todo paciente com TB deve ser testado para HIV</strong> no momento do diagnóstico, preferencialmente com teste rápido.</span>
+      <span>💊</span>
+      <span>Para todo SR identificado (qualquer nível de risco): solicitar e coletar escarro <strong>(1 amostra para TRM-TB ou 2 amostras para baciloscopia)</strong>. Orientar higiene da tosse. Registrar no prontuário e no Livro de SR.</span>
     </div>
   </div>
 
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🔍</div><div class="card-title">Busca Ativa na UBS e no Território</div></div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Estratégias na Unidade de Saúde <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Agendamento aberto: priorizar consulta logo após identificação do SR, seguida da solicitação de exames e retorno para entrega dos resultados</li>
+          <li>Mobilizar equipes ESF para discussão mensal de metas de SR (busca na triagem, laboratório, sala de espera)</li>
+          <li>Capacitação permanente de todos os trabalhadores: vigilante, recepcionista, ACS, técnicos, médicos</li>
+          <li>Cartazes indicando o local de acesso para diagnóstico de TB</li>
+          <li>Buscar SR nos programas específicos: HAS, DM, idosos, PVHIV, Caps</li>
+        </ul>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Estratégias na Comunidade <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Visitas domiciliares regulares, com interrogatório sobre tosse</li>
+          <li>Atividades em espaços comunitários: igrejas, escolas, bares, salões de beleza</li>
+          <li>Camelô Educativo: mesa com materiais informativos em locais estratégicos</li>
+          <li>Vídeos e debates no quintal da comunidade</li>
+          <li>Parceria com ACS para identificação de famílias com TB ou contatos</li>
+          <li>Educação entre pares: multiplicadores que já tiveram TB ou familiares</li>
+        </ul>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Avaliação de Contatos de TB <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Iniciar imediatamente após o diagnóstico do caso índice. Utilizar fluxograma adequado para adultos (≥10 anos) e crianças (&lt;10 anos).</p>
+        <ul>
+          <li>Prioridade: crianças &lt;5 anos — quanto menor a idade, maior o risco de adoecimento</li>
+          <li>Investigar todos os contatos domiciliares e próximos, independentemente da forma clínica</li>
+          <li>Investigar acompanhantes nas consultas de controle ou realização de exames</li>
+          <li>Registrar todos os contatos identificados e examinados no formulário específico</li>
+          <li>Meta: 100% dos contatos identificados examinados ao ano</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SEÇÃO: TRATAMENTO
-══════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════
+     TRATAMENTO
+═══════════════════════════════════════════ -->
 <div id="sec-trat" class="section">
-
-  <!-- ADULTOS -->
   <div class="card">
-    <div class="card-header">
-      <div class="card-icon">👤</div>
-      <div class="card-title">Esquema Básico — Adultos e Adolescentes (≥10 anos)</div>
-    </div>
-
+    <div class="card-header"><div class="card-icon">👤</div><div class="card-title">Esquema Básico — Adultos e Adolescentes (≥10 anos)</div></div>
     <div class="trat-section">
       <div class="trat-title">🏥 Formas gerais (pulmonar e extrapulmonar, exceto neuro/ósteo)</div>
       <div class="scheme-box">
@@ -662,56 +381,40 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
         <div class="scheme-desc">Comprimidos em doses fixas combinadas (DFC)</div>
         <div class="phase-row">
           <div class="phase-label">Fase Intensiva<br>2 meses</div>
-          <div class="phase-content"><strong>RHZE</strong> 150/75/400/275 mg — DFC 4 em 1<br>
-          Uso: uma vez ao dia em dose única</div>
+          <div class="phase-content"><strong>RHZE</strong> 150/75/400/275 mg — DFC 4 em 1<br>Uso: uma vez ao dia em dose única</div>
         </div>
         <div class="phase-row">
           <div class="phase-label">Manutenção<br>4 meses</div>
-          <div class="phase-content"><strong>RH</strong> 300/150 mg ou 150/75 mg — DFC 2 em 1<br>
-          Uso: uma vez ao dia em dose única</div>
+          <div class="phase-content"><strong>RH</strong> 300/150 mg ou 150/75 mg — DFC 2 em 1<br>Uso: uma vez ao dia em dose única</div>
         </div>
       </div>
-
       <p style="font-size:0.78rem;font-weight:600;color:var(--text-mid);margin-bottom:0.5rem;">Dose por faixa de peso — RHZE (fase intensiva):</p>
       <div class="weight-selector" id="ws-adulto-i">
-        <button class="weight-btn" onclick="showDose('adulto-i', '20-35')">20–35 kg</button>
-        <button class="weight-btn" onclick="showDose('adulto-i', '36-50')">36–50 kg</button>
-        <button class="weight-btn" onclick="showDose('adulto-i', '51-70')">51–70 kg</button>
-        <button class="weight-btn" onclick="showDose('adulto-i', '>70')">> 70 kg</button>
+        <button class="weight-btn" onclick="showDose('adulto-i','20-35')">20–35 kg</button>
+        <button class="weight-btn" onclick="showDose('adulto-i','36-50')">36–50 kg</button>
+        <button class="weight-btn" onclick="showDose('adulto-i','51-70')">51–70 kg</button>
+        <button class="weight-btn" onclick="showDose('adulto-i','>70')">> 70 kg</button>
       </div>
       <div class="dose-result" id="dose-adulto-i"></div>
     </div>
-
     <div class="trat-section">
       <div class="trat-title">🧠 TB Meningoencefálica e Osteoarticular</div>
       <div class="scheme-box">
         <div class="scheme-name">2RHZE / 10RH</div>
         <div class="scheme-desc">Mesmas doses. Manutenção prolongada para 10 meses (total: 12 meses)</div>
-        <div class="info-box amber" style="margin-top:0.5rem">
-          <span>💊</span>
-          <span>Associar <strong>Prednisona 1–2 mg/kg/dia</strong> por 4 semanas (ou Dexametasona IV 0,3–0,4 mg/kg/dia por 4–8 semanas nos casos graves).</span>
-        </div>
+        <div class="info-box amber" style="margin-top:0.5rem"><span>💊</span><span>Associar <strong>Prednisona 1–2 mg/kg/dia</strong> por 4 semanas (ou Dexametasona IV 0,3–0,4 mg/kg/dia por 4–8 semanas nos casos graves).</span></div>
       </div>
     </div>
-
-    <div class="info-box green">
-      <span>ℹ️</span>
-      <span>Todos os medicamentos deverão ser ingeridos <strong>diariamente e de uma única vez</strong>. TDO recomendado em todos os casos.</span>
-    </div>
+    <div class="info-box green"><span>ℹ️</span><span>Todos os medicamentos: ingerir <strong>diariamente, em dose única</strong>. TDO recomendado em todos os casos. Enfermeiro pode solicitar exames e prescrever EB conforme Parecer COFEN nº 180/2018.</span></div>
   </div>
 
-  <!-- CRIANÇAS -->
   <div class="card">
-    <div class="card-header">
-      <div class="card-icon">👶</div>
-      <div class="card-title">Esquema Básico — Crianças (&lt;10 anos)</div>
-    </div>
-
+    <div class="card-header"><div class="card-icon">👶</div><div class="card-title">Esquema Básico — Crianças (&lt;10 anos)</div></div>
     <div class="trat-section">
       <div class="trat-title">🏥 Formas gerais (exceto neuro/ósteo)</div>
       <div class="scheme-box">
         <div class="scheme-name">2RHZ / 4RH</div>
-        <div class="scheme-desc">Apresentações individualizadas (comprimidos e/ou suspensão). <strong>Sem Etambutol.</strong></div>
+        <div class="scheme-desc">Apresentações individualizadas. <strong>Sem Etambutol.</strong></div>
         <div class="phase-row">
           <div class="phase-label">Fase Intensiva<br>2 meses</div>
           <div class="phase-content"><strong>RHZ</strong> — Rifampicina + Isoniazida + Pirazinamida</div>
@@ -721,92 +424,143 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
           <div class="phase-content"><strong>RH</strong> — Rifampicina + Isoniazida</div>
         </div>
       </div>
-
       <p style="font-size:0.78rem;font-weight:600;color:var(--text-mid);margin-bottom:0.5rem;">Selecionar faixa de peso:</p>
       <div class="weight-selector" id="ws-child">
-        <button class="weight-btn" onclick="showDose('child', 'a20')">≤ 20 kg</button>
-        <button class="weight-btn" onclick="showDose('child', '21-25')">21–25 kg</button>
-        <button class="weight-btn" onclick="showDose('child', '26-30')">26–30 kg</button>
-        <button class="weight-btn" onclick="showDose('child', '31-35')">31–35 kg</button>
-        <button class="weight-btn" onclick="showDose('child', '36-39')">36–39 kg</button>
-        <button class="weight-btn" onclick="showDose('child', '40-44')">40–44 kg</button>
-        <button class="weight-btn" onclick="showDose('child', 'b45')">≥ 45 kg</button>
+        <button class="weight-btn" onclick="showDose('child','a20')">≤ 20 kg</button>
+        <button class="weight-btn" onclick="showDose('child','21-25')">21–25 kg</button>
+        <button class="weight-btn" onclick="showDose('child','26-30')">26–30 kg</button>
+        <button class="weight-btn" onclick="showDose('child','31-35')">31–35 kg</button>
+        <button class="weight-btn" onclick="showDose('child','36-39')">36–39 kg</button>
+        <button class="weight-btn" onclick="showDose('child','40-44')">40–44 kg</button>
+        <button class="weight-btn" onclick="showDose('child','b45')">≥ 45 kg</button>
       </div>
       <div class="dose-result" id="dose-child"></div>
     </div>
-
     <div class="trat-section">
       <div class="trat-title">🧠 TB Meningoencefálica e Osteoarticular em crianças</div>
       <div class="scheme-box">
         <div class="scheme-name">2RHZ / 10RH</div>
-        <div class="scheme-desc">Mesmas doses por peso. Manutenção de 10 meses (total: 12 meses).<br>TB osteoarticular de baixa complexidade pode ser tratada por 6 meses, a critério clínico.</div>
-        <div class="info-box amber" style="margin-top:0.5rem">
-          <span>💊</span>
-          <span>Associar <strong>Prednisona 1–2 mg/kg/dia</strong> por 4 semanas.</span>
-        </div>
-        <div class="info-box green" style="margin-top:0.3rem">
-          <span>ℹ️</span>
-          <span>Crianças com TB infectadas pelo HIV ou desnutridas devem receber <strong>Piridoxina (vitamina B6) 5–10 mg/dia</strong>.</span>
+        <div class="scheme-desc">Mesmas doses. TB osteoarticular de baixa complexidade pode ser tratada por 6 meses.</div>
+        <div class="info-box amber" style="margin-top:0.5rem"><span>💊</span><span>Associar <strong>Prednisona 1–2 mg/kg/dia</strong> por 4 semanas.</span></div>
+        <div class="info-box green" style="margin-top:0.3rem"><span>ℹ️</span><span>Crianças com TB + HIV ou desnutridas: <strong>Piridoxina (B6) 5–10 mg/dia</strong>.</span></div>
+      </div>
+    </div>
+
+    <div class="trat-section">
+      <div class="trat-title">📋 Seguimento Mensal</div>
+      <div style="overflow-x:auto">
+      <table class="dose-table">
+        <thead><tr><th>Procedimento</th><th>1°</th><th>2°</th><th>3°</th><th>4°</th><th>5°</th><th>6°</th></tr></thead>
+        <tbody>
+          <tr><td>Consulta clínica</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><td>Avaliação da adesão / TDO</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><td>Baciloscopia controle*</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><td>Radiografia de tórax</td><td>—</td><td>✓</td><td>—</td><td>—</td><td>—</td><td>✓</td></tr>
+          <tr><td>Oferta teste HIV</td><td>✓</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td>Glicemia/função hep./renal</td><td>✓</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+          <tr><td>Boletim acompanhamento (Sinan)</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p style="font-size:0.72rem;color:var(--text-soft);margin-top:0.4rem">*Em crianças, somente quando houver facilidade na coleta.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TDO — TRATAMENTO DIRETAMENTE OBSERVADO
+═══════════════════════════════════════════ -->
+<div id="sec-tdo" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-icon">👁️</div><div class="card-title">Tratamento Diretamente Observado (TDO)</div></div>
+    <div class="info-box green"><span>📌</span><span>O TDO é comprovadamente mais efetivo para o sucesso do tratamento. Recomendado em <strong>todos os casos</strong>. Somente profissionais de saúde ou de outras áreas devidamente capacitados (ex.: assistência social) podem realizar o TDO oficial.</span></div>
+
+    <div class="trat-section">
+      <div class="trat-title">📅 Frequência Mínima do TDO</div>
+      <div class="tdo-freq">
+        <span class="tdo-chip fase1">Fase Intensiva (2 meses): 24 doses supervisionadas</span>
+        <span class="tdo-chip fase2">Fase Manutenção (4 meses): 48 doses supervisionadas</span>
+      </div>
+      <div class="info-box amber"><span>⚠️</span><span>Mínimo de <strong>3 vezes por semana</strong> durante todo o tratamento. Nos fins de semana e feriados, fornecer medicamentos para uso autoadministrado.</span></div>
+    </div>
+
+    <div class="trat-section">
+      <div class="trat-title">📍 Local de Realização do TDO</div>
+      <div class="acc-item open">
+        <div class="acc-header" onclick="toggleAcc(this)">Opções de local <span class="acc-arrow">▶</span></div>
+        <div class="acc-body">
+          <ul>
+            <li><strong>Unidade de saúde mais próxima</strong> da residência</li>
+            <li><strong>Domicílio da pessoa</strong> — por visita de ACS ou profissional de saúde</li>
+            <li><strong>Local acordado</strong> com a pessoa (trabalho, escola, etc.)</li>
+            <li><strong>TDO compartilhado</strong> com outros serviços (ex.: SAE, serviços de referência)</li>
+          </ul>
+          <p style="margin-top:0.5rem">O local deve atender às necessidades da pessoa para favorecer a adesão.</p>
         </div>
       </div>
     </div>
 
     <div class="trat-section">
-      <div class="trat-title">📋 Seguimento mensal</div>
-      <table class="dose-table">
-        <thead>
-          <tr><th>Procedimento</th><th>1°</th><th>2°</th><th>3°</th><th>4°</th><th>5°</th><th>6°</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Consulta clínica</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
-          <tr><td>Avaliação da adesão</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
-          <tr><td>Baciloscopia controle*</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
-          <tr><td>Radiografia de tórax</td><td>—</td><td>✓</td><td>—</td><td>—</td><td>—</td><td>✓</td></tr>
-          <tr><td>Oferta teste HIV</td><td>✓</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-          <tr><td>Glicemia/função hep./renal</td><td>✓</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
-        </tbody>
-      </table>
-      <p style="font-size:0.72rem;color:var(--text-soft);margin-top:0.4rem">*Baciloscopia de controle: recomendada para casos pulmonares. Em crianças, somente quando houver facilidade na coleta.</p>
-    </div>
-  </div>
-
-</div>
-
-<!-- ══════════════════════════════════════════════
-     SEÇÃO: ESCORE PEDIÁTRICO
-══════════════════════════════════════════════ -->
-<div id="sec-escore" class="section">
-  <div class="card">
-    <div class="card-header">
-      <div class="card-icon">🧮</div>
-      <div class="card-title">Escore para TB Pulmonar — Crianças &lt;10 anos</div>
-    </div>
-    <div class="info-box amber">
-      <span>📌</span>
-      <span>Usar quando <strong>baciloscopia negativa ou TRM-TB não detectado</strong>. Considera critérios clínicos, radiológicos e epidemiológicos.</span>
-    </div>
-
-    <!-- Quadro clínico -->
-    <div class="score-item">
-      <div class="score-item-header">1. Quadro Clínico <span id="sc1-val" style="color:var(--green)">—</span></div>
-      <div class="score-options">
-        <label class="score-radio"><input type="radio" name="sc1" value="15" onchange="calcScore()"> <span><strong>+15 pts</strong> — Febre ou sintomas (tosse, adinamia, expectoração, emagrecimento, sudorese) por ≥2 semanas E adenomegalia hilar ou padrão miliar E/OU condensação/infiltrado inalterado ≥2 semanas ou piora sem melhora com antibióticos comuns</span></label>
-        <label class="score-radio"><input type="radio" name="sc1" value="0" onchange="calcScore()"> <span><strong>0 pts</strong> — Assintomático ou sintomas há &lt;2 semanas OU condensação/infiltrado por &lt;2 semanas (5 pts)</span></label>
-        <label class="score-radio"><input type="radio" name="sc1" value="-10" onchange="calcScore()"> <span><strong>–10 pts</strong> — Infecção respiratória com melhora após antibióticos para germes comuns ou sem antibióticos</span></label>
+      <div class="trat-title">🤝 O Papel do Enfermeiro no TDO</div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Atividades do enfermeiro durante o TDO <span class="acc-arrow">▶</span></div>
+        <div class="acc-body">
+          <ul>
+            <li>Acolher sentimentos e escutar queixas a cada encontro, mesmo breves</li>
+            <li>Esclarecer dúvidas sobre a doença e o tratamento</li>
+            <li>Identificar potenciais fatores que interferem na adesão: álcool, drogas, conflitos familiares, dificuldades financeiras</li>
+            <li>Monitorar e registrar a tomada de medicação no Sinan</li>
+            <li>Orientar sobre efeitos colaterais e quando retornar</li>
+            <li>Identificar pessoas faltosas e organizar busca ativa</li>
+            <li>Identificar vulnerabilidades: DM, HIV, uso de álcool/drogas, pobreza extrema, tabagismo</li>
+          </ul>
+        </div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Estratégias adicionais para promoção da adesão <span class="acc-arrow">▶</span></div>
+        <div class="acc-body">
+          <ul>
+            <li><strong>Projeto Terapêutico Singular (PTS):</strong> definir metas com a pessoa e família, atribuir responsabilidades por membro da equipe</li>
+            <li><strong>Benefícios e apoio social:</strong> parceria com serviço social para vale-transporte, cesta básica, auxílio-doença</li>
+            <li><strong>Busca de faltosos:</strong> por telefone, e-mail ou visita domiciliar o mais breve possível após a falta</li>
+            <li><strong>Ações educativas mensais:</strong> reforçar que melhora clínica não significa cura; a cura só é atestada ao final do tratamento</li>
+            <li><strong>Tecnologias:</strong> porta-comprimidos com alerta, lembretes por celular, chamadas de vídeo para supervisão</li>
+            <li><strong>Grupos de apoio</strong> com pessoas em tratamento e ex-pacientes curados</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <!-- Radiografia -->
+    <div class="info-box blue"><span>📝</span><span><strong>Abandono:</strong> definido como ausência na UBS por <strong>30 dias consecutivos</strong> após a data prevista para retorno. Registrar no Sinan. Iniciar busca ativa imediatamente.</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ESCORE PEDIÁTRICO
+═══════════════════════════════════════════ -->
+<div id="sec-escore" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🧮</div><div class="card-title">Escore para TB Pulmonar — Crianças &lt;10 anos</div></div>
+    <div class="info-box amber"><span>📌</span><span>Usar quando <strong>baciloscopia negativa ou TRM-TB não detectado</strong>. Considera critérios clínicos, radiológicos e epidemiológicos.</span></div>
+
+    <div class="score-item">
+      <div class="score-item-header">1. Quadro Clínico <span id="sc1-val" style="color:var(--green)">—</span></div>
+      <div class="score-options">
+        <label class="score-radio"><input type="radio" name="sc1" value="15" onchange="calcScore()"> <span><strong>+15 pts</strong> — Febre ou sintomas (tosse, adinamia, expectoração, emagrecimento, sudorese) por ≥2 semanas E adenomegalia hilar ou padrão miliar E/OU condensação/infiltrado inalterado ≥2 semanas ou piora sem melhora com ATB comuns</span></label>
+        <label class="score-radio"><input type="radio" name="sc1" value="0" onchange="calcScore()"> <span><strong>0 pts</strong> — Assintomático ou sintomas &lt;2 semanas OU condensação por &lt;2 semanas (+5 pts se este)</span></label>
+        <label class="score-radio"><input type="radio" name="sc1" value="-10" onchange="calcScore()"> <span><strong>–10 pts</strong> — Infecção respiratória com melhora após ATB para germes comuns ou sem ATB</span></label>
+      </div>
+    </div>
+
     <div class="score-item">
       <div class="score-item-header">2. Radiografia de Tórax <span id="sc2-val" style="color:var(--green)">—</span></div>
       <div class="score-options">
-        <label class="score-radio"><input type="radio" name="sc2" value="15" onchange="calcScore()"> <span><strong>+15 pts</strong> — Adenomegalia hilar ou padrão miliar E/OU condensação/infiltrado (com ou sem escavação) inalterado ≥2 semanas ou evoluindo com piora sem melhora com antibióticos</span></label>
+        <label class="score-radio"><input type="radio" name="sc2" value="15" onchange="calcScore()"> <span><strong>+15 pts</strong> — Adenomegalia hilar ou padrão miliar E/OU condensação/infiltrado inalterado ≥2 semanas ou evoluindo com piora sem melhora com ATB</span></label>
         <label class="score-radio"><input type="radio" name="sc2" value="5" onchange="calcScore()"> <span><strong>+5 pts</strong> — Condensação ou infiltrado de qualquer tipo por &lt;2 semanas</span></label>
         <label class="score-radio"><input type="radio" name="sc2" value="-5" onchange="calcScore()"> <span><strong>–5 pts</strong> — Radiografia normal</span></label>
       </div>
     </div>
 
-    <!-- Contato -->
     <div class="score-item">
       <div class="score-item-header">3. Contato com TB <span id="sc3-val" style="color:var(--green)">—</span></div>
       <div class="score-options">
@@ -816,7 +570,6 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
       </div>
     </div>
 
-    <!-- PT -->
     <div class="score-item">
       <div class="score-item-header">4. Prova Tuberculínica (PT) <span id="sc4-val" style="color:var(--green)">—</span></div>
       <div class="score-options">
@@ -826,7 +579,6 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
       </div>
     </div>
 
-    <!-- Estado nutricional -->
     <div class="score-item">
       <div class="score-item-header">5. Estado Nutricional <span id="sc5-val" style="color:var(--green)">—</span></div>
       <div class="score-options">
@@ -846,316 +598,337 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SEÇÃO: REAÇÕES ADVERSAS
-══════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════
+     REAÇÕES ADVERSAS
+═══════════════════════════════════════════ -->
 <div id="sec-reac" class="section">
   <div class="card">
-    <div class="card-header">
-      <div class="card-icon">⚗️</div>
-      <div class="card-title">Reações Adversas — Esquema Básico</div>
-    </div>
-
-    <div class="info-box green">
-      <span>ℹ️</span>
-      <span>A maioria dos pacientes completa o tratamento sem reação adversa relevante. A frequência das reações maiores varia de 3–8%.</span>
-    </div>
+    <div class="card-header"><div class="card-icon">⚗️</div><div class="card-title">Reações Adversas — Esquema Básico</div></div>
+    <div class="info-box green"><span>ℹ️</span><span>A maioria dos pacientes completa o tratamento sem reação adversa relevante. Frequência das reações maiores: 3–8%. Reações menores: mais comuns — o enfermeiro deve orientar proativamente as pessoas sobre essas eventualidades.</span></div>
 
     <p style="font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;">Reações Menores — não exigem suspensão do tratamento</p>
     <div style="overflow-x:auto">
     <table class="reac-table">
-      <thead><tr><th>Efeito adverso</th><th>Fármaco(s)</th><th>Conduta</th></tr></thead>
+      <thead><tr><th>Efeito Adverso</th><th>Fármaco(s)</th><th>Conduta</th></tr></thead>
       <tbody>
         <tr><td>Intolerância digestiva (náusea, vômito, epigastralgia)</td><td>E, H, Z, R</td><td>Reformular horário (2h após café da manhã). Sintomáticos. Avaliar função hepática.</td></tr>
         <tr><td>Urina/suor avermelhados</td><td>R</td><td>Orientar (fisiológico).</td></tr>
         <tr><td>Prurido e exantema leve</td><td>H, R</td><td>Anti-histamínico.</td></tr>
         <tr><td>Dor articular</td><td>H, Z</td><td>Analgésicos ou AINEs.</td></tr>
-        <tr><td>Neuropatia periférica</td><td>H (comum), E (incomum)</td><td>Piridoxina (vitamina B6) 50 mg/dia. Avaliar evolução.</td></tr>
-        <tr><td>Hiperuricemia (com ou sem sintomas)</td><td>E, Z</td><td>Dieta hipopurínica. Alopurinol ou colchicina se necessário.</td></tr>
-        <tr><td>Cefaleia, euforia, insônia, depressão leve, ansiedade</td><td>H</td><td>Orientar.</td></tr>
+        <tr><td>Neuropatia periférica</td><td>H (comum), E (incomum)</td><td>Piridoxina (B6) 50 mg/dia. Avaliar evolução.</td></tr>
+        <tr><td>Hiperuricemia</td><td>E, Z</td><td>Dieta hipopurínica. Alopurinol ou colchicina se necessário.</td></tr>
+        <tr><td>Cefaleia, insônia, depressão leve, ansiedade</td><td>H</td><td>Orientar.</td></tr>
         <tr><td>Febre</td><td>H, R</td><td>Antitérmico.</td></tr>
       </tbody>
     </table>
     </div>
 
-    <p style="font-size:0.82rem;font-weight:700;color:var(--text);margin:1rem 0 0.6rem;">Reações Maiores — normalmente exigem suspensão</p>
+    <p style="font-size:0.82rem;font-weight:700;color:var(--text);margin:1rem 0 0.6rem;">Reações Maiores — normalmente exigem suspensão e encaminhamento à referência</p>
     <div style="overflow-x:auto">
     <table class="reac-table">
-      <thead><tr><th>Efeito adverso</th><th>Fármaco(s)</th><th>Conduta</th></tr></thead>
+      <thead><tr><th>Efeito Adverso</th><th>Fármaco(s)</th><th>Conduta</th></tr></thead>
       <tbody>
-        <tr><td>Exantema ou hipersensibilidade moderada a grave</td><td>E, H, R</td><td>Suspender. Reintroduzir um a um após resolução. Nos casos graves, iniciar esquema especial.</td></tr>
-        <tr><td>Psicose, convulsão, encefalopatia tóxica ou coma</td><td>H</td><td>Suspender isoniazida. Iniciar esquema especial sem H.</td></tr>
-        <tr><td>Neurite óptica</td><td>E</td><td>Suspender etambutol. Reversível se detectada precocemente. Iniciar esquema especial sem E.</td></tr>
-        <tr><td>Hepatotoxicidade</td><td>H, Z, R</td><td>Suspender tratamento. Reintroduzir um a um (R → H → Z). Avaliar substituição.</td></tr>
-        <tr><td>Trombocitopenia, leucopenia, anemia hemolítica, vasculite</td><td>R</td><td>Suspender rifampicina. Não reintroduzir. Esquema especial sem R.</td></tr>
-        <tr><td>Nefrite intersticial</td><td>R</td><td>Suspender rifampicina. Iniciar esquema especial.</td></tr>
-        <tr><td>Rabdomiólise com mioglobinúria e insuficiência renal</td><td>Z</td><td>Suspender pirazinamida. Iniciar esquema especial sem Z.</td></tr>
+        <tr><td>Exantema ou hipersensibilidade moderada a grave</td><td>E, H, R</td><td>Suspender. Reintroduzir um a um após resolução. Casos graves: esquema especial.</td></tr>
+        <tr><td>Psicose, convulsão, encefalopatia tóxica</td><td>H</td><td>Suspender isoniazida. Esquema especial sem H.</td></tr>
+        <tr><td>Neurite óptica</td><td>E</td><td>Suspender etambutol imediatamente. Reversível se detectada precocemente.</td></tr>
+        <tr><td>Hepatotoxicidade</td><td>H, Z, R</td><td>Suspender. Reintroduzir um a um (R → H → Z). Avaliar substituição.</td></tr>
+        <tr><td>Trombocitopenia, leucopenia, anemia hemolítica</td><td>R</td><td>Suspender rifampicina. Não reintroduzir. Esquema especial sem R.</td></tr>
+        <tr><td>Nefrite intersticial</td><td>R</td><td>Suspender rifampicina. Encaminhar à referência.</td></tr>
+        <tr><td>Rabdomiólise com insuficiência renal</td><td>Z</td><td>Suspender pirazinamida. Esquema especial sem Z.</td></tr>
       </tbody>
     </table>
     </div>
 
-    <div class="info-box amber" style="margin-top:0.9rem">
-      <span>🛑</span>
-      <span>Suspender tratamento se enzimas hepáticas atingirem <strong>&gt;5× o normal</strong> sem sintomas digestivos, ou <strong>&gt;3× o normal</strong> com sintomas dispépticos, ou logo que <strong>icterícia</strong> se manifeste.</span>
-    </div>
+    <div class="info-box amber" style="margin-top:0.9rem"><span>🛑</span><span>Suspender se enzimas hepáticas atingirem <strong>&gt;5× o normal</strong> sem sintomas, ou <strong>&gt;3× o normal</strong> com sintomas dispépticos, ou ao surgimento de <strong>icterícia</strong>.</span></div>
+    <div class="info-box blue" style="margin-top:0.5rem"><span>📞</span><span>Reações maiores: encaminhar para referência secundária (efeitos adversos graves) ou terciária (TB resistente). Não abandonar tratamento sem avaliação especializada.</span></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SEÇÃO: TB RESISTENTE
-══════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════
+     TB RESISTENTE
+═══════════════════════════════════════════ -->
 <div id="sec-resist" class="section">
   <div class="card">
-    <div class="card-header">
-      <div class="card-icon">🧬</div>
-      <div class="card-title">Classificação TB Drogarresistente</div>
+    <div class="card-header"><div class="card-icon">🧬</div><div class="card-title">Classificação TB Drogarresistente</div></div>
+
+    <div class="resist-card">
+      <div class="resist-header" style="background:#5b7fa6"><div class="resist-title">Monorresistência</div><div class="resist-subtitle">Resistência a apenas 1 fármaco</div></div>
+      <div class="resist-body">Vigilância para <strong>rifampicina</strong> e <strong>isoniazida</strong>. Outras monorresistências não implicam alteração do EB e não são notificadas no Site-TB.</div>
     </div>
 
     <div class="resist-card">
-      <div class="resist-header" style="background:#5b7fa6">
-        <div>
-          <div class="resist-title">Monorresistência</div>
-          <div class="resist-subtitle">Resistência a apenas 1 fármaco</div>
-        </div>
-      </div>
-      <div class="resist-body">
-        As monorresistências de vigilância são à <strong>rifampicina</strong> e à <strong>isoniazida</strong>. Outras monorresistências não implicam alteração do EB e não são notificadas no SITE-TB.
-      </div>
+      <div class="resist-header" style="background:#7a6b9e"><div class="resist-title">Polirresistência</div><div class="resist-subtitle">Resistência a ≥2 fármacos, exceto R + H simultaneamente</div></div>
+      <div class="resist-body">Frequente no Brasil: isoniazida + estreptomicina.</div>
     </div>
 
     <div class="resist-card">
-      <div class="resist-header" style="background:#7a6b9e">
-        <div>
-          <div class="resist-title">Polirresistência</div>
-          <div class="resist-subtitle">Resistência a ≥2 fármacos, exceto R + H simultaneamente</div>
-        </div>
-      </div>
-      <div class="resist-body">
-        Frequente no Brasil: resistência a isoniazida + estreptomicina (longo histórico de uso de ambos).
-      </div>
+      <div class="resist-header" style="background:#b55e1e"><div class="resist-title">TB MDR — Multidrogarresistente</div><div class="resist-subtitle">Resistência a pelo menos Rifampicina + Isoniazida</div></div>
+      <div class="resist-body">Encaminhar para <strong>referência terciária</strong>. Tratamento ≥18 meses com esquema individualizado conforme TS.</div>
     </div>
 
     <div class="resist-card">
-      <div class="resist-header" style="background:#b55e1e">
-        <div>
-          <div class="resist-title">TB MDR — Multidrogarresistente</div>
-          <div class="resist-subtitle">Resistência a pelo menos Rifampicina + Isoniazida</div>
-        </div>
-      </div>
-      <div class="resist-body">
-        Encaminhar para <strong>referência terciária</strong>. Tratamento ≥18 meses com esquema individualizado conforme TS.
-      </div>
+      <div class="resist-header" style="background:#8b1a1a"><div class="resist-title">TB XDR — Resistência Extensiva</div><div class="resist-subtitle">MDR + Fluoroquinolona + Injetável de 2ª linha</div></div>
+      <div class="resist-body">MDR + resistência a qualquer fluoroquinolona + injetáveis de 2ª linha (amicacina, canamicina ou capreomicina).</div>
     </div>
 
     <div class="resist-card">
-      <div class="resist-header" style="background:#8b1a1a">
-        <div>
-          <div class="resist-title">TB XDR — Resistência Extensiva</div>
-          <div class="resist-subtitle">MDR + Fluoroquinolona + Injetável de 2ª linha</div>
-        </div>
-      </div>
-      <div class="resist-body">
-        Resistência à rifampicina e isoniazida + resistência a fluoroquinolona (qualquer) + injetáveis de segunda linha (amicacina, canamicina ou capreomicina).
+      <div class="resist-header" style="background:#a05c10"><div class="resist-title">TB RR — Resistência à Rifampicina</div><div class="resist-subtitle">Detectada pelo TRM-TB sem TS completo</div></div>
+      <div class="resist-body">Encaminhar <strong>imediatamente</strong> para referência terciária. Não aguardar resultados de novos exames.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">💊</div><div class="card-title">Medicamentos para TB RR / MDR / XDR</div></div>
+    <p style="font-size:0.78rem;color:var(--text-soft);margin-bottom:0.8rem">Classificação OMS. Regimes longos (≥18 meses). Composição mínima: 1 do Grupo A + 1 do B + 2 do C.</p>
+    <div class="drug-group"><div class="group-label">Grupo A — Fluoroquinolonas (prioridade máxima)</div><div class="drug-pills"><span class="drug-pill pill-a">Levofloxacino</span><span class="drug-pill pill-a">Moxifloxacino</span></div></div>
+    <div class="drug-group"><div class="group-label">Grupo B — Injetáveis de 2ª Linha</div><div class="drug-pills"><span class="drug-pill pill-b">Amicacina</span><span class="drug-pill pill-b">Capreomicina</span><span class="drug-pill pill-b">(Estreptomicina)</span></div></div>
+    <div class="drug-group"><div class="group-label">Grupo C — Outros de 2ª Linha</div><div class="drug-pills"><span class="drug-pill pill-c">Etionamida</span><span class="drug-pill pill-c">Terizidona</span><span class="drug-pill pill-c">Linezolida</span><span class="drug-pill pill-c">Clofazimina</span></div></div>
+    <div class="drug-group"><div class="group-label">Grupo D — Adicionais</div><div class="drug-pills"><span class="drug-pill pill-d">D1: Pirazinamida</span><span class="drug-pill pill-d">D1: Etambutol</span><span class="drug-pill pill-d">D1: Isoniazida altas doses</span><span class="drug-pill pill-d">D3: Ác. paraminossalicílico</span><span class="drug-pill pill-d">D3: Imipenem-cilastatina</span><span class="drug-pill pill-d">D3: Meropenem</span><span class="drug-pill pill-d">D3: Amoxicilina+Clavulanato</span></div></div>
+    <div class="info-box amber"><span>⚠️</span><span>Carbapenêmicos e clavulanato de potássio <strong>sempre usados em conjunto</strong>.</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">💉</div><div class="card-title">Monorresistência à Isoniazida — Condutas</div></div>
+    <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)">Antes do EB ou nos primeiros 30 dias <span class="acc-arrow">▶</span></div><div class="acc-body"><strong>Preferencial:</strong> <span class="mono-tag">2RLfxZE / 7RLfxE</span><br><strong>Alternativa:</strong> <span class="mono-tag">9RHZELfx</span> (WHO 2018)</div></div>
+    <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)">Fase intensiva — Evolução favorável <span class="acc-arrow">▶</span></div><div class="acc-body">Esquema: <span class="mono-tag">9RHZE</span>. Solicitar TRM-TB e nova cultura com TS. Se R resistente → TB MDR.</div></div>
+    <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)">Fase intensiva — Evolução desfavorável <span class="acc-arrow">▶</span></div><div class="acc-body">Solicitar TRM-TB. Se sensível à R: manter RHZE por mais 1 mês. Se resistente à R ou persistência: <strong>TB MDR.</strong></div></div>
+    <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)">Fase de manutenção — Evolução favorável <span class="acc-arrow">▶</span></div><div class="acc-body">Esquema: <span class="mono-tag">RH</span> até completar 9 meses. Solicitar TRM-TB + cultura. Se R resistente → TB MDR.</div></div>
+    <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)">Fase de manutenção — Evolução desfavorável <span class="acc-arrow">▶</span></div><div class="acc-body"><strong>Iniciar esquema para TB MDR.</strong></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ILTB
+═══════════════════════════════════════════ -->
+<div id="sec-iltb" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🧫</div><div class="card-title">Infecção Latente pelo M. tuberculosis (ILTB)</div></div>
+    <div class="info-box green"><span>ℹ️</span><span>Antes de afirmar ILTB, é <strong>fundamental excluir TB ativa</strong> por exame clínico e radiológico.</span></div>
+    <p style="font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;">Populações com indicação de investigação de ILTB:</p>
+    <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)">Pessoas vivendo com HIV (PVHIV) <span class="acc-arrow">▶</span></div><div class="acc-body">Alta prioridade. Risco 10× maior de progressão para TB ativa. Investigar independentemente do resultado da PT.</div></div>
+    <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)">Contatos de TB pulmonar bacilífera <span class="acc-arrow">▶</span></div><div class="acc-body">Investigação sistemática. Prioridade para crianças &lt;5 anos e imunossuprimidos.</div></div>
+    <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)">Imunossuprimidos (corticosteroide, anti-TNF, quimioterapia) <span class="acc-arrow">▶</span></div><div class="acc-body">Rastreio antes do início da imunossupressão. PT ≥5 mm pode ser considerada positiva nesse grupo.</div></div>
+    <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)">Profissionais de saúde e privados de liberdade <span class="acc-arrow">▶</span></div><div class="acc-body">Rastreio conforme protocolo local. Grupos de maior vulnerabilidade.</div></div>
+    <div class="acc-item"><div class="acc-header" onclick="toggleAcc(this)">Crianças &lt;5 anos contatos de TB <span class="acc-arrow">▶</span></div><div class="acc-body">Quimioprofilaxia primária (mesmo sem PT positiva) quando &lt;2 anos em contato com bacilífero.</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">💊</div><div class="card-title">Regimes Terapêuticos para ILTB</div></div>
+    <div class="scheme-box">
+      <div class="scheme-name">Isoniazida (H) — 6 a 9 meses</div>
+      <div class="scheme-desc">5–10 mg/kg/dia (máx. 300 mg/dia). Dose única diária.</div>
+      <div class="info-box green" style="margin-top:0.5rem"><span>✅</span><span>6H padrão. 9H para PVHIV e crianças contato de TB resistente à rifampicina.</span></div>
+    </div>
+    <div class="scheme-box">
+      <div class="scheme-name">Rifampicina (R) — 4 meses</div>
+      <div class="scheme-desc">10 mg/kg/dia (máx. 600 mg/dia). Melhor adesão pelo menor tempo.</div>
+      <div class="info-box amber" style="margin-top:0.5rem"><span>⚠️</span><span>Avaliar interações medicamentosas (indutora enzimática). Não usar em contatos de TB resistente à rifampicina.</span></div>
+    </div>
+    <div class="scheme-box">
+      <div class="scheme-name">Isoniazida + Rifapentina (3HP)</div>
+      <div class="scheme-desc">12 doses semanais em 3 meses. Disponibilidade limitada no Brasil.</div>
+    </div>
+    <div class="info-box red"><span>🚫</span><span><strong>Contraindicação absoluta:</strong> não usar isoniazida em hepatopatia ativa grave ou antecedente de hepatite medicamentosa por isoniazida.</span></div>
+    <div class="info-box blue"><span>📋</span><span><strong>Notificação:</strong> notificar todas as pessoas em tratamento para ILTB no <strong>IL-TB</strong> (http://sitetb.saude.gov.br/iltb).</span></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     VIGILÂNCIA EPIDEMIOLÓGICA
+═══════════════════════════════════════════ -->
+<div id="sec-vigilancia" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📊</div><div class="card-title">Fluxo de Vigilância Epidemiológica da TB</div></div>
+    <div class="info-box green"><span>📌</span><span>O enfermeiro é o principal responsável pelas ações de VE na APS: investigação, notificação, acompanhamento e encerramento dos casos no Sinan.</span></div>
+
+    <div class="vig-flow">
+      <div class="vig-step"><div class="vig-num">1</div><span>Identificação do caso suspeito (SR) → registrar no <strong>Livro de Registro de SR</strong></span></div>
+      <div class="vig-arrow">↓</div>
+      <div class="vig-step"><div class="vig-num">2</div><span>Realização de exames diagnósticos (baciloscopia, TRM-TB, cultura)</span></div>
+      <div class="vig-arrow">↓</div>
+      <div class="vig-step"><div class="vig-num">3</div><span>Confirmação do diagnóstico (laboratorial ou clínico) → <strong>Notificar no Sinan</strong></span></div>
+      <div class="vig-arrow">↓</div>
+      <div class="vig-step"><div class="vig-num">4</div><span>Início do tratamento + <strong>investigação de contatos</strong> + teste HIV + TDO</span></div>
+      <div class="vig-arrow">↓</div>
+      <div class="vig-step"><div class="vig-num">5</div><span>Acompanhamento mensal → atualizar <strong>Boletim de Acompanhamento</strong> (Sinan)</span></div>
+      <div class="vig-arrow">↓</div>
+      <div class="vig-step"><div class="vig-num">6</div><span>Encerramento do caso: cura, tratamento completo, abandono, óbito, falência, transferência</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📋</div><div class="card-title">Instrumentos de Registro na APS</div></div>
+    <div style="overflow-x:auto">
+    <table class="sinan-table">
+      <thead><tr><th>Instrumento</th><th>Quando usar</th><th>Sistema</th></tr></thead>
+      <tbody>
+        <tr><td>Livro de Registro de SR</td><td>Todo suspeito identificado</td><td>Registro local da UBS</td></tr>
+        <tr><td>Ficha de Notificação/Investigação TB</td><td>Ao confirmar diagnóstico</td><td>Sinan-TB</td></tr>
+        <tr><td>Livro de Registro de Pessoas com TB e Acompanhamento do Tratamento</td><td>Ao iniciar o tratamento</td><td>Registro local</td></tr>
+        <tr><td>Boletim de Acompanhamento de Casos de TB</td><td>Mensalmente durante o tratamento</td><td>Sinan-TB</td></tr>
+        <tr><td>Ficha de Notificação ILTB</td><td>Ao iniciar tratamento de ILTB</td><td>IL-TB</td></tr>
+        <tr><td>Boletim de Transferência</td><td>Ao transferir a pessoa para outro serviço</td><td>Sinan-TB</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="info-box amber" style="margin-top:0.8rem"><span>⚠️</span><span>Preencher corretamente e completamente todos os campos da Ficha de Notificação. <strong>Evitar campos em branco ou "ignorado".</strong></span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🔢</div><div class="card-title">Indicadores de Monitoramento na UBS</div></div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Indicadores de busca e diagnóstico <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Proporção de SR identificados na população adscrita (meta: 1%/ano)</li>
+          <li>Proporção de SR examinados entre os identificados</li>
+          <li>Proporção de pessoas confirmadas para TB entre os examinados</li>
+          <li>Proporção de contatos examinados entre os identificados ao ano (meta: 100%)</li>
+        </ul>
       </div>
     </div>
-
-    <div class="resist-card">
-      <div class="resist-header" style="background:#a05c10">
-        <div>
-          <div class="resist-title">TB RR — Resistência à Rifampicina</div>
-          <div class="resist-subtitle">Detectada apenas pelo TRM-TB (sem TS completo)</div>
-        </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Indicadores de desfecho do tratamento <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Taxa de cura (meta nacional: ≥85%)</li>
+          <li>Taxa de abandono (meta: &lt;5%)</li>
+          <li>Taxa de óbito por TB</li>
+          <li>Taxa de retratamento (recidiva + reingresso após abandono)</li>
+        </ul>
+        <p style="margin-top:0.5rem"><strong>Fonte de dados:</strong> Livro de Registro de Pessoas com TB e Acompanhamento de Tratamento (estudo de coorte — última página do livro).</p>
       </div>
-      <div class="resist-body">
-        Resistência à rifampicina identificada exclusivamente por TRM-TB, sem conhecimento de outras resistências. Encaminhar <strong>imediatamente</strong> para referência terciária.
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Encerramento por situações especiais <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li><strong>TB DR / mudança de esquema / falência:</strong> encerrar no Sinan e notificar no Site-TB. Acompanhamento nas referências secundárias/terciárias.</li>
+          <li><strong>Transferência:</strong> manter data de diagnóstico e data de início de tratamento. Nova data de notificação na unidade de destino.</li>
+          <li><strong>Recidiva/reingresso após abandono:</strong> nova data de diagnóstico e de início de tratamento no Sinan.</li>
+          <li><strong>Coinfecção TB-HIV iniciando TARV:</strong> atualizar no Boletim de Acompanhamento.</li>
+        </ul>
       </div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <div class="card-icon">💊</div>
-      <div class="card-title">Medicamentos para TB RR / MDR / XDR</div>
-    </div>
-
-    <p style="font-size:0.78rem;color:var(--text-soft);margin-bottom:0.8rem">Classificação OMS — Regimes longos (mínimo 18 meses). Em ordem decrescente de prioridade.</p>
-
-    <div class="drug-group">
-      <div class="group-label">Grupo A — Fluoroquinolonas (prioridade máxima)</div>
-      <div class="drug-pills">
-        <span class="drug-pill pill-a">Levofloxacino</span>
-        <span class="drug-pill pill-a">Moxifloxacino</span>
-        <span class="drug-pill pill-a" style="opacity:0.6">Gatifloxacino (não SUS)</span>
-      </div>
-    </div>
-
-    <div class="drug-group">
-      <div class="group-label">Grupo B — Injetáveis de 2ª Linha</div>
-      <div class="drug-pills">
-        <span class="drug-pill pill-b">Amicacina</span>
-        <span class="drug-pill pill-b">Capreomicina</span>
-        <span class="drug-pill pill-b" style="opacity:0.6">Canamicina (não disponível BR)</span>
-        <span class="drug-pill pill-b">(Estreptomicina)</span>
-      </div>
-    </div>
-
-    <div class="drug-group">
-      <div class="group-label">Grupo C — Outros de 2ª Linha</div>
-      <div class="drug-pills">
-        <span class="drug-pill pill-c">Etionamida</span>
-        <span class="drug-pill pill-c">Terizidona</span>
-        <span class="drug-pill pill-c">Linezolida</span>
-        <span class="drug-pill pill-c">Clofazimina</span>
-        <span class="drug-pill pill-c" style="opacity:0.6">Protionamida (não BR)</span>
-        <span class="drug-pill pill-c" style="opacity:0.6">Cicloserina (não BR)</span>
-      </div>
-    </div>
-
-    <div class="drug-group">
-      <div class="group-label">Grupo D — Adicionais</div>
-      <div class="drug-pills">
-        <span class="drug-pill pill-d">D1: Pirazinamida</span>
-        <span class="drug-pill pill-d">D1: Etambutol</span>
-        <span class="drug-pill pill-d">D1: Isoniazida altas doses</span>
-        <span class="drug-pill pill-d" style="opacity:0.5">D2: Bedaquilina (não SUS)</span>
-        <span class="drug-pill pill-d" style="opacity:0.5">D2: Delamanid (não BR)</span>
-        <span class="drug-pill pill-d">D3: Ácido paraminossalicílico</span>
-        <span class="drug-pill pill-d">D3: Imipenem-cilastatina</span>
-        <span class="drug-pill pill-d">D3: Meropenem</span>
-        <span class="drug-pill pill-d">D3: Amoxicilina + Clavulanato</span>
-      </div>
-    </div>
-
-    <div class="info-box amber">
-      <span>⚠️</span>
-      <span>Carbapenêmicos e clavulanato de potássio sempre devem ser usados em conjunto. Composição mínima: 1 droga do Grupo A + 1 do Grupo B + 2 do Grupo C (3–4 fármacos efetivos no total).</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <div class="card-icon">💉</div>
-      <div class="card-title">Monorresistência à Isoniazida — Condutas</div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)">
-        Antes do EB ou nos primeiros 30 dias <span class="acc-arrow">▶</span>
-      </div>
-      <div class="acc-body">
-        <strong>Esquema preferencial:</strong> <span class="mono-tag">2RLfxZE / 7RLfxE</span><br>
-        <strong>Alternativa (dificuldade de adesão):</strong> <span class="mono-tag">9RHZELfx</span> (WHO 2018)
-      </div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)">
-        Fase intensiva do EB — Evolução favorável <span class="acc-arrow">▶</span>
-      </div>
-      <div class="acc-body">
-        Esquema: <span class="mono-tag">9RHZE</span><br>
-        Solicitar TRM-TB e nova cultura com TS. Se TRM-TB revelar resistência à R → iniciar esquema para TB MDR.
-      </div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)">
-        Fase intensiva do EB — Evolução desfavorável <span class="acc-arrow">▶</span>
-      </div>
-      <div class="acc-body">
-        Solicitar TRM-TB.<br>
-        • Se sensível à R: manter RHZE por mais 1 mês e reavaliar.<br>
-        • Se resistente à R ou persistir desfavorável: <strong>iniciar esquema TB MDR.</strong>
-      </div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)">
-        Fase de manutenção — Evolução favorável <span class="acc-arrow">▶</span>
-      </div>
-      <div class="acc-body">
-        Esquema: <span class="mono-tag">RH</span> até completar 9 meses de tratamento.<br>
-        Solicitar TRM-TB e nova cultura com TS. Se TRM-TB revelar resistência à R → TB MDR.
-      </div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)">
-        Fase de manutenção — Evolução desfavorável <span class="acc-arrow">▶</span>
-      </div>
-      <div class="acc-body">
-        <strong>Iniciar esquema para TB MDR.</strong>
-      </div>
+    <div class="card-header"><div class="card-icon">🏷️</div><div class="card-title">Códigos CID-10 e CIAP 2 para TB</div></div>
+    <div style="overflow-x:auto">
+    <table class="sinan-table">
+      <thead><tr><th>CIAP 2</th><th>CID-10 principais</th><th>Descrição</th></tr></thead>
+      <tbody>
+        <tr><td>A70</td><td>A15–A19; B20.0; J65; O98.0; P37.0</td><td>Tuberculose em qualquer parte do corpo; efeitos tardios</td></tr>
+        <tr><td>R05</td><td>—</td><td>Tosse (registro inicial do SR)</td></tr>
+        <tr><td>R50</td><td>—</td><td>Febre (registro inicial do SR)</td></tr>
+      </tbody>
+    </table>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════
-     SEÇÃO: ILTB
-══════════════════════════════════════════════ -->
-<div id="sec-iltb" class="section">
+<!-- ═══════════════════════════════════════════
+     POPULAÇÕES VULNERÁVEIS
+═══════════════════════════════════════════ -->
+<div id="sec-populacoes" class="section">
   <div class="card">
-    <div class="card-header">
-      <div class="card-icon">🧫</div>
-      <div class="card-title">Infecção Latente pelo M. tuberculosis (ILTB)</div>
+    <div class="card-header"><div class="card-icon">🌍</div><div class="card-title">Populações Prioritárias</div></div>
+    <div class="info-box purple"><span>📌</span><span>A TB está diretamente relacionada às desigualdades sociais. O enfermeiro deve implementar abordagem centrada na pessoa, reconhecendo determinantes sociais e atuando de forma intersetorial.</span></div>
+    <p style="font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:0.5rem">Grupos de maior vulnerabilidade:</p>
+    <div class="vuln-grid">
+      <span class="vuln-chip">PVHIV</span>
+      <span class="vuln-chip">PPL (Pop. Privada de Liberdade)</span>
+      <span class="vuln-chip">PSR (Pop. Situação de Rua)</span>
+      <span class="vuln-chip">Indígenas</span>
+      <span class="vuln-chip">Quilombolas</span>
+      <span class="vuln-chip">Imigrantes</span>
+      <span class="vuln-chip">Profissionais de Saúde</span>
+      <span class="vuln-chip">Pessoas com DM</span>
+      <span class="vuln-chip">Usuários de Álcool/Drogas</span>
+      <span class="vuln-chip">Pessoas com Doenças Psiquiátricas</span>
+      <span class="vuln-chip">Crianças contatos de TB</span>
     </div>
+    <div class="info-box amber"><span>⚡</span><span>Em populações específicas, considerar SR com <strong>qualquer tempo de tosse</strong>. Não aguardar 2 ou 3 semanas para investigar.</span></div>
+  </div>
 
-    <div class="info-box green">
-      <span>ℹ️</span>
-      <span>Antes de afirmar ILTB, é <strong>fundamental excluir TB ativa</strong> por exame clínico e radiológico.</span>
-    </div>
-
-    <p style="font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;">Populações com indicação de investigação de ILTB:</p>
-
+  <div class="card">
+    <div class="card-header"><div class="card-icon">❤️‍🩹</div><div class="card-title">PVHIV — Pessoas Vivendo com HIV</div></div>
+    <div class="info-box red"><span>🚨</span><span>Risco 10× maior de desenvolver TB ativa. Testar HIV em toda pessoa com diagnóstico de TB. Testar TB em toda PVHIV.</span></div>
     <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)">Pessoas vivendo com HIV (PVHIV) <span class="acc-arrow">▶</span></div>
-      <div class="acc-body">Alta prioridade. Risco 10× maior de progressão para TB ativa. Investigar independentemente do resultado da PT.</div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)">Contatos de TB pulmonar bacilífera <span class="acc-arrow">▶</span></div>
-      <div class="acc-body">Investigação sistemática. Prioridade para crianças menores de 5 anos e imunossuprimidos.</div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)">Imunossuprimidos (uso de corticosteroide, anti-TNF, quimioterapia) <span class="acc-arrow">▶</span></div>
-      <div class="acc-body">Rastreio antes do início da imunossupressão. PT ≥5 mm pode ser considerada positiva nesse grupo.</div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)">Profissionais de saúde e privados de liberdade <span class="acc-arrow">▶</span></div>
-      <div class="acc-body">Grupos de maior vulnerabilidade. Rastreio conforme protocolo local.</div>
-    </div>
-    <div class="acc-item">
-      <div class="acc-header" onclick="toggleAcc(this)">Crianças &lt;5 anos contatos de TB <span class="acc-arrow">▶</span></div>
-      <div class="acc-body">Quimioprofilaxia primária (mesmo sem PT positiva) quando &lt;2 anos em contato com bacilífero.</div>
+      <div class="acc-header" onclick="toggleAcc(this)">Condutas específicas PVHIV + TB <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Investigar TB independentemente do tempo de tosse e da contagem de CD4</li>
+          <li>Iniciar TARV <strong>2 semanas</strong> após o início do tratamento para TB (exceto TB meningoencefálica: aguardar 4–8 semanas)</li>
+          <li>Atentar para síndrome inflamatória de reconstituição imune (IRIS) após início da TARV</li>
+          <li>Rifampicina interage com ARVs — avaliar substituição por rifabutina se necessário (não notificar no Site-TB nesse caso)</li>
+          <li>Piridoxina (B6) 50 mg/dia para toda PVHIV em uso de isoniazida</li>
+          <li>ILTB: tratar com 9H independentemente do resultado da PT</li>
+          <li>Fortalecer integração do cuidado TB-HIV no mesmo serviço</li>
+        </ul>
+      </div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-header">
-      <div class="card-icon">💊</div>
-      <div class="card-title">Regimes Terapêuticos para ILTB</div>
-    </div>
-
-    <div class="scheme-box">
-      <div class="scheme-name">Isoniazida (H) — 6 a 9 meses</div>
-      <div class="scheme-desc">Regime clássico. 5–10 mg/kg/dia (máx. 300 mg/dia). Dose única diária.</div>
-      <div class="info-box green" style="margin-top:0.5rem">
-        <span>✅</span>
-        <span>6H padrão. 9H para PVHIV e crianças contato de TB resistente à rifampicina.</span>
+    <div class="card-header"><div class="card-icon">🏛️</div><div class="card-title">PPL — População Privada de Liberdade</div></div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Abordagem da enfermagem para PPL <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Realizar busca ativa de SR em <strong>qualquer tempo de tosse</strong></li>
+          <li>Articular com equipes de saúde do sistema prisional (EMSI, agentes indígenas)</li>
+          <li>Garantir continuidade do tratamento ao egresso do sistema prisional</li>
+          <li>Testar HIV em todos os casos de TB confirmados</li>
+          <li>Garantir TDO dentro das unidades prisionais, com supervisão de profissional capacitado</li>
+          <li>Investigação de contatos intramuros</li>
+        </ul>
       </div>
     </div>
+  </div>
 
-    <div class="scheme-box">
-      <div class="scheme-name">Rifampicina (R) — 4 meses</div>
-      <div class="scheme-desc">Alternativa com melhor adesão. 10 mg/kg/dia (máx. 600 mg/dia). Dose única diária.</div>
-      <div class="info-box amber" style="margin-top:0.5rem">
-        <span>⚠️</span>
-        <span>Avaliar interações medicamentosas (indutora enzimática). Não usar em contatos de TB resistente à rifampicina.</span>
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🏠</div><div class="card-title">PSR — População em Situação de Rua</div></div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Abordagem da enfermagem para PSR <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>A forma de abordagem e o <strong>acolhimento</strong> são de fundamental importância — sem julgamentos</li>
+          <li>Articular com equipes do Consultório na Rua (CnR) para cuidado compartilhado</li>
+          <li>Para pessoas com uso de álcool/drogas: articulação com Caps-AD, foco em redução de danos</li>
+          <li>Endereços: utilizar centros de convivência, casas de acolhimento, albergues como referência</li>
+          <li>TDO flexível: local acordado com a pessoa, pode ser em abrigos ou espaços comunitários</li>
+          <li>Oferecer benefícios: vale-transporte, cesta básica, apoio para documentação</li>
+          <li>Evitar nomenclaturas estigmatizantes; tratar pelo nome</li>
+        </ul>
       </div>
     </div>
+  </div>
 
-    <div class="scheme-box">
-      <div class="scheme-name">Isoniazida + Rifapentina (3HP)</div>
-      <div class="scheme-desc">Regime curto semanal, 12 doses em 3 meses. Ainda com disponibilidade limitada no Brasil.</div>
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🌿</div><div class="card-title">Indígenas e Quilombolas</div></div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Abordagem da enfermagem <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Articular com Distritos Sanitários Especiais Indígenas (DSEI) e Equipes Multidisciplinares de Saúde Indígena (EMSI)</li>
+          <li>Respeitar cultura e crenças locais na abordagem e na comunicação</li>
+          <li>SR: qualquer tempo de tosse</li>
+          <li>Realizar busca ativa nas aldeias e comunidades</li>
+          <li>Garantir acesso ao diagnóstico e ao tratamento com respeito às especificidades culturais</li>
+        </ul>
+      </div>
     </div>
+  </div>
 
-    <div class="info-box red">
-      <span>🚫</span>
-      <span><strong>Contraindicação absoluta:</strong> não usar isoniazida em hepatopatia ativa grave ou antecedente de hepatite medicamentosa por isoniazida.</span>
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🤝</div><div class="card-title">Abordagem Centrada na Pessoa — Princípios</div></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">Dignidade, compaixão e respeito</div><div class="tl-body">Tratar pelo nome. Evitar linguagem estigmatizante ("faltoso", "paciente"). Reconhecer a pessoa como protagonista do próprio cuidado.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">Projeto Terapêutico Singular (PTS)</div><div class="tl-body">Definir metas com a pessoa e família. Atribuir responsabilidades. Rever periodicamente. Incluir suporte social e de saúde mental.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">Integração intersetorial</div><div class="tl-body">Articular com assistência social, habitação, saúde mental (Caps), Consultório na Rua, conselhos de saúde e redes comunitárias.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">Educação em saúde permanente</div><div class="tl-body">Reforçar mensalmente que melhora clínica ≠ cura. Orientar sobre efeitos colaterais, importância do tratamento completo, alimentação saudável e abstinência de álcool e tabaco.</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-title">Combate ao estigma</div><div class="tl-body">Discussões sobre estigma e discriminação em todos os espaços. Envolver a comunidade, ex-pacientes e familiares como multiplicadores.</div></div>
     </div>
   </div>
 </div>
@@ -1170,327 +943,54 @@ function goSection(id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('sec-' + id).classList.add('active');
+  const map = {algo:0, acolhimento:1, trat:2, tdo:3, escore:4, reac:5, resist:6, iltb:7, vigilancia:8, populacoes:9};
   const btns = document.querySelectorAll('.nav-btn');
-  const map = {algo:0, trat:1, escore:2, reac:3, resist:4, iltb:5};
-  btns[map[id]].classList.add('active');
+  if (map[id] !== undefined) btns[map[id]].classList.add('active');
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
 // ──────────────────────────────────────────────
-// ALGORITMO — ÁRVORE DE DECISÃO
+// ALGORITMO
 // ──────────────────────────────────────────────
 const algo = {
-  // Passo 0: tipo de caso
-  s0: {
-    q: 'Qual o tipo de caso?',
-    opts: [
-      { label: '🆕 Caso novo (nunca tratou ou tratou < 30 dias)', next: 's1' },
-      { label: '🔄 Retratamento (recidiva ou reingresso após abandono)', next: 's7' },
-    ]
-  },
-  // Passo 1: população vulnerável
-  s1: {
-    q: 'O paciente pertence a grupo de maior vulnerabilidade?',
-    hint: 'Profissionais de saúde, PVHIV, privados de liberdade, população em situação de rua, indígenas, contatos de TB resistente.',
-    opts: [
-      { label: '✅ Sim — população vulnerável', next: 's1v_trm' },
-      { label: '❌ Não — população geral', next: 's1g_trm' },
-    ]
-  },
-  s1v_trm: {
-    q: 'TRM-TB disponível na unidade?',
-    opts: [
-      { label: '✅ Sim — TRM-TB disponível', next: 's3' },
-      { label: '❌ Não — sem TRM-TB', next: 's_notrm' },
-    ]
-  },
-  s1g_trm: {
-    q: 'TRM-TB disponível na unidade?',
-    opts: [
-      { label: '✅ Sim — TRM-TB disponível', next: 's2' },
-      { label: '❌ Não — sem TRM-TB', next: 's_notrm' },
-    ]
-  },
-  // Passo 2: TRM-TB (população geral)
-  s2: {
-    q: 'Realizar TRM-TB. Qual o resultado?',
-    opts: [
-      { label: '🟢 MTB detectado', next: 's2a' },
-      { label: '🔴 MTB não detectado', next: 's2b' },
-    ]
-  },
-  s2a: {
-    q: 'Resistência à rifampicina no TRM-TB?',
-    opts: [
-      { label: '⚠️ Resistência DETECTADA', next: 'r_rif_det' },
-      { label: '✅ Resistência NÃO detectada', next: 'r_iniciar_eb' },
-    ]
-  },
-  s2b: {
-    q: 'MTB não detectado. O paciente mantém sintomas?',
-    opts: [
-      { label: '❌ Não — sem sintomas', next: 'r_excluir' },
-      { label: '✅ Sim — mantém sintomas', next: 'r_cultura_ts_inv' },
-    ]
-  },
-  // Passo 3: TRM-TB + Cultura + TS (vulnerável)
-  s3: {
-    q: 'Realizar TRM-TB + Cultura + TS simultaneamente. Resultado do TRM-TB?',
-    opts: [
-      { label: '🟢 MTB detectado no TRM-TB', next: 's3a' },
-      { label: '🔴 MTB não detectado no TRM-TB', next: 's3b' },
-    ]
-  },
-  s3a: {
-    q: 'Resistência à rifampicina no TRM-TB?',
-    opts: [
-      { label: '⚠️ Resistência DETECTADA', next: 'r_rif_det_rep' },
-      { label: '✅ Resistência NÃO detectada', next: 'r_iniciar_eb_rev' },
-    ]
-  },
-  s3b: {
-    q: 'MTB não detectado (TRM-TB). Mantém sintomas?',
-    opts: [
-      { label: '❌ Não', next: 'r_improvavel_aguardar' },
-      { label: '✅ Sim', next: 'r_continuar_aguardar' },
-    ]
-  },
-  // Sem TRM-TB (caso novo)
-  s_notrm: {
-    q: 'Realizar baciloscopia (2 amostras) + cultura. Qual o resultado da baciloscopia?',
-    hint: 'Sem TRM-TB: diagnóstico pela baciloscopia em 2 amostras. Cultura obrigatória em todos os casos, independente do resultado da baciloscopia.',
-    opts: [
-      { label: '🟢 Baciloscopia POSITIVA', next: 'r_notrm_pos' },
-      { label: '🔴 Baciloscopia NEGATIVA', next: 's_notrm_neg' },
-    ]
-  },
-  s_notrm_neg: {
-    q: 'Baciloscopia negativa. O paciente mantém sintomas?',
-    opts: [
-      { label: '❌ Não — sem sintomas', next: 'r_notrm_neg_nosint' },
-      { label: '✅ Sim — mantém sintomas', next: 'r_notrm_neg_sint' },
-    ]
-  },
-  // Passo 7: Retratamento
-  s7: {
-    q: 'Realizar Baciloscopia + TRM-TB + Cultura + TS simultaneamente. Resultado da baciloscopia?',
-    opts: [
-      { label: '🟢 Baciloscopia POSITIVA + MTB detectado (TRM-TB)', next: 's7a' },
-      { label: '🟡 Baciloscopia POSITIVA + MTB NÃO detectado (TRM-TB)', next: 'r_provavel_eb' },
-      { label: '🔵 Baciloscopia NEGATIVA + MTB NÃO detectado', next: 's7c' },
-      { label: '🟠 Baciloscopia NEGATIVA + MTB detectado (TRM-TB)', next: 'r_encaminhar_ref' },
-    ]
-  },
-  s7a: {
-    q: 'Baciloscopia positiva + MTB detectado. Resistência à rifampicina?',
-    opts: [
-      { label: '⚠️ Resistência DETECTADA', next: 'r_rif_det_retrat' },
-      { label: '✅ Resistência NÃO detectada', next: 'r_iniciar_eb_ret' },
-    ]
-  },
-  s7c: {
-    q: 'Baciloscopia negativa + MTB não detectado. Mantém sintomas?',
-    opts: [
-      { label: '❌ Não', next: 'r_improvavel_ret' },
-      { label: '✅ Sim', next: 'r_continuar_ret' },
-    ]
-  },
+  s0: { q: 'Qual o tipo de caso?', opts: [{ label: '🆕 Caso novo (nunca tratou ou tratou < 30 dias)', next: 's1' }, { label: '🔄 Retratamento (recidiva ou reingresso após abandono)', next: 's7' }] },
+  s1: { q: 'O paciente pertence a grupo de maior vulnerabilidade?', hint: 'Profissionais de saúde, PVHIV, privados de liberdade, população em situação de rua, indígenas, contatos de TB resistente.', opts: [{ label: '✅ Sim — população vulnerável', next: 's1v_trm' }, { label: '❌ Não — população geral', next: 's1g_trm' }] },
+  s1v_trm: { q: 'TRM-TB disponível na unidade?', opts: [{ label: '✅ Sim — TRM-TB disponível', next: 's3' }, { label: '❌ Não — sem TRM-TB', next: 's_notrm' }] },
+  s1g_trm: { q: 'TRM-TB disponível na unidade?', opts: [{ label: '✅ Sim — TRM-TB disponível', next: 's2' }, { label: '❌ Não — sem TRM-TB', next: 's_notrm' }] },
+  s2: { q: 'Realizar TRM-TB. Qual o resultado?', opts: [{ label: '🟢 MTB detectado', next: 's2a' }, { label: '🔴 MTB não detectado', next: 's2b' }] },
+  s2a: { q: 'Resistência à rifampicina no TRM-TB?', opts: [{ label: '⚠️ Resistência DETECTADA', next: 'r_rif_det' }, { label: '✅ Resistência NÃO detectada', next: 'r_iniciar_eb' }] },
+  s2b: { q: 'MTB não detectado. O paciente mantém sintomas?', opts: [{ label: '❌ Não — sem sintomas', next: 'r_excluir' }, { label: '✅ Sim — mantém sintomas', next: 'r_cultura_ts_inv' }] },
+  s3: { q: 'Realizar TRM-TB + Cultura + TS simultaneamente. Resultado do TRM-TB?', opts: [{ label: '🟢 MTB detectado', next: 's3a' }, { label: '🔴 MTB não detectado', next: 's3b' }] },
+  s3a: { q: 'Resistência à rifampicina no TRM-TB?', opts: [{ label: '⚠️ Resistência DETECTADA', next: 'r_rif_det_rep' }, { label: '✅ Resistência NÃO detectada', next: 'r_iniciar_eb_rev' }] },
+  s3b: { q: 'MTB não detectado (TRM-TB). Mantém sintomas?', opts: [{ label: '❌ Não', next: 'r_improvavel_aguardar' }, { label: '✅ Sim', next: 'r_continuar_aguardar' }] },
+  s_notrm: { q: 'Realizar baciloscopia (2 amostras) + cultura. Qual o resultado?', hint: 'Cultura obrigatória em todos os casos, independente da baciloscopia.', opts: [{ label: '🟢 Baciloscopia POSITIVA', next: 'r_notrm_pos' }, { label: '🔴 Baciloscopia NEGATIVA', next: 's_notrm_neg' }] },
+  s_notrm_neg: { q: 'Baciloscopia negativa. O paciente mantém sintomas?', opts: [{ label: '❌ Não', next: 'r_notrm_neg_nosint' }, { label: '✅ Sim', next: 'r_notrm_neg_sint' }] },
+  s7: { q: 'Realizar Baciloscopia + TRM-TB + Cultura + TS simultaneamente. Resultado?', opts: [{ label: '🟢 Bac. POSITIVA + MTB detectado', next: 's7a' }, { label: '🟡 Bac. POSITIVA + MTB NÃO detectado', next: 'r_provavel_eb' }, { label: '🔵 Bac. NEGATIVA + MTB NÃO detectado', next: 's7c' }, { label: '🟠 Bac. NEGATIVA + MTB detectado', next: 'r_encaminhar_ref' }] },
+  s7a: { q: 'Resistência à rifampicina?', opts: [{ label: '⚠️ Resistência DETECTADA', next: 'r_rif_det_retrat' }, { label: '✅ Resistência NÃO detectada', next: 'r_iniciar_eb_ret' }] },
+  s7c: { q: 'Mantém sintomas?', opts: [{ label: '❌ Não', next: 'r_improvavel_ret' }, { label: '✅ Sim', next: 'r_continuar_ret' }] },
 
-  // ── RESULTADOS SEM TRM-TB ──
-  r_notrm_pos: {
-    result: true,
-    type: 'green',
-    badge: '✅ Iniciar Tratamento',
-    title: 'Baciloscopia positiva — sem TRM-TB',
-    body: `Conduta:
-    <ul>
-      <li>Iniciar <strong>Esquema Básico (EB): 2RHZE/4RH</strong></li>
-      <li>Aguardar resultado da <strong>Cultura</strong> (já solicitada)</li>
-      <li>Testar HIV imediatamente</li>
-      <li>TDO recomendado</li>
-    </ul>`
-  },
-  r_notrm_neg_sint: {
-    result: true,
-    type: 'amber',
-    badge: '🔬 Continuar Investigação',
-    title: 'Baciloscopia negativa com sintomas — sem TRM-TB',
-    body: `Conduta:
-    <ul>
-      <li>Aguardar resultado da <strong>Cultura</strong> (já solicitada)</li>
-      <li>Continuar investigação diagnóstica</li>
-      <li>Investigar outros diagnósticos diferenciais</li>
-      <li>Se indícios clínicos e/ou radiológicos persistentes, podem ser solicitadas amostras adicionais de escarro</li>
-    </ul>`
-  },
-  r_notrm_neg_nosint: {
-    result: true,
-    type: 'blue',
-    badge: '✅ TB Improvável',
-    title: 'Baciloscopia negativa sem sintomas — sem TRM-TB',
-    body: 'Paciente sem sintomas e baciloscopia negativa. TB improvável. Aguardar resultado da cultura. Investigar outros diagnósticos diferenciais se necessário.'
-  },
-  // ── RESULTADOS ──
-  r_rif_det: {
-    result: true,
-    type: 'red',
-    badge: '🚨 Encaminhar — Referência Terciária',
-    title: 'Resistência à Rifampicina detectada (TRM-TB)',
-    body: `Conduta:
-    <ul>
-      <li>Realizar <strong>segundo TRM-TB</strong> em nova amostra + Cultura com TS</li>
-      <li>Encaminhar <strong>imediatamente</strong> para referência terciária (ambulatório TB resistente)</li>
-      <li>Paciente deve chegar à referência sem aguardar resultados dos novos exames</li>
-      <li>Avaliação médica e conduta em até 7 dias na referência terciária</li>
-    </ul>`
-  },
-  r_iniciar_eb: {
-    result: true,
-    type: 'green',
-    badge: '✅ Iniciar Tratamento',
-    title: 'TB confirmada — sem resistência à Rifampicina',
-    body: `Conduta:
-    <ul>
-      <li>Iniciar <strong>Esquema Básico (EB): 2RHZE/4RH</strong></li>
-      <li>Solicitar Cultura + TS (reavaliar esquema após resultado)</li>
-      <li>Testar HIV imediatamente</li>
-      <li>TDO recomendado</li>
-    </ul>`
-  },
-  r_excluir: {
-    result: true,
-    type: 'blue',
-    badge: '✅ Diagnóstico Excluído',
-    title: 'TB improvável — diagnóstico excluído',
-    body: 'Paciente sem sintomas e TRM-TB negativo. Excluído o diagnóstico de TB. Investigar outros diagnósticos diferenciais se necessário.'
-  },
-  r_cultura_ts_inv: {
-    result: true,
-    type: 'amber',
-    badge: '🔬 Continuar Investigação',
-    title: 'MTB não detectado — manter sintomas',
-    body: `Conduta:
-    <ul>
-      <li>Solicitar <strong>Cultura + TS</strong></li>
-      <li>Continuar investigação diagnóstica</li>
-      <li>Investigar micobacteriose não tuberculosa (MNT) e outros diagnósticos diferenciais</li>
-    </ul>`
-  },
-  r_rif_det_rep: {
-    result: true,
-    type: 'red',
-    badge: '🚨 Encaminhar — Referência Terciária',
-    title: 'Resistência à Rifampicina (vulnerável)',
-    body: `Conduta:
-    <ul>
-      <li>Repetir o TRM-TB</li>
-      <li>Encaminhar <strong>imediatamente</strong> para referência terciária</li>
-      <li>Resgatar resultado de cultura previamente realizada</li>
-      <li>Cobrar Cultura + TS</li>
-    </ul>`
-  },
-  r_iniciar_eb_rev: {
-    result: true,
-    type: 'green',
-    badge: '✅ Iniciar + Rever após TS',
-    title: 'TB confirmada — população vulnerável',
-    body: `Conduta:
-    <ul>
-      <li>Iniciar <strong>Esquema Básico (EB)</strong></li>
-      <li>Rever o tratamento após resultado da Cultura + TS</li>
-      <li>Testar HIV imediatamente</li>
-    </ul>`
-  },
-  r_improvavel_aguardar: {
-    result: true,
-    type: 'blue',
-    badge: '✅ TB Improvável',
-    title: 'TB improvável — aguardar Cultura e TS',
-    body: 'Paciente sem sintomas. TB improvável. Aguardar resultado da cultura e TS para conduta definitiva.'
-  },
-  r_continuar_aguardar: {
-    result: true,
-    type: 'amber',
-    badge: '🔬 Continuar Investigação',
-    title: 'Manter investigação',
-    body: `Conduta:
-    <ul>
-      <li>Continuar investigação diagnóstica</li>
-      <li>Aguardar Cultura + TS</li>
-      <li>Investigar MNT e outros diagnósticos diferenciais</li>
-    </ul>`
-  },
-  r_provavel_eb: {
-    result: true,
-    type: 'amber',
-    badge: '🟡 TB Provável — Iniciar EB',
-    title: 'Retratamento: Baciloscopia positiva + TRM-TB negativo',
-    body: `Conduta:
-    <ul>
-      <li>TB provável — Iniciar <strong>Esquema Básico (EB)</strong></li>
-      <li>Aguardar Cultura + TS para afastar MNT (micobacteriose não tuberculosa)</li>
-    </ul>`
-  },
-  r_encaminhar_ref: {
-    result: true,
-    type: 'red',
-    badge: '🚨 Encaminhar — Referência',
-    title: 'Retratamento: Baciloscopia negativa + MTB detectado',
-    body: `Conduta:
-    <ul>
-      <li>Encaminhar para referência de tuberculose <strong>independentemente do resultado da resistência à rifampicina</strong></li>
-      <li>Referência secundária ou terciária conforme rede local</li>
-    </ul>`
-  },
-  r_rif_det_retrat: {
-    result: true,
-    type: 'red',
-    badge: '🚨 Encaminhar — Referência Terciária',
-    title: 'Retratamento — Resistência à Rifampicina',
-    body: `Conduta:
-    <ul>
-      <li>Repetir TRM-TB em nova amostra</li>
-      <li>Encaminhar <strong>imediatamente</strong> para referência terciária</li>
-      <li>Cobrar Cultura com TS (método automatizado preferencial)</li>
-    </ul>`
-  },
-  r_iniciar_eb_ret: {
-    result: true,
-    type: 'green',
-    badge: '✅ Iniciar EB — Rever após TS',
-    title: 'Retratamento — sem resistência à Rifampicina',
-    body: `Conduta:
-    <ul>
-      <li>Iniciar <strong>Esquema Básico (EB)</strong></li>
-      <li>Rever tratamento após resultado do TS</li>
-    </ul>`
-  },
-  r_improvavel_ret: {
-    result: true,
-    type: 'blue',
-    badge: '✅ TB Improvável',
-    title: 'Retratamento — TB improvável',
-    body: 'Baciloscopia negativa, MTB não detectado, sem sintomas. TB improvável. Aguardar Cultura + TS.'
-  },
-  r_continuar_ret: {
-    result: true,
-    type: 'amber',
-    badge: '🔬 Continuar Investigação',
-    title: 'Retratamento — manter investigação',
-    body: 'Continuar investigação. Aguardar Cultura + TS.'
-  },
+  r_notrm_pos: { result:true, type:'green', badge:'✅ Iniciar Tratamento', title:'Baciloscopia positiva — sem TRM-TB', body:`<ul><li>Iniciar <strong>Esquema Básico (EB): 2RHZE/4RH</strong></li><li>Aguardar Cultura (já solicitada)</li><li>Testar HIV imediatamente</li><li>Iniciar TDO</li><li>Notificar no Sinan</li></ul>` },
+  r_notrm_neg_sint: { result:true, type:'amber', badge:'🔬 Continuar Investigação', title:'Baciloscopia negativa com sintomas — sem TRM-TB', body:`<ul><li>Aguardar resultado da Cultura</li><li>Continuar investigação diagnóstica</li><li>Investigar outros diagnósticos diferenciais</li><li>Considerar amostras adicionais de escarro</li></ul>` },
+  r_notrm_neg_nosint: { result:true, type:'blue', badge:'✅ TB Improvável', title:'Baciloscopia negativa sem sintomas', body:'TB improvável. Aguardar Cultura. Investigar outros diagnósticos se necessário.' },
+  r_rif_det: { result:true, type:'red', badge:'🚨 Encaminhar — Referência Terciária', title:'Resistência à Rifampicina detectada (TRM-TB)', body:`<ul><li>Realizar <strong>2º TRM-TB</strong> em nova amostra + Cultura com TS</li><li>Encaminhar <strong>imediatamente</strong> para referência terciária (TB resistente)</li><li>Não aguardar resultados dos novos exames</li><li>Avaliação médica em até 7 dias na referência</li></ul>` },
+  r_iniciar_eb: { result:true, type:'green', badge:'✅ Iniciar Tratamento', title:'TB confirmada — sem resistência à Rifampicina', body:`<ul><li>Iniciar <strong>EB: 2RHZE/4RH</strong></li><li>Solicitar Cultura + TS</li><li>Testar HIV imediatamente</li><li>Iniciar TDO</li><li>Notificar no Sinan</li><li>Investigar contatos</li></ul>` },
+  r_excluir: { result:true, type:'blue', badge:'✅ TB Improvável', title:'TB improvável — diagnóstico excluído', body:'Paciente sem sintomas e TRM-TB negativo. Excluir TB. Investigar outros diagnósticos se necessário.' },
+  r_cultura_ts_inv: { result:true, type:'amber', badge:'🔬 Continuar Investigação', title:'MTB não detectado — manter sintomas', body:`<ul><li>Solicitar <strong>Cultura + TS</strong></li><li>Investigar micobacteriose não tuberculosa (MNT)</li><li>Continuar investigação diagnóstica</li></ul>` },
+  r_rif_det_rep: { result:true, type:'red', badge:'🚨 Encaminhar — Referência Terciária', title:'Resistência à Rifampicina (vulnerável)', body:`<ul><li>Repetir TRM-TB</li><li>Encaminhar imediatamente para referência terciária</li><li>Cobrar Cultura + TS</li></ul>` },
+  r_iniciar_eb_rev: { result:true, type:'green', badge:'✅ Iniciar + Rever após TS', title:'TB confirmada — população vulnerável', body:`<ul><li>Iniciar <strong>EB</strong></li><li>Rever tratamento após Cultura + TS</li><li>Testar HIV imediatamente</li><li>Iniciar TDO</li><li>Notificar no Sinan</li></ul>` },
+  r_improvavel_aguardar: { result:true, type:'blue', badge:'✅ TB Improvável', title:'TB improvável — aguardar Cultura', body:'Sem sintomas. Aguardar Cultura + TS para conduta definitiva.' },
+  r_continuar_aguardar: { result:true, type:'amber', badge:'🔬 Continuar Investigação', title:'Manter investigação', body:`<ul><li>Continuar investigação diagnóstica</li><li>Aguardar Cultura + TS</li><li>Investigar MNT e outros diagnósticos</li></ul>` },
+  r_provavel_eb: { result:true, type:'amber', badge:'🟡 TB Provável — Iniciar EB', title:'Retratamento: Baciloscopia positiva + TRM-TB negativo', body:`<ul><li>TB provável — Iniciar <strong>EB</strong></li><li>Aguardar Cultura + TS para afastar MNT</li><li>Notificar no Sinan como retratamento</li></ul>` },
+  r_encaminhar_ref: { result:true, type:'red', badge:'🚨 Encaminhar — Referência', title:'Retratamento: Baciloscopia negativa + MTB detectado', body:`<ul><li>Encaminhar para referência de TB independentemente da resistência à rifampicina</li></ul>` },
+  r_rif_det_retrat: { result:true, type:'red', badge:'🚨 Encaminhar — Referência Terciária', title:'Retratamento — Resistência à Rifampicina', body:`<ul><li>Repetir TRM-TB em nova amostra</li><li>Encaminhar imediatamente para referência terciária</li><li>Cobrar Cultura com TS</li></ul>` },
+  r_iniciar_eb_ret: { result:true, type:'green', badge:'✅ Iniciar EB — Rever após TS', title:'Retratamento — sem resistência à Rifampicina', body:`<ul><li>Iniciar <strong>EB</strong></li><li>Rever tratamento após TS</li><li>Notificar no Sinan como retratamento</li></ul>` },
+  r_improvavel_ret: { result:true, type:'blue', badge:'✅ TB Improvável', title:'Retratamento — TB improvável', body:'Baciloscopia negativa, MTB não detectado, sem sintomas. TB improvável. Aguardar Cultura + TS.' },
+  r_continuar_ret: { result:true, type:'amber', badge:'🔬 Continuar Investigação', title:'Retratamento — continuar investigação', body:'Continuar investigação. Aguardar Cultura + TS.' },
 };
 
-let algoHistory = [];
-let algoTrail = [];
-let pendingTimeout = null;
+let algoHistory = [], algoTrail = [], pendingTimeout = null;
 
-function startAlgo() {
-  algoHistory = [];
-  algoTrail = [];
-  pendingTimeout = null;
-  renderAlgoStep('s0');
-}
+function startAlgo() { algoHistory = []; algoTrail = []; pendingTimeout = null; renderAlgoStep('s0'); }
 
 function renderAlgoStep(key) {
   const node = algo[key];
@@ -1503,14 +1003,8 @@ function renderAlgoStep(key) {
   if (node.result) {
     trailEl.style.display = 'flex';
     trailEl.innerHTML = algoTrail.map(t => `<span class="step-chip">${t}</span>`).join('');
-    stepEl.innerHTML = `
-      <div class="result-box ${node.type}">
-        <div class="result-badge ${node.type}">${node.badge}</div>
-        <div class="result-title">${node.title}</div>
-        <div class="result-body">${node.body}</div>
-      </div>`;
-    resetBtn.style.display = 'inline-block';
-    voltarBtn.style.display = 'inline-block';
+    stepEl.innerHTML = `<div class="result-box ${node.type}"><div class="result-badge ${node.type}">${node.badge}</div><div class="result-title">${node.title}</div><div class="result-body">${node.body}</div></div>`;
+    resetBtn.style.display = 'inline-block'; voltarBtn.style.display = 'inline-block';
     return;
   }
 
@@ -1518,13 +1012,9 @@ function renderAlgoStep(key) {
   trailEl.innerHTML = algoTrail.map(t => `<span class="step-chip">${t}</span>`).join('');
 
   let html = `<div class="algo-question">${node.q}</div>`;
-  if (node.hint) {
-    html += `<div class="info-box amber" style="margin-bottom:0.8rem"><span>ℹ️</span><span style="font-size:0.78rem">${node.hint}</span></div>`;
-  }
+  if (node.hint) html += `<div class="info-box amber" style="margin-bottom:0.8rem"><span>ℹ️</span><span style="font-size:0.78rem">${node.hint}</span></div>`;
   html += `<div class="btn-group">`;
-  node.opts.forEach((opt, i) => {
-    html += `<button class="btn-opt" onclick="algoChoose('${key}', ${i})">${opt.label}</button>`;
-  });
+  node.opts.forEach((opt, i) => { html += `<button class="btn-opt" onclick="algoChoose('${key}', ${i})">${opt.label}</button>`; });
   html += `</div>`;
   stepEl.innerHTML = html;
 
@@ -1536,42 +1026,25 @@ function renderAlgoStep(key) {
 function algoChoose(fromKey, optIdx) {
   const buttons = document.querySelectorAll('#algo-step .btn-opt');
   const clickedBtn = buttons[optIdx];
-
-  // Desmarcar se já estava selecionado
-  if (clickedBtn.classList.contains('selected')) {
-    if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
-    clickedBtn.classList.remove('selected');
-    return;
-  }
-
-  // Cancelar transição pendente de outro botão
+  if (clickedBtn.classList.contains('selected')) { if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; } clickedBtn.classList.remove('selected'); return; }
   if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
-
-  const node = algo[fromKey];
-  const opt = node.opts[optIdx];
+  const opt = algo[fromKey].opts[optIdx];
   algoHistory.push(fromKey);
   algoTrail.push(opt.label.replace(/<[^>]+>/g, '').substring(0, 50));
-
   buttons.forEach((b, i) => b.classList.toggle('selected', i === optIdx));
-
-  pendingTimeout = setTimeout(() => {
-    pendingTimeout = null;
-    renderAlgoStep(opt.next);
-  }, 300);
+  pendingTimeout = setTimeout(() => { pendingTimeout = null; renderAlgoStep(opt.next); }, 300);
 }
 
 function voltarAlgo() {
   if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
   if (algoHistory.length === 0) return;
-  const prevKey = algoHistory.pop();
   algoTrail.pop();
-  renderAlgoStep(prevKey);
+  renderAlgoStep(algoHistory.pop());
 }
 
 function resetAlgo() {
   if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
-  algoHistory = [];
-  algoTrail = [];
+  algoHistory = []; algoTrail = [];
   document.getElementById('algo-trail').style.display = 'none';
   document.getElementById('algo-reset').style.display = 'none';
   document.getElementById('algo-voltar').style.display = 'none';
@@ -1579,29 +1052,29 @@ function resetAlgo() {
 }
 
 // ──────────────────────────────────────────────
-// DOSES POR PESO
+// DOSES
 // ──────────────────────────────────────────────
 const doses = {
   'adulto-i': {
-    '20-35': 'RHZE: <strong>2 comprimidos</strong> (300/150/800/550 mg total)',
-    '36-50': 'RHZE: <strong>3 comprimidos</strong> (450/225/1200/825 mg total)',
-    '51-70': 'RHZE: <strong>4 comprimidos</strong> (600/300/1600/1100 mg total)',
-    '>70':   'RHZE: <strong>5 comprimidos</strong> (750/375/2000/1375 mg total)',
+    '20-35': 'RHZE: <strong>2 comprimidos</strong><br>R 300 mg · H 150 mg · Z 800 mg · E 550 mg',
+    '36-50': 'RHZE: <strong>3 comprimidos</strong><br>R 450 mg · H 225 mg · Z 1200 mg · E 825 mg',
+    '51-70': 'RHZE: <strong>4 comprimidos</strong><br>R 600 mg · H 300 mg · Z 1600 mg · E 1100 mg',
+    '>70':   'RHZE: <strong>5 comprimidos</strong><br>R 750 mg · H 375 mg · Z 2000 mg · E 1375 mg',
   },
   'child': {
-    'a20':   '2RHZ: Rifampicina 300 mg/dia · Isoniazida 200 mg/dia · Pirazinamida 750 mg/dia<br>4RH: Rifampicina 300 mg/dia · Isoniazida 200 mg/dia',
-    '21-25': '2RHZ: Rifampicina 450 mg/dia · Isoniazida 300 mg/dia · Pirazinamida 1.000 mg/dia<br>4RH: Rifampicina 450 mg/dia · Isoniazida 300 mg/dia',
-    '26-30': '2RHZ: Rifampicina 500 mg/dia · Isoniazida 300 mg/dia · Pirazinamida 1.000 mg/dia<br>4RH: Rifampicina 500 mg/dia · Isoniazida 300 mg/dia',
-    '31-35': '2RHZ: Rifampicina 600 mg/dia · Isoniazida 300 mg/dia · Pirazinamida 1.500 mg/dia<br>4RH: Rifampicina 600 mg/dia · Isoniazida 300 mg/dia',
-    '36-39': '2RHZ: Rifampicina 600 mg/dia · Isoniazida 300 mg/dia · Pirazinamida 1.500 mg/dia<br>4RH: Rifampicina 600 mg/dia · Isoniazida 300 mg/dia',
-    '40-44': '2RHZ: Rifampicina 600 mg/dia · Isoniazida 300 mg/dia · Pirazinamida 2.000 mg/dia<br>4RH: Rifampicina 600 mg/dia · Isoniazida 300 mg/dia',
-    'b45':   '2RHZ: Rifampicina 600 mg/dia · Isoniazida 300 mg/dia · Pirazinamida 2.000 mg/dia<br>4RH: Rifampicina 600 mg/dia · Isoniazida 300 mg/dia',
+    'a20':   '2RHZ: R 300 mg · H 200 mg · Z 750 mg/dia<br>4RH: R 300 mg · H 200 mg/dia',
+    '21-25': '2RHZ: R 450 mg · H 300 mg · Z 1000 mg/dia<br>4RH: R 450 mg · H 300 mg/dia',
+    '26-30': '2RHZ: R 500 mg · H 300 mg · Z 1000 mg/dia<br>4RH: R 500 mg · H 300 mg/dia',
+    '31-35': '2RHZ: R 600 mg · H 300 mg · Z 1500 mg/dia<br>4RH: R 600 mg · H 300 mg/dia',
+    '36-39': '2RHZ: R 600 mg · H 300 mg · Z 1500 mg/dia<br>4RH: R 600 mg · H 300 mg/dia',
+    '40-44': '2RHZ: R 600 mg · H 300 mg · Z 2000 mg/dia<br>4RH: R 600 mg · H 300 mg/dia',
+    'b45':   '2RHZ: R 600 mg · H 300 mg · Z 2000 mg/dia<br>4RH: R 600 mg · H 300 mg/dia',
   }
 };
 
 function showDose(type, weight) {
-  // update buttons
-  document.querySelectorAll('#ws-' + (type === 'adulto-i' ? 'adulto-i' : 'child') + ' .weight-btn').forEach(b => {
+  const wsId = type === 'adulto-i' ? 'ws-adulto-i' : 'ws-child';
+  document.querySelectorAll('#' + wsId + ' .weight-btn').forEach(b => {
     b.classList.toggle('active', b.getAttribute('onclick').includes(`'${weight}'`));
   });
   const el = document.getElementById('dose-' + type);
@@ -1613,36 +1086,21 @@ function showDose(type, weight) {
 // ESCORE PEDIÁTRICO
 // ──────────────────────────────────────────────
 function calcScore() {
-  let total = 0;
-  let filled = 0;
-  const fields = ['sc1','sc2','sc3','sc4','sc5'];
-  fields.forEach((f,i) => {
+  let total = 0, filled = 0;
+  ['sc1','sc2','sc3','sc4','sc5'].forEach((f, i) => {
     const el = document.querySelector(`input[name="${f}"]:checked`);
     const valEl = document.getElementById(`${f}-val`);
-    if (el) {
-      const v = parseInt(el.value);
-      total += v;
-      filled++;
-      valEl.textContent = (v >= 0 ? '+' : '') + v + ' pts';
-    } else {
-      valEl.textContent = '—';
-    }
+    if (el) { const v = parseInt(el.value); total += v; filled++; valEl.textContent = (v >= 0 ? '+' : '') + v + ' pts'; }
+    else { valEl.textContent = '—'; }
   });
   if (filled === 0) return;
   const box = document.getElementById('score-total-box');
   box.style.display = 'block';
   document.getElementById('score-total').textContent = total;
   const interp = document.getElementById('score-interp');
-  if (total >= 40) {
-    interp.style.background = '#2d8a58';
-    interp.textContent = '≥40 pts — Diagnóstico muito provável → Iniciar tratamento';
-  } else if (total >= 30) {
-    interp.style.background = '#c47a1e';
-    interp.textContent = '30–35 pts — Diagnóstico possível → Tratamento a critério médico';
-  } else {
-    interp.style.background = '#b5292a';
-    interp.textContent = `< 25 pts — Diagnóstico pouco provável → Continuar investigação`;
-  }
+  if (total >= 40) { interp.style.background = '#2d8a58'; interp.textContent = '≥40 pts — Diagnóstico muito provável → Iniciar tratamento'; }
+  else if (total >= 30) { interp.style.background = '#c47a1e'; interp.textContent = '30–35 pts — Diagnóstico possível → Tratamento a critério médico'; }
+  else { interp.style.background = '#b5292a'; interp.textContent = `< 25 pts — Diagnóstico pouco provável → Continuar investigação`; }
 }
 
 function resetScore() {
@@ -1654,17 +1112,9 @@ function resetScore() {
 // ──────────────────────────────────────────────
 // ACCORDION
 // ──────────────────────────────────────────────
-function toggleAcc(header) {
-  const item = header.parentElement;
-  item.classList.toggle('open');
-}
+function toggleAcc(header) { header.parentElement.classList.toggle('open'); }
 
-// ──────────────────────────────────────────────
-// INIT
-// ──────────────────────────────────────────────
-window.onload = function() {
-  startAlgo();
-};
+window.onload = function() { startAlgo(); };
 </script>
 </body>
 </html>
