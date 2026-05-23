@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Requisição de Exame — GAL / Ministério da Saúde</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0c2340;
+  --blue: #1a4a7a;
+  --blue-mid: #2563a8;
+  --blue-light: #e8f0f9;
+  --blue-pale: #f0f5fb;
+  --accent: #c0392b;
+  --green: #1a6b3c;
+  --green-light: #e8f5ee;
+  --gray-dark: #333;
+  --gray: #666;
+  --gray-light: #999;
+  --gray-pale: #f4f4f4;
+  --border: #c8d4e0;
+  --border-dark: #a0b4c8;
+  --white: #ffffff;
+  --shadow: 0 2px 16px rgba(12,35,64,0.10), 0 1px 4px rgba(12,35,64,0.07);
+}
+
+body {
+  font-family: 'Source Sans 3', 'Segoe UI', sans-serif;
+  background: #dce6f0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(100,140,180,0.08) 39px, rgba(100,140,180,0.08) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(100,140,180,0.08) 39px, rgba(100,140,180,0.08) 40px);
+  min-height: 100vh;
+  color: var(--gray-dark);
+  padding-bottom: 60px;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  background: var(--navy);
+  color: white;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 300;
+  box-shadow: 0 3px 16px rgba(0,0,0,.35);
+  height: 54px;
+  border-bottom: 3px solid var(--accent);
+}
+.topbar-emblem {
+  width: 34px; height: 34px;
+  background: rgba(255,255,255,.12);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,.2);
+}
+.topbar-info { flex: 1; }
+.topbar h1 { font-size: 15px; font-weight: 700; letter-spacing: .01em; }
+.topbar p  { font-size: 11px; opacity: .5; margin-top: 1px; font-style: italic; }
+.topbar-btn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  transition: background .15s, transform .1s;
+  flex-shrink: 0;
+  letter-spacing: .03em;
+  font-family: inherit;
+}
+.topbar-btn:hover  { background: #a93226; transform: translateY(-1px); }
+.topbar-btn:active { transform: translateY(0); }
+
+/* ── PAGE ── */
+.page {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-top: none;
+  box-shadow: var(--shadow);
+}
+.card:first-child { border-top: 1px solid var(--border); border-radius: 8px 8px 0 0; }
+.card:last-child  { border-radius: 0 0 8px 8px; }
+
+/* ── SECTION HEADER ── */
+.sec-header {
+  background: var(--navy);
+  color: white;
+  padding: 0 14px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  user-select: none;
+  justify-content: space-between;
+  transition: background .15s;
+}
+.sec-header:hover { background: #143060; }
+.sec-header .left { display: flex; align-items: center; gap: 7px; }
+.sec-header .tag {
+  background: rgba(255,255,255,.12);
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-size: 9px;
+  letter-spacing: .08em;
+}
+.sec-header .chevron { font-size: 11px; transition: transform .25s; }
+.sec-header.collapsed .chevron { transform: rotate(-90deg); }
+
+.sec-body {
+  padding: 12px 14px 14px;
+  overflow: hidden;
+  transition: max-height .32s ease, opacity .25s ease, padding .25s ease;
+  max-height: 5000px; opacity: 1;
+}
+.sec-body.collapsed { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; }
+
+/* ── GRID UTILS ── */
+.g1  { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.g2  { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.g3  { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.g4  { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
+.s2  { grid-column: span 2; }
+.s3  { grid-column: span 3; }
+.s4  { grid-column: span 4; }
+
+/* ── FIELD ── */
+.field { display: flex; flex-direction: column; gap: 3px; }
+.field label {
+  font-size: 10px; font-weight: 700;
+  color: var(--gray-light);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.field label .req { color: var(--accent); }
+
+.field input,
+.field select,
+.field textarea {
+  padding: 6px 9px;
+  border: 1.5px solid var(--border);
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 13.5px;
+  color: var(--gray-dark);
+  background: #fafcff;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--blue-mid);
+  box-shadow: 0 0 0 3px rgba(37,99,168,.12);
+  background: var(--white);
+}
+.field textarea { resize: vertical; min-height: 64px; }
+.field select { cursor: pointer; appearance: auto; }
+
+/* ── RADIO / CHECKBOX ── */
+.radio-group, .check-row { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 4px; }
+.radio-item, .check-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 13px; cursor: pointer; color: var(--gray-dark);
+}
+.radio-item input, .check-item input {
+  width: 15px; height: 15px;
+  accent-color: var(--blue-mid);
+  cursor: pointer;
+}
+
+/* ── INLINE LABEL GROUP ── */
+.inline-label {
+  font-size: 10px; font-weight: 700;
+  color: var(--gray-light);
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  margin-bottom: 3px;
+  display: block;
+}
+
+/* ── BLOCO LATERAL ── */
+.block {
+  background: var(--blue-pale);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.block-title {
+  font-size: 10px; font-weight: 700;
+  color: var(--blue);
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 5px;
+}
+.block-title .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--blue-mid);
+  flex-shrink: 0;
+}
+
+/* ── TABLE AMOSTRA ── */
+.amostra-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12.5px;
+}
+.amostra-table th {
+  background: var(--navy);
+  color: white;
+  padding: 6px 8px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  border: 1px solid rgba(255,255,255,.1);
+}
+.amostra-table td {
+  padding: 5px 7px;
+  border: 1px solid var(--border);
+  vertical-align: top;
+}
+.amostra-table tr:nth-child(even) td { background: var(--gray-pale); }
+.amostra-table input[type=text],
+.amostra-table input[type=date] {
+  width: 100%;
+  padding: 4px 6px;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 12.5px;
+  background: var(--white);
+  outline: none;
+}
+.amostra-table input:focus { border-color: var(--blue-mid); box-shadow: 0 0 0 2px rgba(37,99,168,.1); }
+.amostra-table select {
+  width: 100%;
+  padding: 4px 6px;
+  border: 1.5px solid var(--border);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 12px;
+  background: var(--white);
+  outline: none;
+  cursor: pointer;
+}
+.amostra-table select:focus { border-color: var(--blue-mid); }
+.amostra-radio { display: flex; flex-direction: column; gap: 4px; }
+.amostra-radio label { display: flex; align-items: center; gap: 4px; font-size: 11.5px; }
+.amostra-radio input { width: 13px; height: 13px; accent-color: var(--blue-mid); }
+.amostra-spec { margin-top: 4px; }
+.amostra-spec input[type=text] { margin-top: 3px; }
+
+/* ── SINAN BLOCK ── */
+.sinan-block {
+  background: #fff8f0;
+  border: 1.5px solid #f0c070;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.sinan-title {
+  font-size: 10px; font-weight: 700;
+  color: #7a4a00;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  margin-bottom: 8px;
+}
+
+/* ── DADOS COMPLEMENTARES ── */
+.dados-comp {
+  background: var(--green-light);
+  border: 1px solid #a8d4b8;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+.dados-comp-title {
+  font-size: 10px; font-weight: 700;
+  color: var(--green);
+  text-transform: uppercase;
+  letter-spacing: .09em;
+  margin-bottom: 8px;
+}
+
+/* ── NOTE BOX ── */
+.note {
+  background: #fff3cd;
+  border: 1px solid #ffd966;
+  border-radius: 5px;
+  padding: 7px 11px;
+  font-size: 11.5px;
+  color: #5c4a00;
+  line-height: 1.5;
+}
+.note strong { color: #8a3a00; }
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 10px 0;
+}
+
+/* ── NÚMERO BOX ── */
+.nreq-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--blue-pale);
+  border: 1.5px dashed var(--blue-mid);
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  color: var(--blue);
+  font-weight: 600;
+}
+.nreq-box input {
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  outline: none;
+  width: 160px;
+  font-family: 'Source Serif 4', serif;
+  letter-spacing: .06em;
+}
+</style>
+</head>
+<body>
+
+<!-- ── TOP BAR ── -->
+<div class="topbar">
+  <div class="topbar-emblem">🏛️</div>
+  <div class="topbar-info">
+    <h1>Requisição de Exame — GAL</h1>
+    <p>Sistema Gerenciador de Ambiente Laboratorial · República Federativa do Brasil · Ministério da Saúde</p>
+  </div>
+  <button class="topbar-btn" onclick="gerarPDF()">
+    📄 Gerar PDF
+  </button>
+</div>
+
+<div class="page">
+
+  <!-- ══ REQUISIÇÃO ══ -->
+  <div class="card">
+    <div class="sec-header" onclick="toggle(this)">
+      <span class="left">
+        <span>📋</span>
+        Requisição
+        <span class="tag">Campos 1–16</span>
+      </span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="sec-body">
+
+      <!-- Nº Requisição + Unidade + CNES — mesma linha -->
+      <div style="display:grid;grid-template-columns:220px 1fr 200px;gap:8px;margin-bottom:8px;align-items:end">
+        <div class="field">
+          <label>1 — Nº Requisição</label>
+          <div class="nreq-box" style="margin:0;padding:5px 10px">
+            <input type="text" id="nreq" placeholder="____________" style="width:100%">
+          </div>
+        </div>
+        <div class="field">
+          <label>2 — Unidade de Saúde (ou outra fonte) <span class="req">*</span></label>
+          <input type="text" id="unidade" placeholder="Nome da unidade de saúde">
+        </div>
+        <div class="field">
+          <label>3 — CNES <span class="req">*</span></label>
+          <input type="text" id="cnes" maxlength="7" placeholder="0000000" oninput="this.value=this.value.replace(/\D/g,'')">
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 80px 200px;gap:8px;margin-bottom:8px">
+        <div class="field">
+          <label>4 — Município de Atendimento</label>
+          <input type="text" id="mun_atend" placeholder="Município">
+        </div>
+        <div class="field">
+          <label>5 — UF</label>
+          <select id="uf_atend">
+            <option value="">UF</option>
+            <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+            <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+            <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+            <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+            <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+            <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+            <option selected>CE</option><option>SE</option><option>TO</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>6 — Código IBGE <span class="req">*</span></label>
+          <input type="text" id="ibge_atend" maxlength="7" placeholder="0000000">
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 300px 300px;gap:8px;margin-bottom:8px">
+        <div class="field">
+          <label>7 — Nome do Profissional de Saúde <span class="req">*</span></label>
+          <input type="text" id="prof_nome" placeholder="Nome completo">
+        </div>
+        <div class="field">
+          <label>8 — Registro Profissional / Matrícula <span class="req">*</span></label>
+          <input type="text" id="prof_reg" placeholder="CRM / COREN / Matrícula">
+        </div>
+        <div class="field">
+          <label>9 — Assinatura</label>
+          <input type="text" id="prof_ass" placeholder="(manual)">
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Linha 10–16 -->
+      <div style="display:grid;grid-template-columns:200px 200px 1fr;gap:12px;margin-bottom:8px">
+        <div class="field">
+          <label>10 — Data de Solicitação <span class="req">*</span></label>
+          <input type="date" id="data_solic">
+        </div>
+       <div class="field">
+      <label style="white-space: nowrap;">
+      11 — Data dos Primeiros Sintomas
+      </label>
+      <input type="date" id="data_sintomas">
+       </div>
+        <div>
+          <span class="inline-label">12 — Caso</span>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="caso" value="1"> 1 - Suspeito</label>
+            <label class="radio-item"><input type="radio" name="caso" value="2"> 2 - Comunicante</label>
+            <label class="radio-item"><input type="radio" name="caso" value="3"> 3 - Acompanhamento</label>
+            <label class="radio-item"><input type="radio" name="caso" value="9"> 9 - Ignorado</label>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div>
+          <span class="inline-label">13 — Tratamento</span>
+          <div class="radio-group" style="flex-wrap:wrap">
+            <label class="radio-item"><input type="radio" name="trat" value="1"> 1 - Dia</label>
+            <label class="radio-item"><input type="radio" name="trat" value="2"> 2 - Semana</label>
+            <label class="radio-item"><input type="radio" name="trat" value="3"> 3 - Mês</label>
+            <label class="radio-item"><input type="radio" name="trat" value="4"> 4 - Ano</label>
+            <label class="radio-item"><input type="radio" name="trat" value="9"> 9 - Ignorado</label>
+          </div>
+          <div class="field" style="margin-top:6px;max-width:120px">
+            <label>Quantidade</label>
+            <input type="number" id="trat_qtd" min="0" placeholder="0">
+          </div>
+        </div>
+        <div>
+          <span class="inline-label">14 — Etapa de Tratamento</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px 8px;margin-top:4px">
+            <label class="radio-item"><input type="radio" name="etapa" value="1"> 1 - Pretratamento</label>
+            <label class="radio-item"><input type="radio" name="etapa" value="4"> 4 - Avaliação de Resistência</label>
+            <label class="radio-item"><input type="radio" name="etapa" value="2"> 2 - Tratamento</label>
+            <label class="radio-item"><input type="radio" name="etapa" value="9"> 9 - Ignorado</label>
+            <label class="radio-item"><input type="radio" name="etapa" value="3"> 3 - Retratamento</label>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:24px;align-items:flex-start">
+        <div>
+          <span class="inline-label">15 — Paciente Tomou Vacina?</span>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="vacina" value="1"> 1 - Sim</label>
+            <label class="radio-item"><input type="radio" name="vacina" value="2"> 2 - Não</label>
+            <label class="radio-item"><input type="radio" name="vacina" value="9"> 9 - Ignorado</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>16 — Data da Última Dose</label>
+          <input type="date" id="data_ultima_dose">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ PACIENTE ══ -->
+  <div class="card">
+    <div class="sec-header" onclick="toggle(this)">
+      <span class="left">
+        <span>👤</span>
+        Paciente
+        <span class="tag">Campos 17–36</span>
+      </span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="sec-body">
+
+      <!-- 17 — Nome -->
+      <div class="field" style="margin-bottom:8px">
+        <label>17 — Nome do Paciente <span class="req">*</span></label>
+        <input type="text" id="pac_nome" placeholder="Nome completo do paciente">
+      </div>
+
+      <!-- 18, 19, 20, 21 — uma linha só -->
+      <div style="display:grid;grid-template-columns:170px auto 110px 1fr;gap:8px;margin-bottom:8px;align-items:start">
+
+        <!-- 18 Data Nasc -->
+        <div class="field">
+          <label>18 — Data de Nascimento <span class="req">*</span></label>
+          <input type="date" id="pac_nasc" onchange="calcIdade()">
+        </div>
+
+        <!-- 19 Idade -->
+        <div>
+          <span class="inline-label">19 — Idade <span class="req">*</span></span>
+          <div style="display:flex;gap:6px;align-items:center;margin-top:4px">
+            <input type="number" id="pac_idade" min="0" max="130" placeholder="—"
+              style="width:58px;padding:6px 8px;border:1.5px solid var(--border);border-radius:5px;font-family:inherit;font-size:14px;font-weight:600;color:var(--navy);background:#fafcff;outline:none;transition:border-color .15s,box-shadow .15s"
+              onfocus="this.style.borderColor='var(--blue-mid)';this.style.boxShadow='0 0 0 3px rgba(37,99,168,.12)'"
+              onblur="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+            <select id="pac_idade_unid"
+              style="padding:6px 8px;border:1.5px solid var(--border);border-radius:5px;font-family:inherit;font-size:12px;background:#fafcff;outline:none;cursor:pointer">
+              <option value="4" selected>Ano(s)</option>
+              <option value="3">Mês(es)</option>
+              <option value="2">Dia(s)</option>
+              <option value="1">Hora(s)</option>
+            </select>
+            <span id="idade_badge" style="display:none;font-size:11px;font-weight:700;color:var(--blue-mid);background:var(--blue-light);border:1px solid var(--border-dark);border-radius:4px;padding:3px 8px;white-space:nowrap"></span>
+          </div>
+        </div>
+
+        <!-- 20 Sexo -->
+        <div>
+          <span class="inline-label">20 — Sexo <span class="req">*</span></span>
+          <div class="radio-group" style="flex-direction:column;gap:4px;margin-top:4px">
+            <label class="radio-item"><input type="radio" name="sexo" value="M"> M - Masc.</label>
+            <label class="radio-item"><input type="radio" name="sexo" value="F"> F - Fem.</label>
+            <label class="radio-item"><input type="radio" name="sexo" value="I"> I - Ignorado</label>
+          </div>
+        </div>
+
+        <!-- 21 Idade Gestacional -->
+        <div class="block" style="padding:6px 10px">
+          <span class="inline-label" style="margin-bottom:4px">21 — Idade Gestacional</span>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px 6px;margin-top:2px">
+            <label class="radio-item"><input type="radio" name="gest" value="1"> 1 - 1º Trimestre</label>
+            <label class="radio-item"><input type="radio" name="gest" value="4"> 4 - Ignorada</label>
+            <label class="radio-item"><input type="radio" name="gest" value="6"> 6 - N/A</label>
+            <label class="radio-item"><input type="radio" name="gest" value="2"> 2 - 2º Trimestre</label>
+            <label class="radio-item"><input type="radio" name="gest" value="5"> 5 - Não</label>
+            <label class="radio-item"><input type="radio" name="gest" value="9"> 9 - Ignorado</label>
+            <label class="radio-item"><input type="radio" name="gest" value="3"> 3 - 3º Trimestre</label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 22 — Nome da mãe -->
+      <div class="field" style="margin-bottom:8px">
+        <label>22 — Nome da Mãe</label>
+        <input type="text" id="pac_mae" placeholder="Nome completo da mãe">
+      </div>
+
+      <!-- 23, 24 — Documentos -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+        <div class="block">
+          <div class="block-title"><span class="dot"></span>23 — Documento 1</div>
+          <div class="radio-group" style="margin-bottom:8px">
+            <label class="radio-item"><input type="radio" name="doc1_tipo" value="1"> 1 - RG</label>
+            <label class="radio-item"><input type="radio" name="doc1_tipo" value="2"> 2 - CPF</label>
+            <label class="radio-item"><input type="radio" name="doc1_tipo" value="3"> 3 - CNH</label>
+            <label class="radio-item"><input type="radio" name="doc1_tipo" value="4"> 4 - CNS</label>
+          </div>
+          <div class="field">
+            <label>Número</label>
+            <input type="text" id="doc1_num" placeholder="Número do documento">
+          </div>
+        </div>
+        <div class="block">
+          <div class="block-title"><span class="dot"></span>24 — Documento 2</div>
+          <div class="radio-group" style="margin-bottom:8px">
+            <label class="radio-item"><input type="radio" name="doc2_tipo" value="1"> 1 - RG</label>
+            <label class="radio-item"><input type="radio" name="doc2_tipo" value="2"> 2 - CPF</label>
+            <label class="radio-item"><input type="radio" name="doc2_tipo" value="3"> 3 - CNH</label>
+            <label class="radio-item"><input type="radio" name="doc2_tipo" value="4"> 4 - CNS</label>
+          </div>
+          <div class="field">
+            <label>Número</label>
+            <input type="text" id="doc2_num" placeholder="Número do documento">
+          </div>
+        </div>
+      </div>
+
+      <!-- 25, 26 -->
+      <div style="display:grid;grid-template-columns:1fr 100px;gap:8px;margin-bottom:8px">
+        <div class="field">
+          <label>25 — Logradouro (Rua, Avenida…)</label>
+          <input type="text" id="logr" placeholder="Logradouro">
+        </div>
+        <div class="field">
+          <label>26 — Número</label>
+          <input type="text" id="logr_num" placeholder="Nº">
+        </div>
+      </div>
+
+      <!-- 27, 28, 29 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px">
+        <div class="field">
+          <label>27 — Complemento</label>
+          <input type="text" id="compl" placeholder="Apto, Bloco...">
+        </div>
+        <div class="field">
+          <label>28 — Ponto de Referência</label>
+          <input type="text" id="ref" placeholder="Ponto de referência">
+        </div>
+        <div class="field">
+          <label>29 — Bairro</label>
+          <input type="text" id="bairro" placeholder="Bairro">
+        </div>
+      </div>
+
+      <!-- 30, 31, 32 -->
+      <div style="display:grid;grid-template-columns:1fr 200px 70px;gap:8px;margin-bottom:8px">
+        <div class="field">
+          <label>30 — Município de Residência <span class="req">*</span></label>
+          <input type="text" id="mun_res" placeholder="Município">
+        </div>
+        <div class="field">
+          <label>31 — Código IBGE <span class="req">*</span></label>
+          <input type="text" id="ibge_res" maxlength="7" placeholder="0000000">
+        </div>
+        <div class="field">
+          <label>32 — UF</label>
+          <select id="uf_res">
+            <option value="">UF</option>
+            <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+            <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+            <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+            <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+            <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+            <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+            <option>SP</option><option>SE</option><option>TO</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 33, 34, 35, 36 -->
+      <div style="display:grid;grid-template-columns:140px 180px 1fr 1fr;gap:8px">
+        <div class="field">
+          <label>33 — CEP</label>
+          <input type="text" id="cep" maxlength="9" placeholder="00000-000" oninput="maskCEP(this)">
+        </div>
+        <div class="field">
+          <label>34 — DDD / Telefone</label>
+          <input type="text" id="tel" maxlength="15" placeholder="(00) 00000-0000" oninput="maskPhone(this)">
+        </div>
+        <div>
+          <span class="inline-label">35 — Zona</span>
+          <div class="radio-group" style="margin-top:4px">
+            <label class="radio-item"><input type="radio" name="zona" value="1"> 1 - Urbana</label>
+            <label class="radio-item"><input type="radio" name="zona" value="2"> 2 - Rural</label>
+            <label class="radio-item"><input type="radio" name="zona" value="3"> 3 - Periurbana</label>
+            <label class="radio-item"><input type="radio" name="zona" value="9"> 9 - Ignorado</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>36 — País (se reside fora do Brasil)</label>
+          <input type="text" id="pais" placeholder="País de residência">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ AMOSTRA / EXAME ══ -->
+  <div class="card">
+    <div class="sec-header" onclick="toggle(this)">
+      <span class="left">
+        <span>🧪</span>
+        Amostra / Exame
+        <span class="tag">Campos 37–41</span>
+      </span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="sec-body">
+
+      <div class="note" style="margin-bottom:12px">
+        <strong>Amostra:</strong> Indique a sequência: Única, 1ª, 2ª, 3ª ou 4ª.
+        Preencha até <strong>5 amostras/exames</strong> na tabela abaixo.
+      </div>
+
+      <div style="overflow-x:auto">
+        <table class="amostra-table" id="amostra-table">
+          <thead>
+            <tr>
+              <th style="width:28px">#</th>
+              <th>37 — Exame Solicitado <span style="color:#f99">*</span></th>
+              <th>38 — Material Enviado <span style="color:#f99">*</span></th>
+              <th style="width:100px">39 — Amostra<br><small style="font-weight:400;text-transform:none;font-size:9px">(Única, 1ª, 2ª, 3ª, 4ª)</small></th>
+              <th style="width:130px">40 — Data da Coleta <span style="color:#f99">*</span></th>
+              <th>41 — Usou Medicamento antes da Coleta?</th>
+            </tr>
+          </thead>
+          <tbody id="amostra-tbody">
+            <!-- Gerado por JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SINAN ══ -->
+  <div class="card">
+    <div class="sec-header" onclick="toggle(this)">
+      <span class="left">
+        <span>🔔</span>
+        SINAN — Notificação
+        <span class="tag">Campos 42–50</span>
+      </span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="sec-body">
+
+      <div class="sinan-block">
+        <div class="sinan-title">⚠️ Dados SINAN (preencher apenas quando há notificação)</div>
+
+        <div style="display:grid;grid-template-columns:1fr 120px 200px 200px;gap:8px;margin-bottom:8px">
+          <div class="field">
+            <label>42 — Agravo / Doença</label>
+            <input type="text" id="agravo" placeholder="Nome do agravo ou doença">
+          </div>
+          <div class="field">
+            <label>43 — CID-10 <span class="req">*</span></label>
+            <input type="text" id="cid10" maxlength="5" placeholder="X00.0">
+          </div>
+          <div class="field">
+            <label>44 — Nº Notificação SINAN <span class="req">*</span></label>
+            <input type="text" id="sinan_num" placeholder="Número da notificação">
+          </div>
+          <div class="field">
+            <label>45 — Data de Notificação <span class="req">*</span></label>
+            <input type="date" id="sinan_data">
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 200px;gap:8px;margin-bottom:8px">
+          <div class="field">
+            <label>46 — Unidade de Saúde Notificante</label>
+            <input type="text" id="sinan_unidade" placeholder="Nome da unidade notificante">
+          </div>
+          <div class="field">
+            <label>47 — CNES <span class="req">*</span></label>
+            <input type="text" id="sinan_cnes" maxlength="7" placeholder="0000000">
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 80px 200px;gap:8px">
+          <div class="field">
+            <label>48 — Município de Notificação</label>
+            <input type="text" id="sinan_mun" placeholder="Município">
+          </div>
+          <div class="field">
+            <label>49 — UF</label>
+            <select id="sinan_uf">
+              <option value="">UF</option>
+              <option>AC</option><option>AL</option><option>AP</option><option>AM</option>
+              <option>BA</option><option>CE</option><option>DF</option><option>ES</option>
+              <option>GO</option><option>MA</option><option>MT</option><option>MS</option>
+              <option>MG</option><option>PA</option><option>PB</option><option>PR</option>
+              <option>PE</option><option>PI</option><option>RJ</option><option>RN</option>
+              <option>RS</option><option>RO</option><option>RR</option><option>SC</option>
+              <option>SP</option><option>SE</option><option>TO</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>50 — Código IBGE <span class="req">*</span></label>
+            <input type="text" id="sinan_ibge" maxlength="7" placeholder="0000000">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DADOS COMPLEMENTARES ══ -->
+  <div class="card">
+    <div class="sec-header" onclick="toggle(this)">
+      <span class="left">
+        <span>📝</span>
+        Dados Clínicos / Laboratoriais
+        <span class="tag">Campo 51</span>
+      </span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="sec-body">
+      <div class="dados-comp">
+        <div class="dados-comp-title">51 — Dados Clínicos / Laboratoriais</div>
+        <div class="field">
+          <label>Informações clínicas relevantes, histórico, sintomas, hipótese diagnóstica…</label>
+          <textarea id="dados_comp" rows="5" placeholder="Preencha com dados clínicos e laboratoriais relevantes para a requisição..."></textarea>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:14px">
+        <strong>* Campo de preenchimento obrigatório.</strong><br>
+        Formulário — Sistema Gerenciador de Ambiente Laboratorial (GAL) · Ministério da Saúde · República Federativa do Brasil.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+// ── Geração de linhas de amostra ──
+const medCodes = ['1 - Sim','2 - Não','9 - Ignorado'];
+const amostras = ['Única','1ª','2ª','3ª','4ª'];
+const tbody = document.getElementById('amostra-tbody');
+
+for (let i = 0; i < 5; i++) {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td style="text-align:center;font-weight:700;color:#999;font-size:11px">${i+1}</td>
+    <td><input type="text" id="exam_${i}" placeholder="Exame solicitado"></td>
+    <td><input type="text" id="mat_${i}" placeholder="Material enviado"></td>
+    <td>
+      <select id="amostra_${i}">
+        <option value="">—</option>
+        ${amostras.map(a=>`<option value="${a}">${a}</option>`).join('')}
+      </select>
+    </td>
+    <td><input type="date" id="coleta_${i}"></td>
+    <td>
+      <div class="amostra-radio" style="flex-direction:row;gap:10px;flex-wrap:wrap">
+        <label><input type="radio" name="med_${i}" value="1"> 1 - Sim</label>
+        <label><input type="radio" name="med_${i}" value="2"> 2 - Não</label>
+        <label><input type="radio" name="med_${i}" value="9"> 9 - Ignorado</label>
+      </div>
+      <div class="amostra-spec">
+        <input type="text" id="med_spec_${i}" placeholder="Especifique o medicamento">
+      </div>
+    </td>
+  `;
+  tbody.appendChild(tr);
+}
+
+// Init date
+document.getElementById('data_solic').value = new Date().toISOString().slice(0,10);
+
+// ── Collapse / Expand ──
+function toggle(hdr) {
+  const body = hdr.nextElementSibling;
+  const col  = body.classList.toggle('collapsed');
+  hdr.classList.toggle('collapsed', col);
+}
+
+// ── Masks ──
+function maskCEP(el) {
+  let v = el.value.replace(/\D/g,'').slice(0,8);
+  if (v.length > 5) v = v.replace(/^(\d{5})(\d{0,3})/,'$1-$2');
+  el.value = v;
+}
+function maskPhone(el) {
+  let v = el.value.replace(/\D/g,'').slice(0,11);
+  if (v.length === 11)      v = v.replace(/^(\d{2})(\d{5})(\d{4})$/,'($1) $2-$3');
+  else if (v.length === 10) v = v.replace(/^(\d{2})(\d{4})(\d{4})$/,'($1) $2-$3');
+  else if (v.length > 6)    v = v.replace(/^(\d{2})(\d{4,5})(\d*)/,'($1) $2-$3');
+  else if (v.length > 2)    v = v.replace(/^(\d{2})(\d*)/,'($1) $2');
+  el.value = v;
+}
+
+// ── Helpers ──
+const gv = id => { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
+const gr = name => { const s = document.querySelector(`input[name="${name}"]:checked`); return s ? s.value : ''; };
+const fmtDate = v => { if (!v) return ''; const m = v.match(/^(\d{4})-(\d{2})-(\d{2})$/); return m ? `${m[3]}/${m[2]}/${m[1]}` : v; };
+
+// ── PDF ──
+function gerarPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+
+  const PW=210, PH=297, ML=9, MR=9, MT=8;
+  const CW=PW-ML-MR;
+  let y=MT;
+
+  const BK=[0,0,0], WH=[255,255,255], NAVY=[12,35,64], BLUE=[26,74,122], LGRAY=[220,220,220], HGRAY=[240,240,240];
+  const SINAN_BG=[255,250,235], GREEN_BG=[235,248,241];
+
+  const sf=(style,size,color)=>{doc.setFont('helvetica',style);doc.setFontSize(size*1.18);doc.setTextColor(...(color||BK));};
+  const border=(x,y,w,h,lw)=>{doc.setDrawColor(...LGRAY);doc.setLineWidth(lw||0.25);doc.rect(x,y,w,h,'S');};
+  const fillRect=(x,y,w,h,rgb,border_rgb)=>{doc.setFillColor(...rgb);doc.setDrawColor(...(border_rgb||LGRAY));doc.setLineWidth(0.25);doc.rect(x,y,w,h,'FD');};
+  const ct=(text,x,y,opts)=>{if(!text&&text!==0)text='';doc.text(String(text),x,y,opts||{});};
+  const cell=(label,value,x,y,w,h)=>{border(x,y,w,h);sf('bold',5.5,[110,110,110]);ct(label,x+1,y+2.8);sf('normal',8,BK);ct(String(value||''),x+1,y+h-1.4);};
+  const secHead=(label,tag,yy)=>{fillRect(ML,yy,CW,6,NAVY);sf('bold',8,WH);ct(label.toUpperCase(),ML+2,yy+4.3);if(tag){sf('normal',6,[200,220,255]);ct(tag,PW-MR-2,yy+4.3,{align:'right'});}return yy+6;};
+  const chk=v=>v?'[X]':'[ ]';
+  const grVal=(name,val)=>gr(name)===val;
+  const rGroup=(name,items,x,yy,w,h)=>{border(x,yy,w,h);sf('normal',6.5,BK);let ox=x+1;const sel=gr(name);items.forEach(([v,l])=>{ct(chk(sel===v)+' '+l,ox,yy+h/2+1.5);ox+=l.length*2+10;});};
+  const rGroupV=(name,items,x,yy,w,rh)=>{items.forEach(([v,l],i)=>{border(x,yy+i*rh,w,rh);sf('normal',6,BK);ct(chk(gr(name)===v)+' '+l,x+1,yy+i*rh+rh*0.6+0.5);});return yy+items.length*rh;};
+
+  // ── CABEÇALHO ──
+  const hH=14;
+  fillRect(ML,y,CW,hH,NAVY);
+  sf('bold',7,[200,220,255]);ct('REPÚBLICA FEDERATIVA DO BRASIL',ML+2,y+4.8);
+  sf('bold',8,WH);ct('MINISTÉRIO DA SAÚDE',ML+2,y+9.2);
+  sf('italic',7,[180,210,255]);ct('Sistema Gerenciador de Ambiente Laboratorial — GAL',PW/2,y+11.5,{align:'center'});
+  sf('bold',11,WH);ct('REQUISIÇÃO DE EXAME',PW/2,y+6,{align:'center'});
+  sf('bold',7,[200,220,255]);ct('* Campo de preenchimento obrigatório',PW-MR-2,y+9.2,{align:'right'});
+  y+=hH;
+
+  // ── SEÇÃO: REQUISIÇÃO ──
+  const RH=8;
+  y=secHead('Requisição','Campos 1–16',y);
+
+  // Linha 1: Nº Requisição | Unidade | CNES — mesma linha
+  const wNreq=42, wCNES=35, wUnid=CW-wNreq-wCNES;
+  cell('1 — Nº Requisição',gv('nreq')||'_________________',ML,y,wNreq,RH);
+  cell('2 — Unidade de Saúde (ou outra fonte)*',gv('unidade'),ML+wNreq,y,wUnid,RH);
+  cell('3 — CNES*',gv('cnes'),ML+wNreq+wUnid,y,wCNES,RH);
+  y+=RH;
+
+  // Linha 3: Município Atend | UF | IBGE
+  const wMun=CW-55-50, wUF=25, wIBGE=30;
+  cell('4 — Município de Atendimento',gv('mun_atend'),ML,y,wMun,RH);
+  cell('5 — UF',gv('uf_atend'),ML+wMun,y,wUF,RH);
+  cell('6 — Código IBGE*',gv('ibge_atend'),ML+wMun+wUF,y,wIBGE,RH);
+  y+=RH;
+
+  // Linha 4: Prof | Registro | Assinatura
+  const wProf=CW*0.5, wReg=CW*0.3, wAss=CW-wProf-wReg;
+  cell('7 — Nome do Profissional de Saúde*',gv('prof_nome'),ML,y,wProf,RH);
+  cell('8 — Registro Profissional/Matrícula*',gv('prof_reg'),ML+wProf,y,wReg,RH);
+  cell('9 — Assinatura',gv('prof_ass'),ML+wProf+wReg,y,wAss,RH);
+  y+=RH;
+
+  // Linha 5: Data Solic | Data Sintomas | Caso
+  const wDS=40, wDSin=40, wCaso=CW-wDS-wDSin;
+  cell('10 — Data de Solicitação*',fmtDate(gv('data_solic')),ML,y,wDS,RH);
+  cell('11 — Data dos Primeiros Sintomas',fmtDate(gv('data_sintomas')),ML+wDS,y,wDSin,RH);
+  border(ML+wDS+wDSin,y,wCaso,RH);sf('bold',5.5,[110,110,110]);ct('12 — Caso',ML+wDS+wDSin+1,y+2.8);
+  sf('normal',7,BK);
+  const casoMap={'1':'1-Suspeito','2':'2-Comunicante','3':'3-Acompanhamento','9':'9-Ignorado'};
+  const casoItems=[['1','1-Suspeito'],['2','2-Comunicante'],['3','3-Acompanhamento'],['9','9-Ignorado']];
+  let cx=ML+wDS+wDSin+2;
+  casoItems.forEach(([v,l])=>{ct(chk(gr('caso')===v)+' '+l,cx,y+RH-1.4);cx+=l.length*1.7+5;});
+  y+=RH;
+
+  // Linha 6: Tratamento | Etapa
+  const wTrat=80, wEtapa=CW-wTrat;
+  border(ML,y,wTrat,RH*2);sf('bold',5.5,[110,110,110]);ct('13 — Tratamento',ML+1,y+2.8);
+  sf('normal',7,BK);
+  let tx=ML+2;
+  [['1','1-Dia'],['2','2-Semana'],['3','3-Mês'],['4','4-Ano'],['9','9-Ign']].forEach(([v,l])=>{ct(chk(gr('trat')===v)+' '+l,tx,y+7.5);tx+=l.length*1.7+4;});
+  ct('Qtd: '+(gv('trat_qtd')||'__'),ML+2,y+RH*2-1.4);
+
+  border(ML+wTrat,y,wEtapa,RH*2);sf('bold',5.5,[110,110,110]);ct('14 — Etapa de Tratamento',ML+wTrat+1,y+2.8);
+  sf('normal',7,BK);
+  const etapasR1=[['1','1-Pretratamento'],['2','2-Tratamento'],['3','3-Retratamento']];
+  const etapasR2=[['4','4-Aval.Resistência'],['9','9-Ignorado']];
+  let etx=ML+wTrat+2;
+  etapasR1.forEach(([v,l])=>{ct(chk(gr('etapa')===v)+' '+l,etx,y+7);etx+=l.length*1.85+3;});
+  etx=ML+wTrat+2;
+  etapasR2.forEach(([v,l])=>{ct(chk(gr('etapa')===v)+' '+l,etx,y+12);etx+=l.length*1.85+3;});
+  y+=RH*2;
+
+  // Linha 7: Vacina | Data última dose
+  const wVac=80, wDD=CW-wVac;
+  border(ML,y,wVac,RH);sf('bold',5.5,[110,110,110]);ct('15 — Paciente Tomou Vacina?',ML+1,y+2.8);
+  sf('normal',7,BK);let vx=ML+2;
+  [['1','1-Sim'],['2','2-Não'],['9','9-Ign']].forEach(([v,l])=>{ct(chk(gr('vacina')===v)+' '+l,vx,y+RH-1.4);vx+=l.length*2+8;});
+  cell('16 — Data da Última Dose',fmtDate(gv('data_ultima_dose')),ML+wVac,y,wDD,RH);
+  y+=RH;
+
+  // ── SEÇÃO: PACIENTE ──
+  y=secHead('Paciente','Campos 17–36',y);
+
+  // 17 Nome
+  cell('17 — Nome do Paciente*',gv('pac_nome'),ML,y,CW,RH);y+=RH;
+
+  // 18 DataNasc | 19 Idade | 20 Sexo | 21 Idade Gest
+  const wDN=38, wId=38, wSx=30, wGest=CW-wDN-wId-wSx;
+  cell('18 — Data de Nascimento*',fmtDate(gv('pac_nasc')),ML,y,wDN,RH*2);
+  const idUnidMap={'4':'a.','3':'m.','2':'d.','1':'h.'};
+  cell('19 — Idade* / Unidade',gv('pac_idade')+' '+(idUnidMap[gv('pac_idade_unid')]||'a.'),ML+wDN,y,wId,RH*2);
+
+  border(ML+wDN+wId,y,wSx,RH*2);sf('bold',5.5,[110,110,110]);ct('20 — Sexo*',ML+wDN+wId+1,y+2.8);
+  sf('normal',7,BK);
+  const sexoOpts=[['M','M-Masc'],['F','F-Fem'],['I','I-Ign']];
+  sexoOpts.forEach(([v,l],i)=>ct(chk(gr('sexo')===v)+' '+l,ML+wDN+wId+1,y+6.5+i*3.5));
+
+  border(ML+wDN+wId+wSx,y,wGest,RH*2);sf('bold',5.5,[110,110,110]);ct('21 — Idade Gestacional',ML+wDN+wId+wSx+1,y+2.8);
+  sf('normal',6.5,BK);
+  const gestCols=[
+    [['1','1-1ºTrim'],['2','2-2ºTrim'],['3','3-3ºTrim']],
+    [['4','4-Ign'],  ['5','5-Não']],
+    [['6','6-N/A'],  ['9','9-Ign']]
+  ];
+  const gColW=wGest/3;
+  const gBaseX=ML+wDN+wId+wSx+1;
+  gestCols.forEach((col,ci)=>{
+    col.forEach(([v,l],ri)=>{
+      ct(chk(gr('gest')===v)+' '+l, gBaseX+ci*gColW, y+6.5+ri*3.5);
+    });
+  });
+  y+=RH*2;
+
+  // 22 Nome mãe
+  cell('22 — Nome da Mãe',gv('pac_mae'),ML,y,CW,RH);y+=RH;
+
+  // 23, 24 Documentos
+  const wDoc=CW/2;
+  const d1t={'1':'RG','2':'CPF','3':'CNH','4':'CNS'};
+  cell('23 — Documento 1 — Tipo: '+(d1t[gr('doc1_tipo')]||'—')+'  Número',gv('doc1_num'),ML,y,wDoc,RH);
+  cell('24 — Documento 2 — Tipo: '+(d1t[gr('doc2_tipo')]||'—')+'  Número',gv('doc2_num'),ML+wDoc,y,wDoc,RH);
+  y+=RH;
+
+  // 25, 26
+  const wLogr=CW-25;
+  cell('25 — Logradouro (Rua, Avenida…)',gv('logr'),ML,y,wLogr,RH);
+  cell('26 — Número',gv('logr_num'),ML+wLogr,y,25,RH);
+  y+=RH;
+
+  // 27, 28, 29
+  const w3=CW/3;
+  cell('27 — Complemento',gv('compl'),ML,y,w3,RH);
+  cell('28 — Ponto de Referência',gv('ref'),ML+w3,y,w3,RH);
+  cell('29 — Bairro',gv('bairro'),ML+w3*2,y,w3,RH);
+  y+=RH;
+
+  // 30, 31, 32
+  const wMR=CW-40-30;
+  cell('30 — Município de Residência*',gv('mun_res'),ML,y,wMR,RH);
+  cell('31 — Código IBGE*',gv('ibge_res'),ML+wMR,y,40,RH);
+  cell('32 — UF',gv('uf_res'),ML+wMR+40,y,30,RH);
+  y+=RH;
+
+  // 33, 34, 35, 36
+  const wCEP=32, wTEL=42, wZona=50, wPais=CW-wCEP-wTEL-wZona;
+  cell('33 — CEP',gv('cep'),ML,y,wCEP,RH);
+  cell('34 — DDD / Telefone',gv('tel'),ML+wCEP,y,wTEL,RH);
+  border(ML+wCEP+wTEL,y,wZona,RH);sf('bold',5.5,[110,110,110]);ct('35 — Zona',ML+wCEP+wTEL+1,y+2.8);
+  sf('normal',6.5,BK);
+  const zonaMap={'1':'1-Urbana','2':'2-Rural','3':'3-Periurb','9':'9-Ign'};
+  let zx=ML+wCEP+wTEL+1;
+  Object.entries(zonaMap).forEach(([v,l])=>{ct(chk(gr('zona')===v)+' '+l,zx,y+RH-1.4);zx+=l.length*2+4;});
+  cell('36 — País (fora do Brasil)',gv('pais'),ML+wCEP+wTEL+wZona,y,wPais,RH);
+  y+=RH;
+
+  // ── SEÇÃO: AMOSTRA / EXAME ──
+  y=secHead('Amostra / Exame','Campos 37–41',y);
+
+  // Cabeçalho tabela
+  const aHdr=6;
+  const wANum=8, wAExam=45, wAMat=38, wAAmos=20, wAData=28, wAMed=CW-wANum-wAExam-wAAmos-wAMat-wAData;
+  const cols=[['#',wANum],['37 — Exame Solicitado*',wAExam],['38 — Material Enviado*',wAMat],['39 — Amostra',wAAmos],['40 — Data Coleta*',wAData],['41 — Medicamento antes?',wAMed]];
+  let ax=ML;
+  cols.forEach(([label,w])=>{fillRect(ax,y,w,aHdr,NAVY);sf('bold',5.5,WH);ct(label,ax+1,y+4.2);ax+=w;});
+  y+=aHdr;
+
+  for(let i=0;i<5;i++){
+    const rowH=i===0?12:10;
+    ax=ML;
+    fillRect(ax,y,wANum,rowH,i%2===0?WH:HGRAY);sf('bold',7,[150,150,150]);ct(String(i+1),ax+wANum/2,y+rowH/2+1.2,{align:'center'});ax+=wANum;
+    fillRect(ax,y,wAExam,rowH,i%2===0?WH:HGRAY);sf('normal',7,BK);ct(gv('exam_'+i),ax+1,y+rowH/2+1);ax+=wAExam;
+    fillRect(ax,y,wAMat,rowH,i%2===0?WH:HGRAY);sf('normal',7,BK);ct(gv('mat_'+i),ax+1,y+rowH/2+1);ax+=wAMat;
+    fillRect(ax,y,wAAmos,rowH,i%2===0?WH:HGRAY);sf('normal',7,BK);const aEl=document.getElementById('amostra_'+i);ct(aEl?aEl.value:'',ax+1,y+rowH/2+1);ax+=wAAmos;
+    fillRect(ax,y,wAData,rowH,i%2===0?WH:HGRAY);sf('normal',7,BK);ct(fmtDate(gv('coleta_'+i)),ax+1,y+rowH/2+1);ax+=wAData;
+    fillRect(ax,y,wAMed,rowH,i%2===0?WH:HGRAY);
+    sf('normal',6,BK);
+    const medVal=gr('med_'+i);
+    [['1','1-Sim'],['2','2-Não'],['9','9-Ign']].forEach(([v,l],ji)=>ct(chk(medVal===v)+' '+l,ax+1+(ji*18),y+5));
+    const spec=gv('med_spec_'+i);
+    if(spec){sf('italic',5.5,[80,80,80]);ct('Espec.: '+spec,ax+1,y+rowH-1.5);}
+    border(ML,y,CW,rowH);
+    y+=rowH;
+  }
+
+  // ── SEÇÃO: SINAN ──
+  y=secHead('SINAN — Notificação','Campos 42–50',y);
+  fillRect(ML,y,CW,8*5+2,[255,252,240]);
+  const sinanRH=8;
+
+  // 42–45
+  const wAgr=CW*0.38, wCID=22, wNot=CW*0.28, wDN2=CW-wAgr-wCID-wNot;
+  cell('42 — Agravo / Doença',gv('agravo'),ML,y,wAgr,sinanRH);
+  cell('43 — CID-10*',gv('cid10'),ML+wAgr,y,wCID,sinanRH);
+  cell('44 — Nº Notificação SINAN*',gv('sinan_num'),ML+wAgr+wCID,y,wNot,sinanRH);
+  cell('45 — Data de Notificação*',fmtDate(gv('sinan_data')),ML+wAgr+wCID+wNot,y,wDN2,sinanRH);
+  y+=sinanRH;
+
+  // 46–47
+  const wSUN=CW-35;
+  cell('46 — Unidade de Saúde Notificante',gv('sinan_unidade'),ML,y,wSUN,sinanRH);
+  cell('47 — CNES*',gv('sinan_cnes'),ML+wSUN,y,35,sinanRH);
+  y+=sinanRH;
+
+  // 48–50
+  const wSMun=CW*0.55, wSUF=20, wSIBGE=CW-wSMun-wSUF;
+  cell('48 — Município de Notificação',gv('sinan_mun'),ML,y,wSMun,sinanRH);
+  cell('49 — UF',gv('sinan_uf'),ML+wSMun,y,wSUF,sinanRH);
+  cell('50 — Código IBGE*',gv('sinan_ibge'),ML+wSMun+wSUF,y,wSIBGE,sinanRH);
+  y+=sinanRH;
+
+  // ── SEÇÃO: DADOS COMPLEMENTARES ──
+  y=secHead('Dados Clínicos / Laboratoriais','Campo 51',y);
+  fillRect(ML,y,CW,30,GREEN_BG);sf('bold',5.5,[30,100,60]);ct('51 — Dados Clínicos / Laboratoriais',ML+1,y+3.5);
+  sf('normal',8,BK);
+  const compText=doc.splitTextToSize(gv('dados_comp')||'',CW-3);
+  compText.forEach((l,i)=>ct(l,ML+1,y+7+i*4.5));
+  border(ML,y,CW,30);
+  y+=30;
+
+  // ── RODAPÉ ──
+  y+=3;
+  sf('bold',5.5,[80,80,80]);ct('* Campo de preenchimento obrigatório',ML,y);
+  sf('italic',5.5,[120,120,120]);ct('República Federativa do Brasil · Ministério da Saúde · GAL — Sistema Gerenciador de Ambiente Laboratorial       Gerado em: '+new Date().toLocaleDateString('pt-BR'),PW-MR,y,{align:'right'});
+
+  doc.save('Requisicao_GAL.pdf');
+}
+</script>
+</body>
+</html>
