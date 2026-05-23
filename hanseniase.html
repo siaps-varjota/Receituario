@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hanseníase — Guia Clínico PCDT 2022</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green-dark: #0d3d2b;
+  --green: #1a5c3a;
+  --green-mid: #236b45;
+  --green-light: #2d8a58;
+  --green-pale: #e6f4ed;
+  --green-border: #b8ddc9;
+  --amber: #c47a1e;
+  --amber-light: #fef5e7;
+  --amber-border: #f0c882;
+  --red: #b5292a;
+  --red-light: #fdeaea;
+  --red-border: #f0aaaa;
+  --blue: #1a4b8c;
+  --blue-light: #e8f0fb;
+  --blue-border: #b0c8f0;
+  --purple: #6a3fa0;
+  --purple-light: #f3eeff;
+  --purple-border: #d0b8f5;
+  --text: #1a1a1a;
+  --text-mid: #3d3d3d;
+  --text-soft: #666;
+  --bg: #f5f7f5;
+  --white: #ffffff;
+  --border: #d4e4d8;
+  --shadow: 0 2px 12px rgba(13,61,43,0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* HEADER */
+.app-header { background: var(--green-dark); color: white; position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 16px rgba(0,0,0,0.25); }
+.header-top { display: flex; align-items: center; gap: 0.8rem; padding: 0.9rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.header-icon { font-size: 1.5rem; background: var(--green-mid); width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.header-title h1 { font-size: 1rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.header-title p { font-size: 0.68rem; opacity: 0.6; font-weight: 300; margin-top: 0.1rem; }
+.badge-ms { font-size: 0.62rem; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 0.15rem 0.45rem; margin-left: auto; white-space: nowrap; letter-spacing: 0.04em; }
+
+/* NAV */
+.nav-scroll { display: flex; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+.nav-scroll::-webkit-scrollbar { display: none; }
+.nav-btn { padding: 0.65rem 0.9rem; border: none; background: transparent; color: rgba(255,255,255,0.6); font-family: 'IBM Plex Sans', sans-serif; font-size: 0.72rem; font-weight: 500; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.15s; letter-spacing: 0.02em; }
+.nav-btn:hover { color: rgba(255,255,255,0.9); }
+.nav-btn.active { color: white; border-bottom-color: #4cd98a; }
+
+/* MAIN */
+.main { max-width: 720px; margin: 0 auto; padding: 1.2rem 1rem 5rem; }
+.section { display: none; }
+.section.active { display: block; }
+
+/* CARD */
+.card { background: var(--white); border-radius: 12px; border: 1px solid var(--border); padding: 1.2rem; margin-bottom: 0.9rem; box-shadow: var(--shadow); }
+.card-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+.card-icon { font-size: 1rem; background: var(--green-pale); width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.card-title { font-size: 0.85rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* ALGORITHM */
+.algo-question { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 1rem; line-height: 1.4; }
+.btn-group { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+.btn-opt { padding: 0.55rem 1.1rem; border: 1.5px solid var(--border); border-radius: 8px; background: white; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.15s; color: var(--text-mid); }
+.btn-opt:hover { border-color: var(--green-light); color: var(--green); background: var(--green-pale); }
+.btn-opt.selected { background: var(--green); color: white; border-color: var(--green); }
+.btn-restart { padding: 0.5rem 1rem; background: transparent; border: 1.5px solid var(--green-border); border-radius: 8px; color: var(--green); font-family: 'IBM Plex Sans', sans-serif; font-size: 0.8rem; font-weight: 600; cursor: pointer; margin-top: 1rem; transition: all 0.15s; }
+.btn-restart:hover { background: var(--green-pale); }
+
+/* RESULT BOX */
+.result-box { border-radius: 10px; padding: 1rem; margin-top: 0.8rem; border: 1.5px solid; }
+.result-box.green { background: var(--green-pale); border-color: var(--green-border); }
+.result-box.amber { background: var(--amber-light); border-color: var(--amber-border); }
+.result-box.red { background: var(--red-light); border-color: var(--red-border); }
+.result-box.blue { background: var(--blue-light); border-color: var(--blue-border); }
+.result-badge { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 0.2rem 0.6rem; border-radius: 4px; margin-bottom: 0.6rem; }
+.result-badge.green { background: var(--green); color: white; }
+.result-badge.amber { background: var(--amber); color: white; }
+.result-badge.red { background: var(--red); color: white; }
+.result-badge.blue { background: var(--blue); color: white; }
+.result-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text); }
+.result-body { font-size: 0.83rem; color: var(--text-mid); line-height: 1.55; }
+.result-body ul { padding-left: 1.2rem; margin-top: 0.4rem; }
+.result-body li { margin-bottom: 0.3rem; }
+.step-trail { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 1rem; }
+.step-chip { font-size: 0.72rem; background: var(--green-pale); color: var(--green); border: 1px solid var(--green-border); padding: 0.18rem 0.55rem; border-radius: 20px; font-weight: 500; }
+
+/* ACCORDIONS */
+.acc-item { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.5rem; overflow: hidden; }
+.acc-header { padding: 0.75rem 1rem; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: #fafcfa; transition: background 0.15s; color: var(--text-mid); }
+.acc-header:hover { background: var(--green-pale); color: var(--green); }
+.acc-item.open .acc-header { background: var(--green-pale); color: var(--green); }
+.acc-arrow { font-size: 0.7rem; transition: transform 0.2s; }
+.acc-item.open .acc-arrow { transform: rotate(90deg); }
+.acc-body { display: none; padding: 0.9rem 1rem; font-size: 0.83rem; color: var(--text-mid); line-height: 1.6; border-top: 1px solid var(--border); }
+.acc-item.open .acc-body { display: block; }
+.acc-body ul { padding-left: 1.1rem; margin-top: 0.4rem; }
+.acc-body li { margin-bottom: 0.35rem; }
+.acc-body strong { color: var(--text); }
+.acc-body p { margin-bottom: 0.5rem; }
+
+/* INFO BOX */
+.info-box { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.75rem 0.9rem; border-radius: 8px; font-size: 0.82rem; line-height: 1.5; margin-bottom: 0.8rem; }
+.info-box.green { background: var(--green-pale); border: 1px solid var(--green-border); color: var(--green-dark); }
+.info-box.amber { background: var(--amber-light); border: 1px solid var(--amber-border); color: #7a4c0e; }
+.info-box.red { background: var(--red-light); border: 1px solid var(--red-border); color: #7a1a1a; }
+.info-box.blue { background: var(--blue-light); border: 1px solid var(--blue-border); color: #1a3a6a; }
+.info-box.purple { background: var(--purple-light); border: 1px solid var(--purple-border); color: #3a1a6a; }
+
+/* SCHEME BOX */
+.scheme-box { background: #f8fbf9; border: 1.5px solid var(--green-border); border-radius: 10px; padding: 1rem; margin-bottom: 0.8rem; }
+.scheme-name { font-size: 0.88rem; font-weight: 700; color: var(--green); margin-bottom: 0.25rem; }
+.scheme-desc { font-size: 0.78rem; color: var(--text-soft); margin-bottom: 0.6rem; }
+.phase-row { display: flex; gap: 0.6rem; margin-bottom: 0.4rem; font-size: 0.82rem; }
+.phase-label { font-weight: 600; color: var(--text-mid); min-width: 80px; }
+.phase-content { color: var(--text-mid); flex: 1; line-height: 1.45; }
+
+/* TREATMENT TABLE */
+.trat-title { font-size: 0.8rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.7rem; padding-top: 0.2rem; }
+.weight-selector { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+.weight-btn { padding: 0.45rem 0.85rem; border: 1.5px solid var(--green-border); border-radius: 20px; background: white; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.78rem; font-weight: 500; cursor: pointer; color: var(--green); transition: all 0.15s; }
+.weight-btn:hover, .weight-btn.active { background: var(--green); color: white; border-color: var(--green); }
+.dose-result { background: var(--green-pale); border: 1px solid var(--green-border); border-radius: 8px; padding: 0.85rem; font-size: 0.82rem; color: var(--green-dark); line-height: 1.65; display: none; }
+
+/* REACTION TABLE */
+.reac-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin-bottom: 0.5rem; }
+.reac-table th { background: var(--green-pale); color: var(--green); padding: 0.6rem 0.7rem; text-align: left; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.reac-table td { padding: 0.6rem 0.7rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-mid); line-height: 1.5; }
+.reac-table tr:last-child td { border-bottom: none; }
+.reac-table td:first-child { font-weight: 500; color: var(--text); white-space: nowrap; }
+
+/* ADVERSE EFFECTS TABLE */
+.ae-table { width: 100%; border-collapse: collapse; font-size: 0.79rem; }
+.ae-table th { background: #f0f4f0; padding: 0.55rem 0.7rem; text-align: left; font-weight: 600; font-size: 0.74rem; color: var(--text-mid); border-bottom: 2px solid var(--border); }
+.ae-table td { padding: 0.55rem 0.7rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-mid); line-height: 1.5; }
+.ae-table tr:last-child td { border-bottom: none; }
+.ae-table td:first-child { font-weight: 600; color: var(--text); white-space: nowrap; }
+
+/* SIGNS GRID */
+.signs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.8rem; }
+.sign-chip { background: var(--green-pale); border: 1px solid var(--green-border); border-radius: 8px; padding: 0.5rem 0.7rem; font-size: 0.78rem; color: var(--green-dark); display: flex; gap: 0.4rem; align-items: flex-start; line-height: 1.4; }
+.sign-chip span:first-child { flex-shrink: 0; }
+
+/* GRADE BOXES */
+.grade-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin-bottom: 0.6rem; }
+.grade-box { border-radius: 8px; padding: 0.75rem; text-align: center; border: 1.5px solid; }
+.grade-box.g0 { background: var(--green-pale); border-color: var(--green-border); }
+.grade-box.g1 { background: var(--amber-light); border-color: var(--amber-border); }
+.grade-box.g2 { background: var(--red-light); border-color: var(--red-border); }
+.grade-num { font-size: 1.4rem; font-weight: 700; line-height: 1; margin-bottom: 0.3rem; }
+.g0 .grade-num { color: var(--green); }
+.g1 .grade-num { color: var(--amber); }
+.g2 .grade-num { color: var(--red); }
+.grade-label { font-size: 0.75rem; font-weight: 600; color: var(--text-mid); margin-bottom: 0.3rem; }
+.grade-desc { font-size: 0.7rem; color: var(--text-soft); line-height: 1.4; }
+
+/* RESIST TABLE */
+.resist-scheme { background: #f9fbf9; border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem; margin-bottom: 0.6rem; }
+.resist-scheme-title { font-size: 0.82rem; font-weight: 700; color: var(--text); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+.resist-row { display: grid; grid-template-columns: 90px 1fr; gap: 0.5rem; font-size: 0.8rem; margin-bottom: 0.4rem; color: var(--text-mid); }
+.resist-period { font-weight: 600; color: var(--text); font-size: 0.75rem; }
+
+/* CONTACT PILLS */
+.contact-list { list-style: none; padding: 0; }
+.contact-list li { padding: 0.55rem 0.8rem; border-left: 3px solid var(--green-light); margin-bottom: 0.5rem; background: var(--green-pale); border-radius: 0 6px 6px 0; font-size: 0.82rem; color: var(--text-mid); line-height: 1.45; }
+
+/* TIMELINE */
+.timeline { position: relative; padding-left: 1.4rem; }
+.timeline::before { content: ''; position: absolute; left: 0.45rem; top: 0; bottom: 0; width: 2px; background: var(--green-border); }
+.tl-item { position: relative; margin-bottom: 1rem; }
+.tl-dot { position: absolute; left: -1rem; top: 0.2rem; width: 10px; height: 10px; border-radius: 50%; background: var(--green); border: 2px solid white; box-shadow: 0 0 0 2px var(--green-border); }
+.tl-item:last-child { margin-bottom: 0; }
+.tl-title { font-size: 0.83rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+.tl-body { font-size: 0.8rem; color: var(--text-mid); line-height: 1.5; }
+
+/* DRUG PILL */
+.drug-pill { display: inline-block; font-size: 0.72rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: 20px; margin-right: 0.3rem; margin-bottom: 0.3rem; }
+.drug-pill.rif { background: #fff3e0; color: #e65100; border: 1px solid #ffcc80; }
+.drug-pill.clof { background: #fce4ec; color: #c2185b; border: 1px solid #f48fb1; }
+.drug-pill.dap { background: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+.drug-pill.pred { background: #e3f2fd; color: #1565c0; border: 1px solid #90caf9; }
+.drug-pill.thal { background: #f3e5f5; color: #6a1b9a; border: 1px solid #ce93d8; }
+.drug-pill.oflo { background: #e0f2f1; color: #00695c; border: 1px solid #80cbc4; }
+.drug-pill.mino { background: #fff8e1; color: #f57f17; border: 1px solid #ffe082; }
+.drug-pill.pent { background: #f1f8e9; color: #33691e; border: 1px solid #c5e1a5; }
+.drug-pill.clar { background: #ede7f6; color: #4527a0; border: 1px solid #b39ddb; }
+
+/* SECTION INTRO */
+.section-intro { font-size: 0.83rem; color: var(--text-soft); line-height: 1.55; margin-bottom: 1rem; }
+
+/* DIVIDER */
+.divider { height: 1px; background: var(--border); margin: 1rem 0; }
+
+@media (max-width: 480px) {
+  .signs-grid { grid-template-columns: 1fr; }
+  .grade-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="header-top">
+    <div class="header-icon">🦠</div>
+    <div class="header-title">
+      <h1>Hanseníase</h1>
+      <p>Protocolo Clínico e Diretrizes Terapêuticas — PCDT 2022</p>
+    </div>
+    <span class="badge-ms">MS/SVS • SUS</span>
+  </div>
+  <div class="nav-scroll">
+    <button class="nav-btn active" onclick="goSection('diag')">🔍 Diagnóstico</button>
+    <button class="nav-btn" onclick="goSection('class')">📊 Classificação</button>
+    <button class="nav-btn" onclick="goSection('trat')">💊 Tratamento</button>
+    <button class="nav-btn" onclick="goSection('reac')">⚠️ Reações</button>
+    <button class="nav-btn" onclick="goSection('ae')">🧪 Ef. Adversos</button>
+    <button class="nav-btn" onclick="goSection('resist')">🔬 Resistência</button>
+    <button class="nav-btn" onclick="goSection('contatos')">👥 Contatos</button>
+    <button class="nav-btn" onclick="goSection('monit')">📋 Monitoramento</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════════ DIAGNÓSTICO ═══════════════════ -->
+<div id="sec-diag" class="section active">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🔍</div>
+      <div class="card-title">Sinais Cardinais</div>
+    </div>
+    <p class="section-intro">O diagnóstico é essencialmente clínico. A presença de <strong>ao menos um</strong> dos sinais cardinais confirma o caso.</p>
+    <div class="signs-grid">
+      <div class="sign-chip"><span>🟤</span><span>Lesões de pele esbranquiçadas/avermelhadas com alteração de sensibilidade (térmica, dolorosa ou tátil)</span></div>
+      <div class="sign-chip"><span>⚡</span><span>Espessamento de nervo periférico associado a alterações sensitivas, motoras e/ou autonômicas</span></div>
+      <div class="sign-chip"><span>🦟</span><span>Baciloscopia positiva (raspado intradérmico com BAAR)</span></div>
+      <div class="sign-chip"><span>😶</span><span>Obstrução/sangramento nasal persistente, infiltração na face ou pavilhões auriculares</span></div>
+    </div>
+    <div class="info-box amber">
+      <span>⚠️</span>
+      <span>Casos atípicos ou duvidosos devem ser referenciados à Atenção Especializada para exames complementares.</span>
+    </div>
+
+    <div class="divider"></div>
+    <div class="card-header" style="margin-bottom:0.7rem;">
+      <div class="card-icon">🧭</div>
+      <div class="card-title">Algoritmo de Classificação Operacional</div>
+    </div>
+    <div id="algo-trail" class="step-trail" style="display:none"></div>
+    <div id="algo-step"></div>
+    <div style="display: flex; gap: 0.5rem;">
+      <button id="algo-voltar" class="btn-restart" style="display:none" onclick="voltarAlgo()">⬅ Voltar</button>
+      <button id="algo-reset" class="btn-restart" style="display:none" onclick="resetAlgo()">🔄 Reiniciar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🧬</div>
+      <div class="card-title">Exames de Apoio ao Diagnóstico</div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Avaliação Neurológica Simplificada (ANS) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Obrigatória.</strong> Avalia a função neural (autonômica, sensitiva e motora).</p>
+        <ul>
+          <li><strong>Anamnese:</strong> queixas relativas ao nariz, olhos, mãos e pés; limitações em atividades diárias</li>
+          <li><strong>Exame físico:</strong> inspeção de mãos/pés/olhos, palpação de nervos (ulnar, mediano, radial, fibular, tibial posterior), testes de sensibilidade e força muscular, acuidade visual</li>
+          <li><strong>Periodicidade:</strong> no diagnóstico, a cada 3 meses durante PQT-U, na última dose supervisionada e sempre que houver novas queixas ou reações hansênicas</li>
+        </ul>
+        <div class="divider"></div>
+        <p style="font-size:0.8rem;font-weight:700;color:var(--text);margin-bottom:0.6rem;">Grau de Incapacidade Física (OMP)</p>
+        <div class="grade-grid">
+          <div class="grade-box g0"><div class="grade-num">0</div><div class="grade-label">Sem alterações</div><div class="grade-desc">Sem problema causado pela hanseníase nas mãos, pés ou olhos</div></div>
+          <div class="grade-box g1"><div class="grade-num">1</div><div class="grade-label">Sensib./força reduzida</div><div class="grade-desc">Diminuição da sensibilidade protetora ou força muscular (não visível)</div></div>
+          <div class="grade-box g2"><div class="grade-num">2</div><div class="grade-label">Deformidade visível</div><div class="grade-desc">Deformidade física visível ou cegueira resultante da neuropatia</div></div>
+        </div>
+        <p style="font-size:0.79rem;color:var(--text-soft);">O escore OMP (Olhos, Mãos, Pés) é a soma do grau de incapacidade em cada segmento. Ex.: grau 1 no pé D + grau 2 pé E + grau 2 olho E = OMP 5.</p>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Baciloscopia (BAAR) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Pesquisa do M. leprae por raspado intradérmico (lesões cutâneas, lóbulos auriculares e cotovelos), corado pela técnica de Ziehl-Neelsen.</p>
+        <ul>
+          <li><strong>Alta especificidade, baixa sensibilidade.</strong> Resultado negativo não exclui o diagnóstico.</li>
+          <li>Baciloscopia positiva classifica o paciente como <strong>multibacilar</strong>.</li>
+          <li>Índice Baciloscópico (IB) varia de 0 a 6+ pela escala de Ridley.</li>
+          <li><strong>Indicações:</strong> dúvida diagnóstica, diagnóstico diferencial, definição do esquema terapêutico, suspeita de recidiva.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Histopatologia <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Indicado quando o diagnóstico persiste indefinido após avaliação clínica e baciloscópica. Utilizado especialmente no diagnóstico diferencial.</p>
+        <ul>
+          <li>Coleta preferencialmente das bordas das lesões mais ativas, incluindo toda a espessura da derme e hipoderme.</li>
+          <li>Colorações: <strong>HE</strong> para infiltrado inflamatório e <strong>Fite-Faraco</strong> para identificação de BAAR.</li>
+          <li>Especificidade: 70–72%; Sensibilidade: 49–70%.</li>
+          <li>Disponível na Atenção Especializada.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Teste Rápido Anti-PGL-1 <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Detecta anticorpos IgM contra o antígeno PGL-1 do M. leprae. Primeiro país do mundo a incorporar ao SUS.</p>
+        <ul>
+          <li><strong>Uso aprovado no SUS:</strong> exclusivamente para investigação de contatos de casos confirmados.</li>
+          <li>Alta sensibilidade para casos MB; baixa sensibilidade para PB.</li>
+          <li>Contatos soropositivos sem critério diagnóstico: avaliação anual na UBS.</li>
+          <li>Resultado positivo isolado não confirma diagnóstico — indivíduos saudáveis podem ter sorologia positiva em áreas endêmicas.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">qPCR (Biologia Molecular) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Detecta DNA do M. leprae em biópsia de pele ou nervo.</p>
+        <ul>
+          <li><strong>Uso aprovado no SUS:</strong> exclusivamente na investigação de contatos de casos confirmados (Atenção Especializada).</li>
+          <li>Incorporado pelo MS via Portaria SCTIE/MS nº 78/2021.</li>
+          <li>Aumenta sensibilidade para detecção em casos de difícil diagnóstico (baciloscopia negativa + histopatologia inconclusiva).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Ultrassom e Eletroneuromiograma <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Ultrassom de nervos periféricos:</strong> detecta espessamentos focais, edema intraneural, microabscessos e perda da arquitetura fascicular. Avalia nervo ulnar, mediano, radiais e outros. Disponível na Atenção Especializada.</p>
+        <p><strong>Eletroneuromiograma:</strong> detecta precocemente o dano neural (alterações não detectadas pela ANS). Identifica padrões axonal e desmielinizante. Útil para prognóstico e avaliação da resposta terapêutica.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ CLASSIFICAÇÃO ═══════════════════ -->
+<div id="sec-class" class="section">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">📊</div>
+      <div class="card-title">Classificação Operacional</div>
+    </div>
+    <div class="info-box green">
+      <span>ℹ️</span>
+      <span>A classificação operacional define o esquema terapêutico e é baseada em critérios exclusivamente clínicos.</span>
+    </div>
+
+    <div class="scheme-box">
+      <div class="scheme-name">🟢 Paucibacilar (PB)</div>
+      <div class="phase-row"><div class="phase-label">Lesões de pele</div><div class="phase-content">Até 5 lesões cutâneas</div></div>
+      <div class="phase-row"><div class="phase-label">Nervos</div><div class="phase-content">Nenhum ou apenas 1 tronco nervoso comprometido</div></div>
+      <div class="phase-row"><div class="phase-label">Baciloscopia</div><div class="phase-content">Negativa (quando disponível)</div></div>
+      <div class="phase-row"><div class="phase-label">Tratamento</div><div class="phase-content">PQT-U por 6 doses mensais (até 9 meses)</div></div>
+    </div>
+
+    <div class="scheme-box" style="border-color: var(--amber-border); background: var(--amber-light);">
+      <div class="scheme-name" style="color:var(--amber);">🟠 Multibacilar (MB)</div>
+      <div class="phase-row"><div class="phase-label">Lesões de pele</div><div class="phase-content">Mais de 5 lesões cutâneas</div></div>
+      <div class="phase-row"><div class="phase-label">Nervos</div><div class="phase-content">2 ou mais troncos nervosos comprometidos</div></div>
+      <div class="phase-row"><div class="phase-label">Baciloscopia</div><div class="phase-content">Positiva (qualquer resultado positivo = MB)</div></div>
+      <div class="phase-row"><div class="phase-label">Tratamento</div><div class="phase-content">PQT-U por 12 doses mensais (até 18 meses)</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">📋</div>
+      <div class="card-title">Formas Clínicas (Classificação de Ridley-Jopling)</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Indeterminada (HI) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Classificação operacional:</strong> PB</p>
+        <p>Forma inicial da doença. Apresenta-se como mancha hipocrômica única com alteração de sensibilidade térmica e/ou dolorosa. Sem comprometimento de troncos nervosos periféricos. Pode haver queda de pelos e redução da sudorese na lesão. Resolução espontânea possível em imunocompetentes.</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Tuberculoide (HT) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Classificação operacional:</strong> PB</p>
+        <p>Resposta imune celular preservada. Poucas lesões (placas eritematosas ou eritemato-hipocrômicas) bem delimitadas, com bordas bem definidas e anestesia central. Pode ocorrer comprometimento de até 1 tronco nervoso. Baciloscopia negativa. Histologia: granuloma epitelioide com poucas ou nenhuma bactéria.</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Dimorfa ou Borderline (HD) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Classificação operacional:</strong> MB</p>
+        <p>Forma mais frequente. Imunidade celular parcial e instável. Numerosas lesões polimórficas (eritematosas, eritemato-hipocrômicas, infiltradas), pré-foveolares, com bordas mal definidas. Comprometimento de vários troncos nervosos. Alta carga bacilar. Maior risco de reações hansênicas (reversa e ENH). Subdivide-se em: Borderline-Tuberculoide (BT), Borderline-Borderline (BB) e Borderline-Virchowiana (BV).</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Virchowiana (HV / Lepromatosa) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Classificação operacional:</strong> MB</p>
+        <p>Imunidade celular específica nula. Infiltração difusa da pele, hansenomas (nódulos), madarose (queda de cílios e supercílios), facies leonina, comprometimento de mucosas nasal e oral, acometimento sistêmico (olhos, rins, testículos). Alta carga bacilar. Histologia: macrófagos vacuolados (células de Virchow) repletos de bacilos.</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Neural Pura <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Comprometimento exclusivo dos nervos periféricos, sem lesões cutâneas identificáveis. Diagnóstico mais difícil. Requer biópsia de nervo e/ou eletroneuromiograma. Pode ser PB ou MB conforme o número de nervos acometidos.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ TRATAMENTO ═══════════════════ -->
+<div id="sec-trat" class="section">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">💊</div>
+      <div class="card-title">Poliquimioterapia Única (PQT-U)</div>
+    </div>
+    <div class="info-box green">
+      <span>ℹ️</span>
+      <span>O PCDT 2022 adota a PQT-U (Rifampicina + Dapsona + Clofazimina) para <strong>todos os casos</strong> (PB e MB), variando apenas a duração. Adotada no Brasil desde 2021.</span>
+    </div>
+
+    <div class="scheme-box">
+      <div class="scheme-name">🟢 Paucibacilar (PB)</div>
+      <div class="scheme-desc">Até 5 lesões de pele e/ou 1 tronco nervoso comprometido</div>
+      <div class="phase-row"><div class="phase-label">Duração</div><div class="phase-content">6 doses mensais supervisionadas <em>em até 9 meses</em></div></div>
+    </div>
+
+    <div class="scheme-box" style="border-color: var(--amber-border); background: var(--amber-light);">
+      <div class="scheme-name" style="color:var(--amber);">🟠 Multibacilar (MB)</div>
+      <div class="scheme-desc">Mais de 5 lesões de pele e/ou 2 ou mais troncos nervosos comprometidos</div>
+      <div class="phase-row"><div class="phase-label">Duração</div><div class="phase-content">12 doses mensais supervisionadas <em>em até 18 meses</em></div></div>
+    </div>
+
+    <div class="info-box red">
+      <span>🚫</span>
+      <span><strong>Não autorizado:</strong> extensão do tratamento com PQT-U por mais de 12 meses. Persistência de lesões após a alta → investigar resistência medicamentosa.</span>
+    </div>
+
+    <div class="trat-title">Calcular Dosagem por Peso</div>
+    <div id="ws-pqt" class="weight-selector">
+      <button class="weight-btn" onclick="showDose('adulto')">Adulto (>50 kg)</button>
+      <button class="weight-btn" onclick="showDose('adulto-m')">Adulto/Criança (30–50 kg)</button>
+      <button class="weight-btn" onclick="showDose('crianca-p')">Criança (&lt;30 kg)</button>
+    </div>
+    <div id="dose-pqt" class="dose-result"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🧬</div>
+      <div class="card-title">Medicamentos da PQT-U</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)"><span class="drug-pill rif">Rifampicina</span> — Bactericida potente <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Mecanismo:</strong> inibição da RNA polimerase dependente de DNA. Único bactericida da PQT-U. 4 dias após dose única de 600 mg, os bacilos tornam-se inviáveis.</p>
+        <p><strong>Administração:</strong> em jejum (1h antes ou 2h após refeições) — absorção reduzida em 30% com alimentos.</p>
+        <p><strong>Gravidez:</strong> nas últimas semanas pode causar hemorragias pós-natais; recomendar vitamina K. Sempre administrar em combinação com outros fármacos.</p>
+        <p><strong>Interação importante:</strong> reduz eficácia dos anticoncepcionais orais — substituir ou usar método adicional.</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)"><span class="drug-pill clof">Clofazimina</span> — Antimicobacteriana + anti-inflamatória <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Mecanismo:</strong> liga-se ao DNA bacteriano inibindo replicação. Também tem ação anti-inflamatória e imunossupressora, contribuindo para a prevenção do ENH.</p>
+        <p><strong>Efeito adverso principal:</strong> pigmentação da pele (vermelho a castanho-escuro), ictiose nas pernas e antebraços. Regride em 6–12 meses após suspensão.</p>
+        <p><strong>Administração:</strong> com alimentos para aumentar absorção (45–70% da dose).</p>
+        <p><strong>Também indicada:</strong> tratamento da reação tipo 2 (ENH) em crianças (ver seção Reações).</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)"><span class="drug-pill dap">Dapsona</span> — Bacteriostática / fracamente bactericida <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Mecanismo:</strong> antagonista competitivo do PABA, inibindo síntese de ácido fólico.</p>
+        <p><strong>Atenção:</strong> pode causar hemólise; monitorar parâmetros hematológicos nos primeiros meses. Risco aumentado em pacientes com deficiência de G6PD ou uso concomitante de antimaláricos.</p>
+        <p><strong>Gravidez:</strong> manter o tratamento quando os benefícios superarem os riscos. Também tem efeito imunomodulador útil nas neurites hansênicas.</p>
+        <p><strong>Interação:</strong> risco hemolítico aumentado com antimaláricos; evitar uso simultâneo com depressores da medula óssea.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ REAÇÕES ═══════════════════ -->
+<div id="sec-reac" class="section">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">⚠️</div>
+      <div class="card-title">Reações Hansênicas — Visão Geral</div>
+    </div>
+    <div class="info-box blue">
+      <span>ℹ️</span>
+      <span>Durante os episódios reacionais, a PQT-U deve ser <strong>mantida</strong> se o paciente ainda não completou o tratamento. Não reintroduzir a PQT-U após a alta, exceto em caso de recidiva.</span>
+    </div>
+    <table class="reac-table">
+      <thead><tr><th>Tipo</th><th>Manifestação</th><th>Tratamento de 1ª escolha</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Tipo 1</strong><br><small style="color:var(--text-soft);">(Reversa)</small></td>
+          <td>Novas lesões, edema, eritema e dor neural aguda (neurite). Ausência de febre e sintomas sistêmicos.</td>
+          <td><span class="drug-pill pred">Prednisona</span> 1 mg/kg/dia VO, redução gradual, mín. 6 meses</td>
+        </tr>
+        <tr>
+          <td><strong>Tipo 2</strong><br><small style="color:var(--text-soft);">(ENH)</small></td>
+          <td>Nódulos subcutâneos dolorosos, febre, mal-estar, leucocitose. Possível orquite, episclerite, neurite.</td>
+          <td><span class="drug-pill thal">Talidomida</span> 100–400 mg/dia<br><small style="color:var(--text-soft);">Corticoide se neurite, orquite ou episclerite</small></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">💉</div>
+      <div class="card-title">Reação Tipo 1 — Protocolo Completo (Adultos)</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Protocolo da Prednisona <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Dose inicial:</strong> <span class="drug-pill pred">Prednisona</span> 1 mg/kg/dia, via oral.</p>
+        <p><strong>Redução gradual:</strong></p>
+        <ul>
+          <li>Reduzir 10 mg a cada 15 dias até chegar a 20 mg/dia</li>
+          <li>A partir de 20 mg/dia → reduzir 5 mg a cada 15 dias até 5 mg/dia</li>
+          <li>Manter 5 mg/dia por 15 dias → passar para 5 mg/dia em dias alternados por mais 15 dias → suspender</li>
+          <li>Duração mínima: <strong>6 meses</strong></li>
+        </ul>
+        <div class="info-box amber" style="margin-top:0.7rem;">
+          <span>⚠️</span>
+          <span><strong>Profilaxia de estrongiloidíase:</strong> Albendazol 400 mg/dia por 3 dias (ou Ivermectina 200 mcg/kg, dose única) ao iniciar a corticoterapia.</span>
+        </div>
+        <p style="font-size:0.8rem;color:var(--text-soft);">Monitorar função neural e efeitos colaterais periodicamente. Em casos associados a neurite de evolução &lt;3 meses, não há diferença entre dose inicial de 1 vs 2 mg/kg/dia.</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Protocolo em Crianças (Tipo 1) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Adaptar o regime de adultos para peso e idade. Dose inicial: <strong>1 mg/kg/dia</strong> (buscar orientação pediátrica se necessitar >3 meses ou doses >1 mg/kg).</p>
+        <ul>
+          <li>Considerar corticoide em dias alternados para reduzir supressão adrenal</li>
+          <li>Alertar pais sobre risco de insuficiência adrenal aguda se suspensão abrupta</li>
+          <li>Administrar anti-helmínticos no início, especialmente contra estrongiloides</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🔴</div>
+      <div class="card-title">Reação Tipo 2 (ENH) — Protocolo Completo</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Talidomida — Adultos <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Dose:</strong> <span class="drug-pill thal">Talidomida</span> 100–400 mg/dia conforme intensidade do quadro.</p>
+        <p><strong>Contraindicações absolutas:</strong></p>
+        <ul>
+          <li>Mulheres grávidas ou com potencial reprodutivo (teratogênica mesmo em dose única de 50 mg)</li>
+          <li>Menores de 18 anos</li>
+        </ul>
+        <div class="info-box red" style="margin-top:0.5rem;">
+          <span>🚫</span>
+          <span><strong>Teratogenicidade:</strong> causa focomelia e outras malformações graves. Uso em mulheres com potencial reprodutivo exige dois métodos contraceptivos (1 de alta eficácia + 1 eficaz), teste de gravidez antes de cada ciclo e notificação à ANVISA em caso de suspeita de exposição fetal.</span>
+        </div>
+        <p style="margin-top:0.5rem;">Na associação talidomida + corticoide: prescrever <strong>AAS 100 mg/dia</strong> como profilaxia para tromboembolismo.</p>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Quando usar Corticoide no ENH <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>O corticoide (prednisona, mesmo protocolo da reação tipo 1) é indicado no ENH quando houver:</p>
+        <ul>
+          <li>Orquite</li>
+          <li>Episclerite</li>
+          <li>Neurite aguda (palpação de nervos periféricos + alteração na avaliação da função neural)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Pentoxifilina — Alternativa ao ENH (Adultos) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><span class="drug-pill pent">Pentoxifilina</span> mostrou eficácia no controle dos sintomas sistêmicos (1ª semana) e regressão de nódulos (2 primeiras semanas).</p>
+        <ul>
+          <li><strong>Indicação:</strong> alternativa quando há contraindicação à talidomida E ausência de indicação para corticoide (ex.: mulheres com potencial reprodutivo sem neurite)</li>
+          <li><strong>Contraindicada</strong> para menores de 18 anos</li>
+          <li>Ajuste de dose na insuficiência renal</li>
+        </ul>
+      </div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Protocolo em Crianças (Tipo 2) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Talidomida é contraindicada em menores de 18 anos.</strong></p>
+        <p>Tratamento com <span class="drug-pill clof">Clofazimina</span> em dose ajustada:</p>
+        <ul>
+          <li>1º mês: 1,5–2 mg/kg, 3×/dia (máx. 300 mg/dia)</li>
+          <li>2º mês: 1,5–2 mg/kg, 2×/dia</li>
+          <li>3º mês: 1,5–2 mg/kg, 1×/dia</li>
+        </ul>
+        <p style="font-size:0.79rem;color:var(--text-soft);">Administrar com alimentos para reduzir efeitos gastrointestinais. Suspender por alguns dias em caso de gastroenterite aguda. A dose diária total deve ser fracionada.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ EFEITOS ADVERSOS ═══════════════════ -->
+<div id="sec-ae" class="section">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🧪</div>
+      <div class="card-title">Eventos Adversos dos Medicamentos</div>
+    </div>
+    <table class="ae-table">
+      <thead><tr><th>Medicamento</th><th>Principais eventos adversos</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="drug-pill rif">Rifampicina</span></td>
+          <td>Hepatotoxicidade leve e transitória (rara na dose mensal da PQT-U). Colora urina, saliva e lágrimas de alaranjado. Não provoca indução do CYP450 em dose mensal.</td>
+        </tr>
+        <tr>
+          <td><span class="drug-pill dap">Dapsona</span></td>
+          <td>Hemólise (mais frequente em deficiência de G6PD), anemia. Raramente: hepatopatia, nefropatia, agranulocitose, psicose. Monitorar hemograma nos primeiros meses.</td>
+        </tr>
+        <tr>
+          <td><span class="drug-pill clof">Clofazimina</span></td>
+          <td>Pigmentação da pele (vermelho a castanho-escuro) — principal e mais perceptível; ictiose nas pernas; cólicas, diarreia e perda de peso com doses elevadas (depósito de cristais na parede intestinal). Pigmentação desaparece em 6–12 meses após suspensão.</td>
+        </tr>
+        <tr>
+          <td><span class="drug-pill pred">Prednisona</span></td>
+          <td>Ganho de peso, retenção de sódio, hipertensão, hiperglicemia, osteoporose, supressão adrenal, miopatia, úlcera péptica, cataratas, glaucoma, síndrome de Cushing iatrogênica.</td>
+        </tr>
+        <tr>
+          <td><span class="drug-pill thal">Talidomida</span></td>
+          <td>Neuropatia periférica (pode ser irreversível — monitorar), sedação, neutropenia, tromboembolismo. <strong>Teratogênica</strong> (mesmo em dose única de 50 mg). Presença no sêmen — homens devem usar preservativo mesmo após vasectomia (4 semanas pós-tratamento).</td>
+        </tr>
+        <tr>
+          <td><span class="drug-pill pent">Pentoxifilina</span></td>
+          <td>Hipotensão, taquicardia, náusea, vômito, diarreia, tontura, flush, hemorragia. Raramente: arritmia, reação anafilática, colestase.</td>
+        </tr>
+        <tr>
+          <td><span class="drug-pill oflo">Ofloxacino</span></td>
+          <td>Tendinite (raramente ruptura — suspender imediatamente se suspeitar); fotossensibilização; risco de aneurisma aórtico em idosos. Evitar em gestantes.</td>
+        </tr>
+        <tr>
+          <td><span class="drug-pill mino">Minociclina</span></td>
+          <td>Tontura, fotossensibilidade, descoloração permanente dos dentes, hiperpigmentação de pele e unhas, hipertensão intracraniana. Não usar na gravidez (risco fetal).</td>
+        </tr>
+        <tr>
+          <td><span class="drug-pill clar">Claritromicina</span></td>
+          <td>Elevação de transaminases (TGP, TGO, GGT), fosfatase alcalina, LDH e bilirrubina (em &lt;1% dos casos). Aumento de BUN (4%). Evitar na gravidez.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🔗</div>
+      <div class="card-title">Interações Medicamentosas Relevantes</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Rifampicina <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">Reduz eficácia dos anticoncepcionais orais — substituir e/ou usar método adicional durante o tratamento.</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Dapsona <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">Risco hemolítico aumentado com antimaláricos. Evitar simultâneo com depressores de medula óssea. Probenecida reduz excreção renal (aumenta toxicidade). Zidovudina aumenta neutropenia.</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Clofazimina <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">Antiácidos e suco de laranja podem reduzir os níveis plasmáticos da clofazimina — evitar uso concomitante.</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Minociclina <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">Antiácidos com alumínio, cálcio ou magnésio e preparações com ferro prejudicam absorção — não administrar concomitantemente. Pode reduzir atividade de anticoagulantes (monitorar RNI).</div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Talidomida <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">Associação com corticoide → risco de tromboembolismo (prescrever AAS 100 mg/dia profilático). Pode agravar neuropatia periférica preexistente.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ RESISTÊNCIA ═══════════════════ -->
+<div id="sec-resist" class="section">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🔬</div>
+      <div class="card-title">Resistência Medicamentosa</div>
+    </div>
+    <div class="info-box amber">
+      <span>⚠️</span>
+      <span>No Brasil, resistência é rara (1,4% dos investigados). Os genes determinantes são: <strong>rpoB</strong> (rifampicina), <strong>folP1</strong> (dapsona) e <strong>gyrA</strong> (fluoroquinolonas).</span>
+    </div>
+
+    <p class="section-intro">A confirmação e o acompanhamento devem ser realizados exclusivamente na <strong>Atenção Especializada</strong>. O teste laboratorial (amplificação de DNA + hibridização em nitrocelulose) foi incorporado ao SUS em 2022.</p>
+
+    <div class="trat-title">Critérios para Investigação de Resistência Primária</div>
+    <div class="info-box blue">
+      <span>🔍</span>
+      <span>Investigar em todo caso novo com <strong>IB ≥ 2,0</strong> no diagnóstico inicial.</span>
+    </div>
+
+    <div class="trat-title" style="margin-top:0.5rem;">Critérios para Investigação de Resistência Secundária (após PQT-U)</div>
+    <ul class="contact-list">
+      <li>Persistência de hansenomas/lesões infiltradas com aspecto clínico inalterado após término da PQT-U</li>
+      <li>IB inalterado ou aumentado em relação ao exame anterior (mesmo sítio, intervalo mínimo de 1 ano)</li>
+      <li>Reações hansênicas reentrantes por mais de 3 anos após a alta, não responsivas a corticoide ou talidomida</li>
+      <li>Abandono do tratamento por mais de 6 meses (casos MB)</li>
+      <li>Recidiva comprovada após 5 anos de tratamento prévio com PQT-U</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">💊</div>
+      <div class="card-title">Esquemas de Segunda Linha</div>
+    </div>
+
+    <p style="font-size:0.82rem;color:var(--text-soft);margin-bottom:0.9rem;">Apenas casos com resistência comprovada laboratorialmente devem ser submetidos ao tratamento de segunda linha. Duração máxima: <strong>24 meses</strong>.</p>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Resistência à Rifampicina — Esquema 1 <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <div class="resist-scheme">
+          <div class="resist-scheme-title">⚗️ Esquema Farmacológico 1 (MB)</div>
+          <div class="resist-row"><div class="resist-period">Meses 1–6</div><div><span class="drug-pill oflo">Ofloxacino 400mg</span> + <span class="drug-pill mino">Minociclina 100mg</span> + <span class="drug-pill clof">Clofazimina 50mg</span> — <em>diariamente</em></div></div>
+          <div class="resist-row"><div class="resist-period">Meses 7–24</div><div><span class="drug-pill clof">Clofazimina 50mg</span> + <span class="drug-pill oflo">Ofloxacino 400mg</span> <em>ou</em> <span class="drug-pill mino">Minociclina 100mg</span> — <em>diariamente</em></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Resistência à Rifampicina — Esquema 2 <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <div class="resist-scheme">
+          <div class="resist-scheme-title">⚗️ Esquema Farmacológico 2 (MB)</div>
+          <div class="resist-row"><div class="resist-period">Meses 1–6</div><div><span class="drug-pill oflo">Ofloxacino 400mg</span> + <span class="drug-pill clar">Claritromicina 500mg</span> + <span class="drug-pill clof">Clofazimina 50mg</span> — <em>diariamente</em></div></div>
+          <div class="resist-row"><div class="resist-period">Meses 7–24</div><div><span class="drug-pill oflo">Ofloxacino 400mg</span> + <span class="drug-pill clof">Clofazimina 50mg</span> — <em>diariamente</em></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Resistência à Rifampicina + Ofloxacino <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <div class="resist-scheme">
+          <div class="resist-scheme-title">⚗️ Esquema (MB) — dupla resistência</div>
+          <div class="resist-row"><div class="resist-period">Meses 1–6</div><div><span class="drug-pill clar">Claritromicina 500mg</span> + <span class="drug-pill mino">Minociclina 100mg</span> + <span class="drug-pill clof">Clofazimina 50mg</span> — <em>diariamente</em></div></div>
+          <div class="resist-row"><div class="resist-period">Meses 7–24</div><div><span class="drug-pill clof">Clofazimina 50mg</span> + <span class="drug-pill clar">Claritromicina 500mg</span> <em>ou</em> <span class="drug-pill mino">Minociclina 100mg</span> — <em>diariamente</em></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Resistência Isolada ao Ofloxacino <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>O ofloxacino não é componente da PQT-U. Resistência isolada ao ofloxacino <strong>não indica falha de tratamento</strong>.</p>
+        <ul>
+          <li>Excluir do protocolo e investigar na Atenção Especializada</li>
+          <li>Se houver RAM que exija substituição de fármaco de 1ª linha por ofloxacino e resistência ao mesmo: usar <span class="drug-pill mino">Minociclina</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ CONTATOS ═══════════════════ -->
+<div id="sec-contatos" class="section">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">👥</div>
+      <div class="card-title">Investigação de Contatos</div>
+    </div>
+    <div class="info-box blue">
+      <span>ℹ️</span>
+      <span><strong>Definição de contato:</strong> toda pessoa que resida ou tenha residido, conviva ou tenha convivido com o doente de hanseníase no âmbito domiciliar nos <strong>últimos 5 anos</strong> antes do diagnóstico, podendo ser familiar ou não.</span>
+    </div>
+
+    <p class="section-intro">A investigação de contatos é o método de detecção de casos com melhor base de evidências. O convívio intradomiciliar é um dos principais fatores de risco (RR = 2,41). Todos os contatos domiciliares devem passar por avaliação clínica.</p>
+
+    <div class="trat-title">Conduta por situação do contato</div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Contato Assintomático — Sem alterações <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Realizar vacinação com BCG (se não vacinado ou com apenas 1 dose)</li>
+          <li>Orientar sobre automonitoramento e sinais de alerta</li>
+          <li>Encorajar relato voluntário imediato de sinais sugestivos</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Contato com Teste Rápido Reagente (sem critério diagnóstico) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Avaliação anual nas Unidades Básicas de Saúde</li>
+          <li>Orientar sobre sinais e sintomas para retorno imediato</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Contato com Critério Diagnóstico — Caso Confirmado <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Encaminhar para iniciar a PQT-U</li>
+          <li>Notificar no SINAN</li>
+          <li>Seguir fluxograma de diagnóstico e tratamento padrão</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Contato com Alterações Inconclusivas <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Encaminhar para Atenção Especializada para avaliação com qPCR (biópsia de pele ou nervo)</li>
+          <li>Seguir fluxograma específico para investigação de contatos com alterações suspeitas inconclusivas</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="trat-title">BCG — Imunoprofilaxia</div>
+    <p style="font-size:0.82rem;color:var(--text-mid);margin-bottom:0.7rem;">Recomendada para contatos maiores de 1 ano, não vacinados ou com apenas 1 dose. Comprovar vacinação por cartão de vacina ou cicatriz vacinal.</p>
+
+    <div class="info-box red">
+      <span>🚫</span>
+      <span><strong>Contraindicações à revacinação com BCG:</strong> imunodeficiência primária ou adquirida; neoplasias malignas; corticoterapia em dose alta (≥20 mg/dia de prednisona por >2 semanas); gestação.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ MONITORAMENTO ═══════════════════ -->
+<div id="sec-monit" class="section">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">📋</div>
+      <div class="card-title">Monitoramento Durante o Tratamento (PQT-U)</div>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-title">Diagnóstico (D0)</div>
+        <div class="tl-body">ANS completa + grau de incapacidade física (OMP) + baciloscopia (se disponível) + classificação operacional + notificação no SINAN + avaliação de reações hansênicas</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-title">Mensal — Dose supervisionada</div>
+        <div class="tl-body">Avaliação clínica de queixas, adesão e eventos adversos. Verificar reações hansênicas e comprometimento da função neural.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-title">A cada 3 meses</div>
+        <div class="tl-body">Repetir ANS completa (mesmo fora da dose supervisionada).</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-title">Última dose supervisionada (alta por cura)</div>
+        <div class="tl-body">Confirmação de todas as doses + avaliação clínica + ANS + grau de incapacidade física + registro no SINAN (saída do registro ativo)</div>
+      </div>
+    </div>
+
+    <div class="info-box green" style="margin-top:0.8rem;">
+      <span>✅</span>
+      <span><strong>Critério de Alta:</strong> confirmação de todas as doses supervisionadas + avaliação clínica + ANS (independentemente da persistência de lesões ou sintomas).</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🏁</div>
+      <div class="card-title">Após a Alta por Cura</div>
+    </div>
+
+    <p class="section-intro">Na alta, o paciente deve ser informado sobre o risco de manutenção de episódios reacionais e neurite, podendo persistir por até 5 anos.</p>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Alta com Reação Ativa <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        Continuar consultas regulares na UBS. Manter medicação e monitoramento pela ANS enquanto persistirem as reações. Comorbidades associadas devem ser monitoradas.
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Persistência de Lesões Dermatológicas Pós-Alta <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Sair do registro ativo e manter sem antibioticoterapia</li>
+          <li>Acompanhamento clínico trimestral</li>
+          <li>Baciloscopia de seguimento pode ser repetida com intervalo mínimo de 1 ano (mesmos sítios de coleta)</li>
+          <li>Investigar resistência medicamentosa se houver dúvida sobre resposta terapêutica</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Recidiva <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Definição:</strong> reaparecimento de lesões cutâneas e/ou neurológicas compatíveis com hanseníase após 5 anos de tratamento prévio com PQT-U.</p>
+        <ul>
+          <li>Reintroduzir PQT-U apenas em casos que cumpram os critérios de recidiva</li>
+          <li>Investigar resistência medicamentosa (critério para investigação de resistência secundária)</li>
+          <li>Encaminhar à Atenção Especializada</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="trat-title">Notificação e Gestão</div>
+    <div class="info-box blue">
+      <span>📋</span>
+      <span>Hanseníase é <strong>doença de notificação compulsória</strong> (Portaria de Consolidação nº 4/2017). Todos os casos devem ser notificados no <strong>SINAN</strong>. Pacientes com resistência medicamentosa comprovada devem ser acompanhados na Atenção Especializada.</span>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+function goSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  const map = {diag:0, class:1, trat:2, reac:3, ae:4, resist:5, contatos:6, monit:7};
+  document.querySelectorAll('.nav-btn')[map[id]].classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ALGORITHM */
+const algo = {
+  s0: {
+    q: 'Quantas lesões de pele o paciente apresenta?',
+    opts: [
+      { label: 'Até 5 lesões', next: 's1' },
+      { label: 'Mais de 5 lesões', next: 'r_mb_pele' }
+    ]
+  },
+  s1: {
+    q: 'Quantos troncos nervosos estão comprometidos?',
+    opts: [
+      { label: 'Nenhum ou apenas 1', next: 's2' },
+      { label: '2 ou mais troncos', next: 'r_mb_nervos' }
+    ]
+  },
+  s2: {
+    q: 'Há baciloscopia disponível?',
+    opts: [
+      { label: 'Não / Não realizada', next: 'r_pb' },
+      { label: 'Sim — negativa', next: 'r_pb' },
+      { label: 'Sim — positiva (IB > 0)', next: 'r_mb_bac' }
+    ]
+  },
+  r_pb: {
+    result: true, type: 'green',
+    badge: '🟢 Paucibacilar (PB)',
+    title: 'Classificação PB confirmada',
+    body: 'Indicação: <strong>PQT-U por 6 doses mensais supervisionadas</strong> (em até 9 meses). Realizar ANS a cada 3 meses. Investigar contatos domiciliares. Monitorar reações hansênicas.'
+  },
+  r_mb_pele: {
+    result: true, type: 'amber',
+    badge: '🟠 Multibacilar (MB)',
+    title: 'Classificação MB — critério: mais de 5 lesões',
+    body: 'Indicação: <strong>PQT-U por 12 doses mensais supervisionadas</strong> (em até 18 meses). Maior risco de reações hansênicas. Investigação rigorosa de contatos. Se IB ≥ 2,0 no diagnóstico: investigar resistência primária.'
+  },
+  r_mb_nervos: {
+    result: true, type: 'amber',
+    badge: '🟠 Multibacilar (MB)',
+    title: 'Classificação MB — critério: 2 ou mais nervos',
+    body: 'Indicação: <strong>PQT-U por 12 doses mensais supervisionadas</strong> (em até 18 meses). Atenção ao monitoramento neurológico pela ANS. Se IB ≥ 2,0: investigar resistência primária.'
+  },
+  r_mb_bac: {
+    result: true, type: 'amber',
+    badge: '🟠 Multibacilar (MB)',
+    title: 'Classificação MB — critério: baciloscopia positiva',
+    body: 'Qualquer resultado positivo na baciloscopia classifica o paciente como MB. Indicação: <strong>PQT-U por 12 doses mensais</strong>. Investigar resistência primária se IB ≥ 2,0.'
+  }
+};
+
+let algoHistory = [], algoTrail = [];
+
+function renderAlgoStep(key) {
+  const node = algo[key];
+  const stepEl = document.getElementById('algo-step');
+  const trailEl = document.getElementById('algo-trail');
+  const resetBtn = document.getElementById('algo-reset');
+  const voltarBtn = document.getElementById('algo-voltar');
+  if (node.result) {
+    trailEl.style.display = 'flex';
+    trailEl.innerHTML = algoTrail.map(t => `<span class="step-chip">${t}</span>`).join('');
+    stepEl.innerHTML = `<div class="result-box ${node.type}"><div class="result-badge ${node.type}">${node.badge}</div><div class="result-title">${node.title}</div><div class="result-body">${node.body}</div></div>`;
+    resetBtn.style.display = 'inline-block';
+    voltarBtn.style.display = 'inline-block';
+    return;
+  }
+  trailEl.style.display = algoTrail.length ? 'flex' : 'none';
+  trailEl.innerHTML = algoTrail.map(t => `<span class="step-chip">${t}</span>`).join('');
+  let html = `<div class="algo-question">${node.q}</div><div class="btn-group">`;
+  node.opts.forEach((opt, i) => { html += `<button class="btn-opt" onclick="algoChoose('${key}', ${i})">${opt.label}</button>`; });
+  html += `</div>`;
+  stepEl.innerHTML = html;
+  resetBtn.style.display = algoHistory.length ? 'inline-block' : 'none';
+  voltarBtn.style.display = algoHistory.length ? 'inline-block' : 'none';
+}
+
+function algoChoose(fromKey, optIdx) {
+  const opt = algo[fromKey].opts[optIdx];
+  algoHistory.push(fromKey);
+  algoTrail.push(opt.label);
+  renderAlgoStep(opt.next);
+}
+function voltarAlgo() { if (!algoHistory.length) return; algoTrail.pop(); renderAlgoStep(algoHistory.pop()); }
+function resetAlgo() { algoHistory = []; algoTrail = []; renderAlgoStep('s0'); }
+
+/* DOSES */
+const doses = {
+  'adulto': `
+    <strong>📌 Adulto com peso > 50 kg (PQT-U Adulto)</strong><br><br>
+    <strong>Dose Mensal Supervisionada:</strong><br>
+    • Rifampicina 600 mg (2 cáps. de 300 mg)<br>
+    • Clofazimina 300 mg (3 cáps. de 100 mg)<br>
+    • Dapsona 100 mg (1 comp.)<br><br>
+    <strong>Dose Diária Autoadministrada:</strong><br>
+    • Clofazimina 50 mg (1 cáps.) — diariamente<br>
+    • Dapsona 100 mg (1 comp.) — diariamente`,
+  'adulto-m': `
+    <strong>📌 Adulto ou Criança com peso 30–50 kg (PQT-U Infantil)</strong><br><br>
+    <strong>Dose Mensal Supervisionada:</strong><br>
+    • Rifampicina 450 mg (1 cáps. 300 mg + 1 cáps. 150 mg)<br>
+    • Clofazimina 150 mg (3 cáps. de 50 mg)<br>
+    • Dapsona 50 mg (1 comp.)<br><br>
+    <strong>Dose Diária Autoadministrada:</strong><br>
+    • Clofazimina 50 mg em <em>dias alternados</em><br>
+    • Dapsona 50 mg — diariamente`,
+  'crianca-p': `
+    <strong>📌 Criança com peso < 30 kg (Adaptação da PQT-U Infantil)</strong><br><br>
+    <strong>Dose Mensal Supervisionada (por kg de peso):</strong><br>
+    • Rifampicina: 10 mg/kg<br>
+    • Clofazimina: 6 mg/kg<br>
+    • Dapsona: 2 mg/kg<br><br>
+    <strong>Dose Diária Autoadministrada:</strong><br>
+    • Clofazimina: 1 mg/kg/dia (calcular dose semanal e dividir em 2–3 tomadas)<br>
+    • Dapsona: 2 mg/kg/dia<br><br>
+    <em style="font-size:0.76rem;color:#666;">Ex. criança de 15 kg → Clofazimina 105 mg/semana = 50 mg 2×/semana. Rifampicina disponível como suspensão 20 mg/mL.</em>`
+};
+
+function showDose(weight) {
+  document.querySelectorAll('#ws-pqt .weight-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('onclick').includes(`'${weight}'`));
+  });
+  const el = document.getElementById('dose-pqt');
+  el.innerHTML = doses[weight];
+  el.style.display = 'block';
+}
+
+function toggleAcc(header) { header.parentElement.classList.toggle('open'); }
+
+window.onload = () => { renderAlgoStep('s0'); };
+</script>
+</body>
+</html>
