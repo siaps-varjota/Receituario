@@ -34,6 +34,7 @@
   --shadow: 0 2px 12px rgba(13,61,43,0.08);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
+html { font-size: 16px; }
 body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
 
 .app-header { background: var(--green-dark); color: white; position: sticky; top: 0; z-index: 200; box-shadow: 0 2px 16px rgba(0,0,0,0.25); }
@@ -43,13 +44,18 @@ body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: v
 .header-title p { font-size: 0.68rem; opacity: 0.6; font-weight: 300; margin-top: 0.1rem; }
 .badge-ms { font-size: 0.62rem; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); border-radius: 4px; padding: 0.15rem 0.45rem; margin-left: auto; white-space: nowrap; letter-spacing: 0.04em; }
 
+.font-ctrl { display: flex; align-items: center; gap: 0.3rem; margin-left: 0.5rem; flex-shrink: 0; }
+.font-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: white; border-radius: 6px; width: 28px; height: 28px; font-size: 1.1rem; cursor: pointer; line-height: 1; display: flex; align-items: center; justify-content: center; transition: background 0.15s; font-family: inherit; }
+.font-btn:hover { background: rgba(255,255,255,0.28); }
+.font-label { font-size: 0.65rem; color: rgba(255,255,255,0.5); white-space: nowrap; }
+
 .nav-scroll { display: flex; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
 .nav-scroll::-webkit-scrollbar { display: none; }
 .nav-btn { padding: 0.65rem 0.9rem; border: none; background: transparent; color: rgba(255,255,255,0.6); font-family: 'IBM Plex Sans', sans-serif; font-size: 0.72rem; font-weight: 500; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; transition: all 0.15s; letter-spacing: 0.02em; }
 .nav-btn:hover { color: rgba(255,255,255,0.9); }
 .nav-btn.active { color: white; border-bottom-color: #4cd98a; }
 
-.main { max-width: 720px; margin: 0 auto; padding: 1.2rem 1rem 5rem; }
+.main { max-width: 45rem; margin: 0 auto; padding: 1.2rem 1rem 5rem; }
 .section { display: none; }
 .section.active { display: block; }
 
@@ -58,7 +64,6 @@ body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: v
 .card-icon { font-size: 1rem; background: var(--green-pale); width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .card-title { font-size: 0.85rem; font-weight: 700; color: var(--green); text-transform: uppercase; letter-spacing: 0.06em; }
 
-/* ALGORITHM */
 .algo-question { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 1rem; line-height: 1.4; }
 .btn-group { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
 .btn-opt { padding: 0.55rem 1.1rem; border: 1.5px solid var(--border); border-radius: 8px; background: white; font-family: 'IBM Plex Sans', sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.15s; color: var(--text-mid); }
@@ -134,13 +139,11 @@ body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: v
 .score-number { font-family: 'IBM Plex Mono', monospace; font-size: 2.5rem; font-weight: 600; line-height: 1; }
 .score-interpretation { font-size: 0.85rem; margin-top: 0.5rem; padding: 0.5rem 0.8rem; border-radius: 6px; font-weight: 500; }
 
-/* DOSE TABLE */
 table.dose-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 0.7rem; }
 table.dose-table th { background: var(--green); color: white; padding: 0.4rem 0.5rem; text-align: left; font-weight: 600; }
 table.dose-table td { padding: 0.35rem 0.5rem; border-bottom: 1px solid var(--border); vertical-align: top; }
 table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
 
-/* RESIST */
 .resist-card { border: 1.5px solid var(--border); border-radius: 10px; margin-bottom: 0.8rem; overflow: hidden; }
 .resist-header { color: white; padding: 0.7rem 1rem; }
 .resist-title { font-size: 0.9rem; font-weight: 700; }
@@ -159,7 +162,6 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
 .pill-c { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
 .pill-d { background: #f5f5f5; color: #444; border: 1px solid #e0e0e0; }
 
-/* TIMELINE */
 .timeline { position: relative; padding-left: 1.4rem; }
 .timeline::before { content: ''; position: absolute; left: 0.45rem; top: 0; bottom: 0; width: 2px; background: var(--green-border); }
 .tl-item { position: relative; margin-bottom: 1rem; }
@@ -167,7 +169,6 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
 .tl-title { font-size: 0.83rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
 .tl-body { font-size: 0.8rem; color: var(--text-mid); line-height: 1.5; }
 
-/* SR CLASSIFICATION */
 .risk-grid { display: grid; gap: 0.5rem; margin-bottom: 0.8rem; }
 .risk-row { display: grid; grid-template-columns: 36px 1fr; gap: 0.6rem; align-items: flex-start; padding: 0.7rem 0.9rem; border-radius: 8px; border: 1.5px solid; }
 .risk-row.imediato { background: var(--red-light); border-color: var(--red-border); }
@@ -180,29 +181,24 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
 .risk-row.dia .risk-title { color: var(--blue); }
 .risk-desc { font-size: 0.78rem; color: var(--text-mid); line-height: 1.4; }
 
-/* VULN PILLS */
 .vuln-grid { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.8rem; }
 .vuln-chip { font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.65rem; border-radius: 20px; background: var(--purple-light); border: 1px solid var(--purple-border); color: var(--purple); }
 
-/* CONTACT TABLE */
 .contact-table { width: 100%; border-collapse: collapse; font-size: 0.79rem; margin-bottom: 0.5rem; }
 .contact-table th { background: var(--green-pale); color: var(--green); padding: 0.55rem 0.7rem; text-align: left; font-weight: 600; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.04em; }
 .contact-table td { padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--border); vertical-align: top; color: var(--text-mid); line-height: 1.4; }
 .contact-table tr:last-child td { border-bottom: none; }
 
-/* TDO */
 .tdo-freq { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
 .tdo-chip { font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.8rem; border-radius: 20px; }
 .tdo-chip.fase1 { background: #dbeafe; color: #1e40af; }
 .tdo-chip.fase2 { background: #d1fae5; color: #065f46; }
 
-/* VIGILÂNCIA FLOW */
 .vig-flow { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 0.8rem; }
 .vig-step { display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem; }
 .vig-num { background: var(--green); color: white; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; }
 .vig-arrow { color: var(--green-border); font-size: 0.8rem; padding-left: 11px; }
 
-/* SINAN TABLE */
 .sinan-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
 .sinan-table th { background: var(--green); color: white; padding: 0.4rem 0.6rem; text-align: left; font-weight: 600; font-size: 0.74rem; }
 .sinan-table td { padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.4; color: var(--text-mid); }
@@ -224,6 +220,11 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
       <p>Protocolo de Enfermagem MS · 2022 · Manual de Recomendações MS/SVS 2ª Ed.</p>
     </div>
     <div class="badge-ms">MS · 2022</div>
+    <div class="font-ctrl">
+      <span class="font-label">A</span>
+      <button class="font-btn" onclick="adjustFont(-0.05)" title="Diminuir fonte">−</button>
+      <button class="font-btn" onclick="adjustFont(0.05)" title="Aumentar fonte">＋</button>
+    </div>
   </div>
   <div class="nav-scroll">
     <button class="nav-btn active" onclick="goSection('algo')">Algoritmo</button>
@@ -241,9 +242,7 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
 
 <div class="main">
 
-<!-- ═══════════════════════════════════════════
-     ALGORITMO DIAGNÓSTICO
-═══════════════════════════════════════════ -->
+<!-- ALGORITMO -->
 <div id="sec-algo" class="section active">
   <div class="card">
     <div class="card-header">
@@ -267,16 +266,12 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     ACOLHIMENTO DO SINTOMÁTICO RESPIRATÓRIO
-═══════════════════════════════════════════ -->
+<!-- ACOLHIMENTO -->
 <div id="sec-acolhimento" class="section">
-
   <div class="card">
     <div class="card-header"><div class="card-icon">🩺</div><div class="card-title">Definição de Sintomático Respiratório (SR)</div></div>
     <div class="info-box green"><span>📌</span><span>O enfermeiro deve abordar e questionar a presença e duração de tosse em <strong>todos os setores da UBS</strong>: acolhimento, triagem, recepção, laboratório, farmácia e consultório.</span></div>
-
-    <div class="contact-table" style="overflow-x:auto">
+    <div style="overflow-x:auto">
     <table class="contact-table">
       <thead><tr><th>População</th><th>Tempo de Tosse</th><th>Como Buscar</th></tr></thead>
       <tbody>
@@ -293,13 +288,12 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
   <div class="card">
     <div class="card-header"><div class="card-icon">🚦</div><div class="card-title">Classificação de Risco no Acolhimento</div></div>
     <p style="font-size:0.82rem;color:var(--text-soft);margin-bottom:0.9rem">Ao identificar tosse + outros sintomas, classificar conforme critérios abaixo (Figura 3 do Protocolo):</p>
-
     <div class="risk-grid">
       <div class="risk-row imediato">
         <div class="risk-icon">🚨</div>
         <div>
           <div class="risk-title">ATENDIMENTO IMEDIATO — Alto risco de morte</div>
-          <div class="risk-desc">Comprometimento de vias aéreas; dispneia grave; sinais de choque (taquicardia, hipotensão, palidez); hemoptise; alteração de consciência; taquipneia (FR >30 irpm); PAD <60 ou PAS <90 mmHg.<br><br><strong>Ação:</strong> Avaliação médica imediata. Encaminhar à urgência/emergência ou referência terciária de TB.</div>
+          <div class="risk-desc">Comprometimento de vias aéreas; dispneia grave; sinais de choque (taquicardia, hipotensão, palidez); hemoptise; alteração de consciência; taquipneia (FR >30 irpm); PAD &lt;60 ou PAS &lt;90 mmHg.<br><br><strong>Ação:</strong> Avaliação médica imediata. Encaminhar à urgência/emergência ou referência terciária de TB.</div>
         </div>
       </div>
       <div class="risk-row prioritario">
@@ -317,7 +311,6 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
         </div>
       </div>
     </div>
-
     <div class="info-box amber">
       <span>💊</span>
       <span>Para todo SR identificado (qualquer nível de risco): solicitar e coletar escarro <strong>(1 amostra para TRM-TB ou 2 amostras para baciloscopia)</strong>. Orientar higiene da tosse. Registrar no prontuário e no Livro de SR.</span>
@@ -326,7 +319,6 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
 
   <div class="card">
     <div class="card-header"><div class="card-icon">🔍</div><div class="card-title">Busca Ativa na UBS e no Território</div></div>
-
     <div class="acc-item">
       <div class="acc-header" onclick="toggleAcc(this)">Estratégias na Unidade de Saúde <span class="acc-arrow">▶</span></div>
       <div class="acc-body">
@@ -368,9 +360,7 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     TRATAMENTO
-═══════════════════════════════════════════ -->
+<!-- TRATAMENTO -->
 <div id="sec-trat" class="section">
   <div class="card">
     <div class="card-header"><div class="card-icon">👤</div><div class="card-title">Esquema Básico — Adultos e Adolescentes (≥10 anos)</div></div>
@@ -445,7 +435,6 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
         <div class="info-box green" style="margin-top:0.3rem"><span>ℹ️</span><span>Crianças com TB + HIV ou desnutridas: <strong>Piridoxina (B6) 5–10 mg/dia</strong>.</span></div>
       </div>
     </div>
-
     <div class="trat-section">
       <div class="trat-title">📋 Seguimento Mensal</div>
       <div style="overflow-x:auto">
@@ -467,14 +456,11 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     TDO — TRATAMENTO DIRETAMENTE OBSERVADO
-═══════════════════════════════════════════ -->
+<!-- TDO -->
 <div id="sec-tdo" class="section">
   <div class="card">
     <div class="card-header"><div class="card-icon">👁️</div><div class="card-title">Tratamento Diretamente Observado (TDO)</div></div>
     <div class="info-box green"><span>📌</span><span>O TDO é comprovadamente mais efetivo para o sucesso do tratamento. Recomendado em <strong>todos os casos</strong>. Somente profissionais de saúde ou de outras áreas devidamente capacitados (ex.: assistência social) podem realizar o TDO oficial.</span></div>
-
     <div class="trat-section">
       <div class="trat-title">📅 Frequência Mínima do TDO</div>
       <div class="tdo-freq">
@@ -483,7 +469,6 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
       </div>
       <div class="info-box amber"><span>⚠️</span><span>Mínimo de <strong>3 vezes por semana</strong> durante todo o tratamento. Nos fins de semana e feriados, fornecer medicamentos para uso autoadministrado.</span></div>
     </div>
-
     <div class="trat-section">
       <div class="trat-title">📍 Local de Realização do TDO</div>
       <div class="acc-item open">
@@ -499,7 +484,6 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
         </div>
       </div>
     </div>
-
     <div class="trat-section">
       <div class="trat-title">🤝 O Papel do Enfermeiro no TDO</div>
       <div class="acc-item">
@@ -530,14 +514,11 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
         </div>
       </div>
     </div>
-
     <div class="info-box blue"><span>📝</span><span><strong>Abandono:</strong> definido como ausência na UBS por <strong>30 dias consecutivos</strong> após a data prevista para retorno. Registrar no Sinan. Iniciar busca ativa imediatamente.</span></div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     ESCORE PEDIÁTRICO
-═══════════════════════════════════════════ -->
+<!-- ESCORE PEDIÁTRICO -->
 <div id="sec-escore" class="section">
   <div class="card">
     <div class="card-header"><div class="card-icon">🧮</div><div class="card-title">Escore para TB Pulmonar — Crianças &lt;10 anos</div></div>
@@ -598,9 +579,7 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     REAÇÕES ADVERSAS
-═══════════════════════════════════════════ -->
+<!-- REAÇÕES ADVERSAS -->
 <div id="sec-reac" class="section">
   <div class="card">
     <div class="card-header"><div class="card-icon">⚗️</div><div class="card-title">Reações Adversas — Esquema Básico</div></div>
@@ -638,42 +617,34 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
       </tbody>
     </table>
     </div>
-
     <div class="info-box amber" style="margin-top:0.9rem"><span>🛑</span><span>Suspender se enzimas hepáticas atingirem <strong>&gt;5× o normal</strong> sem sintomas, ou <strong>&gt;3× o normal</strong> com sintomas dispépticos, ou ao surgimento de <strong>icterícia</strong>.</span></div>
     <div class="info-box blue" style="margin-top:0.5rem"><span>📞</span><span>Reações maiores: encaminhar para referência secundária (efeitos adversos graves) ou terciária (TB resistente). Não abandonar tratamento sem avaliação especializada.</span></div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     TB RESISTENTE
-═══════════════════════════════════════════ -->
+<!-- TB RESISTENTE -->
 <div id="sec-resist" class="section">
   <div class="card">
     <div class="card-header"><div class="card-icon">🧬</div><div class="card-title">Classificação TB Drogarresistente</div></div>
-
     <div class="resist-card">
       <div class="resist-header" style="background:#5b7fa6"><div class="resist-title">Monorresistência</div><div class="resist-subtitle">Resistência a apenas 1 fármaco</div></div>
       <div class="resist-body">Vigilância para <strong>rifampicina</strong> e <strong>isoniazida</strong>. Outras monorresistências não implicam alteração do EB e não são notificadas no Site-TB.</div>
     </div>
-
     <div class="resist-card">
       <div class="resist-header" style="background:#7a6b9e"><div class="resist-title">Polirresistência</div><div class="resist-subtitle">Resistência a ≥2 fármacos, exceto R + H simultaneamente</div></div>
       <div class="resist-body">Frequente no Brasil: isoniazida + estreptomicina.</div>
     </div>
-
     <div class="resist-card">
       <div class="resist-header" style="background:#b55e1e"><div class="resist-title">TB MDR — Multidrogarresistente</div><div class="resist-subtitle">Resistência a pelo menos Rifampicina + Isoniazida</div></div>
       <div class="resist-body">Encaminhar para <strong>referência terciária</strong>. Tratamento ≥18 meses com esquema individualizado conforme TS.</div>
     </div>
-
     <div class="resist-card">
       <div class="resist-header" style="background:#8b1a1a"><div class="resist-title">TB XDR — Resistência Extensiva</div><div class="resist-subtitle">MDR + Fluoroquinolona + Injetável de 2ª linha</div></div>
       <div class="resist-body">MDR + resistência a qualquer fluoroquinolona + injetáveis de 2ª linha (amicacina, canamicina ou capreomicina).</div>
     </div>
-
     <div class="resist-card">
       <div class="resist-header" style="background:#a05c10"><div class="resist-title">TB RR — Resistência à Rifampicina</div><div class="resist-subtitle">Detectada pelo TRM-TB sem TS completo</div></div>
-      <div class="resist-body">Encaminhar <strong>imediatamente</strong> para referência terciária. Não aguardar resultados de novos exames.</div>
+      <div class="resist-body">Encaminhar <strong>imediatamente</strong> para referência terciária. Não aguardar resultados dos novos exames.</div>
     </div>
   </div>
 
@@ -697,9 +668,7 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     ILTB
-═══════════════════════════════════════════ -->
+<!-- ILTB -->
 <div id="sec-iltb" class="section">
   <div class="card">
     <div class="card-header"><div class="card-icon">🧫</div><div class="card-title">Infecção Latente pelo M. tuberculosis (ILTB)</div></div>
@@ -733,14 +702,11 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     VIGILÂNCIA EPIDEMIOLÓGICA
-═══════════════════════════════════════════ -->
+<!-- VIGILÂNCIA -->
 <div id="sec-vigilancia" class="section">
   <div class="card">
     <div class="card-header"><div class="card-icon">📊</div><div class="card-title">Fluxo de Vigilância Epidemiológica da TB</div></div>
     <div class="info-box green"><span>📌</span><span>O enfermeiro é o principal responsável pelas ações de VE na APS: investigação, notificação, acompanhamento e encerramento dos casos no Sinan.</span></div>
-
     <div class="vig-flow">
       <div class="vig-step"><div class="vig-num">1</div><span>Identificação do caso suspeito (SR) → registrar no <strong>Livro de Registro de SR</strong></span></div>
       <div class="vig-arrow">↓</div>
@@ -827,9 +793,7 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════
-     POPULAÇÕES VULNERÁVEIS
-═══════════════════════════════════════════ -->
+<!-- POPULAÇÕES VULNERÁVEIS -->
 <div id="sec-populacoes" class="section">
   <div class="card">
     <div class="card-header"><div class="card-icon">🌍</div><div class="card-title">Populações Prioritárias</div></div>
@@ -936,9 +900,17 @@ table.dose-table tr:nth-child(even) td { background: var(--green-pale); }
 </div><!-- /main -->
 
 <script>
-// ──────────────────────────────────────────────
-// NAVEGAÇÃO
-// ──────────────────────────────────────────────
+// ── FONTE ──────────────────────────────────────
+let fontScale = parseFloat(localStorage.getItem('tb_font_scale') || '1');
+document.documentElement.style.fontSize = (16 * fontScale) + 'px';
+
+function adjustFont(delta) {
+  fontScale = Math.min(1.6, Math.max(0.75, fontScale + delta));
+  document.documentElement.style.fontSize = (16 * fontScale) + 'px';
+  localStorage.setItem('tb_font_scale', fontScale.toFixed(2));
+}
+
+// ── NAVEGAÇÃO ──────────────────────────────────
 function goSection(id) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -949,9 +921,7 @@ function goSection(id) {
   window.scrollTo({top:0, behavior:'smooth'});
 }
 
-// ──────────────────────────────────────────────
-// ALGORITMO
-// ──────────────────────────────────────────────
+// ── ALGORITMO ──────────────────────────────────
 const algo = {
   s0: { q: 'Qual o tipo de caso?', opts: [{ label: '🆕 Caso novo (nunca tratou ou tratou < 30 dias)', next: 's1' }, { label: '🔄 Retratamento (recidiva ou reingresso após abandono)', next: 's7' }] },
   s1: { q: 'O paciente pertence a grupo de maior vulnerabilidade?', hint: 'Profissionais de saúde, PVHIV, privados de liberdade, população em situação de rua, indígenas, contatos de TB resistente.', opts: [{ label: '✅ Sim — população vulnerável', next: 's1v_trm' }, { label: '❌ Não — população geral', next: 's1g_trm' }] },
@@ -1051,9 +1021,7 @@ function resetAlgo() {
   renderAlgoStep('s0');
 }
 
-// ──────────────────────────────────────────────
-// DOSES
-// ──────────────────────────────────────────────
+// ── DOSES ──────────────────────────────────────
 const doses = {
   'adulto-i': {
     '20-35': 'RHZE: <strong>2 comprimidos</strong><br>R 300 mg · H 150 mg · Z 800 mg · E 550 mg',
@@ -1082,12 +1050,10 @@ function showDose(type, weight) {
   el.style.display = 'block';
 }
 
-// ──────────────────────────────────────────────
-// ESCORE PEDIÁTRICO
-// ──────────────────────────────────────────────
+// ── ESCORE PEDIÁTRICO ──────────────────────────
 function calcScore() {
   let total = 0, filled = 0;
-  ['sc1','sc2','sc3','sc4','sc5'].forEach((f, i) => {
+  ['sc1','sc2','sc3','sc4','sc5'].forEach(f => {
     const el = document.querySelector(`input[name="${f}"]:checked`);
     const valEl = document.getElementById(`${f}-val`);
     if (el) { const v = parseInt(el.value); total += v; filled++; valEl.textContent = (v >= 0 ? '+' : '') + v + ' pts'; }
@@ -1109,9 +1075,7 @@ function resetScore() {
   document.getElementById('score-total-box').style.display = 'none';
 }
 
-// ──────────────────────────────────────────────
-// ACCORDION
-// ──────────────────────────────────────────────
+// ── ACCORDION ──────────────────────────────────
 function toggleAcc(header) { header.parentElement.classList.toggle('open'); }
 
 window.onload = function() { startAlgo(); };
