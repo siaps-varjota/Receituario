@@ -958,7 +958,7 @@ function gerarPDF() {
   y+=RH;
 
   // Linha 4: Prof | Registro | Assinatura
-  const wProf=CW*0.5, wReg=CW*0.2, wAss=CW-wProf-wReg;
+  const wProf=CW*0.5, wReg=CW*0.23, wAss=CW-wProf-wReg;
   cell('7 — Nome do Profissional de Saúde*',gv('prof_nome'),ML,y,wProf,RH);
   cell('8 — Registro Profissional/Matrícula*',gv('prof_reg'),ML+wProf,y,wReg,RH);
   cell('9 — Assinatura',gv('prof_ass'),ML+wProf+wReg,y,wAss,RH);
