@@ -951,7 +951,7 @@ function gerarPDF() {
   y+=RH;
 
   // Linha 3: Município Atend | UF | IBGE
-  const wMun=CW-wUF-wIBGE, wUF=25, wIBGE=50;
+  const wUF=25, wIBGE=50, wMun=CW-wUF-wIBGE;
   cell('4 — Município de Atendimento',gv('mun_atend'),ML,y,wMun,RH);
   cell('5 — UF',gv('uf_atend'),ML+wMun,y,wUF,RH);
   cell('6 — Código IBGE*',gv('ibge_atend'),ML+wMun+wUF,y,wIBGE,RH);
