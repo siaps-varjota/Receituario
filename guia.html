@@ -1062,6 +1062,7 @@ function App() {
             </div>
           </div>
           <div style={{ display:"flex", gap:"8px", alignItems:"center", flexWrap:"wrap" }}>
+            <button onClick={()=>window.location.href='portal.html'} style={{ background:"#374151", border:"1px solid rgba(255,255,255,0.25)", color:"#e2f8f4", fontSize:"12px", padding:"6px 16px", borderRadius:"20px", cursor:"pointer", fontWeight:700, display:"flex", alignItems:"center", gap:"6px" }}>🏠 Portal</button>
             <button onClick={()=>setRefModal(true)} style={{ background:"rgba(255,255,255,0.18)", border:"1px solid rgba(255,255,255,0.25)", color:"#e2f8f4", fontSize:"12px", padding:"6px 16px", borderRadius:"20px", cursor:"pointer", fontWeight:700, display:"flex", alignItems:"center", gap:"6px" }}>📚 Referências Rápidas</button>
             {selected.size>0 && <div style={{ background:"rgba(255,255,255,0.15)", color:"#e2f8f4", fontSize:"13px", padding:"6px 14px", borderRadius:"20px", fontWeight:600 }}>{selected.size} sintoma{selected.size>1?"s":""} selecionado{selected.size>1?"s":""}</div>}
             {selected.size>0 && <button onClick={clearAll} style={{ background:"rgba(255,80,80,0.18)", border:"1px solid rgba(255,100,100,0.3)", color:"#fca5a5", fontSize:"12px", padding:"6px 14px", borderRadius:"20px", cursor:"pointer", fontWeight:600 }}>Limpar tudo</button>}
