@@ -1482,7 +1482,7 @@ async function generatePDF(mode = 'save') {
     grupoAtual.drugs.push(dr);
   }
 
-  grupos.forEach((grupo, gi) => {
+  for (const [gi, grupo] of grupos.entries()) {
     const d = {
       tipo:        grupo.tipo,
       u_estado:    v('u_estado'),
@@ -1849,7 +1849,7 @@ async function generatePDF(mode = 'save') {
     } else {
       doc.save(fname);
     }
-  });
+  }
 }
 
 function printPDF() { generatePDF('print'); }
@@ -1861,7 +1861,7 @@ const PROTOCOLS = [
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Aciclovir", conc: "200mg", forma: "Comprimido", via: "Oral", uso: "Herpes genital", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas , 2024" },
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Benzilpenicilina benzatina", conc: "1,2 milhão UI", forma: "Suspensão injetável", via: "Intramuscular", uso: "", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas, 2024; Portaria MS nº 156/2006" },
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Doxiciclina", conc: "100mg", forma: "Comprimido", via: "Oral", uso: "", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas , 2024" },
-  { group: "1. IST, saúde sexual e reprodutiva", nome: "Azitromicina", conc: "500mg e 1g", forma: "Comprimido", via: "Oral", uso: "", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas, 2024" },
+  { group: "1. IST, saúde sexuZal e reprodutiva", nome: "Azitromicina", conc: "500mg e 1g", forma: "Comprimido", via: "Oral", uso: "", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas, 2024" },
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Ceftriaxona", conc: "500mg e 1g", forma: "Pó para solução injetável", via: "Intramuscular", uso: "", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas, 2024" },
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Ciprofloxacino", conc: "500mg", forma: "Comprimido", via: "Oral", uso: "", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas, 2024" },
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Metronidazol", conc: "250mg", forma: "Comprimido", via: "Oral", uso: "", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas, 2024" },
