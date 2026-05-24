@@ -29,7 +29,6 @@ body {
   overflow-x: hidden;
 }
 
-/* mesh gradient background */
 body::before {
   content: '';
   position: fixed; inset: 0;
@@ -40,7 +39,6 @@ body::before {
   pointer-events: none; z-index: 0;
 }
 
-/* subtle grain */
 body::after {
   content: '';
   position: fixed; inset: 0;
@@ -49,6 +47,30 @@ body::after {
 }
 
 .wrap { position: relative; z-index: 1; max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+
+/* ── topbar logout ── */
+.topbar-logout {
+  position: fixed;
+  top: 16px; right: 20px;
+  z-index: 100;
+}
+.btn-logout {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-family: inherit;
+  font-size: 13px; font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.btn-logout:hover {
+  background: rgba(232,112,160,.12);
+  border-color: rgba(232,112,160,.3);
+  color: #e870a0;
+}
 
 /* ── header ── */
 header {
@@ -72,13 +94,7 @@ header {
   text-transform: uppercase;
   color: var(--muted);
 }
-
-.brand img {
-  width: 30px; height: 30px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
+.brand img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
 .brand-dot {
   width: 6px; height: 6px;
   background: var(--accent);
@@ -139,7 +155,6 @@ h1 em { font-style: italic; color: var(--accent); }
   gap: 14px;
   padding-bottom: 80px;
 }
-
 .card--hero { grid-column: 1 / -1; }
 
 /* base card */
@@ -158,7 +173,6 @@ h1 em { font-style: italic; color: var(--accent); }
   animation: fadeUp .45s ease both;
 }
 
-/* glow overlay on hover */
 .card::before {
   content: '';
   position: absolute; inset: 0;
@@ -185,7 +199,7 @@ h1 em { font-style: italic; color: var(--accent); }
 }
 .card--hero .card-body { flex: 1; }
 
-/* icon bubble */
+/* icon */
 .ic {
   width: 50px; height: 50px;
   border-radius: 14px;
@@ -277,10 +291,35 @@ footer strong { color: var(--accent); font-weight: 500; }
   .card--hero { flex-direction: column; gap: 16px; padding: 24px 20px; }
   .card  { padding: 20px 18px; }
   .grid  { grid-template-columns: 1fr; }
+  .topbar-logout { top: 10px; right: 12px; }
 }
 </style>
 </head>
 <body>
+
+<!-- Guard de sessão — executado antes de qualquer renderização -->
+<script>
+(function(){
+  var SESSION_KEY = "receituario_auth";
+  var raw = sessionStorage.getItem(SESSION_KEY);
+  if (!raw) { window.location.replace("index.html"); return; }
+  try {
+    var d = JSON.parse(raw);
+    if (!d.exp || Date.now() >= d.exp) {
+      sessionStorage.removeItem(SESSION_KEY);
+      window.location.replace("index.html");
+    }
+  } catch(e) { window.location.replace("index.html"); }
+})();
+</script>
+
+<!-- Botão de logout fixo -->
+<div class="topbar-logout">
+  <button class="btn-logout" onclick="doLogout()">
+    <span>⎋</span> Sair
+  </button>
+</div>
+
 <div class="wrap">
 
   <header>
@@ -298,8 +337,8 @@ footer strong { color: var(--accent); font-weight: 500; }
 
   <div class="grid">
 
-    <!-- ① HERO — Receituário (app principal) -->
-    <a class="card card--hero" href="index.html" style="--ca:#3dd6ac;">
+    <!-- ① HERO — Receituário -->
+    <a class="card card--hero" href="app.html" style="--ca:#3dd6ac;">
       <div class="ic c-green">💊</div>
       <div class="card-body">
         <div class="tag">App principal</div>
@@ -377,5 +416,12 @@ footer strong { color: var(--accent); font-weight: 500; }
   </footer>
 
 </div>
+
+<script>
+function doLogout() {
+  sessionStorage.removeItem("receituario_auth");
+  window.location.replace("index.html");
+}
+</script>
 </body>
 </html>
