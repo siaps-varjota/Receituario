@@ -1515,7 +1515,7 @@ async function generatePDF(mode = 'save') {
       return t.length < text.length ? t.trimEnd() + '…' : t;
     }
 
-    function drawVia(ox, viaIdx, pgAtual, pgTotal) {
+    async function drawVia(ox, viaIdx, pgAtual, pgTotal) {
       const lm = ox + 7, cw = half - 14, rm = lm + cw;
       const SP = {
         topoY:            5,
@@ -1833,8 +1833,8 @@ async function generatePDF(mode = 'save') {
       if (pgIdx > 0) doc.addPage();
       d.drugs = lotes[pgIdx] || [];
       drawDivider();
-      drawVia(0, 0, pgIdx + 1, totalPaginas);
-      drawVia(half, 1, pgIdx + 1, totalPaginas);
+      await drawVia(0, 0, pgIdx + 1, totalPaginas);
+      await drawVia(half, 1, pgIdx + 1, totalPaginas);
     }
     d.drugs = allDrugs;
 
