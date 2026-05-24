@@ -2,209 +2,456 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<link rel="shortcut icon" href="saude-logo-512.png?v=2" type="image/png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Receituário e-SUS — Acesso Restrito</title>
+<title>Portal de Saúde — Varjota</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #0f3460 0%, #16213e 60%, #0d1b2a 100%);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-  }
+:root {
+  --bg:      #0a0f1e;
+  --surface: #111827;
+  --border:  rgba(255,255,255,0.07);
+  --text:    #e8eaf0;
+  --muted:   #6b7a99;
+  --accent:  #3dd6ac;
+}
 
-  .login-card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 44px 40px 36px;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.4);
-    text-align: center;
-  }
+html { scroll-behavior: smooth; }
 
-  .logo-wrap {
-    width: 70px;
-    height: 70px;
-    background: #0f3460;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    font-size: 34px;
-  }
+body {
+  font-family: 'DM Sans', 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
 
-  .login-card h1 {
-    font-size: 20px;
-    font-weight: 700;
-    color: #0f3460;
-    margin-bottom: 4px;
-  }
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 10% 15%, rgba(61,214,172,.09) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 90% 85%, rgba(79,142,247,.09) 0%, transparent 55%),
+    radial-gradient(ellipse 35% 40% at 55% 50%, rgba(247,130,79,.05) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0;
+}
 
-  .login-card p {
-    font-size: 13px;
-    color: #888;
-    margin-bottom: 28px;
-    line-height: 1.5;
-  }
+.wrap { position: relative; z-index: 1; max-width: 1160px; margin: 0 auto; padding: 0 28px; }
 
-  .field {
-    text-align: left;
-    margin-bottom: 16px;
-  }
+/* ── header ── */
+header { padding: 64px 0 44px; text-align: center; animation: fadeUp .5s ease both; }
 
-  .field label {
-    display: block;
-    font-size: 12px;
-    font-weight: 700;
-    color: #7a8099;
-    text-transform: uppercase;
-    letter-spacing: .07em;
-    margin-bottom: 6px;
-  }
+.brand {
+  display: inline-flex; align-items: center; gap: 11px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 7px 18px 7px 10px;
+  margin-bottom: 28px;
+  font-size: 12px; font-weight: 500;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
+}
+.brand img { width: 30px; height: 30px; border-radius: 50%; object-fit: cover; }
+.brand-dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 2.2s ease infinite; margin-left: 4px; }
 
-  .field input {
-    width: 100%;
-    padding: 11px 14px;
-    border: 1.5px solid #dde1ec;
-    border-radius: 8px;
-    font-size: 15px;
-    font-family: inherit;
-    color: #1a1a2e;
-    background: #fafbfd;
-    outline: none;
-    transition: border-color .15s, box-shadow .15s;
-  }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.65)} }
 
-  .field input:focus {
-    border-color: #0f3460;
-    box-shadow: 0 0 0 3px rgba(15,52,96,.1);
-    background: #fff;
-  }
+h1 {
+  font-family: 'Fraunces', serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  font-weight: 300; line-height: 1.18; letter-spacing: -.025em;
+  animation: fadeUp .55s .08s ease both;
+}
+h1 em { font-style: italic; color: var(--accent); }
 
-  .btn-login {
-    width: 100%;
-    background: #0f3460;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 13px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: .03em;
-    margin-top: 8px;
-    transition: background .15s, transform .1s;
-  }
+.sub {
+  margin-top: 14px; font-size: 1rem; color: var(--muted); font-weight: 300;
+  animation: fadeUp .55s .16s ease both;
+}
 
-  .btn-login:hover  { background: #163d74; transform: translateY(-1px); }
-  .btn-login:active { transform: translateY(0); }
+.hairline {
+  width: 40px; height: 1px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  margin: 28px auto;
+  animation: fadeUp .55s .22s ease both;
+}
 
-  .error-msg {
-    background: #fef0f0;
-    color: #c0392b;
-    border: 1.5px solid #f5c6c6;
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    margin-top: 14px;
-    display: none;
-  }
+/* ── section label ── */
+.sec-lbl {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 10.5px; font-weight: 500;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  margin-bottom: 18px;
+  animation: fadeUp .55s .28s ease both;
+}
+.sec-lbl::after { content:''; flex:1; height:1px; background:var(--border); }
 
-  .footer-note {
-    margin-top: 24px;
-    font-size: 12px;
-    color: #bbb;
-  }
+/* ── grid ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  padding-bottom: 80px;
+}
+.card--hero { grid-column: 1 / -1; }
 
-  /* shake animation on error */
-  @keyframes shake {
-    0%,100%{transform:translateX(0)}
-    20%{transform:translateX(-8px)}
-    40%{transform:translateX(8px)}
-    60%{transform:translateX(-6px)}
-    80%{transform:translateX(6px)}
-  }
-  .shake { animation: shake .4s ease; }
+/* base card */
+.card {
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 26px 28px;
+  text-decoration: none;
+  display: flex; align-items: flex-start; gap: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+  animation: fadeUp .45s ease both;
+}
+.card::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(130deg, var(--ca, var(--accent)) 0%, transparent 55%);
+  opacity: 0; transition: opacity .28s ease; border-radius: inherit;
+}
+.card:hover { transform: translateY(-5px); border-color: var(--ca, var(--accent)); box-shadow: 0 18px 50px -10px rgba(0,0,0,.55), 0 0 0 1px var(--ca, var(--accent)); }
+.card:hover::before { opacity: .06; }
+
+/* hero */
+.card--hero { align-items: center; gap: 28px; padding: 34px 36px; background: linear-gradient(135deg, #0f1e30 0%, #0c1623 100%); }
+.card--hero .card-body { flex: 1; }
+
+/* icon */
+.ic { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; position: relative; z-index: 1; }
+.card--hero .ic { width: 64px; height: 64px; font-size: 28px; border-radius: 18px; }
+
+/* text */
+.tag { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; background: rgba(61,214,172,.13); color: var(--accent); margin-bottom: 8px; position: relative; z-index: 1; }
+.card-title { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 400; line-height: 1.3; color: var(--text); margin-bottom: 5px; position: relative; z-index: 1; }
+.card--hero .card-title { font-size: 1.45rem; }
+.card-desc { font-size: .82rem; color: var(--muted); line-height: 1.55; position: relative; z-index: 1; }
+
+/* arrow */
+.arr { position: relative; z-index: 1; margin-left: auto; color: var(--muted); font-size: 18px; flex-shrink: 0; transition: transform .2s ease, color .2s ease; align-self: flex-start; margin-top: 2px; }
+.card:hover .arr { transform: translate(3px,-3px); color: var(--ca, var(--accent)); }
+
+/* colors */
+.c-green  { --ca:#3dd6ac; background-color:rgba(61,214,172,.1);  }
+.c-blue   { --ca:#4f8ef7; background-color:rgba(79,142,247,.1);  }
+.c-pink   { --ca:#e870a0; background-color:rgba(232,112,160,.1); }
+.c-orange { --ca:#f7824f; background-color:rgba(247,130,79,.1);  }
+.c-teal   { --ca:#22d3ee; background-color:rgba(34,211,238,.1);  }
+.c-purple { --ca:#a78bfa; background-color:rgba(167,139,250,.1); }
+.c-gold   { --ca:#facc15; background-color:rgba(250,204,21,.1);  }
+
+/* ── login modal ── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(5,10,20,.85);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .25s ease;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: #131c2e;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 20px;
+  padding: 44px 40px 36px;
+  width: 100%; max-width: 400px;
+  box-shadow: 0 30px 80px rgba(0,0,0,.6);
+  text-align: center;
+  transform: translateY(16px) scale(.97);
+  transition: transform .28s cubic-bezier(.34,1.3,.7,1);
+}
+.modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+.modal-logo {
+  width: 68px; height: 68px;
+  border-radius: 50%;
+  margin: 0 auto 18px;
+  overflow: hidden;
+  border: 2px solid rgba(61,214,172,.3);
+}
+.modal-logo img { width: 100%; height: 100%; object-fit: cover; }
+
+.modal h2 { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 400; color: var(--text); margin-bottom: 4px; }
+.modal-sub { font-size: 12.5px; color: var(--muted); margin-bottom: 28px; line-height: 1.5; }
+
+.m-field { text-align: left; margin-bottom: 14px; }
+.m-field label { display: block; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; margin-bottom: 6px; }
+.m-field input {
+  width: 100%; padding: 11px 14px;
+  border: 1.5px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  font-size: 15px; font-family: inherit;
+  color: var(--text);
+  background: rgba(255,255,255,.05);
+  outline: none;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.m-field input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(61,214,172,.12); background: rgba(255,255,255,.08); }
+
+.btn-enter {
+  width: 100%; background: var(--accent); color: #0a1a14;
+  border: none; border-radius: 10px; padding: 13px;
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  font-family: inherit; letter-spacing: .03em; margin-top: 8px;
+  transition: background .15s, transform .1s, box-shadow .15s;
+}
+.btn-enter:hover  { background: #2fc49a; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(61,214,172,.25); }
+.btn-enter:active { transform: translateY(0); }
+
+.btn-cancel {
+  width: 100%; background: none; color: var(--muted);
+  border: 1px solid rgba(255,255,255,.08); border-radius: 10px; padding: 10px;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  font-family: inherit; margin-top: 8px;
+  transition: border-color .15s, color .15s;
+}
+.btn-cancel:hover { border-color: rgba(255,255,255,.2); color: var(--text); }
+
+.err-msg {
+  background: rgba(192,57,43,.15);
+  color: #f08080;
+  border: 1px solid rgba(192,57,43,.3);
+  border-radius: 8px; padding: 10px 14px;
+  font-size: 13.5px; font-weight: 600;
+  margin-top: 12px; display: none;
+}
+
+/* ── footer ── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border);
+  text-align: center; padding: 28px 0 44px;
+  color: var(--muted); font-size: .8rem;
+}
+footer strong { color: var(--accent); font-weight: 500; }
+
+/* ── animations ── */
+@keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+@keyframes shake  { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-7px)} 40%{transform:translateX(7px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
+.shaking { animation: shake .4s ease; }
+
+.grid .card:nth-child(1) { animation-delay:.30s; }
+.grid .card:nth-child(2) { animation-delay:.38s; }
+.grid .card:nth-child(3) { animation-delay:.46s; }
+.grid .card:nth-child(4) { animation-delay:.54s; }
+.grid .card:nth-child(5) { animation-delay:.62s; }
+.grid .card:nth-child(6) { animation-delay:.70s; }
+.grid .card:nth-child(7) { animation-delay:.78s; }
+
+@media (max-width: 680px) {
+  .wrap { padding: 0 16px; }
+  h1    { font-size: 1.9rem; }
+  .card--hero { flex-direction: column; gap: 16px; padding: 24px 20px; }
+  .card { padding: 20px 18px; }
+  .grid { grid-template-columns: 1fr; }
+  .modal { padding: 32px 24px 28px; }
+}
 </style>
 </head>
 <body>
 
-<div class="login-card" id="loginCard">
-  <div class="logo-wrap">🏥</div>
-  <h1>Receituário e-SUS</h1>
-  <p>Sec. da Saúde de Varjota / SESAVAR<br>Acesso restrito aos profissionais autorizados.</p>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <img src="saude-logo-512.png" alt="Logo">
+      Sec. Municipal de Saúde · Varjota — CE
+      <span class="brand-dot"></span>
+    </div>
+    <h1>Portal de <em>Ferramentas</em><br>Clínicas e Administrativas</h1>
+    <p class="sub">Sistemas de apoio à atenção primária — e-SUS Municipal</p>
+    <div class="hairline"></div>
+  </header>
 
-  <div class="field">
-    <label>Usuário</label>
-    <input type="text" id="username" placeholder="Digite seu usuário" autocomplete="username" />
+  <div class="sec-lbl">Aplicativos disponíveis</div>
+
+  <div class="grid">
+
+    <!-- ① Receituário (requer login) -->
+    <div class="card card--hero" id="card-receituario" onclick="openLogin()" style="--ca:#3dd6ac;">
+      <div class="ic c-green">💊</div>
+      <div class="card-body">
+        <div class="tag">Acesso restrito</div>
+        <div class="card-title">Receituário Simples e de Controle Especial</div>
+        <div class="card-desc">Prescrições para enfermeiro(a)s — receita simples e antibióticos com geração de PDF em duas vias, autocomplete de medicamentos e protocolos do MS.</div>
+      </div>
+      <div class="arr">↗</div>
+    </div>
+
+    <!-- ② Guia Antimicrobiano -->
+    <a class="card" href="guia.html" style="--ca:#4f8ef7;">
+      <div class="ic c-blue">🦠</div>
+      <div class="card-body">
+        <div class="card-title">Guia Antimicrobiano</div>
+        <div class="card-desc">Referência rápida de antibióticos, espectros e protocolos para prescrição segura na APS.</div>
+      </div>
+      <div class="arr">↗</div>
+    </a>
+
+    <!-- ③ Requisição de Mamografia -->
+    <a class="card" href="Requisicao_Mamografia.html" style="--ca:#e870a0;">
+      <div class="ic c-pink">🎗️</div>
+      <div class="card-body">
+        <div class="card-title">Requisição de Mamografia</div>
+        <div class="card-desc">Formulário de solicitação de mamografia com geração de documento imprimível.</div>
+      </div>
+      <div class="arr">↗</div>
+    </a>
+
+    <!-- ④ Calculadora Gestacional -->
+    <a class="card" href="calculadora.html" style="--ca:#f7824f;">
+      <div class="ic c-orange">🤰</div>
+      <div class="card-body">
+        <div class="card-title">Calculadora Gestacional</div>
+        <div class="card-desc">Cálculo de idade gestacional, DPP e suporte ao acompanhamento do pré-natal.</div>
+      </div>
+      <div class="arr">↗</div>
+    </a>
+
+    <!-- ⑤ Guia Tuberculose -->
+    <a class="card" href="tuberculose.html" style="--ca:#22d3ee;">
+      <div class="ic c-teal">🫁</div>
+      <div class="card-body">
+        <div class="card-title">Guia Tuberculose</div>
+        <div class="card-desc">Protocolos de diagnóstico, tratamento e notificação de casos de TB pulmonar e extrapulmonar.</div>
+      </div>
+      <div class="arr">↗</div>
+    </a>
+
+    <!-- ⑥ Guia Hanseníase -->
+    <a class="card" href="hanseniase.html" style="--ca:#a78bfa;">
+      <div class="ic c-purple">🔬</div>
+      <div class="card-body">
+        <div class="card-title">Guia Hanseníase</div>
+        <div class="card-desc">Fluxogramas de classificação operacional, esquemas de PQT e critérios de alta.</div>
+      </div>
+      <div class="arr">↗</div>
+    </a>
+
+    <!-- ⑦ Ficha GAL -->
+    <a class="card" href="Ficha_GAL.html" style="--ca:#facc15;">
+      <div class="ic c-gold">📋</div>
+      <div class="card-body">
+        <div class="card-title">Ficha GAL</div>
+        <div class="card-desc">Geração e preenchimento de fichas para o Gerenciador de Ambiente Laboratorial.</div>
+      </div>
+      <div class="arr">↗</div>
+    </a>
+
   </div>
 
-  <div class="field">
-    <label>Senha</label>
-    <input type="password" id="password" placeholder="Digite sua senha" autocomplete="current-password"
-           onkeydown="if(event.key==='Enter') doLogin()" />
+  <footer>
+    Desenvolvido por <strong>Alidemberg Araújo · Coordenação do e-SUS Municipal — Varjota/CE</strong><br>
+    <span style="display:block;margin-top:5px;font-size:.75rem;">Secretaria Municipal de Saúde · SESAVAR</span>
+  </footer>
+</div>
+
+<!-- ══ MODAL DE LOGIN ══ -->
+<div class="modal-overlay" id="loginOverlay">
+  <div class="modal" id="loginModal">
+    <div class="modal-logo">
+      <img src="saude-logo-512.png" alt="Logo Saúde">
+    </div>
+    <h2>Receituário e-SUS</h2>
+    <p class="modal-sub">Acesso restrito aos profissionais autorizados.<br>Sec. da Saúde de Varjota / SESAVAR</p>
+
+    <div class="m-field">
+      <label>Usuário</label>
+      <input type="text" id="username" placeholder="Digite seu usuário" autocomplete="username">
+    </div>
+    <div class="m-field">
+      <label>Senha</label>
+      <input type="password" id="password" placeholder="Digite sua senha" autocomplete="current-password">
+    </div>
+
+    <button class="btn-enter" id="btn-login">Entrar</button>
+    <button class="btn-cancel" onclick="closeLogin()">Cancelar</button>
+
+    <div class="err-msg" id="errMsg">❌ Usuário ou senha incorretos.</div>
   </div>
-
-  <button class="btn-login" onclick="doLogin()">Entrar</button>
-
-  <div class="error-msg" id="errorMsg">❌ Usuário ou senha incorretos.</div>
-
-  <p class="footer-note">Desenvolvido por Alidemberg Araújo · Coord. e-SUS Municipal</p>
 </div>
 
 <script>
-  // ─────────────────────────────────────────────────────────────────────────
-  //  CREDENCIAIS — altere aqui os pares usuário:senha desejados
-  //  Para segurança extra use bcrypt num backend real; aqui é client-side.
-  // ─────────────────────────────────────────────────────────────────────────
-  const USERS = {
-    "enfermeiro":  "sesavar2025",
-    "admin":       "admin@2025",
-    "sesavar":     "receita2025"
-  };
+// ── Credenciais ──────────────────────────────────────────────────
+const USERS = {
+  "enfermeiro": "sesavar2025",
+  "admin":      "admin@2025",
+  "sesavar":    "receita2025"
+};
+const SESSION_KEY = "receituario_auth";
+const SESSION_TTL = 8 * 60 * 60 * 1000; // 8 horas
 
-  const SESSION_KEY = "receituario_auth";
-  const SESSION_TTL = 8 * 60 * 60 * 1000; // 8 horas em ms
-
-  // Se já está autenticado redireciona direto
-  (function checkSession() {
-    const raw = sessionStorage.getItem(SESSION_KEY);
-    if (!raw) return;
-    try {
-      const { exp } = JSON.parse(raw);
-      if (Date.now() < exp) window.location.replace("app.html");
-    } catch(e) {}
-  })();
-
-  function doLogin() {
-    const user = document.getElementById("username").value.trim().toLowerCase();
-    const pass = document.getElementById("password").value;
-    const err  = document.getElementById("errorMsg");
-    const card = document.getElementById("loginCard");
-
-    if (USERS[user] && USERS[user] === pass) {
-      // Salva sessão com expiração
-      sessionStorage.setItem(SESSION_KEY, JSON.stringify({
-        user,
-        exp: Date.now() + SESSION_TTL
-      }));
-      window.location.replace("app.html");
-    } else {
-      err.style.display = "block";
-      card.classList.remove("shake");
-      void card.offsetWidth; // force reflow
-      card.classList.add("shake");
-      document.getElementById("password").value = "";
-      document.getElementById("password").focus();
+// Se já está autenticado, mostra aviso diferente no card
+(function checkSession() {
+  const raw = sessionStorage.getItem(SESSION_KEY);
+  if (!raw) return;
+  try {
+    const { exp } = JSON.parse(raw);
+    if (Date.now() < exp) {
+      // já logado: ir direto ao app ao clicar
+      document.getElementById('card-receituario').onclick = () => location.href = 'app.html';
+      const tag = document.querySelector('#card-receituario .tag');
+      if (tag) { tag.textContent = 'Sessão ativa'; tag.style.background = 'rgba(61,214,172,.2)'; }
     }
+  } catch(e) {}
+})();
+
+// ── Modal ────────────────────────────────────────────────────────
+function openLogin() {
+  document.getElementById('loginOverlay').classList.add('open');
+  setTimeout(() => document.getElementById('username').focus(), 200);
+}
+
+function closeLogin() {
+  document.getElementById('loginOverlay').classList.remove('open');
+  document.getElementById('errMsg').style.display = 'none';
+  document.getElementById('password').value = '';
+}
+
+function doLogin() {
+  const user = document.getElementById('username').value.trim().toLowerCase();
+  const pass = document.getElementById('password').value;
+  const err  = document.getElementById('errMsg');
+  const modal = document.getElementById('loginModal');
+
+  if (USERS[user] && USERS[user] === pass) {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({ user, exp: Date.now() + SESSION_TTL }));
+    window.location.replace('app.html');
+  } else {
+    err.style.display = 'block';
+    modal.classList.remove('shaking');
+    void modal.offsetWidth;
+    modal.classList.add('shaking');
+    document.getElementById('password').value = '';
+    document.getElementById('password').focus();
   }
+}
+
+// bindings
+document.getElementById('btn-login').addEventListener('click', doLogin);
+document.getElementById('password').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+// fechar ao clicar fora do modal
+document.getElementById('loginOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeLogin();
+});
+
+// fechar com Escape
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLogin(); });
 </script>
 </body>
 </html>
