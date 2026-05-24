@@ -1230,7 +1230,7 @@ function gcGroup(name) {
 
 // ── PDF GENERATOR — layout fiel ao modelo oficial, exatamente 2 páginas A4 ──
   const LOGO_URL = 'https://raw.githubusercontent.com/siaps-varjota/Receituario/main/logo-varjota.png';
-  function gerarPDF() {
+  async function gerarPDF() {
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
 
