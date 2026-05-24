@@ -1460,12 +1460,12 @@ const viaLabels = {
   antibiotico: ['1ª VIA - RETENÇÃO NA FARMÁCIA OU DROGARIA', '2ª VIA - ORIENTAÇÃO AO PACIENTE'],
 };
 
-const LOGO_B64 = "saude-logo-512.png";
+const LOGO_URL = 'https://raw.githubusercontent.com/siaps-varjota/Receituario/main/logo-varjota.png';
 
 /* ══════════════════════════════════════════
    PDF GENERATION
 ══════════════════════════════════════════ */
-function generatePDF(mode = 'save') {
+async function generatePDF(mode = 'save') {
   if (!v('p_nome'))   { alert('Informe o nome do paciente.'); return; }
   if (!v('e_nome'))   { alert('Informe o nome do profissional.'); return; }
   if (!v('sig_data')) { alert('Informe a data da prescrição.'); return; }
@@ -1540,8 +1540,15 @@ function generatePDF(mode = 'save') {
       };
       let y = SP.topoY;
 
-      const logoH = SP.logoW * 104 / 259;
-      doc.addImage(LOGO_B64, 'JPEG', lm, y, SP.logoW, logoH);
+     const logoH = SP.logoW * 104 / 259;
+     const img = await new Promise((res, rej) => {
+     const i = new Image();
+      i.crossOrigin = 'anonymous';
+     i.onload = () => res(i);
+     i.onerror = rej;
+     i.src = LOGO_URL;
+     });
+     doc.addImage(img, 'PNG', lm, y, SP.logoW, logoH);
 
       const tx = lm + SP.logoW + 4;
       doc.setTextColor(0);
