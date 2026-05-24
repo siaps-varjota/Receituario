@@ -65,7 +65,7 @@ body {
 .topbar-gen-btn:active { transform: translateY(0); }
 .topbar-gen-btn .ico   { font-size: 18px; }
 
-/* ── TOPBAR PRINT BUTTON (compacto: ícone + label em coluna) ── */
+/* ── TOPBAR PRINT BUTTON ── */
 .topbar-print-btn {
   background: #1e5fa8;
   color: #fff;
@@ -103,14 +103,13 @@ body {
   gap: 14px;
 }
 
-/* Linha superior */
 .top-row {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* Menus colapsáveis (Unidade e Assinatura) */
+/* Menus colapsáveis */
 .collapsible-card {
   background: #fff;
   border-radius: 10px;
@@ -157,10 +156,8 @@ body {
   padding: 0 18px 16px;
 }
 
-/* Card paciente: largura total */
-.paciente-card {
-  width: 100%;
-}
+/* Card paciente */
+.paciente-card { width: 100%; }
 .paciente-grid-1 {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
@@ -210,7 +207,6 @@ body {
 .gds3 { grid-column: span 3; }
 .gds4 { grid-column: span 4; }
 
-/* aliases for drug template compatibility */
 .g1  { display: grid; grid-template-columns: 1fr; gap: 8px; }
 .g2  { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .g3  { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 8px; }
@@ -247,11 +243,7 @@ body {
 .field textarea { resize: vertical; min-height: 54px; }
 
 /* ── TYPE SELECTOR ── */
-.type-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-}
+.type-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
 .type-btn {
   padding: 10px 8px;
   border: 1.5px solid #dde1ec;
@@ -388,7 +380,7 @@ body {
   transition: all .15s;
   white-space: nowrap;
 }
-.drug-type-btn.active-simples  { background: #0f3460; color: #fff; border-color: #0f3460; }
+.drug-type-btn.active-simples     { background: #0f3460; color: #fff; border-color: #0f3460; }
 .drug-type-btn.active-antibiotico { background: #c0392b; color: #fff; border-color: #c0392b; }
 .drug-print-label {
   display: flex;
@@ -409,15 +401,15 @@ body {
 
 /* drug row grids */
 .drug-row { display: grid; gap: 8px; margin-bottom: 8px; }
-.drug-row.r2   { grid-template-columns: 1fr 1fr; }
-.drug-row.r21  { grid-template-columns: 2fr 1fr; }
-.drug-row.r12  { grid-template-columns: 1fr 2fr; }
-.drug-row.r3   { grid-template-columns: 1fr 1fr 1fr; }
-.drug-row.r211 { grid-template-columns: 2fr 1fr 1fr; }
-.drug-row.r1   { grid-template-columns: 1fr; }
-.drug-row.r4   { grid-template-columns: 1fr 1fr 1fr 1fr; }
-.drug-row.r123 { grid-template-columns: 0.6fr 1fr 1fr; }
-.drug-row.r321 { grid-template-columns: 0.6fr 1fr 1fr; }
+.drug-row.r2    { grid-template-columns: 1fr 1fr; }
+.drug-row.r21   { grid-template-columns: 2fr 1fr; }
+.drug-row.r12   { grid-template-columns: 1fr 2fr; }
+.drug-row.r3    { grid-template-columns: 1fr 1fr 1fr; }
+.drug-row.r211  { grid-template-columns: 2fr 1fr 1fr; }
+.drug-row.r1    { grid-template-columns: 1fr; }
+.drug-row.r4    { grid-template-columns: 1fr 1fr 1fr 1fr; }
+.drug-row.r123  { grid-template-columns: 0.6fr 1fr 1fr; }
+.drug-row.r321  { grid-template-columns: 0.6fr 1fr 1fr; }
 .drug-row.r211c { grid-template-columns: 2fr 1fr 0.5fr; }
 
 /* Radio group */
@@ -491,8 +483,8 @@ body {
 .interval-custom input:focus { border-color: #0f3460; background: #fff; }
 .interval-custom span { font-size: 14.4px; color: #666; }
 
-.freq-panel { display: none; }
-.freq-panel.show { display: block; }
+.freq-panel  { display: none; }
+.freq-panel.show  { display: block; }
 .turno-panel { display: none; }
 .turno-panel.show { display: block; }
 .turno-checkboxes { display: flex; gap: 10px; flex-wrap: wrap; padding: 3px 0; }
@@ -569,9 +561,9 @@ body {
 }
 .protocol-item:last-child { border-bottom: none; }
 .protocol-item:hover { background: #eef8f2; }
-.protocol-item-name { font-size: 14.4px; font-weight: 700; color: #111; }
+.protocol-item-name   { font-size: 14.4px; font-weight: 700; color: #111; }
 .protocol-item-detail { font-size: 12px; color: #888; margin-top: 1px; }
-.protocol-item-badge {
+.protocol-item-badge  {
   font-size: 10.8px; font-weight: 700; color: #16a34a;
   background: rgba(22,163,74,.1); padding: 2px 7px; border-radius: 10px;
   white-space: nowrap; align-self: start;
@@ -605,37 +597,15 @@ body {
 }
 .drug-ac-item:last-child { border-bottom: none; }
 .drug-ac-item:hover, .drug-ac-item.active { background: #eef4ff; }
-.drug-ac-name {
-  font-size: 14px; font-weight: 700; color: #111;
-  grid-column: 1; grid-row: 1;
-}
-.drug-ac-conc {
-  font-size: 12px; font-weight: 500; color: #0f3460;
-  margin-left: 5px;
-}
-.drug-ac-detail {
-  font-size: 11.5px; color: #777;
-  grid-column: 1; grid-row: 2;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.drug-ac-badge {
+.drug-ac-name   { font-size: 14px; font-weight: 700; color: #111; grid-column: 1; grid-row: 1; }
+.drug-ac-conc   { font-size: 12px; font-weight: 500; color: #0f3460; margin-left: 5px; }
+.drug-ac-detail { font-size: 11.5px; color: #777; grid-column: 1; grid-row: 2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.drug-ac-badge  {
   font-size: 10px; font-weight: 700; color: #16a34a;
   background: rgba(22,163,74,.1); padding: 2px 7px;
   border-radius: 10px; white-space: nowrap;
   grid-column: 2; grid-row: 1 / 3; align-self: center;
 }
-
-/* ── GENERATE BUTTON (legacy) ── */
-.gen-btn {
-  width: 100%; padding: 13px 24px;
-  background: #0f3460; color: #fff; border: none; border-radius: 9px;
-  font-family: inherit; font-size: 18px; font-weight: 700;
-  cursor: pointer; transition: background .18s, transform .1s;
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-}
-.gen-btn:hover  { background: #0a2444; transform: translateY(-1px); }
-.gen-btn:active { transform: translateY(0); }
-.gen-btn .ico   { font-size: 24px; }
 
 /* dur radio */
 .dur-radios { display: flex; gap: 0; }
@@ -665,20 +635,19 @@ body {
   .drug-row.r4 { grid-template-columns: 1fr 1fr; }
   .drug-row.r211c .field:first-child { grid-column: span 2; }
 }
-
 @media (max-width: 600px) {
   .type-grid { grid-template-columns: 1fr; }
   .g2, .g3   { grid-template-columns: 1fr; }
   .span2      { grid-column: span 1; }
   .card       { padding: 16px 12px; }
-  .drug-row.r211 { grid-template-columns: 1fr 1fr; }
+  .drug-row.r211  { grid-template-columns: 1fr 1fr; }
   .drug-row.r211 .field:first-child { grid-column: span 2; }
-  .drug-row.r4 { grid-template-columns: 1fr 1fr; }
+  .drug-row.r4    { grid-template-columns: 1fr 1fr; }
   .drug-row.r211c { grid-template-columns: 1fr 1fr; }
   .drug-row.r211c .field:first-child { grid-column: span 2; }
-  .drug-row.r3 { grid-template-columns: 1fr 1fr; }
+  .drug-row.r3    { grid-template-columns: 1fr 1fr; }
   .drug-row.r3 .field:last-child { grid-column: span 2; }
-  .drug-row.r1 { grid-template-columns: 1fr; }
+  .drug-row.r1    { grid-template-columns: 1fr; }
   .period-tab { font-size: 14.4px; padding: 5px 8px; }
   .int-btn    { font-size: 14.4px; padding: 5px 8px; }
   .drug-header { flex-wrap: wrap; gap: 6px; }
@@ -712,8 +681,11 @@ body {
     <h1>Receituário Simples e de Controle Especial (Antibióticos) para Enfermeiro(a)s</h1>
     <p>Gerador de prescrições — Sec. da Saúde de Varjota/SESAVAR - Desenvolvido por Alidemberg Araújo - Coord. do e-SUS Municipal</p>
   </div>
-   <button class="topbar-print-btn" id="btn-guia" style="background:#0e7c6a;" onclick="window.open('guia.html','_blank')">
-  <span class="ico">🦠</span> Guia Antimicrobiano
+  <button class="topbar-print-btn" style="background:#374151;" onclick="window.location.href='portal.html'">
+    <span class="ico">🏠</span> Portal
+  </button>
+  <button class="topbar-print-btn" id="btn-guia" style="background:#0e7c6a;" onclick="window.open('guia.html','_blank')">
+    <span class="ico">🦠</span> Guia Antimicrobiano
   </button>
   <button class="topbar-print-btn" id="btn-mamografia" style="background:#d63384;" onclick="window.open('Requisicao_Mamografia.html','_blank')">
     <span class="ico">📄</span> Requisição Mamografia
@@ -722,16 +694,19 @@ body {
     <span class="ico">🤰</span> Calculadora Gestacional
   </button>
   <button class="topbar-print-btn" style="background:#1a4b8c;" onclick="window.open('tuberculose.html','_blank')">
-  <span class="ico">🦠</span> Guia Tuberculose
+    <span class="ico">🦠</span> Guia Tuberculose
   </button>
   <button class="topbar-print-btn" style="background:#7c3aed;" onclick="window.open('hanseniase.html','_blank')">
-  <span class="ico">🩺</span> Guia Hanseníase
+    <span class="ico">🩺</span> Guia Hanseníase
   </button>
   <button class="topbar-print-btn" style="background:#BEBEBE;" onclick="window.open('Ficha_GAL.html','_blank')">
-  <span class="ico">📄</span> Ficha GAL
+    <span class="ico">📄</span> Ficha GAL
   </button>
   <button class="topbar-print-btn" id="btn-print">
     <span class="ico">🖨️</span> Imprimir Receituário
+  </button>
+  <button class="topbar-print-btn" id="btn-logout" style="background:#7f1d1d;">
+    <span class="ico">⎋</span> Sair
   </button>
 </div>
 
@@ -844,7 +819,7 @@ body {
       </div>
     </div>
 
-    <!-- Paciente — card largo, sempre visível -->
+    <!-- Paciente -->
     <div class="card paciente-card">
       <div class="card-title" style="display:flex;align-items:center;justify-content:space-between;">
         <span><span class="icon">🧑</span> Dados do Paciente</span>
@@ -904,7 +879,7 @@ body {
 (function(){
   var SESSION_KEY = "receituario_auth";
   var raw = sessionStorage.getItem(SESSION_KEY);
-  if (!raw) { window.location.replace("login.html"); return; }
+  if (!raw) { window.location.replace("index.html"); return; }
   try {
     var data = JSON.parse(raw);
     if (!data.exp || Date.now() >= data.exp) {
@@ -914,6 +889,7 @@ body {
   } catch(e) { window.location.replace("index.html"); }
 })();
 // ────────────────────────────────────────────────────────────────
+
 const { jsPDF } = window.jspdf;
 
 let drugs = [], drugCount = 0, currentType = 'simples';
@@ -969,7 +945,6 @@ function addDrug() {
 
     <div class="drug-body">
 
-    <!-- Linha 1: Princípio ativo / Medicamento + Concentração + Via de administração -->
     <div class="drug-row r211">
       <div class="field drug-ac-wrap">
         <label>Princípio ativo / Medicamento *</label>
@@ -1000,7 +975,6 @@ function addDrug() {
       </div>
     </div>
 
-    <!-- Linha 2: Forma farmacêutica + Quantidade da dose + Unidade de medida + Tipo de dose -->
     <div class="drug-row r4">
       <div class="field">
         <label>Forma farmacêutica</label>
@@ -1061,7 +1035,6 @@ function addDrug() {
       </div>
     </div>
 
-    <!-- Linha 3: Periodicidade da dose + Duração + Uso contínuo -->
     <div class="drug-row r211c">
       <div class="field">
         <label>Periodicidade da dose *</label>
@@ -1071,7 +1044,6 @@ function addDrug() {
           <button type="button" class="period-tab">Turno</button>
         </div>
 
-        <!-- Intervalo panel -->
         <div id="d${n}_panel_intervalo" class="interval-panel show">
           <div class="interval-btns">
             <span style="font-size:14.4px;color:#666;margin-right:2px;">A cada</span>
@@ -1093,7 +1065,6 @@ function addDrug() {
           <input type="hidden" id="d${n}_intervalo" value="8h">
         </div>
 
-        <!-- Frequência panel -->
         <div id="d${n}_panel_frequencia" class="freq-panel">
           <div class="interval-btns">
             <span style="font-size:14.4px;color:#666;margin-right:2px;">Vezes ao</span>
@@ -1114,7 +1085,6 @@ function addDrug() {
           <input type="hidden" id="d${n}_frequencia" value="">
         </div>
 
-        <!-- Turno panel -->
         <div id="d${n}_panel_turno" class="turno-panel">
           <div class="turno-checkboxes">
             <label><input type="checkbox" id="d${n}_t_manha"> Manhã</label>
@@ -1145,7 +1115,6 @@ function addDrug() {
       </div>
     </div>
 
-    <!-- Linha 4: Posologia / Instrução adicional -->
     <div class="drug-row r1">
       <div class="field">
         <label>Posologia / Instrução adicional</label>
@@ -1153,7 +1122,6 @@ function addDrug() {
       </div>
     </div>
 
-    <!-- Linha 5: Início + Protocolo + Qtd Prescrita + Unidade fornecimento -->
     <div class="drug-row" style="display:grid;grid-template-columns:1fr 3fr 1fr 1fr;gap:8px;margin-bottom:8px;">
       <div class="field">
         <label>Início do tratamento</label>
@@ -1232,38 +1200,17 @@ function setupDrugAutocomplete(n) {
     els.forEach((el, i) => el.classList.toggle('active', i === idx));
   }
 
-  input.addEventListener('input', function() {
-    renderAc(getMatches(this.value));
-  });
-
-  input.addEventListener('focus', function() {
-    if (this.value.length >= 2) renderAc(getMatches(this.value));
-  });
-
+  input.addEventListener('input', function() { renderAc(getMatches(this.value)); });
+  input.addEventListener('focus', function() { if (this.value.length >= 2) renderAc(getMatches(this.value)); });
   input.addEventListener('keydown', function(e) {
     const els = ac.querySelectorAll('.drug-ac-item');
     if (!els.length || ac.style.display === 'none') return;
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      selectedIdx = Math.min(selectedIdx + 1, els.length - 1);
-      highlight(selectedIdx);
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      selectedIdx = Math.max(selectedIdx - 1, 0);
-      highlight(selectedIdx);
-    } else if (e.key === 'Enter' && selectedIdx >= 0) {
-      e.preventDefault();
-      if (_items[selectedIdx]) applyProtocolToDrug(n, _items[selectedIdx]);
-    } else if (e.key === 'Escape') {
-      ac.style.display = 'none';
-      selectedIdx = -1;
-    }
+    if (e.key === 'ArrowDown')      { e.preventDefault(); selectedIdx = Math.min(selectedIdx + 1, els.length - 1); highlight(selectedIdx); }
+    else if (e.key === 'ArrowUp')   { e.preventDefault(); selectedIdx = Math.max(selectedIdx - 1, 0); highlight(selectedIdx); }
+    else if (e.key === 'Enter' && selectedIdx >= 0) { e.preventDefault(); if (_items[selectedIdx]) applyProtocolToDrug(n, _items[selectedIdx]); }
+    else if (e.key === 'Escape')    { ac.style.display = 'none'; selectedIdx = -1; }
   });
-
-  input.addEventListener('blur', function() {
-    setTimeout(() => { ac.style.display = 'none'; selectedIdx = -1; }, 200);
-  });
-
+  input.addEventListener('blur', function() { setTimeout(() => { ac.style.display = 'none'; selectedIdx = -1; }, 200); });
   ac.addEventListener('mousedown', function(e) {
     const item = e.target.closest('.drug-ac-item');
     if (!item) return;
@@ -1275,20 +1222,15 @@ function setupDrugAutocomplete(n) {
 function applyProtocolToDrug(n, p) {
   const ac = document.getElementById(`d${n}_ac`);
   if (ac) ac.style.display = 'none';
-
   const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
   setVal(`d${n}_nome`, p.nome);
   setVal(`d${n}_conc`, p.conc);
   updateDrugPreview(n);
-
   const viaEl = document.getElementById(`d${n}_via`);
   if (viaEl) {
-    const opt = Array.from(viaEl.options).find(o =>
-      o.value === p.via || o.text.toLowerCase() === p.via.toLowerCase()
-    );
+    const opt = Array.from(viaEl.options).find(o => o.value === p.via || o.text.toLowerCase() === p.via.toLowerCase());
     if (opt) viaEl.value = opt.value;
   }
-
   const formaEl = document.getElementById(`d${n}_forma`);
   if (formaEl) {
     const formaSimple = p.forma.split(/[,/]/)[0].trim();
@@ -1298,10 +1240,8 @@ function applyProtocolToDrug(n, p) {
     );
     if (opt) formaEl.value = opt.value;
   }
-
   setVal(`d${n}_pos`, p.uso);
   setVal(`d${n}_obs`, p.protocolo);
-
   const concEl = document.getElementById(`d${n}_conc`);
   if (concEl) concEl.focus();
 }
@@ -1314,7 +1254,6 @@ function setPeriodTab(n, tab, btn) {
   const panel = document.getElementById(`d${n}_panel_${tab}`);
   panel.classList.add('show');
   panel.style.display = 'block';
-
   btn.closest('.period-tabs').querySelectorAll('.period-tab').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
@@ -1364,11 +1303,8 @@ function syncDurUnit(n) {
   const unit = (document.querySelector(`input[name="d${n}_durun"]:checked`) || {}).value || 'Dia(s)';
   const hidden = document.getElementById(`d${n}_dur`);
   if (!hidden) return;
-  if (unit === 'Duração Indeterminada') {
-    hidden.value = 'Duração Indeterminada';
-  } else {
-    hidden.value = num ? `${num} ${unit}` : '';
-  }
+  if (unit === 'Duração Indeterminada') { hidden.value = 'Duração Indeterminada'; }
+  else { hidden.value = num ? `${num} ${unit}` : ''; }
 }
 
 function removeDrug(n) {
@@ -1454,23 +1390,12 @@ function pluralizeForma(forma, qty) {
   const n = parseFloat(qty);
   if (!forma || n <= 1) return forma;
   const map = {
-    'Comprimido':            'Comprimidos',
-    'Comprimido revestido':  'Comprimidos revestidos',
-    'Cápsula':               'Cápsulas',
-    'Solução oral':          'Soluções orais',
-    'Suspensão oral':        'Suspensões orais',
-    'Xarope':                'Xaropes',
-    'Ampola':                'Ampolas',
-    'Frasco':                'Frascos',
-    'Frasco-ampola':         'Frascos-ampola',
-    'Pomada':                'Pomadas',
-    'Creme':                 'Cremes',
-    'Gel':                   'Géis',
-    'Colírio':               'Colírios',
-    'Spray nasal':           'Sprays nasais',
-    'Inalador':              'Inaladores',
-    'Supositório':           'Supositórios',
-    'Adesivo transdérmico':  'Adesivos transdérmicos',
+    'Comprimido':'Comprimidos','Comprimido revestido':'Comprimidos revestidos',
+    'Cápsula':'Cápsulas','Solução oral':'Soluções orais','Suspensão oral':'Suspensões orais',
+    'Xarope':'Xaropes','Ampola':'Ampolas','Frasco':'Frascos','Frasco-ampola':'Frascos-ampola',
+    'Pomada':'Pomadas','Creme':'Cremes','Gel':'Géis','Colírio':'Colírios',
+    'Spray nasal':'Sprays nasais','Inalador':'Inaladores','Supositório':'Supositórios',
+    'Adesivo transdérmico':'Adesivos transdérmicos',
   };
   return map[forma] || forma;
 }
@@ -1501,26 +1426,20 @@ function getDrugs() {
         periodo = turnos.join(' + ');
       }
     }
-    const pos     = v(`d${n}_pos`);
-    const inicio  = v(`d${n}_inicio`);
-    const dur     = v(`d${n}_dur`);
-    const obs     = v(`d${n}_obs`);
-    const qtdNum2   = v(`d${n}_qtd`);
-    const unidForn  = v(`d${n}_unid_forn`);
-    const qtd  = qtdNum2 && unidForn
-                          ? `${qtdNum2} ${pluralize(unidForn, qtdNum2)}`
-                          : qtdNum2 || '';
-    const continuo = document.getElementById(`d${n}_continuo`)?.checked ? 'Uso contínuo' : '';
-
-    const partes = [];
+    const pos      = v(`d${n}_pos`);
+    const inicio   = v(`d${n}_inicio`);
+    const dur      = v(`d${n}_dur`);
+    const obs      = v(`d${n}_obs`);
+    const qtdNum2  = v(`d${n}_qtd`);
+    const unidForn = v(`d${n}_unid_forn`);
+    const qtd      = qtdNum2 && unidForn ? `${qtdNum2} ${pluralize(unidForn, qtdNum2)}` : qtdNum2 || '';
+    const partes   = [];
     if (qtddose && unidade) partes.push(`${qtddose} ${pluralize(unidade, qtddose)}`);
     if (via) partes.push(via);
     if (tipodose && tipodose !== 'Comum') partes.push(`(${tipodose})`);
     if (periodo) partes.push(periodo);
     if (pos) partes.push(pos);
-
     const qtdNum = parseFloat(qtd) || parseFloat(qtddose) || 0;
-
     return {
       tipo:     (document.getElementById('di_' + n)?.dataset?.tipo) || 'simples',
       nome:     nome + (conc ? ' ' + conc : ''),
@@ -1528,7 +1447,7 @@ function getDrugs() {
       qtd:      qtd || (qtddose && unidade ? `${qtddose} ${pluralize(unidade, qtddose)}` : qtddose),
       pos:      partes.join(' | '),
       inicio,
-      dur:      dur,
+      dur,
       obs,
       continuo: !!document.getElementById(`d${n}_continuo`)?.checked,
     };
@@ -1549,9 +1468,9 @@ function fmtLong(iso) {
 }
 
 const typeTitles = {
-  especial:   'RECEITUÁRIO DE CONTROLE ESPECIAL',
-  simples:    'RECEITUÁRIO SIMPLES',
-  antibiotico:'RECEITUÁRIO DE CONTROLE ESPECIAL',
+  especial:    'RECEITUÁRIO DE CONTROLE ESPECIAL',
+  simples:     'RECEITUÁRIO SIMPLES',
+  antibiotico: 'RECEITUÁRIO DE CONTROLE ESPECIAL',
 };
 const viaLabels = {
   especial:    ['1ª VIA - RETENÇÃO NA FARMÁCIA OU DROGARIA', '2ª VIA - ORIENTAÇÃO AO PACIENTE'],
@@ -1560,7 +1479,8 @@ const viaLabels = {
 };
 
 const LOGO_B64 = "saude-logo-512.png";
-  /* ══════════════════════════════════════════
+
+/* ══════════════════════════════════════════
    PDF GENERATION
 ══════════════════════════════════════════ */
 function generatePDF(mode = 'save') {
@@ -1582,395 +1502,373 @@ function generatePDF(mode = 'save') {
 
   grupos.forEach((grupo, gi) => {
     const d = {
-      tipo:       grupo.tipo,
-      u_estado:   v('u_estado'),
+      tipo:        grupo.tipo,
+      u_estado:    v('u_estado'),
       u_municipio: v('u_municipio'),
-      u_unidade:  v('u_unidade'),
-      e_nome:     v('e_nome'),
-      e_cpf:      v('e_cpf'),
-      e_telefone: v('e_telefone'),
-      e_conselho: v('e_conselho'),
-      e_end:      v('e_end'),
-      e_cargo:    v('e_cargo'),
-      p_nome:     v('p_nome'),
-      p_doc:      v('p_doc'),
-      p_nasc:     v('p_nasc'),
-      p_end:      v('p_end'),
-      sig_cidade: v('sig_cidade'),
-      sig_data:   v('sig_data'),
-      drugs:      grupo.drugs,
+      u_unidade:   v('u_unidade'),
+      e_nome:      v('e_nome'),
+      e_cpf:       v('e_cpf'),
+      e_telefone:  v('e_telefone'),
+      e_conselho:  v('e_conselho'),
+      e_end:       v('e_end'),
+      e_cargo:     v('e_cargo'),
+      p_nome:      v('p_nome'),
+      p_doc:       v('p_doc'),
+      p_nasc:      v('p_nasc'),
+      p_end:       v('p_end'),
+      sig_cidade:  v('sig_cidade'),
+      sig_data:    v('sig_data'),
+      drugs:       grupo.drugs,
     };
 
-  const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-  const PW = 297, PH = 210, half = PW / 2;
+    const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+    const PW = 297, PH = 210, half = PW / 2;
 
-  function fit(text, maxW, fs, font = 'helvetica', style = 'normal') {
-    if (!text) return '';
-    doc.setFont(font, style);
-    doc.setFontSize(fs);
-    let t = text;
-    while (doc.getTextWidth(t) > maxW && t.length > 1) t = t.slice(0, -1);
-    return t.length < text.length ? t.trimEnd() + '…' : t;
-  }
-
-  function drawVia(ox, viaIdx, pgAtual, pgTotal) {
-    const lm = ox + 7, cw = half - 14, rm = lm + cw;
-
-    const SP = {
-      topoY:            5,
-      logoW:            30,
-      logoAposLinha:    2,
-      tituloApos:       14,
-      sectionAposLabel: 1.5,
-      sectionAposLinha: 4.5,
-      emitenteLinha:    4,
-      emitenteApos:     2,
-      cidadaoLinha:     4,
-      cidadaoApos:      2,
-      nomeLinhaPasso:   4.3,
-      nomeY:            3.8,
-      headerMinH:       9,
-      headerPadding:    1.5,
-      posologiaInicioY: 3.8,
-      posologiaLinha:   4,
-      cardPaddingInf:   1.5,
-      entreCards:       1.2,
-      aposSection:      4,
-    };
-
-    let y = SP.topoY;
-
-    const logoH = SP.logoW * 104 / 259;
-    doc.addImage(LOGO_B64, 'JPEG', lm, y, SP.logoW, logoH);
-
-    const tx = lm + SP.logoW + 4;
-    doc.setTextColor(0);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(8);
-    doc.text(`MUNICIPIO DE ${d.u_municipio}`, tx, y + 5);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7);
-    doc.text(`UNIDADE DE SAUDE: ${fit(d.u_unidade, cw - SP.logoW - 8, 7)}`, tx, y + 11);
-
-    doc.setDrawColor(0);
-    doc.setLineWidth(0.3);
-    doc.line(lm, y + logoH + 1, rm, y + logoH + 1);
-    y += logoH + SP.logoAposLinha;
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(10);
-    doc.text(typeTitles[d.tipo], lm, y + 4);
-    doc.setFontSize(6);
-    doc.text(viaLabels[d.tipo][viaIdx], rm, y + 4, { align: 'right' });
-    doc.line(lm, y + 6.5, rm, y + 6.5);
-    y += SP.tituloApos;
-
-    function section(label) {
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9);
-      doc.setTextColor(0);
-      doc.text(label, lm, y);
-      y += SP.sectionAposLabel;
-      doc.setDrawColor(160);
-      doc.setLineWidth(0.2);
-      doc.line(lm, y, rm, y);
-      y += SP.sectionAposLinha;
+    function fit(text, maxW, fs, font = 'helvetica', style = 'normal') {
+      if (!text) return '';
+      doc.setFont(font, style);
+      doc.setFontSize(fs);
+      let t = text;
+      while (doc.getTextWidth(t) > maxW && t.length > 1) t = t.slice(0, -1);
+      return t.length < text.length ? t.trimEnd() + '…' : t;
     }
 
-    section('EMITENTE');
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10.5);
-    const emLine = `${d.e_nome}${d.e_conselho ? ' (' + d.e_conselho + ')' : ''}`;
-    doc.text(fit(emLine, cw - 4, 10.5), lm + 3, y);
-    if (d.e_cpf) { doc.text(`CPF: ${d.e_cpf}`, rm, y, { align: 'right' }); }
-    y += SP.emitenteLinha;
-    if (d.e_end) {
-      doc.text(fit(d.e_end, cw - 4, 10.5), lm + 3, y);
-      if (d.e_telefone) { doc.text(`Tel.: ${d.e_telefone}`, rm, y, { align: 'right' }); }
+    function drawVia(ox, viaIdx, pgAtual, pgTotal) {
+      const lm = ox + 7, cw = half - 14, rm = lm + cw;
+      const SP = {
+        topoY:            5,
+        logoW:            30,
+        logoAposLinha:    2,
+        tituloApos:       14,
+        sectionAposLabel: 1.5,
+        sectionAposLinha: 4.5,
+        emitenteLinha:    4,
+        emitenteApos:     2,
+        cidadaoLinha:     4,
+        cidadaoApos:      2,
+        nomeLinhaPasso:   4.3,
+        nomeY:            3.8,
+        headerMinH:       9,
+        headerPadding:    1.5,
+        posologiaInicioY: 3.8,
+        posologiaLinha:   4,
+        cardPaddingInf:   1.5,
+        entreCards:       1.2,
+        aposSection:      4,
+      };
+      let y = SP.topoY;
+
+      const logoH = SP.logoW * 104 / 259;
+      doc.addImage(LOGO_B64, 'JPEG', lm, y, SP.logoW, logoH);
+
+      const tx = lm + SP.logoW + 4;
+      doc.setTextColor(0);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.text(`MUNICIPIO DE ${d.u_municipio}`, tx, y + 5);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7);
+      doc.text(`UNIDADE DE SAUDE: ${fit(d.u_unidade, cw - SP.logoW - 8, 7)}`, tx, y + 11);
+      doc.setDrawColor(0);
+      doc.setLineWidth(0.3);
+      doc.line(lm, y + logoH + 1, rm, y + logoH + 1);
+      y += logoH + SP.logoAposLinha;
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      doc.text(typeTitles[d.tipo], lm, y + 4);
+      doc.setFontSize(6);
+      doc.text(viaLabels[d.tipo][viaIdx], rm, y + 4, { align: 'right' });
+      doc.line(lm, y + 6.5, rm, y + 6.5);
+      y += SP.tituloApos;
+
+      function section(label) {
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        doc.setTextColor(0);
+        doc.text(label, lm, y);
+        y += SP.sectionAposLabel;
+        doc.setDrawColor(160);
+        doc.setLineWidth(0.2);
+        doc.line(lm, y, rm, y);
+        y += SP.sectionAposLinha;
+      }
+
+      section('EMITENTE');
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10.5);
+      const emLine = `${d.e_nome}${d.e_conselho ? ' (' + d.e_conselho + ')' : ''}`;
+      doc.text(fit(emLine, cw - 4, 10.5), lm + 3, y);
+      if (d.e_cpf) { doc.text(`CPF: ${d.e_cpf}`, rm, y, { align: 'right' }); }
       y += SP.emitenteLinha;
-    }
-    y += SP.emitenteApos;
+      if (d.e_end) {
+        doc.text(fit(d.e_end, cw - 4, 10.5), lm + 3, y);
+        if (d.e_telefone) { doc.text(`Tel.: ${d.e_telefone}`, rm, y, { align: 'right' }); }
+        y += SP.emitenteLinha;
+      }
+      y += SP.emitenteApos;
 
-    section('CIDADÃO');
-    doc.setFontSize(10.5);
-    const cidNasc = d.p_nasc ? ` — Nasc.: ${fmtShort(d.p_nasc)}` : '';
-    const cidLine = `${d.p_nome.toUpperCase()}${d.p_doc ? ' - ' + d.p_doc : ''}${cidNasc}`;
-    doc.text(fit(cidLine, cw - 4, 10.5), lm + 3, y); y += SP.cidadaoLinha;
-    if (d.p_end) { doc.text(fit(d.p_end, cw - 4, 10.5), lm + 3, y); y += SP.cidadaoLinha; }
-    y += SP.cidadaoApos;
+      section('CIDADÃO');
+      doc.setFontSize(10.5);
+      const cidNasc = d.p_nasc ? ` — Nasc.: ${fmtShort(d.p_nasc)}` : '';
+      const cidLine = `${d.p_nome.toUpperCase()}${d.p_doc ? ' - ' + d.p_doc : ''}${cidNasc}`;
+      doc.text(fit(cidLine, cw - 4, 10.5), lm + 3, y); y += SP.cidadaoLinha;
+      if (d.p_end) { doc.text(fit(d.p_end, cw - 4, 10.5), lm + 3, y); y += SP.cidadaoLinha; }
+      y += SP.cidadaoApos;
 
-    section('MEDICAMENTOS');
-    y -= 2;
-    d.drugs.forEach((dr, i) => {
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9.0);
-      const continuoTag  = ' — uso contínuo';
-      const continuoW    = dr.continuo ? (() => {
-        doc.setFont('helvetica', 'bolditalic'); doc.setFontSize(8.0);
-        const w = doc.getTextWidth(continuoTag);
-        doc.setFont('helvetica', 'bold'); doc.setFontSize(9.0);
-        return w;
-      })() : 0;
+      section('MEDICAMENTOS');
+      y -= 2;
+      d.drugs.forEach((dr, i) => {
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9.0);
+        const continuoTag  = ' — uso contínuo';
+        const continuoW    = dr.continuo ? (() => {
+          doc.setFont('helvetica', 'bolditalic'); doc.setFontSize(8.0);
+          const w = doc.getTextWidth(continuoTag);
+          doc.setFont('helvetica', 'bold'); doc.setFontSize(9.0);
+          return w;
+        })() : 0;
 
-      const nomeMaxW = cw * 0.63;
-      const nomeTexto = `${i+1}. ${dr.nome}`;
-      const nomeLines = doc.splitTextToSize(nomeTexto, nomeMaxW);
+        const nomeMaxW = cw * 0.63;
+        const nomeTexto = `${i+1}. ${dr.nome}`;
+        const nomeLines = doc.splitTextToSize(nomeTexto, nomeMaxW);
+        const ultimaLinhaW = doc.getTextWidth(nomeLines[nomeLines.length - 1]);
+        const continuoNaLinhaFinal = dr.continuo && (ultimaLinhaW + continuoW + 1) <= nomeMaxW;
+        const continuoLinhaExtra   = dr.continuo && !continuoNaLinhaFinal;
+        const nomeLinhas = nomeLines.length + (continuoLinhaExtra ? 1 : 0);
+        const nomeH   = nomeLinhas * SP.nomeLinhaPasso;
+        const headerH = Math.max(SP.headerMinH, nomeH + SP.headerPadding);
+        const posLines = dr.pos ? doc.splitTextToSize(dr.pos, cw - 8) : [];
+        let info = '';
+        if (dr.inicio) info = `A partir de ${fmtShort(dr.inicio)}`;
+        if (dr.dur)    info += (info ? ' durante ' : '') + dr.dur;
+        const boxH = headerH + posLines.length * SP.posologiaLinha + (info ? SP.posologiaLinha : 0) + SP.cardPaddingInf;
 
-      const ultimaLinhaW = doc.getTextWidth(nomeLines[nomeLines.length - 1]);
-      const continuoNaLinhaFinal = dr.continuo && (ultimaLinhaW + continuoW + 1) <= nomeMaxW;
-      const continuoLinhaExtra   = dr.continuo && !continuoNaLinhaFinal;
+        doc.setDrawColor(180);
+        doc.setLineWidth(0.2);
+        doc.rect(lm, y, cw, boxH);
+        doc.line(lm, y + headerH, rm, y + headerH);
 
-      const nomeLinhas = nomeLines.length + (continuoLinhaExtra ? 1 : 0);
-      const nomeH   = nomeLinhas * SP.nomeLinhaPasso;
-      const headerH = Math.max(SP.headerMinH, nomeH + SP.headerPadding);
+        const nomeHTotal = nomeLinhas * SP.nomeLinhaPasso;
+        const nomeYStart = y + (headerH - nomeHTotal) / 2 + SP.nomeLinhaPasso * 0.75;
 
-      const posLines = dr.pos ? doc.splitTextToSize(dr.pos, cw - 8) : [];
-      let info = '';
-      if (dr.inicio) info = `A partir de ${fmtShort(dr.inicio)}`;
-      if (dr.dur)    info += (info ? ' durante ' : '') + dr.dur;
-      const boxH = headerH + posLines.length * SP.posologiaLinha + (info ? SP.posologiaLinha : 0) + SP.cardPaddingInf;
-
-      doc.setDrawColor(180);
-      doc.setLineWidth(0.2);
-      doc.rect(lm, y, cw, boxH);
-      doc.line(lm, y + headerH, rm, y + headerH);
-
-      const nomeHTotal = nomeLinhas * SP.nomeLinhaPasso;
-      const nomeYStart = y + (headerH - nomeHTotal) / 2 + SP.nomeLinhaPasso * 0.75;
-
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9.0);
-      doc.setTextColor(0);
-      nomeLines.forEach((linha, li) => {
-        doc.text(linha, lm + 2, nomeYStart + li * SP.nomeLinhaPasso);
-        if (dr.continuo && li === nomeLines.length - 1 && continuoNaLinhaFinal) {
-          const xApos = lm + 2 + doc.getTextWidth(linha) + 1;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9.0);
+        doc.setTextColor(0);
+        nomeLines.forEach((linha, li) => {
+          doc.text(linha, lm + 2, nomeYStart + li * SP.nomeLinhaPasso);
+          if (dr.continuo && li === nomeLines.length - 1 && continuoNaLinhaFinal) {
+            const xApos = lm + 2 + doc.getTextWidth(linha) + 1;
+            doc.setFont('helvetica', 'bolditalic');
+            doc.setFontSize(8.0);
+            doc.setTextColor(80);
+            doc.text(continuoTag, xApos, nomeYStart + li * SP.nomeLinhaPasso);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(9.0);
+            doc.setTextColor(0);
+          }
+        });
+        if (continuoLinhaExtra) {
           doc.setFont('helvetica', 'bolditalic');
           doc.setFontSize(8.0);
           doc.setTextColor(80);
-          doc.text(continuoTag, xApos, nomeYStart + li * SP.nomeLinhaPasso);
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(9.0);
+          doc.text(continuoTag, lm + 5, nomeYStart + nomeLines.length * SP.nomeLinhaPasso);
           doc.setTextColor(0);
         }
+
+        const midH = y + headerH / 2;
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(9);
+        if (dr.qtd)  { doc.text(dr.qtd,   rm - 2, midH - 1.5, { align: 'right' }); }
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        if (dr.forma){ doc.text(dr.forma,  rm - 2, midH + 2.5, { align: 'right' }); }
+
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9.5);
+        let ty = y + headerH + SP.posologiaInicioY;
+        posLines.forEach(l => { doc.text(l, lm + 3, ty); ty += SP.posologiaLinha; });
+        if (info) { doc.setTextColor(60); doc.text(info, lm + 3, ty); doc.setTextColor(0); }
+
+        y += boxH + SP.entreCards;
       });
-      if (continuoLinhaExtra) {
-        doc.setFont('helvetica', 'bolditalic');
-        doc.setFontSize(8.0);
-        doc.setTextColor(80);
-        doc.text(continuoTag, lm + 5, nomeYStart + nomeLines.length * SP.nomeLinhaPasso);
-        doc.setTextColor(0);
-      }
 
-      const midH = y + headerH / 2;
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(9);
-      if (dr.qtd)  { doc.text(dr.qtd,   rm - 2, midH - 1.5, { align: 'right' }); }
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(8);
-      if (dr.forma){ doc.text(dr.forma,  rm - 2, midH + 2.5, { align: 'right' }); }
+      y += SP.aposSection;
 
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9.5);
-      let ty = y + headerH + SP.posologiaInicioY;
-      posLines.forEach(l => { doc.text(l, lm + 3, ty); ty += SP.posologiaLinha; });
-      if (info) { doc.setTextColor(60); doc.text(info, lm + 3, ty); doc.setTextColor(0); }
+      const sanitize = s => s
+        .replace(/[\u2013\u2014]/g, '-')
+        .replace(/[\u2018\u2019]/g, "'")
+        .replace(/[\u201C\u201D]/g, '"')
+        .replace(/\u2265/g, '>= ')
+        .replace(/\u2264/g, '<= ')
+        .replace(/[^\x00-\xFF]/g, '?');
 
-      y += boxH + SP.entreCards;
-    });
-
-    y += SP.aposSection;
-
-    const sanitize = s => s
-      .replace(/[\u2013\u2014]/g, '-')
-      .replace(/[\u2018\u2019]/g, "'")
-      .replace(/[\u201C\u201D]/g, '"')
-      .replace(/\u2265/g, '>= ')
-      .replace(/\u2264/g, '<= ')
-      .replace(/[^\x00-\xFF]/g, '?');
-
-    const protocolosList = [...new Set(d.drugs.map(dr => dr.obs).filter(Boolean))];
-    if (protocolosList.length) {
-      section('PROTOCOLOS/DOCUMENTOS DE REFERÊNCIA (MS)');
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9);
-      doc.setTextColor(40);
-      protocolosList.forEach((prot, idx) => {
-        const prefix = `${idx + 1}. `;
-        const clean = sanitize(prefix + prot);
-        const lines = doc.splitTextToSize(clean, cw - 10);
-        lines.forEach((l, li) => {
-          doc.text(l, li === 0 ? lm + 3 : lm + 7, y);
-          y += 3;
+      const protocolosList = [...new Set(d.drugs.map(dr => dr.obs).filter(Boolean))];
+      if (protocolosList.length) {
+        section('PROTOCOLOS/DOCUMENTOS DE REFERÊNCIA (MS)');
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(40);
+        protocolosList.forEach((prot, idx) => {
+          const prefix = `${idx + 1}. `;
+          const clean = sanitize(prefix + prot);
+          const lines = doc.splitTextToSize(clean, cw - 10);
+          lines.forEach((l, li) => { doc.text(l, li === 0 ? lm + 3 : lm + 7, y); y += 3; });
+          y += 1;
         });
-        y += 1;
-      });
-      doc.setTextColor(0);
-      y += 2;
-    }
+        doc.setTextColor(0);
+        y += 2;
+      }
 
-    const sigDate = fmtLong(d.sig_data);
-    const sigLine = `${d.sig_cidade}${sigDate ? ', ' + sigDate : ''}`;
-    const cx = lm + cw / 2;
+      const sigDate = fmtLong(d.sig_data);
+      const sigLine = `${d.sig_cidade}${sigDate ? ', ' + sigDate : ''}`;
+      const cx = lm + cw / 2;
+      const sigLineW = cw * 0.55;
+      const sigStartX = lm + (cw - sigLineW) / 2;
+      const sigEndX   = sigStartX + sigLineW;
+      const boxH = 22;
 
-    const sigLineW = cw * 0.55;
-    const sigStartX = lm + (cw - sigLineW) / 2;
-    const sigEndX   = sigStartX + sigLineW;
-    const boxH = 22;
-
-    doc.setDrawColor(0);
-    doc.setLineWidth(0.3);
-    doc.line(sigStartX, y + boxH - 11, sigEndX, y + boxH - 11);
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(7);
-    doc.setTextColor(0);
-    doc.text(fit(d.e_nome, sigLineW, 7, 'helvetica', 'bold'), cx, y + boxH - 8.5, { align: 'center' });
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(6.5);
-    if (d.e_conselho) {
-      doc.text(fit(d.e_conselho, sigLineW, 6.5), cx, y + boxH - 6, { align: 'center' });
-    }
-    if (d.e_cargo) {
-      doc.text(fit(d.e_cargo, sigLineW, 6.5), cx, y + boxH - 3.5, { align: 'center' });
-    }
-
-    y += boxH + 0.5;
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(6.5);
-    doc.setTextColor(60);
-    doc.text(fit(sigLine, cw, 8), cx, y, { align: 'center' });
-    doc.setTextColor(0);
-
-    if (d.tipo === 'antibiotico') {
-      const compY = PH - 49;
-      const compH = 26;
-      doc.setFillColor(240, 240, 240);
       doc.setDrawColor(0);
-      doc.setLineWidth(0.25);
-      doc.rect(lm, compY, cw, compH);
-      doc.rect(lm, compY, cw, 5.5, 'F');
-      doc.setFont('helvetica', 'bold'); doc.setFontSize(6.5); doc.setTextColor(0);
-      doc.text('IDENTIFICACAO DO COMPRADOR', cx, compY + 3.8, { align: 'center' });
+      doc.setLineWidth(0.3);
+      doc.line(sigStartX, y + boxH - 11, sigEndX, y + boxH - 11);
 
-      const cb = compY + 7;
-      function ufield(lbl, x1, x2, yy) {
-        doc.setFont('helvetica', 'bold'); doc.setFontSize(6.5);
-        const lw = doc.getTextWidth(lbl);
-        doc.text(lbl, x1, yy);
-        doc.setDrawColor(100); doc.setLineWidth(0.2);
-        doc.line(x1 + lw + 1, yy, x2, yy);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(7);
+      doc.setTextColor(0);
+      doc.text(fit(d.e_nome, sigLineW, 7, 'helvetica', 'bold'), cx, y + boxH - 8.5, { align: 'center' });
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.5);
+      if (d.e_conselho) { doc.text(fit(d.e_conselho, sigLineW, 6.5), cx, y + boxH - 6,   { align: 'center' }); }
+      if (d.e_cargo)    { doc.text(fit(d.e_cargo,    sigLineW, 6.5), cx, y + boxH - 3.5, { align: 'center' }); }
+      y += boxH + 0.5;
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.5);
+      doc.setTextColor(60);
+      doc.text(fit(sigLine, cw, 8), cx, y, { align: 'center' });
+      doc.setTextColor(0);
+
+      if (d.tipo === 'antibiotico') {
+        const compY = PH - 49;
+        const compH = 26;
+        doc.setFillColor(240, 240, 240);
+        doc.setDrawColor(0);
+        doc.setLineWidth(0.25);
+        doc.rect(lm, compY, cw, compH);
+        doc.rect(lm, compY, cw, 5.5, 'F');
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(6.5); doc.setTextColor(0);
+        doc.text('IDENTIFICACAO DO COMPRADOR', cx, compY + 3.8, { align: 'center' });
+        const cb = compY + 7;
+        function ufield(lbl, x1, x2, yy) {
+          doc.setFont('helvetica', 'bold'); doc.setFontSize(6.5);
+          const lw = doc.getTextWidth(lbl);
+          doc.text(lbl, x1, yy);
+          doc.setDrawColor(100); doc.setLineWidth(0.2);
+          doc.line(x1 + lw + 1, yy, x2, yy);
+        }
+        ufield('Nome:',         lm + 2,          rm - 2,           cb + 3);
+        ufield('Ident.:',       lm + 2,           lm + cw * .48,   cb + 8);
+        ufield('Org. emissor:', lm + cw * .5,     rm - 2,           cb + 8);
+        ufield('End.:',         lm + 2,           rm - 2,           cb + 13);
+        ufield('Cidade:',       lm + 2,           lm + cw * .52,   cb + 18);
+        ufield('UF:',           lm + cw * .54,    lm + cw * .67,   cb + 18);
+        ufield('Telefone:',     lm + cw * .69,    rm - 2,           cb + 18);
+
+        const fornY = compY + compH + 1.5;
+        const fornH = 14;
+        doc.setDrawColor(0); doc.setLineWidth(0.25);
+        doc.rect(lm, fornY, cw, fornH);
+        doc.setFillColor(240, 240, 240);
+        doc.rect(lm, fornY, cw, 5.5, 'F');
+        doc.rect(lm, fornY, cw, 5.5);
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(6.5); doc.setTextColor(0);
+        doc.text('IDENTIFICACAO DO FORNECEDOR', cx, fornY + 3.8, { align: 'center' });
+        const fb = fornY + 9;
+        doc.setDrawColor(0); doc.setLineWidth(0.25);
+        doc.line(lm + 4, fb + 2, lm + cw * .44, fb + 2);
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(6);
+        doc.text('Assinatura do farmaceutico', lm + cw * .23, fb + 4.5, { align: 'center' });
+        const dx = lm + cw * .68;
+        doc.line(dx,      fb + 2, dx + 8,  fb + 2);
+        doc.text('/', dx + 9,  fb + 2);
+        doc.line(dx + 10, fb + 2, dx + 18, fb + 2);
+        doc.text('/', dx + 19, fb + 2);
+        doc.line(dx + 20, fb + 2, dx + 30, fb + 2);
+        doc.text('Data de fornecimento', dx + 15, fb + 4.5, { align: 'center' });
       }
-      ufield('Nome:',         lm + 2, rm - 2,          cb + 3);
-      ufield('Ident.:',       lm + 2, lm + cw * .48,   cb + 8);
-      ufield('Org. emissor:', lm + cw * .5, rm - 2,    cb + 8);
-      ufield('End.:',         lm + 2, rm - 2,          cb + 13);
-      ufield('Cidade:',       lm + 2, lm + cw * .52,   cb + 18);
-      ufield('UF:',           lm + cw * .54, lm + cw * .67, cb + 18);
-      ufield('Telefone:',     lm + cw * .69, rm - 2,   cb + 18);
 
-      const fornY = compY + compH + 1.5;
-      const fornH = 14;
-      doc.setDrawColor(0); doc.setLineWidth(0.25);
-      doc.rect(lm, fornY, cw, fornH);
-      doc.setFillColor(240, 240, 240);
-      doc.rect(lm, fornY, cw, 5.5, 'F');
-      doc.rect(lm, fornY, cw, 5.5);
-      doc.setFont('helvetica', 'bold'); doc.setFontSize(6.5); doc.setTextColor(0);
-      doc.text('IDENTIFICACAO DO FORNECEDOR', cx, fornY + 3.8, { align: 'center' });
-
-      const fb = fornY + 9;
-      doc.setDrawColor(0); doc.setLineWidth(0.25);
-      doc.line(lm + 4, fb + 2, lm + cw * .44, fb + 2);
-      doc.setFont('helvetica', 'normal'); doc.setFontSize(6);
-      doc.text('Assinatura do farmaceutico', lm + cw * .23, fb + 4.5, { align: 'center' });
-      const dx = lm + cw * .68;
-      doc.line(dx,      fb + 2, dx + 8,  fb + 2);
-      doc.text('/', dx + 9,  fb + 2);
-      doc.line(dx + 10, fb + 2, dx + 18, fb + 2);
-      doc.text('/', dx + 19, fb + 2);
-      doc.line(dx + 20, fb + 2, dx + 30, fb + 2);
-      doc.text('Data de fornecimento', dx + 15, fb + 4.5, { align: 'center' });
+      const nowStr = new Date().toLocaleString('pt-BR');
+      doc.setFont('helvetica', 'normal'); doc.setFontSize(5); doc.setTextColor(120);
+      doc.text(`Impresso em ${nowStr} por ${d.e_nome}.`, lm, PH - 2);
+      const paginaStr = (pgTotal > 1) ? `Receita ${pgAtual} / ${pgTotal}` : '1 / 1';
+      doc.text(paginaStr, rm, PH - 2, { align: 'right' });
+      doc.setTextColor(0);
     }
 
-    const nowStr = new Date().toLocaleString('pt-BR');
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(5); doc.setTextColor(120);
-    doc.text(`Impresso em ${nowStr} por ${d.e_nome}.`, lm, PH - 2);
-    const paginaStr = (pgTotal > 1) ? `Receita ${pgAtual} / ${pgTotal}` : '1 / 1';
-    doc.text(paginaStr, rm, PH - 2, { align: 'right' });
-    doc.setTextColor(0);
-  }
-
-  function drawDivider() {
-    doc.setDrawColor(140);
-    doc.setLineDashPattern([1.5, 1.5], 0);
-    doc.line(half, 2, half, PH - 2);
-    doc.setLineDashPattern([], 0);
-  }
-
-  function calcNomeLines(dr) {
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9.0);
-    const nomeMaxW = (half - 14) * 0.63;
-    return doc.splitTextToSize(`1. ${dr.nome}`, nomeMaxW).length;
-  }
-
-  const allDrugs = d.drugs;
-
-  let lotes = [];
-  if (d.tipo !== 'antibiotico') {
-    lotes = [allDrugs];
-  } else {
-    let lote = [];
-    for (const dr of allDrugs) {
-      const linhas = calcNomeLines(dr);
-      const nomeQuebraTexto = linhas > 1;
-      if (nomeQuebraTexto) {
-        if (lote.length) { lotes.push(lote); lote = []; }
-        lotes.push([dr]);
-      } else {
-        lote.push(dr);
-        if (lote.length === 2) { lotes.push(lote); lote = []; }
-      }
+    function drawDivider() {
+      doc.setDrawColor(140);
+      doc.setLineDashPattern([1.5, 1.5], 0);
+      doc.line(half, 2, half, PH - 2);
+      doc.setLineDashPattern([], 0);
     }
-    if (lote.length) lotes.push(lote);
-  }
 
-  const totalPaginas = lotes.length || 1;
+    function calcNomeLines(dr) {
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9.0);
+      const nomeMaxW = (half - 14) * 0.63;
+      return doc.splitTextToSize(`1. ${dr.nome}`, nomeMaxW).length;
+    }
 
-  for (let pgIdx = 0; pgIdx < totalPaginas; pgIdx++) {
-    if (pgIdx > 0) doc.addPage();
-    d.drugs = lotes[pgIdx] || [];
-    drawDivider();
-    drawVia(0, 0, pgIdx + 1, totalPaginas);
-    drawVia(half, 1, pgIdx + 1, totalPaginas);
-  }
+    const allDrugs = d.drugs;
+    let lotes = [];
+    if (d.tipo !== 'antibiotico') {
+      lotes = [allDrugs];
+    } else {
+      let lote = [];
+      for (const dr of allDrugs) {
+        const linhas = calcNomeLines(dr);
+        const nomeQuebraTexto = linhas > 1;
+        if (nomeQuebraTexto) {
+          if (lote.length) { lotes.push(lote); lote = []; }
+          lotes.push([dr]);
+        } else {
+          lote.push(dr);
+          if (lote.length === 2) { lotes.push(lote); lote = []; }
+        }
+      }
+      if (lote.length) lotes.push(lote);
+    }
 
-  d.drugs = allDrugs;
+    const totalPaginas = lotes.length || 1;
+    for (let pgIdx = 0; pgIdx < totalPaginas; pgIdx++) {
+      if (pgIdx > 0) doc.addPage();
+      d.drugs = lotes[pgIdx] || [];
+      drawDivider();
+      drawVia(0, 0, pgIdx + 1, totalPaginas);
+      drawVia(half, 1, pgIdx + 1, totalPaginas);
+    }
+    d.drugs = allDrugs;
 
-  const tipoSufixo = grupo.tipo === 'antibiotico' ? '_antibiotico' : '_simples';
-  const grupoSufixo = grupos.length > 1 ? `_${gi + 1}` : '';
-  const fname = `receita_${(d.p_nome||'paciente').split(' ')[0].toLowerCase()}${tipoSufixo}${grupoSufixo}_${d.sig_data}.pdf`;
-  if (mode === 'print') {
-    doc.autoPrint();
-    const blobUrl = doc.output('bloburl');
-    const win = window.open(blobUrl, '_blank');
-    if (!win) alert('Permita pop-ups neste site para abrir a janela de impressão.');
-  } else {
-    doc.save(fname);
-  }
+    const tipoSufixo  = grupo.tipo === 'antibiotico' ? '_antibiotico' : '_simples';
+    const grupoSufixo = grupos.length > 1 ? `_${gi + 1}` : '';
+    const fname = `receita_${(d.p_nome||'paciente').split(' ')[0].toLowerCase()}${tipoSufixo}${grupoSufixo}_${d.sig_data}.pdf`;
+    if (mode === 'print') {
+      doc.autoPrint();
+      const blobUrl = doc.output('bloburl');
+      const win = window.open(blobUrl, '_blank');
+      if (!win) alert('Permita pop-ups neste site para abrir a janela de impressão.');
+    } else {
+      doc.save(fname);
+    }
   });
 }
 
 function printPDF() { generatePDF('print'); }
 
-
 /* ══════════════════════════════════════════
-   PROTOCOL DATA (Secretaria de Saúde Varjota)
+   PROTOCOL DATA
 ══════════════════════════════════════════ */
 const PROTOCOLS = [
-  // 1. IST, saúde sexual e reprodutiva
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Aciclovir", conc: "200mg", forma: "Comprimido", via: "Oral", uso: "Herpes genital", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas , 2024" },
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Benzilpenicilina benzatina", conc: "1,2 milhão UI", forma: "Suspensão injetável", via: "Intramuscular", uso: "", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas, 2024; Portaria MS nº 156/2006" },
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Doxiciclina", conc: "100mg", forma: "Comprimido", via: "Oral", uso: "", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas , 2024" },
@@ -1988,7 +1886,6 @@ const PROTOCOLS = [
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Ácido tricloroacético (ATA)", conc: "80–90%", forma: "Solução tópica", via: "Tópica", uso: "", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas, 2024" },
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Podofilina", conc: "10–25%", forma: "Solução tópica", via: "Tópica", uso: "", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas, 2024" },
   { group: "1. IST, saúde sexual e reprodutiva", nome: "Imiquimode", conc: "50mg/g", forma: "Creme", via: "Tópica", uso: "", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas, 2024" },
-  // 2. Contracepção e saúde sexual/reprodutiva
   { group: "2. Contracepção e saúde sexual/reprodutiva", nome: "Etinilestradiol + levonorgestrel", conc: "0,03mg + 0,15mg", forma: "Comprimido", via: "Oral", uso: "Contracepção hormonal combinada oral", protocolo: "Saúde Sexual e Saúde Reprodutiva (Caderno de Atenção Básica nº 26), 2010; Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "2. Contracepção e saúde sexual/reprodutiva", nome: "Etinilestradiol + desogestrel", conc: "20mcg + 150mcg / 30mcg + 150mcg", forma: "Comprimido", via: "Oral", uso: "Contracepção hormonal combinada oral", protocolo: "Saúde Sexual e Saúde Reprodutiva (Caderno de Atenção Básica nº 26), 2010; Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "2. Contracepção e saúde sexual/reprodutiva", nome: "Etinilestradiol + gestodeno", conc: "20mcg + 75mcg / 30mcg + 75mcg", forma: "Cartela de 21/28 Comprimidos", via: "Oral", uso: "Contracepção hormonal combinada oral", protocolo: "Saúde Sexual e Saúde Reprodutiva (Caderno de Atenção Básica nº 26), 2010; Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
@@ -2002,11 +1899,9 @@ const PROTOCOLS = [
   { group: "2. Contracepção e saúde sexual/reprodutiva", nome: "Implante subdérmico de etonogestrel", conc: "68mg", forma: "Implante subdérmico", via: "Subcutânea", uso: "Contracepção de longa duração (LARC)", protocolo: "Saúde Sexual e Saúde Reprodutiva (Caderno de Atenção Básica nº 26), 2010" },
   { group: "2. Contracepção e saúde sexual/reprodutiva", nome: "DIU de cobre", conc: "TCu 380A", forma: "Dispositivo intrauterino", via: "Intrauterino", uso: "Contracepção de longa duração não hormonal", protocolo: "Saúde Sexual e Saúde Reprodutiva (Caderno de Atenção Básica nº 26), 2010" },
   { group: "2. Contracepção e saúde sexual/reprodutiva", nome: "DIU hormonal – levonorgestrel", conc: "19,5mg e 52mg", forma: "Dispositivo intrauterino", via: "Intrauterino", uso: "Contracepção de longa duração com liberação hormonal local", protocolo: "Saúde Sexual e Saúde Reprodutiva (Caderno de Atenção Básica nº 26), 2010" },
-  // 3. PEP e PrEP ao HIV
   { group: "3. PEP e PrEP ao HIV", nome: "Zidovudina/lamivudina (AZT/3TC)", conc: "300mg + 150mg", forma: "Comprimido", via: "Oral", uso: "", protocolo: "PCDT para Profilaxia Pós-Exposição (PEP) de Risco à Infecção por HIV, ISTs e Hepatites Virais, 2024" },
   { group: "3. PEP e PrEP ao HIV", nome: "Darunavir (DRV) + ritonavir (RTV)", conc: "800mg + 100mg", forma: "Comprimido", via: "Oral", uso: "", protocolo: "PCDT para Profilaxia Pós-Exposição (PEP) de Risco à Infecção por HIV, ISTs e Hepatites Virais, 2024" },
   { group: "3. PEP e PrEP ao HIV", nome: "Fumarato de tenofovir desoproxila + emtricitabina (TDF+FTC)", conc: "300mg + 200mg", forma: "Comprimido", via: "Oral", uso: "", protocolo: "Protocolo Clínico e Diretrizes Terapêuticas, 2025" },
-  // 4. Atenção à Saúde da Mulher
   { group: "4. Atenção à Saúde da Mulher", nome: "Dipirona", conc: "500-1.000mg", forma: "Comprimido", via: "Oral", uso: "Analgésico/Antitérmico", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "4. Atenção à Saúde da Mulher", nome: "Estriol", conc: "1mg/g", forma: "Creme vaginal", via: "Vaginal", uso: "Ressecamento vaginal ou colpite atrófica", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "4. Atenção à Saúde da Mulher", nome: "Ibuprofeno", conc: "300-600mg", forma: "Comprimido", via: "Oral", uso: "Analgésico/Antitérmico/Dismenorréia", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
@@ -2020,7 +1915,6 @@ const PROTOCOLS = [
   { group: "4. Atenção à Saúde da Mulher", nome: "Ciprofloxacino", conc: "500mg", forma: "Comprimido", via: "Oral", uso: "Antibioticoterapia", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "4. Atenção à Saúde da Mulher", nome: "Levofloxacino", conc: "750mg", forma: "Comprimido", via: "Oral", uso: "Antibioticoterapia", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "4. Atenção à Saúde da Mulher", nome: "Sulfato ferroso", conc: "40mg de ferro elementar", forma: "Comprimido", via: "Oral", uso: "Suplementação no puerpério/Anemia", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
-  // 5. Pré-natal
   { group: "5. Pré-natal", nome: "Aciclovir", conc: "200mg", forma: "Comprimido", via: "Oral", uso: "", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "5. Pré-natal", nome: "Ácido acetilsalicílico", conc: "100mg", forma: "Comprimido", via: "Oral", uso: "Profilaxia de pré-eclâmpsia", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "5. Pré-natal", nome: "Ácido fólico", conc: "5mg / 0,2mg/ml / 400μg ou 0,4mg", forma: "Comprimido / Solução oral / Cápsula gelatinosa mole", via: "Oral", uso: "Suplementação no pré-natal / prevenção de defeitos do tubo neural / Anemia megaloblástica", protocolo: "Caderno de Atenção Básica nº 32, 2012; Protocolos da Atenção Básica: Saúde das Mulheres, 2016; Caderno dos programas nacionais de suplementação de micronutrientes, 2022" },
@@ -2045,7 +1939,6 @@ const PROTOCOLS = [
   { group: "5. Pré-natal", nome: "Penicilina benzatina", conc: "1.200.000 UI", forma: "Pó para solução injetável", via: "Intramuscular", uso: "Antibioticoterapia", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "5. Pré-natal", nome: "Sulfato ferroso", conc: "40mg / 25mg/ml", forma: "Comprimido / Solução oral", via: "Oral", uso: "Suplementação no pré-natal / Anemia", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
   { group: "5. Pré-natal", nome: "Tiabendazol", conc: "500mg", forma: "Comprimido", via: "Oral", uso: "Estrongiloidíase", protocolo: "Protocolos da Atenção Básica: Saúde das Mulheres, 2016" },
-  // 6. Atenção à Saúde da Criança
   { group: "6. Atenção à Saúde da Criança", nome: "Amoxicilina", conc: "250mg/5ml", forma: "Suspensão oral", via: "Oral", uso: "Pneumonia ou infecção aguda do ouvido ou infecção moderada de garganta", protocolo: "Manual de quadros de procedimentos: AIDPI criança: 2 meses a 5 anos, 2017" },
   { group: "6. Atenção à Saúde da Criança", nome: "Amoxicilina + Clavulanato", conc: "250mg/5ml", forma: "Suspensão oral", via: "Oral", uso: "Pneumonia ou infecção aguda do ouvido ou infecção moderada de garganta", protocolo: "Manual de quadros de procedimentos: AIDPI criança: 2 meses a 5 anos, 2017" },
   { group: "6. Atenção à Saúde da Criança", nome: "Eritromicina", conc: "250mg/5ml", forma: "Suspensão oral", via: "Oral", uso: "Pneumonia ou infecção aguda do ouvido ou infecção moderada de garganta", protocolo: "Manual de quadros de procedimentos: AIDPI criança: 2 meses a 5 anos, 2017" },
@@ -2066,7 +1959,6 @@ const PROTOCOLS = [
   { group: "6. Atenção à Saúde da Criança", nome: "Cefalexina", conc: "250mg/5ml", forma: "Suspensão oral", via: "Oral", uso: "Pústulas na pele ou infecção no umbigo", protocolo: "Manual AIDPI neonatal: quadro de procedimentos, 2014" },
   { group: "6. Atenção à Saúde da Criança", nome: "Mupirocina", conc: "20mg/g", forma: "Pomada dermatológica", via: "Tópica", uso: "Pústulas na pele ou infecção no umbigo", protocolo: "Manual AIDPI neonatal: quadro de procedimentos, 2014" },
   { group: "6. Atenção à Saúde da Criança", nome: "Neomicina + bacitracina", conc: "5mg/g + 250UI/g", forma: "Pomada dermatológica", via: "Tópica", uso: "Pústulas na pele ou infecção no umbigo", protocolo: "Manual AIDPI neonatal: quadro de procedimentos, 2014" },
-  // 7. Tuberculose e hanseníase
   { group: "7. Tuberculose e hanseníase", nome: "Isoniazida", conc: "100 e 300mg", forma: "Comprimido", via: "Oral", uso: "Tratamento da tuberculose e Infecção Latente da Tuberculose (ILTB)", protocolo: "Manual de recomendações para o controle da tuberculose no Brasil, 2019; Protocolo de vigilância da infecção latente pelo Mycobacterium tuberculosis no Brasil, 2022" },
   { group: "7. Tuberculose e hanseníase", nome: "Rifampicina", conc: "300mg", forma: "Cápsula", via: "Oral", uso: "Tuberculose e hanseníase", protocolo: "Manual de recomendações para o controle da tuberculose no Brasil, 2019; Protocolo clínico e diretrizes terapêuticas da hanseníase, 2022" },
   { group: "7. Tuberculose e hanseníase", nome: "Pirazinamida", conc: "500mg", forma: "Comprimido", via: "Oral", uso: "Tuberculose – fase intensiva", protocolo: "Manual de recomendações para o controle da tuberculose no Brasil, 2019" },
@@ -2076,7 +1968,6 @@ const PROTOCOLS = [
   { group: "7. Tuberculose e hanseníase", nome: "Dapsona", conc: "100mg e 50mg", forma: "Comprimido", via: "Oral", uso: "Hanseníase – parte da PQT", protocolo: "Protocolo clínico e diretrizes terapêuticas da hanseníase, 2022" },
   { group: "7. Tuberculose e hanseníase", nome: "Clofazimina", conc: "50mg e 100mg", forma: "Cápsula", via: "Oral", uso: "Hanseníase – parte da PQT", protocolo: "Protocolo clínico e diretrizes terapêuticas da hanseníase, 2022" },
   { group: "7. Tuberculose e hanseníase", nome: "Rifapentina (P) + Isoniazida (H)", conc: "150mg + 300mg", forma: "Comprimido", via: "Oral", uso: "Tratamento de ILTB", protocolo: "Protocolo de vigilância da infecção latente pelo Mycobacterium tuberculosis no Brasil, 2022" },
-  // 8. Diabetes, hipertensão e risco cardiovascular
   { group: "8. Diabetes, hipertensão e risco cardiovascular", nome: "Cloridrato de metformina", conc: "500mg e 850mg", forma: "Comprimido (inclusive liberação prolongada)", via: "Oral", uso: "Tratamento do Diabetes mellitus (DM)", protocolo: "Caderno de Atenção Básica nº 36, 2013" },
   { group: "8. Diabetes, hipertensão e risco cardiovascular", nome: "Gliclazida", conc: "30mg, 60mg e 80mg", forma: "Comprimido de liberação controlada", via: "Oral", uso: "Tratamento do DM", protocolo: "Caderno de Atenção Básica nº 36, 2013" },
   { group: "8. Diabetes, hipertensão e risco cardiovascular", nome: "Glibenclamida", conc: "5mg", forma: "Comprimido", via: "Oral", uso: "Tratamento do DM", protocolo: "Caderno de Atenção Básica nº 36, 2013" },
@@ -2098,18 +1989,15 @@ const PROTOCOLS = [
   { group: "8. Diabetes, hipertensão e risco cardiovascular", nome: "Captopril", conc: "25mg", forma: "Comprimido", via: "Oral", uso: "Tratamento da hipertensão arterial", protocolo: "Caderno de Atenção Básica nº 37, 2014" },
   { group: "8. Diabetes, hipertensão e risco cardiovascular", nome: "Losartana potássica", conc: "50mg", forma: "Comprimido", via: "Oral", uso: "Tratamento da hipertensão arterial", protocolo: "Caderno de Atenção Básica nº 37, 2014; Caderno AB nº 14 – Prevenção clínica de DCV na Atenção Básica, 2006" },
   { group: "8. Diabetes, hipertensão e risco cardiovascular", nome: "Ácido acetilsalicílico", conc: "100mg", forma: "Comprimido", via: "Oral", uso: "Prevenção secundária de eventos cardiovasculares", protocolo: "Caderno AB nº 14 – Prevenção clínica de DCV na Atenção Básica, 2006" },
-  // 9. Tabagismo
   { group: "9. Tabagismo", nome: "Nicotina", conc: "2mg / 7mg / 14mg / 21mg", forma: "Goma de mascar / Adesivo transdérmico", via: "Oral", uso: "Terapia de reposição de nicotina no tratamento da pessoa tabagista", protocolo: "Estratégias para o cuidado da pessoa com doença crônica: cuidado da pessoa tabagista (Caderno de Atenção Básica nº 40), 2015" },
-  // 10. Dengue
   { group: "10. Dengue", nome: "Dipirona sódica", conc: "50mg/mL e 500mg/mL / 500mg", forma: "Solução oral (gotas/xarope) / Comprimido", via: "Oral", uso: "Analgésico/Antipirético", protocolo: "Dengue: manual de enfermagem, 2013; Dengue: diagnóstico e manejo clínico: adulto e criança, 2024" },
   { group: "10. Dengue", nome: "Paracetamol", conc: "200mg/mL / 500mg", forma: "Solução oral / Comprimido", via: "Oral", uso: "Analgésico/Antipirético", protocolo: "Dengue: manual de enfermagem, 2013; Dengue: diagnóstico e manejo clínico: adulto e criança, 2024" },
   { group: "10. Dengue", nome: "Sais de reidratação oral (SRO) – Dengue", conc: "Eletrólitos balanceados", forma: "Pó para solução oral", via: "Oral", uso: "Hidratação oral", protocolo: "Dengue: manual de enfermagem, 2013; Dengue: diagnóstico e manejo clínico: adulto e criança, 2024" },
   { group: "10. Dengue", nome: "Soro Fisiológico", conc: "0,9%", forma: "Solução endovenosa", via: "Intravenosa", uso: "Hidratação venosa", protocolo: "Nota Técnica nº 001/2024 - COES/COFEN: Competências e Atribuições do Enfermeiro para enfrentamento a epidemia de dengue em situação de emergência em saúde pública, 2024" },
-  // 11. Profilaxia Raiva
   { group: "Profilaxia Pré, Pós e Reexposição da Raiva Humana", nome: "Vacina Antirrábica (Inativada)", conc: "2,5 UI", forma: "Suspensão injetável", via: "IM e ID", uso: "Profilaxia Antirrábica - Fazer IM ou ID nos dias 0, 1, 3, 7 e 14", protocolo: "Protocolo de Profilaxia Pré, Pós e Reexposição da Raiva Humana no Brasil (Nota Técnica nº 8/2022-CGZV/DEIDT/SVS/MS), 2022; Resolução COFEN nº 795/2025" },
 ];
 
-/* ── Protocol dropdown logic ── */
+/* ── Protocol dropdown ── */
 function renderProtocolGroups(list) {
   const container = document.getElementById('protocolGroups');
   if (!list.length) {
@@ -2117,10 +2005,7 @@ function renderProtocolGroups(list) {
     return;
   }
   const byGroup = {};
-  list.forEach(p => {
-    if (!byGroup[p.group]) byGroup[p.group] = [];
-    byGroup[p.group].push(p);
-  });
+  list.forEach(p => { if (!byGroup[p.group]) byGroup[p.group] = []; byGroup[p.group].push(p); });
   container.innerHTML = Object.entries(byGroup).map(([g, items]) => `
     <div>
       <div class="protocol-group-title">${g}</div>
@@ -2144,10 +2029,7 @@ function toggleProtocolDropdown() {
   btn.classList.toggle('open', open);
   if (open) {
     renderProtocolGroups(PROTOCOLS);
-    setTimeout(() => {
-      btn.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      document.getElementById('protocolSearch').focus();
-    }, 80);
+    setTimeout(() => { btn.scrollIntoView({ behavior: 'smooth', block: 'start' }); document.getElementById('protocolSearch').focus(); }, 80);
   }
 }
 
@@ -2168,32 +2050,21 @@ function selectProtocol(p) {
   document.getElementById('protocolDropdown').classList.remove('open');
   document.getElementById('protocolToggle').classList.remove('open');
   document.getElementById('protocolSearch').value = '';
-
   let n = null;
   for (const id of drugs) {
     const nomeEl = document.getElementById(`d${id}_nome`);
-    if (nomeEl && nomeEl.value.trim() === '') {
-      n = id;
-      break;
-    }
+    if (nomeEl && nomeEl.value.trim() === '') { n = id; break; }
   }
-
-  if (n === null) {
-    addDrug();
-    n = drugCount;
-  }
-
+  if (n === null) { addDrug(); n = drugCount; }
   const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
   setVal(`d${n}_nome`, p.nome);
   setVal(`d${n}_conc`, p.conc);
   updateDrugPreview(n);
-
   const viaEl = document.getElementById(`d${n}_via`);
   if (viaEl) {
     const opt = Array.from(viaEl.options).find(o => o.value === p.via || o.text.toLowerCase() === p.via.toLowerCase());
     if (opt) viaEl.value = opt.value;
   }
-
   const formaEl = document.getElementById(`d${n}_forma`);
   if (formaEl) {
     const formaSimple = p.forma.split(/[,/]/)[0].trim();
@@ -2203,10 +2074,8 @@ function selectProtocol(p) {
     );
     if (opt) formaEl.value = opt.value;
   }
-
   setVal(`d${n}_pos`, p.uso);
   setVal(`d${n}_obs`, p.protocolo);
-
   const el = document.getElementById(`di_${n}`);
   if (el) {
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2216,7 +2085,6 @@ function selectProtocol(p) {
   }
 }
 
-// Close dropdown when clicking outside
 document.addEventListener('click', e => {
   const wrap = document.getElementById('protocolWrap');
   if (wrap && !wrap.contains(e.target)) {
@@ -2229,14 +2097,10 @@ document.addEventListener('click', e => {
 addDrug();
 document.getElementById('sig_data').value = new Date().toISOString().slice(0, 10);
 
-/* ══════════════════════════════════════════
-   AUTO PREENCHIMENTO DO PACIENTE via extensão
-══════════════════════════════════════════ */
+/* ── Auto preenchimento paciente via extensão Chrome ── */
 (function autoPreencherPaciente() {
-
   var _ultimoTs = 0;
   var _styleAdicionado = false;
-
   function garantirStyle() {
     if (_styleAdicionado) return;
     _styleAdicionado = true;
@@ -2244,46 +2108,25 @@ document.getElementById('sig_data').value = new Date().toISOString().slice(0, 10
     style.textContent = '@keyframes esusIn2{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}';
     document.head.appendChild(style);
   }
-
   function preencherCampos(dados) {
     if (!dados) return;
-    console.log('[Receituário] Preenchendo paciente com:', dados);
-
-    ['p_nome','p_doc','p_end'].forEach(function(id) {
-      var el = document.getElementById(id);
-      if (el) el.value = '';
-    });
-    var nascLimpar = document.getElementById('p_nasc');
-    if (nascLimpar) nascLimpar.value = '';
-
+    ['p_nome','p_doc','p_end'].forEach(function(id) { var el = document.getElementById(id); if (el) el.value = ''; });
+    var nascLimpar = document.getElementById('p_nasc'); if (nascLimpar) nascLimpar.value = '';
     var nomeEl = document.getElementById('p_nome');
-    if (nomeEl && dados.nome) {
-      nomeEl.value = dados.nome.toUpperCase();
-      nomeEl.dispatchEvent(new Event('input'));
-    }
-
+    if (nomeEl && dados.nome) { nomeEl.value = dados.nome.toUpperCase(); nomeEl.dispatchEvent(new Event('input')); }
     var nascEl = document.getElementById('p_nasc');
-    if (nascEl && dados.nascimento) {
-      nascEl.value = dados.nascimento;
-      nascEl.dispatchEvent(new Event('input'));
-    }
-
+    if (nascEl && dados.nascimento) { nascEl.value = dados.nascimento; nascEl.dispatchEvent(new Event('input')); }
     var docEl = document.getElementById('p_doc');
     if (docEl) {
-      if (dados.cpf) {
-        docEl.value = dados.cpf;
-      } else if (dados.cns) {
+      if (dados.cpf) { docEl.value = dados.cpf; }
+      else if (dados.cns) {
         var digits = dados.cns.replace(/\D/g, '').slice(0, 15);
-        docEl.value = digits.replace(/^(\d{3})(\d{0,4})(\d{0,4})(\d{0,4})/, function(_, a, b, c, d) {
-          return [a, b, c, d].filter(Boolean).join(' ');
-        });
+        docEl.value = digits.replace(/^(\d{3})(\d{0,4})(\d{0,4})(\d{0,4})/, function(_, a, b, c, d) { return [a, b, c, d].filter(Boolean).join(' '); });
       }
       if (docEl.value) docEl.dispatchEvent(new Event('input'));
     }
-
     garantirStyle();
-    var bannerVelho = document.getElementById('esus-rec-banner');
-    if (bannerVelho) bannerVelho.remove();
+    var bannerVelho = document.getElementById('esus-rec-banner'); if (bannerVelho) bannerVelho.remove();
     var banner = document.createElement('div');
     banner.id = 'esus-rec-banner';
     banner.style.cssText = 'position:fixed;top:64px;right:18px;z-index:99999;background:#0f3460;color:#fff;border-radius:10px;padding:11px 16px;font-family:sans-serif;font-size:13px;box-shadow:0 4px 20px rgba(0,0,0,.3);max-width:300px;line-height:1.5;animation:esusIn2 .3s ease;cursor:pointer;';
@@ -2292,224 +2135,87 @@ document.getElementById('sig_data').value = new Date().toISOString().slice(0, 10
     document.body.appendChild(banner);
     setTimeout(function() { if (banner.parentNode) banner.remove(); }, 5000);
   }
-
-  if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.local) {
-    console.log('[Receituário] chrome.storage indisponível.');
-    return;
-  }
-
+  if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.local) return;
   chrome.storage.local.get('pacienteESUS', function(result) {
     var dados = result && result.pacienteESUS;
-    if (dados && (dados.nome || dados.cpf || dados.cns)) {
-      _ultimoTs = dados._ts || 0;
-      preencherCampos(dados);
-    }
+    if (dados && (dados.nome || dados.cpf || dados.cns)) { _ultimoTs = dados._ts || 0; preencherCampos(dados); }
   });
-
   chrome.storage.onChanged.addListener(function(changes, area) {
     if (area !== 'local' || !changes.pacienteESUS) return;
     var dados = changes.pacienteESUS.newValue;
     if (!dados || (!dados.nome && !dados.cpf && !dados.cns)) return;
     var ts = dados._ts || 0;
-    if (ts !== _ultimoTs) {
-      _ultimoTs = ts;
-      preencherCampos(dados);
-    }
+    if (ts !== _ultimoTs) { _ultimoTs = ts; preencherCampos(dados); }
   });
-
 })();
 
-/* ══════════════════════════════════════════
-   AUTO PREENCHIMENTO DE MEDICAMENTOS via extensão
-   Escuta pacienteESUS.medicamentos + _tsMed
-   Separado do paciente para não haver conflito de _ts
-══════════════════════════════════════════ */
+/* ── Auto preenchimento medicamentos via extensão Chrome ── */
 (function autoPreencherMedicamentos() {
   if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.local) return;
-
   var _ultimoTsMed = 0;
-
-  // ── Tabela de mapeamento via (texto e-SUS → value do <select>) ──
-  var VIA_MAP = {
-    'oral':           'Oral',
-    'sublingual':     'Sublingual',
-    'intradérmica':   'Intradérmica',
-    'intradermica':   'Intradérmica',
-    'intramuscular':  'Intramuscular',
-    'intravenosa':    'Intravenosa',
-    'subcutânea':     'Subcutânea',
-    'subcutanea':     'Subcutânea',
-    'tópica':         'Tópica',
-    'topica':         'Tópica',
-    'nasal':          'Nasal',
-    'inalatória':     'Inalatória',
-    'inalatoria':     'Inalatória',
-    'ocular':         'Ocular',
-    'auricular':      'Auricular',
-    'retal':          'Retal',
-    'vaginal':        'Vaginal',
-  };
-
-  // ── Tabela de mapeamento unidade de medida ──
-  var UNID_MAP = {
-    'comprimido':      'comprimido(s)',
-    'comprimidos':     'comprimido(s)',
-    'cápsula':         'cápsula(s)',
-    'cápsulas':        'cápsula(s)',
-    'capsula':         'cápsula(s)',
-    'capsulas':        'cápsula(s)',
-    'mg':              'mg',
-    'mcg':             'mcg',
-    'ml':              'mL',
-    'gota':            'gota(s)',
-    'gotas':           'gota(s)',
-    'ui':              'UI',
-    'u.i.':            'UI',
-    'ampola':          'ampola(s)',
-    'ampolas':         'ampola(s)',
-    'frasco':          'frasco(s)',
-    'frascos':         'frasco(s)',
-    'aplicação':       'aplicação(ões)',
-    'aplicacoes':      'aplicação(ões)',
-    'supositório':     'supositório(s)',
-    'supositorio':     'supositório(s)',
-    'adesivo':         'adesivo(s)',
-  };
-
-  function mapear(mapa, texto) {
-    if (!texto) return '';
-    return mapa[texto.toLowerCase().trim()] || '';
-  }
-
+  var VIA_MAP = { 'oral':'Oral','sublingual':'Sublingual','intradérmica':'Intradérmica','intradermica':'Intradérmica','intramuscular':'Intramuscular','intravenosa':'Intravenosa','subcutânea':'Subcutânea','subcutanea':'Subcutânea','tópica':'Tópica','topica':'Tópica','nasal':'Nasal','inalatória':'Inalatória','inalatoria':'Inalatória','ocular':'Ocular','auricular':'Auricular','retal':'Retal','vaginal':'Vaginal' };
+  var UNID_MAP = { 'comprimido':'comprimido(s)','comprimidos':'comprimido(s)','cápsula':'cápsula(s)','cápsulas':'cápsula(s)','capsula':'cápsula(s)','capsulas':'cápsula(s)','mg':'mg','mcg':'mcg','ml':'mL','gota':'gota(s)','gotas':'gota(s)','ui':'UI','u.i.':'UI','ampola':'ampola(s)','ampolas':'ampola(s)','frasco':'frasco(s)','frascos':'frasco(s)','aplicação':'aplicação(ões)','aplicacoes':'aplicação(ões)','supositório':'supositório(s)','supositorio':'supositório(s)','adesivo':'adesivo(s)' };
+  function mapear(mapa, texto) { if (!texto) return ''; return mapa[texto.toLowerCase().trim()] || ''; }
   function setSelectValue(el, valor) {
     if (!el || !valor) return false;
-    // match exato
-    var opt = Array.from(el.options).find(function(o) {
-      return o.value === valor || o.value.toLowerCase() === valor.toLowerCase();
-    });
+    var opt = Array.from(el.options).find(function(o) { return o.value === valor || o.value.toLowerCase() === valor.toLowerCase(); });
     if (opt) { el.value = opt.value; return true; }
-    // match parcial
-    opt = Array.from(el.options).find(function(o) {
-      return o.value.toLowerCase().includes(valor.toLowerCase()) ||
-             valor.toLowerCase().includes(o.value.toLowerCase().replace(/[()]/g,''));
-    });
+    opt = Array.from(el.options).find(function(o) { return o.value.toLowerCase().includes(valor.toLowerCase()) || valor.toLowerCase().includes(o.value.toLowerCase().replace(/[()]/g,'')); });
     if (opt) { el.value = opt.value; return true; }
     return false;
   }
-
   function preencherMedicamentos(meds) {
     if (!meds || !meds.length) return;
-    console.log('[Receituário] Preenchendo medicamentos:', meds);
-
     meds.forEach(function(med) {
-      // Achar slot vazio ou criar novo
       var n = null;
       for (var i = 0; i < drugs.length; i++) {
         var nomeEl = document.getElementById('d' + drugs[i] + '_nome');
         if (nomeEl && nomeEl.value.trim() === '') { n = drugs[i]; break; }
       }
       if (n === null) { addDrug(); n = drugCount; }
-
-      var setVal = function(id, val) {
-        var el = document.getElementById(id);
-        if (el && val !== undefined && val !== null && val !== '') el.value = val;
-      };
-
-      // ── Princípio ativo ──
-      // descricao do e-SUS já vem como "Nome Concentracao"; se concentracao vier separada,
-      // retiramos do nome para não duplicar
+      var setVal = function(id, val) { var el = document.getElementById(id); if (el && val !== undefined && val !== null && val !== '') el.value = val; };
       var nomePuro = (med.descricao || '').trim();
-      var conc     = (med.concentracao || '').trim();
-      if (conc && nomePuro.toLowerCase().endsWith(conc.toLowerCase())) {
-        nomePuro = nomePuro.slice(0, nomePuro.length - conc.length).trim();
-      }
+      var conc = (med.concentracao || '').trim();
+      if (conc && nomePuro.toLowerCase().endsWith(conc.toLowerCase())) nomePuro = nomePuro.slice(0, nomePuro.length - conc.length).trim();
       setVal('d' + n + '_nome', nomePuro);
       setVal('d' + n + '_conc', conc);
       updateDrugPreview(n);
-
-      // ── Via de administração ──
       var viaMapeada = mapear(VIA_MAP, med.via);
-      if (!viaMapeada && med.via) viaMapeada = med.via; // fallback: valor bruto
+      if (!viaMapeada && med.via) viaMapeada = med.via;
       setSelectValue(document.getElementById('d' + n + '_via'), viaMapeada);
-
-      // ── Quantidade da dose ──
       setVal('d' + n + '_qtddose', med.quantidadeDose);
-
-      // ── Unidade de medida ──
       var unidMapeada = mapear(UNID_MAP, med.unidadeMedida);
       setSelectValue(document.getElementById('d' + n + '_unidade'), unidMapeada);
-
-      // ── Posologia / recomendações ──
       setVal('d' + n + '_pos', med.posologia);
-
-      // ── Quantidade prescrita ──
       if (med.quantidade) setVal('d' + n + '_qtd', med.quantidade);
-
-      // Garante que o drug item esteja aberto
       var di = document.getElementById('di_' + n);
       if (di && !di.classList.contains('open')) di.classList.add('open');
     });
-
-    // Banner de confirmação (verde, offset para não sobrepor o do paciente)
-    var bannerVelho = document.getElementById('esus-med-banner');
-    if (bannerVelho) bannerVelho.remove();
+    var bannerVelho = document.getElementById('esus-med-banner'); if (bannerVelho) bannerVelho.remove();
     var banner = document.createElement('div');
     banner.id = 'esus-med-banner';
-    banner.style.cssText = [
-      'position:fixed',
-      'top:115px',           // abaixo do banner de paciente (64px)
-      'right:18px',
-      'z-index:99999',
-      'background:#1a6b3a',
-      'color:#fff',
-      'border-radius:10px',
-      'padding:11px 16px',
-      'font-family:sans-serif',
-      'font-size:13px',
-      'box-shadow:0 4px 20px rgba(0,0,0,.3)',
-      'max-width:300px',
-      'line-height:1.6',
-      'cursor:pointer',
-      'animation:esusIn2 .3s ease',
-    ].join(';');
-    var linhas = meds.slice(0, 4).map(function(m) {
-      return '<span style="display:block;opacity:.85;font-size:12px;">💊 ' + m.descricao + '</span>';
-    }).join('');
-    var mais = meds.length > 4
-      ? '<span style="display:block;opacity:.55;font-size:11px;">+ ' + (meds.length - 4) + ' medicamento(s)...</span>'
-      : '';
-    banner.innerHTML = '<b>💊 ' + meds.length + ' medicamento(s) adicionado(s)</b><br>'
-      + linhas + mais
-      + '<span style="display:block;opacity:.5;font-size:11px;margin-top:4px;">Clique para fechar</span>';
+    banner.style.cssText = 'position:fixed;top:115px;right:18px;z-index:99999;background:#1a6b3a;color:#fff;border-radius:10px;padding:11px 16px;font-family:sans-serif;font-size:13px;box-shadow:0 4px 20px rgba(0,0,0,.3);max-width:300px;line-height:1.6;cursor:pointer;animation:esusIn2 .3s ease;';
+    var linhas = meds.slice(0, 4).map(function(m) { return '<span style="display:block;opacity:.85;font-size:12px;">💊 ' + m.descricao + '</span>'; }).join('');
+    var mais = meds.length > 4 ? '<span style="display:block;opacity:.55;font-size:11px;">+ ' + (meds.length - 4) + ' medicamento(s)...</span>' : '';
+    banner.innerHTML = '<b>💊 ' + meds.length + ' medicamento(s) adicionado(s)</b><br>' + linhas + mais + '<span style="display:block;opacity:.5;font-size:11px;margin-top:4px;">Clique para fechar</span>';
     banner.onclick = function() { banner.remove(); };
     document.body.appendChild(banner);
     setTimeout(function() { if (banner.parentNode) banner.remove(); }, 8000);
   }
-
-  // ── Leitura inicial (página já aberta com medicamentos salvos) ──
   chrome.storage.local.get('pacienteESUS', function(result) {
     var dados = result && result.pacienteESUS;
-    if (dados && dados.medicamentos && dados.medicamentos.length) {
-      _ultimoTsMed = dados._tsMed || 0;
-      preencherMedicamentos(dados.medicamentos);
-    }
+    if (dados && dados.medicamentos && dados.medicamentos.length) { _ultimoTsMed = dados._tsMed || 0; preencherMedicamentos(dados.medicamentos); }
   });
-
-  // ── Listener em tempo real (médico salva prescrição no e-SUS) ──
   chrome.storage.onChanged.addListener(function(changes, area) {
     if (area !== 'local' || !changes.pacienteESUS) return;
     var dados = changes.pacienteESUS.newValue;
     if (!dados || !dados.medicamentos || !dados.medicamentos.length) return;
     var ts = dados._tsMed || 0;
-    if (ts !== _ultimoTsMed) {
-      _ultimoTsMed = ts;
-      preencherMedicamentos(dados.medicamentos);
-    }
+    if (ts !== _ultimoTsMed) { _ultimoTsMed = ts; preencherMedicamentos(dados.medicamentos); }
   });
-
 })();
 
-/* ── MÁSCARAS DE INPUT ── */
+/* ── Máscaras ── */
 function maskCPF(el) {
   let v = el.value.replace(/\D/g, '').slice(0, 11);
   if (v.length > 9)      v = v.replace(/^(\d{3})(\d{3})(\d{3})(\d{0,2})/, '$1.$2.$3-$4');
@@ -2517,7 +2223,6 @@ function maskCPF(el) {
   else if (v.length > 3) v = v.replace(/^(\d{3})(\d{0,3})/,                '$1.$2');
   el.value = v;
 }
-
 function maskPhone(el) {
   let v = el.value.replace(/\D/g, '').slice(0, 11);
   if (v.length === 11)      v = v.replace(/^(\d{2})(\d{5})(\d{4})$/, '($1) $2-$3');
@@ -2527,7 +2232,6 @@ function maskPhone(el) {
   else if (v.length > 0)    v = v.replace(/^(\d*)/, '($1');
   el.value = v;
 }
-
 function maskCPFouCNS(el) {
   const digits = el.value.replace(/\D/g, '');
   if (digits.length <= 11) {
@@ -2539,8 +2243,7 @@ function maskCPFouCNS(el) {
     el.value = v;
   } else {
     let v = digits.slice(0, 15);
-    v = v.replace(/^(\d{3})(\d{0,4})(\d{0,4})(\d{0,4})/, (_, a, b, c, d) =>
-      [a, b, c, d].filter(Boolean).join(' '));
+    v = v.replace(/^(\d{3})(\d{0,4})(\d{0,4})(\d{0,4})/, (_, a, b, c, d) => [a, b, c, d].filter(Boolean).join(' '));
     el.value = v;
   }
 }
@@ -2549,82 +2252,60 @@ function maskCPFouCNS(el) {
 (function bindEventos() {
   var btnPrint = document.getElementById('btn-print');
   if (btnPrint) btnPrint.addEventListener('click', printPDF);
-
-  var btnGen = document.getElementById('btn-genpdf');
-  if (btnGen) btnGen.addEventListener('click', generatePDF);
-
   var hdrUnidade = document.getElementById('hdr-unidade');
   if (hdrUnidade) hdrUnidade.addEventListener('click', function() { toggleCard('card_unidade'); });
-
   var eCpf = document.getElementById('e_cpf');
   if (eCpf) eCpf.addEventListener('input', function() { maskCPF(this); });
-
   var eTel = document.querySelector('[data-mask="phone"]');
   if (eTel) eTel.addEventListener('input', function() { maskPhone(this); });
-
   var pDoc = document.querySelector('[data-mask="cpfcns"]') || document.getElementById('p_doc');
   if (pDoc) pDoc.addEventListener('input', function() { maskCPFouCNS(this); });
-
   var psearch = document.getElementById('protocolSearch');
   if (psearch) psearch.addEventListener('input', filterProtocols);
-
   var ptoggle = document.getElementById('protocolToggle');
   if (ptoggle) ptoggle.addEventListener('click', toggleProtocolDropdown);
-
   var btnAddDrug = document.getElementById('btn-add-drug');
   if (btnAddDrug) btnAddDrug.addEventListener('click', addDrug);
-
   var btnClearPac = document.getElementById('btn-clear-pac');
   if (btnClearPac) btnClearPac.addEventListener('click', clearPaciente);
-
   var btnClearTudo = document.getElementById('btn-clear-tudo');
   if (btnClearTudo) btnClearTudo.addEventListener('click', clearTudo);
+  var btnLogout = document.getElementById('btn-logout');
+  if (btnLogout) btnLogout.addEventListener('click', function() {
+    sessionStorage.removeItem('receituario_auth');
+    window.location.replace('index.html');
+  });
 })();
 
-/* ── Delegação de eventos para elementos dinâmicos ── */
+/* ── Delegação de eventos dinâmicos ── */
 document.addEventListener('click', function(e) {
   const t = e.target;
-
   const drugHeader = t.closest('.drug-header');
   if (drugHeader) {
     const di = drugHeader.closest('.drug-item');
     if (di) {
       const n = di.id.replace('di_', '');
-      if (!t.closest('button') && !t.closest('label') && !t.closest('.drug-type-btns')) {
-        toggleDrug(n);
-        return;
-      }
+      if (!t.closest('button') && !t.closest('label') && !t.closest('.drug-type-btns')) { toggleDrug(n); return; }
     }
   }
-
-  if (t.closest('.drug-type-btns')) {
-    e.stopPropagation && e.stopPropagation();
-  }
-
+  if (t.closest('.drug-type-btns')) { e.stopPropagation && e.stopPropagation(); }
   if (t.classList.contains('drug-type-btn')) {
     const di = t.closest('.drug-item');
-    if (di) {
-      const n = di.id.replace('di_', '');
-      const tipo = t.id.includes('antibiotico') ? 'antibiotico' : 'simples';
-      setDrugTipo(n, tipo);
-    }
+    if (di) { const n = di.id.replace('di_', ''); setDrugTipo(n, t.id.includes('antibiotico') ? 'antibiotico' : 'simples'); }
     return;
   }
-
   if (t.classList.contains('clear-btn') && t.title && t.title.includes('prescrição')) {
     e.stopPropagation();
     const di = t.closest('.drug-item');
     if (di) clearDrug(di.id.replace('di_', ''));
     return;
   }
-
   if (t.classList.contains('del-btn')) {
     e.stopPropagation();
     const di = t.closest('.drug-item');
     if (di) removeDrug(di.id.replace('di_', ''));
     return;
   }
-
   if (t.classList.contains('period-tab')) {
     const di = t.closest('.drug-item');
     if (di) {
@@ -2635,7 +2316,6 @@ document.addEventListener('click', function(e) {
     }
     return;
   }
-
   if (t.classList.contains('int-btn') && t.closest('#protocolGroups') === null) {
     const di = t.closest('.drug-item');
     if (di) {
@@ -2645,18 +2325,13 @@ document.addEventListener('click', function(e) {
         const fqMap = {'1×':1,'2×':2,'3×':3,'4×':4};
         const fq = fqMap[t.textContent.trim()];
         if (fq) setFreqBtn(n, fq, t);
-      } else {
-        setIntBtn(n, t.textContent.trim(), t);
-      }
+      } else { setIntBtn(n, t.textContent.trim(), t); }
     }
     return;
   }
-
   if (t.classList.contains('protocol-item') || t.closest('.protocol-item')) {
     const item = t.closest('.protocol-item');
-    if (item && item.dataset.protocol) {
-      try { selectProtocol(JSON.parse(item.dataset.protocol)); } catch(err) {}
-    }
+    if (item && item.dataset.protocol) { try { selectProtocol(JSON.parse(item.dataset.protocol)); } catch(err) {} }
     return;
   }
 });
@@ -2664,30 +2339,10 @@ document.addEventListener('click', function(e) {
 document.addEventListener('input', function(e) {
   const t = e.target;
   const id = t.id || '';
-
-  if (id.endsWith('_nome') || id.endsWith('_conc')) {
-    const match = id.match(/^d(\d+)_/);
-    if (match) updateDrugPreview(match[1]);
-  }
-  if (id.endsWith('_intcustom')) {
-    const match = id.match(/^d(\d+)_/);
-    if (match) setIntCustom(match[1], t);
-  }
-  if (id.endsWith('_freqcustom')) {
-    const match = id.match(/^d(\d+)_/);
-    if (match) setFreqCustom(match[1], t);
-  }
-  if (id.endsWith('_durnum')) {
-    const match = id.match(/^d(\d+)_/);
-    if (match) syncDurUnit(match[1]);
-  }
-});
-
-// ── Logout ──
-var btnLogout = document.getElementById('btn-logout');
-if (btnLogout) btnLogout.addEventListener('click', function() {
-  sessionStorage.removeItem('receituario_auth');
-  window.location.replace('index.html');
+  if (id.endsWith('_nome') || id.endsWith('_conc')) { const match = id.match(/^d(\d+)_/); if (match) updateDrugPreview(match[1]); }
+  if (id.endsWith('_intcustom'))  { const match = id.match(/^d(\d+)_/); if (match) setIntCustom(match[1], t); }
+  if (id.endsWith('_freqcustom')) { const match = id.match(/^d(\d+)_/); if (match) setFreqCustom(match[1], t); }
+  if (id.endsWith('_durnum'))     { const match = id.match(/^d(\d+)_/); if (match) syncDurUnit(match[1]); }
 });
 
 /* ── Preencher paciente via localStorage (fallback sem extensão) ── */
@@ -2700,43 +2355,26 @@ function preencherDaURL() {
   if (!dados || (!dados.nome && !dados.cpf && !dados.cns)) return;
   try { localStorage.removeItem('pacienteESUS_pendente'); } catch(e) {}
   var nomeEl = document.getElementById('p_nome');
-  if (nomeEl && dados.nome) {
-    nomeEl.value = dados.nome.toUpperCase();
-    nomeEl.dispatchEvent(new Event('input'));
-  }
+  if (nomeEl && dados.nome) { nomeEl.value = dados.nome.toUpperCase(); nomeEl.dispatchEvent(new Event('input')); }
   var nascEl = document.getElementById('p_nasc');
-  if (nascEl && dados.nascimento) {
-    nascEl.value = dados.nascimento;
-    nascEl.dispatchEvent(new Event('input'));
-  }
+  if (nascEl && dados.nascimento) { nascEl.value = dados.nascimento; nascEl.dispatchEvent(new Event('input')); }
   var docEl = document.getElementById('p_doc');
   if (docEl) {
-    if (dados.cpf) {
-      docEl.value = dados.cpf;
-    } else if (dados.cns) {
+    if (dados.cpf) { docEl.value = dados.cpf; }
+    else if (dados.cns) {
       var digits = dados.cns.replace(/\D/g, '').slice(0, 15);
-      docEl.value = digits.replace(/^(\d{3})(\d{0,4})(\d{0,4})(\d{0,4})/, function(_, a, b, c, d) {
-        return [a, b, c, d].filter(Boolean).join(' ');
-      });
+      docEl.value = digits.replace(/^(\d{3})(\d{0,4})(\d{0,4})(\d{0,4})/, function(_, a, b, c, d) { return [a, b, c, d].filter(Boolean).join(' '); });
     }
     if (docEl.value) docEl.dispatchEvent(new Event('input'));
   }
-  console.log('[Receituário] Paciente preenchido via localStorage:', dados.nome);
 }
 preencherDaURL();
 var _esus_poll = 0;
 var _esus_timer = setInterval(function() {
   _esus_poll++;
-  try {
-    if (localStorage.getItem('pacienteESUS_pendente')) {
-      preencherDaURL();
-      clearInterval(_esus_timer);
-      return;
-    }
-  } catch(e) {}
+  try { if (localStorage.getItem('pacienteESUS_pendente')) { preencherDaURL(); clearInterval(_esus_timer); return; } } catch(e) {}
   if (_esus_poll >= 30) clearInterval(_esus_timer);
 }, 500);
-
 </script>
 </body>
 </html>
