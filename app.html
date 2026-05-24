@@ -904,7 +904,7 @@ body {
 (function(){
   var SESSION_KEY = "receituario_auth";
   var raw = sessionStorage.getItem(SESSION_KEY);
-  if (!raw) { window.location.replace("index.html"); return; }
+  if (!raw) { window.location.replace("login.html"); return; }
   try {
     var data = JSON.parse(raw);
     if (!data.exp || Date.now() >= data.exp) {
