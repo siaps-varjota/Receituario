@@ -445,9 +445,25 @@ body {
     <h1>Requisição de Mamografia</h1>
     <p>Programa Nacional de Controle do Câncer de Mama — Ministério da Saúde</p>
   </div>
-  <button class="topbar-print-btn" onclick="window.location.href='portal.html'">
-    <span>🏠</span> Portal
-  </button>
+   <button 
+  onclick="window.location.href='portal.html'"
+  style="
+    margin-left:500px;
+    background:#374151;
+    border:1px solid rgba(255,255,255,0.25);
+    color:#e2f8f4;
+    font-size:12px;
+    padding:6px 16px;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  "
+>
+  🏠 Portal
+</button>
   <button class="topbar-gen-btn" onclick="gerarPDF()">
     <span>📄</span> Gerar PDF
   </button>
