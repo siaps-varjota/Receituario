@@ -1036,11 +1036,7 @@ function App() {
   const [openCats, setOpenCats] = useState(new Set(SYMPTOM_CATEGORIES.map(c=>c.id)));
   const [fontScale, setFontScale] = useState(1);
   const adjustFont = (delta) => {
-    setFontScale(prev => {
-      const next = Math.min(1.4, Math.max(0.7, Math.round((prev + delta) * 100) / 100));
-      document.documentElement.style.fontSize = (16 * next) + "px";
-      return next;
-    });
+    setFontScale(prev => Math.min(1.4, Math.max(0.7, Math.round((prev + delta) * 100) / 100)));
   };
 
   const toggleSymptom = (id) => setSelected(prev => { const n=new Set(prev); n.has(id)?n.delete(id):n.add(id); return n; });
@@ -1059,7 +1055,7 @@ function App() {
   const clearAll = () => setSelected(new Set());
 
   return (
-    <div style={{ fontFamily:"'Segoe UI', system-ui, sans-serif", background:"#f1f5f9", minHeight:"100vh" }}>
+    <div style={{ fontFamily:"'Segoe UI', system-ui, sans-serif", background:"#f1f5f9", minHeight:"100vh", zoom: fontScale }}>
       <div style={{ background:"linear-gradient(135deg, #02343f 0%, #0a5c4e 100%)", padding:"18px 24px", boxShadow:"0 2px 20px rgba(0,0,0,0.2)" }}>
         <div style={{ maxWidth:"1200px", margin:"0 auto", display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:"10px" }}>
           <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
