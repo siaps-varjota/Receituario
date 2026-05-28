@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estratificação de Risco da Criança 0–5 anos — SESA/CE</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* ── Azul bebê — cor principal ── */
+  --baby-dark:   #1e4976;
+  --baby:        #2e86c1;
+  --baby-mid:    #3498db;
+  --baby-light:  #5dade2;
+  --baby-pale:   #ebf5fb;
+  --baby-border: #aed6f1;
+
+  /* ── Semáforo de risco ── */
+  --green:        #1a7a3c;
+  --green-pale:   #e8f8ef;
+  --green-border: #a9dfbf;
+
+  --amber:        #c47a1e;
+  --amber-light:  #fef5e7;
+  --amber-border: #f0c882;
+
+  --red:          #b5292a;
+  --red-light:    #fdeaea;
+  --red-border:   #f0aaaa;
+
+  --vinho:        #7f1d1d;
+  --vinho-light:  #fef2f2;
+  --vinho-border: #fecaca;
+
+  /* ── Auxiliares ── */
+  --purple:        #6a3fa0;
+  --purple-light:  #f3eeff;
+  --purple-border: #d0b8f5;
+
+  --text:       #1a1a1a;
+  --text-mid:   #3d3d3d;
+  --text-soft:  #666;
+  --bg:         #eef4fb;
+  --white:      #ffffff;
+  --border:     #c5ddf0;
+  --shadow:     0 2px 12px rgba(30,73,118,0.10);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { font-size:16px; }
+body { font-family:'IBM Plex Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+/* ── HEADER ── */
+.app-header { background:var(--baby-dark); color:white; position:sticky; top:0; z-index:200; box-shadow:0 2px 16px rgba(0,0,0,0.28); }
+.header-top  { display:flex; align-items:center; gap:0.8rem; padding:0.9rem 1rem; border-bottom:1px solid rgba(255,255,255,0.12); }
+.header-icon { font-size:1.5rem; background:var(--baby-mid); width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.header-title h1 { font-size:0.97rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; }
+.header-title p  { font-size:0.67rem; opacity:0.6; font-weight:300; margin-top:0.1rem; }
+.badge-ms { font-size:0.62rem; background:rgba(255,255,255,0.13); border:1px solid rgba(255,255,255,0.22); border-radius:4px; padding:0.15rem 0.45rem; margin-left:auto; white-space:nowrap; }
+.font-ctrl { display:flex; align-items:center; gap:0.3rem; margin-left:0.5rem; flex-shrink:0; }
+.font-btn  { background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); color:white; border-radius:6px; width:28px; height:28px; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s; font-family:inherit; }
+.font-btn:hover { background:rgba(255,255,255,0.28); }
+.font-label { font-size:0.65rem; color:rgba(255,255,255,0.5); white-space:nowrap; }
+
+/* ── NAV ── */
+.nav-scroll { display:flex; overflow-x:auto; scrollbar-width:none; }
+.nav-scroll::-webkit-scrollbar { display:none; }
+.nav-btn { padding:0.65rem 0.9rem; border:none; background:transparent; color:rgba(255,255,255,0.58); font-family:'IBM Plex Sans',sans-serif; font-size:0.72rem; font-weight:500; cursor:pointer; white-space:nowrap; border-bottom:2px solid transparent; transition:all .15s; }
+.nav-btn:hover  { color:rgba(255,255,255,0.9); }
+.nav-btn.active { color:white; border-bottom-color:#7ec8e3; }
+
+/* ── LAYOUT ── */
+.main    { max-width:45rem; margin:0 auto; padding:1.2rem 1rem 5rem; }
+.section { display:none; }
+.section.active { display:block; }
+
+/* ── CARD ── */
+.card { background:var(--white); border-radius:12px; border:1px solid var(--border); padding:1.2rem; margin-bottom:0.9rem; box-shadow:var(--shadow); }
+.card-header { display:flex; align-items:center; gap:0.5rem; margin-bottom:1rem; }
+.card-icon  { font-size:1rem; background:var(--baby-pale); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.card-title { font-size:0.85rem; font-weight:700; color:var(--baby-dark); text-transform:uppercase; letter-spacing:0.06em; }
+
+/* ── ALGORITMO ── */
+.algo-question { font-size:0.95rem; font-weight:600; color:var(--text); margin-bottom:1rem; line-height:1.45; }
+.btn-group { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.5rem; }
+.btn-opt  { padding:0.55rem 1.1rem; border:1.5px solid var(--border); border-radius:8px; background:white; font-family:'IBM Plex Sans',sans-serif; font-size:0.85rem; font-weight:500; cursor:pointer; transition:all .15s; color:var(--text-mid); }
+.btn-opt:hover   { border-color:var(--baby-light); color:var(--baby); background:var(--baby-pale); }
+.btn-opt.selected{ background:var(--baby); color:white; border-color:var(--baby); }
+.btn-restart { padding:0.5rem 1rem; background:transparent; border:1.5px solid var(--baby-border); border-radius:8px; color:var(--baby); font-family:'IBM Plex Sans',sans-serif; font-size:0.8rem; font-weight:600; cursor:pointer; margin-top:1rem; transition:all .15s; }
+.btn-restart:hover { background:var(--baby-pale); }
+
+/* trilha */
+.step-trail { display:flex; flex-wrap:wrap; gap:0.3rem; margin-bottom:1rem; }
+.step-chip  { font-size:0.71rem; background:var(--baby-pale); color:var(--baby); border:1px solid var(--baby-border); padding:0.18rem 0.55rem; border-radius:20px; font-weight:500; }
+
+/* resultado */
+.result-box { border-radius:10px; padding:1rem; margin-top:0.8rem; border:1.5px solid; }
+.result-box.green { background:var(--green-pale);  border-color:var(--green-border); }
+.result-box.amber { background:var(--amber-light); border-color:var(--amber-border); }
+.result-box.red   { background:var(--red-light);   border-color:var(--red-border); }
+.result-box.vinho { background:var(--vinho-light); border-color:var(--vinho-border); }
+.result-badge { display:inline-flex; align-items:center; gap:0.35rem; font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; padding:0.2rem 0.6rem; border-radius:4px; margin-bottom:0.6rem; color:white; }
+.result-badge.green { background:var(--green); }
+.result-badge.amber { background:var(--amber); }
+.result-badge.red   { background:var(--red); }
+.result-badge.vinho { background:var(--vinho); }
+.result-title { font-size:0.9rem; font-weight:700; margin-bottom:0.4rem; color:var(--text); }
+.result-body  { font-size:0.83rem; color:var(--text-mid); line-height:1.55; }
+.result-body ul { padding-left:1.2rem; margin-top:0.4rem; }
+.result-body li { margin-bottom:0.3rem; }
+
+/* ── INFO BOX ── */
+.info-box { display:flex; gap:0.6rem; align-items:flex-start; padding:0.75rem 0.9rem; border-radius:8px; font-size:0.82rem; line-height:1.5; margin-bottom:0.8rem; border:1px solid transparent; }
+.info-box.blue   { background:var(--baby-pale);   border-color:var(--baby-border);   color:var(--baby-dark); }
+.info-box.green  { background:var(--green-pale);  border-color:var(--green-border);  color:#145a2b; }
+.info-box.amber  { background:var(--amber-light); border-color:var(--amber-border);  color:#7a4c0e; }
+.info-box.red    { background:var(--red-light);   border-color:var(--red-border);    color:#7a1a1a; }
+.info-box.vinho  { background:var(--vinho-light); border-color:var(--vinho-border);  color:var(--vinho); }
+.info-box.purple { background:var(--purple-light);border-color:var(--purple-border); color:#3a1a6a; }
+
+/* ── ACCORDION ── */
+.acc-item { border:1px solid var(--border); border-radius:8px; margin-bottom:0.5rem; overflow:hidden; }
+.acc-header { padding:0.75rem 1rem; font-size:0.85rem; font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; background:#fafcff; transition:background .15s; color:var(--text-mid); }
+.acc-header:hover { background:var(--baby-pale); color:var(--baby); }
+.acc-item.open .acc-header { background:var(--baby-pale); color:var(--baby); }
+.acc-arrow { font-size:0.7rem; transition:transform .2s; }
+.acc-item.open .acc-arrow { transform:rotate(90deg); }
+.acc-body { display:none; padding:0.9rem 1rem; font-size:0.83rem; color:var(--text-mid); line-height:1.6; border-top:1px solid var(--border); }
+.acc-item.open .acc-body { display:block; }
+.acc-body ul { padding-left:1.1rem; margin-top:0.3rem; }
+.acc-body li { margin-bottom:0.35rem; }
+.acc-body p  { margin-bottom:0.5rem; }
+.acc-body strong { color:var(--text); }
+
+/* ── TABELAS ── */
+table.std-table { width:100%; border-collapse:collapse; font-size:0.8rem; margin-bottom:0.5rem; }
+table.std-table th { background:var(--baby-pale); color:var(--baby-dark); padding:0.6rem 0.7rem; text-align:left; font-weight:700; font-size:0.74rem; text-transform:uppercase; letter-spacing:0.04em; }
+table.std-table td { padding:0.6rem 0.7rem; border-bottom:1px solid var(--border); vertical-align:top; color:var(--text-mid); line-height:1.5; }
+table.std-table tr:last-child td { border-bottom:none; }
+table.std-table tr:nth-child(even) td { background:var(--baby-pale); }
+
+/* ── ESTRATO CARDS ── */
+.strato-card { border-radius:10px; margin-bottom:0.7rem; overflow:hidden; border:1.5px solid; }
+.strato-header { padding:0.7rem 1rem; color:white; }
+.strato-header h3 { font-size:0.88rem; font-weight:700; }
+.strato-header p  { font-size:0.72rem; opacity:0.88; margin-top:0.15rem; }
+.strato-body { padding:0.9rem 1rem; font-size:0.82rem; color:var(--text-mid); line-height:1.55; }
+.strato-body .sub-label { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text); margin-bottom:0.3rem; }
+.strato-body ul { padding-left:1.1rem; }
+.strato-body li { margin-bottom:0.28rem; }
+
+.strato-card.habitual .strato-header { background:var(--green); }
+.strato-card.habitual { border-color:var(--green-border); }
+.strato-card.habitual .strato-body { background:var(--green-pale); }
+
+.strato-card.inter .strato-header { background:var(--amber); }
+.strato-card.inter { border-color:var(--amber-border); }
+.strato-card.inter .strato-body { background:var(--amber-light); }
+
+.strato-card.alto .strato-header { background:var(--red); }
+.strato-card.alto { border-color:var(--red-border); }
+.strato-card.alto .strato-body { background:var(--red-light); }
+
+.strato-card.vinho .strato-header { background:var(--vinho); }
+.strato-card.vinho { border-color:var(--vinho-border); }
+.strato-card.vinho .strato-body { background:var(--vinho-light); }
+
+/* ── RISK ROWS ── */
+.risk-grid { display:grid; gap:0.5rem; margin-bottom:0.8rem; }
+.risk-row  { display:grid; grid-template-columns:36px 1fr; gap:0.6rem; align-items:flex-start; padding:0.7rem 0.9rem; border-radius:8px; border:1.5px solid; }
+.risk-row.habitual { background:var(--green-pale);  border-color:var(--green-border); }
+.risk-row.inter    { background:var(--amber-light); border-color:var(--amber-border); }
+.risk-row.alto     { background:var(--red-light);   border-color:var(--red-border); }
+.risk-row.vinho    { background:var(--vinho-light); border-color:var(--vinho-border); }
+.risk-icon  { font-size:1.3rem; line-height:1; }
+.risk-title { font-size:0.82rem; font-weight:700; margin-bottom:0.2rem; }
+.risk-row.habitual .risk-title { color:var(--green); }
+.risk-row.inter    .risk-title { color:var(--amber); }
+.risk-row.alto     .risk-title { color:var(--red); }
+.risk-row.vinho    .risk-title { color:var(--vinho); }
+.risk-desc { font-size:0.77rem; color:var(--text-mid); line-height:1.4; }
+
+/* ── CALENDÁRIO ── */
+.cal-table { width:100%; border-collapse:collapse; font-size:0.75rem; margin-bottom:0.5rem; }
+.cal-table th { background:var(--baby); color:white; padding:0.45rem 0.4rem; text-align:center; font-weight:600; font-size:0.7rem; }
+.cal-table th:first-child { text-align:left; }
+.cal-table td { padding:0.4rem; border-bottom:1px solid var(--border); text-align:center; color:var(--text-mid); vertical-align:middle; }
+.cal-table td:first-child { text-align:left; }
+.cal-table td:nth-child(2) { font-size:0.68rem; color:var(--text-soft); }
+.cal-table tr:nth-child(even) td { background:var(--baby-pale); }
+.cal-table .check { color:var(--green); font-weight:700; font-size:0.9rem; }
+
+/* ── M-CHAT ── */
+.mchat-item   { background:white; border:1px solid var(--border); border-radius:8px; margin-bottom:0.5rem; overflow:hidden; }
+.mchat-header { display:flex; justify-content:space-between; align-items:center; padding:0.55rem 0.9rem; font-size:0.83rem; font-weight:600; background:var(--baby-pale); gap:0.5rem; }
+.mchat-opts   { padding:0.55rem 0.9rem; display:flex; gap:1.2rem; }
+.mchat-radio  { display:flex; align-items:center; gap:0.4rem; cursor:pointer; font-size:0.82rem; }
+.mchat-radio input { accent-color:var(--baby); }
+.score-total-box { background:var(--baby-dark); color:white; border-radius:10px; padding:1rem; text-align:center; margin-top:0.5rem; }
+.score-number { font-family:'IBM Plex Mono',monospace; font-size:2.5rem; font-weight:600; line-height:1; }
+.score-interpretation { font-size:0.85rem; margin-top:0.5rem; padding:0.5rem 0.8rem; border-radius:6px; font-weight:500; }
+
+/* ── CHIPS ── */
+.chips { display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:0.7rem; }
+.chip       { font-size:0.74rem; font-weight:600; padding:0.2rem 0.6rem; border-radius:20px; background:var(--baby-pale); border:1px solid var(--baby-border); color:var(--baby-dark); }
+.chip.red   { background:var(--red-light);   border-color:var(--red-border);   color:var(--red); }
+.chip.amber { background:var(--amber-light); border-color:var(--amber-border); color:var(--amber); }
+.chip.green { background:var(--green-pale);  border-color:var(--green-border); color:var(--green); }
+
+/* ── TIMELINE ── */
+.timeline::before { content:''; position:absolute; left:0.45rem; top:0; bottom:0; width:2px; background:var(--baby-border); }
+.timeline { position:relative; padding-left:1.4rem; }
+.tl-item  { position:relative; margin-bottom:0.9rem; }
+.tl-dot   { position:absolute; left:-1rem; top:0.2rem; width:10px; height:10px; border-radius:50%; background:var(--baby); border:2px solid white; box-shadow:0 0 0 2px var(--baby-border); }
+.tl-title { font-size:0.83rem; font-weight:700; color:var(--text); margin-bottom:0.15rem; }
+.tl-body  { font-size:0.79rem; color:var(--text-mid); line-height:1.5; }
+
+@media (max-width:480px) {
+  .cal-table { font-size:0.64rem; }
+  .cal-table th, .cal-table td { padding:0.28rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="header-top">
+    <div class="header-icon">👶</div>
+    <div class="header-title">
+      <h1>Estratificação de Risco — Criança 0–5 anos</h1>
+      <p>Nota Técnica Nº 03 · 22/07/2025 · SESA-CE</p>
+    </div>
+    <div class="badge-ms">SESA · 2025</div>
+    <div class="font-ctrl">
+      <span class="font-label">A</span>
+      <button class="font-btn" onclick="adjustFont(-0.05)">−</button>
+      <button class="font-btn" onclick="adjustFont(0.05)">＋</button>
+    </div>
+  </div>
+  <div class="nav-scroll">
+    <button class="nav-btn active" onclick="goSection('algo')">Algoritmo</button>
+    <button class="nav-btn" onclick="goSection('criterios')">Critérios</button>
+    <button class="nav-btn" onclick="goSection('conduta')">Conduta</button>
+    <button class="nav-btn" onclick="goSection('calendario')">Calendário</button>
+    <button class="nav-btn" onclick="goSection('mchat')">M-CHAT-R</button>
+    <button class="nav-btn" onclick="goSection('praticas')">Boas Práticas</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  ALGORITMO                                            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="sec-algo" class="section active">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🔍</div>
+      <div class="card-title">Algoritmo de Estratificação de Risco</div>
+    </div>
+
+    <div class="info-box amber">
+      <span>⚠️</span>
+      <span><strong>Regra de Ouro:</strong> basta <strong>UM ÚNICO CRITÉRIO</strong> para definir o estrato. Sempre prevalece o de <strong>maior risco</strong>. A estratificação deve ser realizada em <strong>todas as consultas programadas</strong>.</span>
+    </div>
+
+    <div id="algo-trail" class="step-trail" style="display:none"></div>
+    <div id="algo-step"></div>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem">
+      <button class="btn-restart" onclick="voltarAlgo()" id="algo-voltar" style="display:none">← Voltar</button>
+      <button class="btn-restart" onclick="resetAlgo()"  id="algo-reset"  style="display:none">↺ Reiniciar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">⚠️</div><div class="card-title">Alertas Clínicos</div></div>
+    <div class="info-box vinho"><span>🆘</span><span><strong>Alto Risco com Condições Especiais:</strong> gestão de caso obrigatória. Encaminhar ao Ambulatório de Seguimento do RN/criança com prioridade.</span></div>
+    <div class="info-box red"><span>🔴</span><span><strong>Alto Risco:</strong> acompanhamento compartilhado APS + AAE. Plano de Cuidados formalizado pela equipe interdisciplinar.</span></div>
+    <div class="info-box amber"><span>🟡</span><span><strong>Fatores sociofamiliares de risco alto,</strong> quando presentes isoladamente, <strong>não determinam encaminhamento à AAE</strong>, mas são agravantes da situação da criança.</span></div>
+    <div class="info-box green"><span>🟢</span><span><strong>M-CHAT-R positivo</strong> não confirma diagnóstico de TEA — é instrumento de <strong>triagem</strong>. Resultado positivo → encaminhar para avaliação diagnóstica e intervenção precoce.</span></div>
+    <div class="info-box blue"><span>🔵</span><span><strong>Reclassificação dinâmica:</strong> o estrato de risco pode mudar em qualquer consulta. Reavaliar sempre que surgir novo critério.</span></div>
+  </div>
+
+</div><!-- /sec-algo -->
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  CRITÉRIOS                                            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="sec-criterios" class="section">
+
+  <!-- HABITUAL -->
+  <div class="strato-card habitual">
+    <div class="strato-header">
+      <h3>🟢 Risco Habitual</h3>
+      <p>Ausência de fatores de risco — riscos inerentes à própria condição de vida</p>
+    </div>
+    <div class="strato-body">
+      <div class="sub-label">✅ Todos os seguintes critérios presentes (ausência de risco)</div>
+      <ul>
+        <li>Mãe com realização de pré-natal completo (≥ 7 consultas).</li>
+        <li>Peso ao nascer ≥ 2.500 g e ≤ 4.000 g.</li>
+        <li>APGAR ≥ 7 no 5º minuto.</li>
+        <li>Ausência de patologias específicas.</li>
+        <li>Triagem neonatal realizada e com resultado sem alterações (teste do pezinho, reflexo vermelho, orelhinha, coraçãozinho e linguinha).</li>
+        <li>Aleitamento materno exclusivo até 6 meses e complementar até 2 anos.</li>
+        <li>Crescimento e desenvolvimento adequados para a idade (perímetro cefálico, peso, comprimento, IMC e marcos do desenvolvimento conforme a Caderneta da Criança).</li>
+        <li>Calendário vacinal em dia.</li>
+        <li>Rede de apoio definida.</li>
+        <li>Mãe com mais de 5 anos de estudo.</li>
+        <li>Mãe e/ou pai maior de 18 anos.</li>
+        <li>União estável, casado ou morando juntos.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- INTERMEDIÁRIO -->
+  <div class="strato-card inter">
+    <div class="strato-header">
+      <h3>🟡 Risco Intermediário</h3>
+      <p>Condições de saúde, nutrição, cuidado, fatores sociofamiliares, ambiente e doenças do ciclo de vida</p>
+    </div>
+    <div class="strato-body">
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Condições de Saúde — 1ª Semana e 1º Mês de Vida <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Recém-nascido a <strong>termo precoce</strong> com IG de 37 a 38 semanas.</li>
+          <li>Risco de <strong>hiperbilirrubinemia indireta patológica</strong> precoce.</li>
+          <li>Risco de <strong>desmame precoce</strong>.</li>
+          <li>Risco de <strong>sepse neonatal</strong>.</li>
+          <li><strong>Não realização</strong> da triagem neonatal ou <strong>atraso</strong> na sua realização (pezinho, reflexo vermelho, orelhinha, coraçãozinho, linguinha).</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Fatores Relacionados à Nutrição <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Desmame do aleitamento materno exclusivo <strong>antes de 6 meses</strong> de vida.</li>
+          <li>Distanciamento do canal de crescimento em fase inicial (peso, comprimento/altura, perímetro cefálico e IMC).</li>
+          <li>Sobrepeso, obesidade, desnutrição ou subnutrição clínica <strong>sem comorbidades e sem repercussão clínica</strong>.</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Fatores Sociofamiliares <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Gravidez indesejada.</li>
+          <li>Pré-natal tardio (início acima de 12 semanas de gestação).</li>
+          <li>Mãe e/ou pai <strong>menor de 18 anos</strong>.</li>
+          <li>Mãe com <strong>baixa escolaridade</strong> (menos de 5 anos de estudo).</li>
+          <li>Pré-natal não realizado ou incompleto (menos de 7 consultas, exames ou tratamentos não realizados).</li>
+          <li>Irmãos menores de 5 anos com internação de repetição ou <strong>óbito por causas evitáveis</strong>.</li>
+          <li>Mãe e/ou pai com condições ou comportamento que <strong>comprometam o cuidado</strong> da criança.</li>
+          <li>Mãe e/ou pai <strong>ausente</strong> por doença, abandono ou óbito.</li>
+          <li>Filhos de mãe e/ou pai em <strong>regime prisional</strong>.</li>
+          <li>Filhos de mãe e/ou pai em <strong>situação de rua</strong>, quilombolas, negras ou indígenas.</li>
+          <li>Indícios de <strong>violência física, sexual, psicológica</strong> e/ou trabalho infantil.</li>
+          <li>Gravidez relacionada à <strong>violência sexual</strong>.</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Fatores Relacionados ao Cuidado <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Criança <strong>não vacinada</strong> ou com esquema vacinal atrasado.</li>
+          <li><strong>Não comparecimento</strong> à agenda de puericultura.</li>
+          <li>Higiene oral, corporal e/ou genital <strong>prejudicada</strong>.</li>
+          <li><strong>Baixa autoeficácia</strong> materna, paterna, do cuidador ou responsável.</li>
+          <li><strong>Uma internação</strong> no último ano.</li>
+          <li>Não vinculação da criança à <strong>UBS</strong> e/ou ao <strong>ACS</strong>.</li>
+          <li>Criança <strong>menor de 1 ano</strong> exposta a telas (TV, celulares, tablets, computadores).</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Fatores Relacionados ao Ambiente <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Exposição à <strong>fumaça do tabaco</strong>.</li>
+          <li>Condições de <strong>moradia desfavoráveis</strong>.</li>
+          <li><strong>Vulnerabilidade socioeconômica</strong>.</li>
+          <li>Dificuldade de <strong>acesso</strong> aos serviços de saúde e sociais.</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Doenças Próprias do Ciclo de Vida <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Doenças transitórias, <strong>sem complicações</strong>.</li>
+          <li>Doenças bucais de menor complexidade: lesão de mancha branca, cárie dentária, doença periodontal.</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALTO RISCO -->
+  <div class="strato-card alto">
+    <div class="strato-header">
+      <h3>🔴 Alto Risco</h3>
+      <p>Condições perinatais, afecções neonatais, complicações da prematuridade, fatores evolutivos e familiares</p>
+    </div>
+    <div class="strato-body">
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Condições Perinatais <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Baixo peso ao nascer <strong>(< 2.500 g)</strong>.</li>
+          <li>Prematuridade <strong>(IG < 37 semanas)</strong>.</li>
+          <li><strong>PIG</strong> — Pequeno para a Idade Gestacional (peso estimado abaixo do percentil 10).</li>
+          <li><strong>GIG</strong> — Grande para a Idade Gestacional (peso acima do percentil 90).</li>
+          <li>Egressos de <strong>UCI / UTI Neonatal</strong>.</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Afecções Peri e Neonatais <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>APGAR <strong>≤ 6</strong> no 5º minuto.</li>
+          <li>Asfixia perinatal.</li>
+          <li>Hiperbilirrubinemia indireta <strong>grave</strong>.</li>
+          <li>Hiperbilirrubinemia direta <strong>(colestase)</strong>.</li>
+          <li>Infecções crônicas do grupo <strong>ZTORCHS + HIV</strong> (confirmadas ou em investigação).</li>
+          <li>Malformações congênitas (lábio palatinas, cardiopatias, neurológicas, genitourinárias, craniofaciais).</li>
+          <li>Cromossomopatias (Síndrome de Down, Turner, triplo X, Edwards, Patau e outras).</li>
+          <li>Doenças genéticas e metabólicas (Doença de Wilson, fibrose cística, hipo/hipertireoidismo, diabetes tipo I).</li>
+          <li>Condições neurológicas (convulsões, paralisias cerebrais, baixa estimulação psicossocial).</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Complicações da Prematuridade <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Doença pulmonar crônica.</li>
+          <li>Retinopatia e cegueira.</li>
+          <li>Surdez.</li>
+          <li>Síndrome do desconforto respiratório, problemas cardíacos e gastrointestinais.</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Fatores Familiares <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Pais com <strong>dependência de álcool e outras drogas</strong>.</li>
+          <li><strong>Depressão parental</strong>.</li>
+          <li>Doenças maternas <strong>graves e/ou não controladas</strong>.</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Fatores Evolutivos <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Crescimento <strong>fora dos limites</strong> padronizados para a idade.</li>
+          <li>Atraso no desenvolvimento neuropsicomotor <strong>(DNPM)</strong> para a idade.</li>
+          <li><strong>Desnutrição grave</strong>.</li>
+          <li>Traços do espectro do autismo diagnosticado ou triado pelo <strong>M-CHAT-R</strong>.</li>
+          <li>Sinais de <strong>violência física, sexual e/ou psicológica</strong>.</li>
+          <li>Obesidade <strong>com comorbidades e repercussão clínica</strong>.</li>
+          <li>Infecções do <strong>trato respiratório inferior de repetição</strong>.</li>
+          <li><strong>Asma moderada ou grave</strong>.</li>
+          <li>Doenças diarreicas crônicas ou de repetição.</li>
+          <li>Alergia ou intolerância alimentar <strong>com repercussão clínica</strong>.</li>
+          <li>Infecção urinária de repetição.</li>
+          <li>Complicações de infecções do <strong>sistema nervoso central</strong>.</li>
+          <li>Desordens endócrinas, metabólicas, sanguíneas e/ou imunes.</li>
+          <li>Cardiomiopatia, miocardite e outras doenças cardiovasculares e/ou circulatórias.</li>
+          <li>HIV/AIDS confirmado ou em investigação.</li>
+          <li>Leucemia e/ou outras neoplasias.</li>
+          <li><strong>Doenças diagnosticadas na triagem neonatal</strong>.</li>
+          <li>Outras doenças evolutivas graves (ex.: baixa conexão ocular).</li>
+          <li>Intercorrências repetidas com repercussão clínica.</li>
+          <li>Mãe soropositiva para HIV, Sífilis, Toxoplasmose, Rubéola, CMV, Hepatite B, Herpes e/ou HTLV, <strong>com criança negativa</strong> para estas patologias.</li>
+          <li>Doença renal.</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALTO RISCO COM CONDIÇÕES ESPECIAIS -->
+  <div class="strato-card vinho">
+    <div class="strato-header">
+      <h3>🆘 Alto Risco com Condições Especiais</h3>
+      <p>Máxima complexidade — gestão de caso obrigatória</p>
+    </div>
+    <div class="strato-body">
+      <ul>
+        <li>Peso ao nascer <strong>< 2.000 g</strong> <em>ou</em> Idade Gestacional <strong>< 34 semanas</strong>.</li>
+        <li>Malformações congênitas <strong>graves</strong>, cromossomopatias e doenças metabólicas com <strong>repercussão clínica</strong>.</li>
+        <li><strong>2 ou mais internações</strong> no último ano.</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /sec-criterios -->
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  CONDUTA                                             -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="sec-conduta" class="section">
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🏥</div><div class="card-title">Ordenação do Cuidado na Rede</div></div>
+    <div style="overflow-x:auto">
+    <table class="std-table">
+      <thead><tr><th>Estrato</th><th>Acompanhamento</th><th>Serviços</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--green)">🟢 Habitual</strong></td><td>Equipe de APS</td><td>UBS</td></tr>
+        <tr><td><strong style="color:var(--amber)">🟡 Intermediário</strong></td><td>APS com apoio matricial da AAE</td><td>UBS, policlínicas, hospital de risco habitual e intermediário</td></tr>
+        <tr><td><strong style="color:var(--red)">🔴 Alto</strong></td><td>Compartilhado APS + AAE</td><td>UBS, policlínicas, hospital de alto risco</td></tr>
+        <tr><td><strong style="color:var(--vinho)">🆘 Alto Especial</strong></td><td>APS + AAE + especialidades necessárias</td><td>UBS, Ambulatório de Seguimento do RN/criança</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🎯</div><div class="card-title">Conduta Detalhada por Estrato</div></div>
+    <div class="risk-grid">
+      <div class="risk-row habitual">
+        <div class="risk-icon">🟢</div>
+        <div>
+          <div class="risk-title">RISCO HABITUAL — APS</div>
+          <div class="risk-desc">Acompanhamento de acordo com as diretrizes clínicas. Consultas programadas conforme calendário padrão.</div>
+        </div>
+      </div>
+      <div class="risk-row inter">
+        <div class="risk-icon">🟡</div>
+        <div>
+          <div class="risk-title">RISCO INTERMEDIÁRIO — APS + Apoio Matricial AAE</div>
+          <div class="risk-desc">Maior vigilância e intensidade de cuidados. Apoio matricial da AAE para discussão de casos. Para cárie severa: encaminhar ao CEO (Centro Especializado Odontológico).</div>
+        </div>
+      </div>
+      <div class="risk-row alto">
+        <div class="risk-icon">🔴</div>
+        <div>
+          <div class="risk-title">ALTO RISCO — Compartilhado APS + AAE</div>
+          <div class="risk-desc"><strong>APS:</strong> monitoramento do Plano de Cuidado definido em conjunto com a equipe especializada.<br><strong>AAE:</strong> define o Plano de Cuidado, apoia a APS direta e indiretamente via matriciamento. Foco na estabilização.</div>
+        </div>
+      </div>
+      <div class="risk-row vinho">
+        <div class="risk-icon">🆘</div>
+        <div>
+          <div class="risk-title">ALTO RISCO COM CONDIÇÕES ESPECIAIS</div>
+          <div class="risk-desc">APS + AAE + outros serviços e especialidades. <strong>Gestão de caso obrigatória.</strong> Garantia de cuidado, estabilização clínica e tratamentos específicos.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🔄</div><div class="card-title">Fluxo dos Pontos de Atenção — Ceará</div></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-dot"></div>
+        <div class="tl-title">🏠 UBS / Domicílio — Porta de Entrada</div>
+        <div class="tl-body">Triagem neonatal, vacinação, acompanhamento do crescimento e desenvolvimento, identificação de sinais de risco e encaminhamento conforme estratificação.</div>
+      </div>
+      <div class="tl-item"><div class="tl-dot"></div>
+        <div class="tl-title">🏛️ Policlínica — Atenção Intermediária</div>
+        <div class="tl-body">Atendimento ambulatorial especializado, exames de apoio diagnóstico e plano terapêutico.</div>
+      </div>
+      <div class="tl-item"><div class="tl-dot"></div>
+        <div class="tl-title">🏥 Hospital de Risco Habitual e Intermediário</div>
+        <div class="tl-body">Internações clínicas e cirúrgicas. UCI Neonatal. Atendimento ao RN que requer cuidados intermediários (berçário de médio risco).</div>
+      </div>
+      <div class="tl-item"><div class="tl-dot"></div>
+        <div class="tl-title">🏨 Hospital de Alto Risco</div>
+        <div class="tl-body">UTI adulto, neonatal e pediátrica, UCINCA e UCINCO. Urgência e emergência pediátrica, internações complexas e UTI quando necessário.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📋</div><div class="card-title">Classificação do RN — Referência Rápida</div></div>
+    <div style="overflow-x:auto">
+    <table class="std-table">
+      <thead><tr><th>Critério</th><th>Categoria</th><th>Valor</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="4"><strong>Peso ao Nascer</strong></td><td>Extremo baixo peso</td><td>&lt; 1.000 g</td></tr>
+        <tr><td>Muito baixo peso</td><td>&lt; 1.500 g</td></tr>
+        <tr><td>Baixo peso</td><td>&lt; 2.500 g</td></tr>
+        <tr><td>Peso excessivo</td><td>&gt; 4.500 g</td></tr>
+        <tr><td rowspan="7"><strong>Idade Gestacional</strong></td><td>Pré-termo extremo</td><td>IG &lt; 28 sem</td></tr>
+        <tr><td>Muito prematuro</td><td>IG 28–31 sem</td></tr>
+        <tr><td>Pré-termo moderado</td><td>IG 32–33 sem</td></tr>
+        <tr><td>Pré-termo tardio</td><td>IG 34–36 sem</td></tr>
+        <tr><td>Termo precoce</td><td>IG 37–38 sem</td></tr>
+        <tr><td>Termo completo</td><td>IG 39–41 sem</td></tr>
+        <tr><td>Pós-termo</td><td>IG ≥ 42 sem</td></tr>
+        <tr><td rowspan="3"><strong>APGAR</strong></td><td>Asfixia grave</td><td>0–3</td></tr>
+        <tr><td>Asfixia moderada</td><td>4–6</td></tr>
+        <tr><td>Boa vitalidade</td><td>7–10</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+</div><!-- /sec-conduta -->
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  CALENDÁRIO                                           -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="sec-calendario" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📅</div><div class="card-title">Calendário de Puericultura na APS</div></div>
+    <div class="info-box blue">
+      <span>📌</span>
+      <span>A periodicidade é sempre definida conforme avaliação clínica e plano de cuidados. O calendário abaixo é a <strong>sugestão mínima</strong> da Nota Técnica Nº 03/2025.</span>
+    </div>
+    <div style="overflow-x:auto">
+    <table class="cal-table">
+      <thead>
+        <tr>
+          <th>Consulta</th><th>Profissional</th>
+          <th>🟢 Habitual</th><th>🟡 Intermediário</th><th>🔴 Alto / Especial</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1ª semana</td><td>Médico/Enfermeiro</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>1º mês</td><td>Médico</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>2º mês</td><td>Enfermeiro</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>3º mês</td><td>Médico</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>4º mês</td><td>Enfermeiro</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>5º mês</td><td>Médico</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>6º mês</td><td>Enf. / Nutricionista</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>7º mês</td><td>Médico</td><td>—</td><td>—</td><td class="check">✓</td></tr>
+        <tr><td>8º mês</td><td>Enfermeiro</td><td>—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>9º mês</td><td>Médico</td><td class="check">✓</td><td>—</td><td class="check">✓</td></tr>
+        <tr><td>10º mês</td><td>Enfermeiro</td><td>—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>11º mês</td><td>Enfermeiro</td><td>—</td><td>—</td><td class="check">✓</td></tr>
+        <tr><td>12º mês</td><td>Médico</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>15º mês</td><td>Enfermeiro</td><td>—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>18º mês</td><td>Médico</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>21º mês</td><td>Enfermeiro</td><td>—</td><td class="check">✓</td><td class="check">✓</td></tr>
+        <tr><td>24º mês</td><td>Médico</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:0.71rem;color:var(--text-soft);margin-top:0.5rem">Fonte: Elaboração pelos autores, 2025 — SESA/CE. Após 24 meses, frequência definida conforme estrato de risco e avaliação clínica.</p>
+  </div>
+</div><!-- /sec-calendario -->
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  M-CHAT-R                                            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="sec-mchat" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🧠</div><div class="card-title">Escala M-CHAT-R — Rastreio de TEA</div></div>
+    <div class="info-box amber">
+      <span>📌</span>
+      <span>Aplicar em crianças de <strong>16 a 30 meses</strong>. Preenchida pelos pais/responsáveis. <strong>NÃO confirma TEA</strong> — é instrumento de triagem. Em caso de suspeita clínica ou familiar, encaminhar para avaliação mesmo com resultado de baixo risco.</span>
+    </div>
+    <div class="info-box blue">
+      <span>ℹ️</span>
+      <span>Para a maioria dos itens, <strong>NÃO</strong> indica risco. <strong>Exceção — SIM indica risco:</strong> itens 2, 5 e 12 (marcados em vermelho).</span>
+    </div>
+    <div id="mchat-items"></div>
+    <div class="score-total-box" id="mchat-result-box" style="display:none">
+      <div style="font-size:0.74rem;opacity:0.7;text-transform:uppercase;letter-spacing:0.06em">Pontuação Total</div>
+      <div class="score-number" id="mchat-score">0</div>
+      <div class="score-interpretation" id="mchat-interp"></div>
+    </div>
+    <div style="text-align:center;margin-top:0.8rem">
+      <button class="btn-restart" onclick="resetMchat()">↺ Limpar respostas</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📊</div><div class="card-title">Interpretação da Pontuação</div></div>
+    <div style="overflow-x:auto">
+    <table class="std-table">
+      <thead><tr><th>Pontuação</th><th>Classificação</th><th>Conduta</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--green)">0–2</strong></td><td>Baixo Risco</td><td>Se a criança tem menos de 24 meses na 1ª avaliação, reaplicar após o 2º aniversário.</td></tr>
+        <tr><td><strong style="color:var(--amber)">3–7</strong></td><td>Risco Médio</td><td>Aplicar a Entrevista de Seguimento (MCHAT-R/F). Positivo se falhar em 2 ou mais itens da entrevista.</td></tr>
+        <tr><td><strong style="color:var(--red)">8–20</strong></td><td>Risco Elevado</td><td>Encaminhar imediatamente para avaliação diagnóstica e intervenção precoce. Acionar equipes multiprofissionais e/ou rede especializada.</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="info-box red" style="margin-top:0.6rem">
+      <span>🚨</span>
+      <span>Qualquer suspeita clínica ou familiar → encaminhar para avaliação especializada <strong>independentemente da pontuação</strong>.</span>
+    </div>
+  </div>
+</div><!-- /sec-mchat -->
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  BOAS PRÁTICAS                                        -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="sec-praticas" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-icon">✨</div><div class="card-title">Boas Práticas no Atendimento à Criança</div></div>
+
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">Princípios da Estratificação <span class="acc-arrow">▶</span></div>
+      <div class="acc-body"><ul>
+        <li>Um único critério já define o estrato — prevalece sempre o de <strong>maior risco</strong>.</li>
+        <li>A estratificação deve ser realizada em <strong>todas as consultas programadas</strong>.</li>
+        <li>A periodicidade das consultas é definida conforme avaliação clínica e plano de cuidados.</li>
+        <li>O <strong>Plano de Cuidados</strong> é um documento colaborativo entre equipe, usuário e família.</li>
+        <li>A <strong>gestão de caso</strong> pode ser realizada por qualquer profissional de saúde de nível superior em qualquer ponto da RAS (APS, AAE ou AH).</li>
+      </ul></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Aleitamento Materno <span class="acc-arrow">▶</span></div>
+      <div class="acc-body"><ul>
+        <li>O leite materno é alimento <strong>completo</strong> e é recomendado até os 2 anos de idade ou mais.</li>
+        <li>Aleitamento materno exclusivo até os <strong>6 meses</strong>.</li>
+        <li>Após os 6 meses, introdução alimentar complementar com manutenção do aleitamento.</li>
+        <li>Monitorar sinais de desmame precoce em todas as consultas do 1º semestre.</li>
+      </ul></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Telas e Tecnologia <span class="acc-arrow">▶</span></div>
+      <div class="acc-body"><ul>
+        <li><strong>Crianças &lt; 2 anos:</strong> não devem ser expostas a TV, celulares, tablets ou computadores.</li>
+        <li><strong>Crianças 2–5 anos:</strong> máximo de <strong>1 hora por dia</strong> diante de telas.</li>
+        <li><strong>Crianças até 10 anos:</strong> não devem ter TV ou computador nos próprios quartos.</li>
+        <li><strong>Crianças antes dos 12 anos:</strong> não devem possuir celulares ou smartphones.</li>
+        <li>Criança &lt; 1 ano exposta a telas = critério de <strong>Risco Intermediário</strong>.</li>
+      </ul></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Visita Domiciliar e Transição do Cuidado <span class="acc-arrow">▶</span></div>
+      <div class="acc-body"><ul>
+        <li>Visita domiciliar puerperal e ao RN <strong>preferencialmente até 72 horas</strong> após alta hospitalar.</li>
+        <li>Garantir visita na <strong>1ª semana de vida</strong>.</li>
+        <li>Reforçar comunicação e transição do cuidado seguro (plano de cuidados + sumário de alta) entre maternidade e APS.</li>
+        <li>ACS deve realizar o cadastro das famílias e das crianças com registro no <strong>e-SUS APS</strong>.</li>
+      </ul></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Caderneta da Criança <span class="acc-arrow">▶</span></div>
+      <div class="acc-body"><ul>
+        <li>A Caderneta da Criança (física e digital) acompanha saúde, crescimento e desenvolvimento do <strong>nascimento até os 9 anos</strong>.</li>
+        <li>Verificar em todas as consultas de puericultura.</li>
+        <li>Registrar todos os dados antropométricos, vacinais e marcos do desenvolvimento.</li>
+      </ul></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Os 5 Testes de Triagem Neonatal <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <div class="chips">
+          <span class="chip">🦶 Teste do Pezinho</span>
+          <span class="chip">👁️ Teste do Reflexo Vermelho</span>
+          <span class="chip">👂 Teste da Orelhinha</span>
+          <span class="chip">❤️ Teste do Coraçãozinho</span>
+          <span class="chip">👅 Teste da Linguinha</span>
+        </div>
+        <ul>
+          <li><strong>Não realização ou atraso</strong> em qualquer teste → Risco Intermediário.</li>
+          <li><strong>Resultado alterado</strong> → Risco Alto.</li>
+          <li><strong>Doença confirmada</strong> pela triagem → Risco Alto.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Fatores de Risco para Hiperbilirrubinemia Indireta <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <div class="chips">
+          <span class="chip amber">Baixo peso ao nascer</span>
+          <span class="chip amber">Prematuridade</span>
+          <span class="chip amber">Hemólise</span>
+          <span class="chip amber">Asfixia ao nascimento</span>
+          <span class="chip amber">Infecções</span>
+          <span class="chip amber">Histórico familiar de icterícia grave</span>
+          <span class="chip amber">Perda de peso &gt; 10% nos primeiros 5 dias</span>
+          <span class="chip amber">Dificuldade de sucção ao peito</span>
+          <span class="chip amber">Outras alterações ao exame clínico</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Fatores de Risco para Sepse Neonatal <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <div class="chips">
+          <span class="chip red">Baixo peso ao nascer</span>
+          <span class="chip red">Prematuridade</span>
+          <span class="chip red">Rotura de bolsa antes do TP</span>
+          <span class="chip red">Bolsa rota &gt; 18 horas</span>
+          <span class="chip red">Febre materna</span>
+          <span class="chip red">Dor suprapúbica</span>
+          <span class="chip red">Líquido amniótico fétido</span>
+          <span class="chip red">ITU não tratada no último mês de gestação</span>
+          <span class="chip red">Sinais de corioamnionite</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">ZTORCHS — Infecções Congênitas <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Confirmadas ou em investigação → <strong>Alto Risco</strong>. Mãe soropositiva com criança negativa → também <strong>Alto Risco</strong> (necessita acompanhamento).</p>
+        <div class="chips">
+          <span class="chip">Z — Zika</span>
+          <span class="chip">T — Toxoplasmose</span>
+          <span class="chip">O — Outras doenças</span>
+          <span class="chip">R — Rubéola</span>
+          <span class="chip">C — Citomegalovírus</span>
+          <span class="chip">H — Herpes</span>
+          <span class="chip">S — Sífilis</span>
+          <span class="chip red">+ HIV</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /sec-praticas -->
+
+</div><!-- /main -->
+
+<script>
+// ── FONTE ──────────────────────────────────────────────────
+let fontScale = parseFloat(localStorage.getItem('erc_font') || '1.0');
+document.documentElement.style.fontSize = (16 * fontScale) + 'px';
+function adjustFont(d) {
+  fontScale = Math.min(1.8, Math.max(0.75, fontScale + d));
+  document.documentElement.style.fontSize = (16 * fontScale) + 'px';
+  localStorage.setItem('erc_font', fontScale.toFixed(2));
+}
+
+// ── NAVEGAÇÃO ──────────────────────────────────────────────
+function goSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  const order = ['algo','criterios','conduta','calendario','mchat','praticas'];
+  const idx = order.indexOf(id);
+  if (idx >= 0) document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── ACCORDION ──────────────────────────────────────────────
+function toggleAcc(h) { h.parentElement.classList.toggle('open'); }
+
+// ══════════════════════════════════════════════════════════
+//  ALGORITMO — árvore de decisão completa
+// ══════════════════════════════════════════════════════════
+const algo = {
+
+  // ── PASSO 0: filtro de condições especiais ──────────────
+  s0: {
+    q: 'A criança apresenta alguma Condição de Alto Risco com Situação Especial?',
+    hint: 'Peso ao nascer < 2.000 g OU IG < 34 semanas · Malformações congênitas graves, cromossomopatias ou doenças metabólicas com repercussão clínica · 2 ou mais internações no último ano.',
+    opts: [
+      { label: '🆘 Sim — apresenta critério especial', next: 'r_especial' },
+      { label: '❌ Não — não apresenta',               next: 's1'        }
+    ]
+  },
+
+  // ── PASSO 1: critérios de alto risco clínico ───────────
+  s1: {
+    q: 'A criança apresenta algum critério de Alto Risco?',
+    hint: 'Inclui condições perinatais, afecções neonatais, complicações da prematuridade, doenças evolutivas graves ou fatores familiares graves. Veja detalhes abaixo.',
+    opts: [
+      { label: '🔴 Sim — apresenta critério de alto risco', next: 's1b' },
+      { label: '❌ Não — não apresenta',                    next: 's2'   }
+    ]
+  },
+
+  // ── Detalhamento do Alto Risco (subdivisão) ─────────────
+  s1b: {
+    q: 'Qual o principal grupo de critério de Alto Risco identificado?',
+    opts: [
+      { label: '🍼 Condições perinatais (peso, IG, PIG/GIG, egresso de UTI)',                                   next: 'r_alto_perinatal'    },
+      { label: '⚡ Afecções peri/neonatais (APGAR ≤ 6, asfixia, hiperbilirrubinemia grave, ZTORCHS, malformações, doenças genéticas, condições neurológicas)', next: 'r_alto_neonatal'     },
+      { label: '🌬️ Complicações da prematuridade (pulmonar crônica, retinopatia, surdez)',                      next: 'r_alto_prematuridade'},
+      { label: '👨‍👩‍👧 Fatores familiares (dependência de drogas, depressão parental, doenças maternas graves)',    next: 'r_alto_familiar'     },
+      { label: '📈 Fatores evolutivos (atraso DNPM, desnutrição grave, TEA, violência, doenças crônicas graves)',next: 'r_alto_evolutivo'    }
+    ]
+  },
+
+  // ── PASSO 2: fatores sociofamiliares de alto risco ──────
+  s2: {
+    q: 'A criança apresenta algum fator sociofamiliar considerado de maior gravidade?',
+    hint: 'Pais com dependência de álcool/drogas · Depressão parental · Doenças maternas graves ou não controladas · Sinais confirmados de violência física, sexual ou psicológica.',
+    opts: [
+      { label: '⚠️ Sim — há fator sociofamiliar grave',        next: 's2a' },
+      { label: '❌ Não — não apresenta',                       next: 's3'  }
+    ]
+  },
+
+  s2a: {
+    q: 'Existe alguma condição clínica de alto risco associada ao fator sociofamiliar?',
+    hint: '<strong>Condição clínica de alto risco</strong> inclui: baixo peso ao nascer (&lt; 2.500 g), prematuridade (IG &lt; 37 sem), PIG/GIG, egresso de UTI Neonatal, APGAR ≤ 6, asfixia perinatal, hiperbilirrubinemia grave, ZTORCHS/HIV confirmado ou em investigação, malformações congênitas, cromossomopatias, doenças genéticas ou metabólicas, condições neurológicas, complicações da prematuridade (doença pulmonar, retinopatia, surdez), atraso DNPM, desnutrição grave, TEA (M-CHAT-R +), obesidade com comorbidade, asma moderada/grave, infecções respiratórias inferiores de repetição, doenças diarreicas crônicas, alergia alimentar com repercussão clínica, ITU de repetição, doenças cardiovasculares, HIV/AIDS, neoplasias, doença renal, desordens endócrinas/metabólicas/imunes, doenças diagnosticadas na triagem neonatal, intercorrências repetidas com repercussão clínica. ⚠️ Fatores sociofamiliares isolados NÃO determinam encaminhamento à AAE, mas são agravantes importantes.',
+    opts: [
+      { label: '🔴 Sim — há condição clínica de alto risco associada', next: 'r_alto_evolutivo' },
+      { label: '⚠️ Não — apenas fator sociofamiliar isolado',           next: 'r_alto_social'   }
+    ]
+  },
+
+  // ── PASSO 3: risco intermediário ─────────────────────────
+  s3: {
+    q: 'A criança apresenta algum fator de Risco Intermediário?',
+    hint: 'RN termo precoce (37–38 sem) · Atraso ou não realização de triagem neonatal · Risco de desmame precoce · Risco de sepse neonatal · Risco de hiperbilirrubinemia precoce · Desmame antes de 6 meses · Distanciamento inicial de curvas · Sobrepeso/obesidade/desnutrição sem comorbidade · Criança não vacinada · Faltas na puericultura · Higiene prejudicada · Baixa autoeficácia do cuidador · 1 internação no último ano · Não vinculação à UBS/ACS · Criança < 1 ano exposta a telas · Moradia desfavorável · Tabagismo passivo · Vulnerabilidade socioeconômica · Fatores sociofamiliares (mãe/pai < 18 anos, baixa escolaridade, gravidez indesejada, pré-natal tardio/incompleto, ausência parental, situação de rua, prisional, indícios de violência) · Doenças transitórias ou bucais leves.',
+    opts: [
+      { label: '🟡 Sim — apresenta fator intermediário', next: 's3b'      },
+      { label: '✅ Não — ausência de fatores de risco',  next: 'r_habitual' }
+    ]
+  },
+
+  // ── Detalhamento do risco intermediário ─────────────────
+  s3b: {
+    q: 'Qual o principal domínio do fator intermediário identificado?',
+    opts: [
+      { label: '🍼 Saúde neonatal — 1ª semana e 1º mês (IG 37–38 sem, atraso de triagem, riscos de desmame/sepse/hiperbilirrubinemia)', next: 'r_inter_neonatal' },
+      { label: '🥗 Nutrição e crescimento (desmame < 6 m, distanciamento de curvas, sobrepeso/desnutrição sem comorbidade)',             next: 'r_inter_nutricao' },
+      { label: '👨‍👩‍👧 Sociofamiliar (mãe/pai < 18 a, baixa escolaridade, pré-natal tardio/incompleto, gravidez indesejada, ausência parental, situação de rua, prisional, indícios de violência)',  next: 'r_inter_social'   },
+      { label: '💉 Cuidado (não vacinada, falta à puericultura, higiene prejudicada, baixa autoeficácia, 1 internação, não vinculação UBS/ACS, telas < 1 ano)', next: 'r_inter_cuidado'  },
+      { label: '🏠 Ambiental (tabagismo passivo, moradia desfavorável, vulnerabilidade socioeconômica, difícil acesso a serviços)',       next: 'r_inter_ambiente' },
+      { label: '🦷 Doença do ciclo de vida (transitória sem complicação ou doença bucal leve)',                                          next: 'r_inter_doenca'  }
+    ]
+  },
+
+  // ══════════════════════════════════════════════════════
+  //  RESULTADOS
+  // ══════════════════════════════════════════════════════
+
+  r_especial: {
+    result:true, type:'vinho', badge:'🆘 Alto Risco com Condições Especiais',
+    title:'Máxima Complexidade — Gestão de Caso Obrigatória',
+    body:`<ul>
+      <li>Acompanhamento compartilhado entre <strong>APS, AAE e especialidades</strong> necessárias.</li>
+      <li><strong>Gestão de caso</strong> formalizada por profissional de saúde de nível superior.</li>
+      <li>Encaminhar ao <strong>Ambulatório de Seguimento do RN/criança</strong> com prioridade.</li>
+      <li>Garantia do cuidado, estabilização clínica e tratamentos específicos.</li>
+      <li>Plano de Cuidados interdisciplinar com revisão periódica.</li>
+    </ul>`
+  },
+
+  r_alto_perinatal: {
+    result:true, type:'red', badge:'🔴 Alto Risco — Condições Perinatais',
+    title:'Acompanhamento Compartilhado APS + AAE',
+    body:`<ul>
+      <li>Atenção reforçada ao crescimento e desenvolvimento, especialmente no 1º ano.</li>
+      <li>Para <strong>prematuros</strong>: monitorar complicações (pulmonar, visual, auditiva, neurológica).</li>
+      <li>Para <strong>PIG/GIG</strong>: acompanhamento nutricional e de crescimento com maior vigilância.</li>
+      <li>Egressos de <strong>UTI Neonatal</strong>: verificar plano de alta e garantir continuidade do cuidado.</li>
+      <li>Plano de Cuidados definido pela AAE com monitoramento na APS.</li>
+      <li>Frequência de consultas conforme Plano de Cuidados (geralmente mensal).</li>
+    </ul>`
+  },
+
+  r_alto_neonatal: {
+    result:true, type:'red', badge:'🔴 Alto Risco — Afecções Peri/Neonatais',
+    title:'Acompanhamento Compartilhado APS + AAE',
+    body:`<ul>
+      <li>Para <strong>asfixia / APGAR ≤ 6</strong>: monitorar DNPM rigorosamente; encaminhar neurologia se necessário.</li>
+      <li>Para <strong>hiperbilirrubinemia grave / colestase</strong>: avaliar função hepática e repercussões clínicas.</li>
+      <li>Para <strong>ZTORCHS + HIV</strong>: seguimento clínico e laboratorial conforme protocolo específico.</li>
+      <li>Para <strong>malformações e cromossomopatias</strong>: encaminhar às especialidades pertinentes.</li>
+      <li>Para <strong>doenças genéticas/metabólicas</strong>: seguimento com endocrinologista/geneticista.</li>
+      <li>Plano de Cuidados interdisciplinar; frequência de consultas mensal ou superior.</li>
+    </ul>`
+  },
+
+  r_alto_prematuridade: {
+    result:true, type:'red', badge:'🔴 Alto Risco — Complicações da Prematuridade',
+    title:'Acompanhamento Compartilhado APS + AAE',
+    body:`<ul>
+      <li><strong>Doença pulmonar crônica:</strong> acompanhamento com pneumopediatra; atentar para infecções respiratórias.</li>
+      <li><strong>Retinopatia / cegueira:</strong> seguimento com oftalmopediatra.</li>
+      <li><strong>Surdez:</strong> avaliação audiológica e fonoaudiológica; intervenção precoce.</li>
+      <li>Demais complicações (cardíacas, GI): encaminhar às especialidades adequadas.</li>
+      <li>Calcular <strong>idade corrigida</strong> para avaliação do DNPM até os 2 anos.</li>
+    </ul>`
+  },
+
+  r_alto_familiar: {
+    result:true, type:'red', badge:'🔴 Alto Risco — Fatores Familiares',
+    title:'Acompanhamento Compartilhado APS + AAE',
+    body:`<ul>
+      <li><strong>Dependência de álcool/drogas:</strong> articular com CAPS-AD; abordagem de redução de danos.</li>
+      <li><strong>Depressão parental:</strong> rastrear e acompanhar; encaminhar para saúde mental se necessário.</li>
+      <li><strong>Doenças maternas graves:</strong> avaliar impacto no cuidado da criança e apoiar cuidador alternativo.</li>
+      <li>Aumentar frequência de visitas domiciliares pelo ACS.</li>
+      <li>Acionar rede de proteção (CRAS, CREAS, Conselho Tutelar) conforme necessidade.</li>
+    </ul>`
+  },
+
+  r_alto_evolutivo: {
+    result:true, type:'red', badge:'🔴 Alto Risco — Fatores Evolutivos / Doenças Graves',
+    title:'Acompanhamento Compartilhado APS + AAE',
+    body:`<ul>
+      <li><strong>Atraso DNPM:</strong> encaminhar para fisioterapia, TO, fonoaudiologia conforme déficit identificado.</li>
+      <li><strong>Desnutrição grave:</strong> internação se necessário; seguimento com nutricionista e pediatra.</li>
+      <li><strong>TEA (M-CHAT-R +):</strong> encaminhar para avaliação diagnóstica e intervenção precoce imediatamente.</li>
+      <li><strong>Violência / maus-tratos confirmados:</strong> notificar ao Conselho Tutelar obrigatoriamente.</li>
+      <li><strong>Asma moderada/grave:</strong> manejo com broncodilatadores e corticosteroide inalatório; encaminhar à AAE.</li>
+      <li><strong>HIV/AIDS, neoplasias, doenças renais, cardiovasculares:</strong> encaminhar às especialidades pertinentes.</li>
+      <li>Para mãe soropositiva com criança negativa: manter profilaxia e vigilância conforme protocolo.</li>
+      <li>Frequência de consultas mensal ou superior, conforme Plano de Cuidados.</li>
+    </ul>`
+  },
+
+  r_alto_social: {
+    result:true, type:'red', badge:'🔴 Alto Risco — Fator Sociofamiliar Grave (isolado)',
+    title:'Fator Agravante — Intensificar Vigilância na APS',
+    body:`<ul>
+      <li>Fator sociofamiliar grave <strong>isolado não determina encaminhamento à AAE</strong>, mas é agravante significativo.</li>
+      <li>Aumentar frequência de <strong>visitas domiciliares</strong> pelo ACS e pela equipe de saúde.</li>
+      <li>Articular com <strong>assistência social</strong>: CRAS, CREAS, Bolsa Família, Programa Criança Feliz.</li>
+      <li>Atenção redobrada para <strong>sinais de violência e negligência</strong>.</li>
+      <li>Acionar <strong>Conselho Tutelar</strong> se houver indícios de violação dos direitos da criança.</li>
+      <li><strong>Reclassificar para alto risco</strong> ao surgir condição clínica associada.</li>
+    </ul>`
+  },
+
+  r_inter_neonatal: {
+    result:true, type:'amber', badge:'🟡 Risco Intermediário — Saúde Neonatal',
+    title:'APS com Apoio Matricial da AAE',
+    body:`<ul>
+      <li>Monitorar IG, evolução do peso e sinais de <strong>hiperbilirrubinemia</strong> (icterícia, fezes claras, urina escura).</li>
+      <li>Garantir <strong>visita domiciliar na 1ª semana</strong> de vida.</li>
+      <li>Cobrar e registrar resultado de triagem neonatal pendente. Encaminhar para realização imediatamente.</li>
+      <li>Apoio ativo ao <strong>aleitamento materno</strong> — atuação contra desmame precoce.</li>
+      <li>Para risco de <strong>sepse neonatal</strong>: orientar sinais de alerta (febre, hipotermia, letargia, recusa alimentar) e conduta de urgência se necessário.</li>
+      <li>Acionar apoio matricial da AAE para discussão de casos complexos.</li>
+    </ul>`
+  },
+
+  r_inter_nutricao: {
+    result:true, type:'amber', badge:'🟡 Risco Intermediário — Nutrição e Crescimento',
+    title:'APS com Apoio Matricial da AAE',
+    body:`<ul>
+      <li>Monitorar curvas de crescimento em todas as consultas (PC, peso, comprimento, IMC).</li>
+      <li>Encaminhar para avaliação com <strong>nutricionista</strong>.</li>
+      <li>Reforçar a importância do aleitamento materno e da <strong>introdução alimentar adequada</strong> após 6 meses.</li>
+      <li>Para <strong>sobrepeso/obesidade</strong>: orientar alimentação saudável, limitar sedentarismo e telas.</li>
+      <li><strong>Reclassificar para Alto Risco</strong> se surgir comorbidade ou repercussão clínica.</li>
+    </ul>`
+  },
+
+  r_inter_social: {
+    result:true, type:'amber', badge:'🟡 Risco Intermediário — Sociofamiliar',
+    title:'APS com Apoio Matricial da AAE',
+    body:`<ul>
+      <li>Aumentar frequência de <strong>visitas domiciliares</strong> pelo ACS e pela equipe.</li>
+      <li>Articular com <strong>assistência social</strong>: CRAS, CREAS, Bolsa Família, Programa Criança Feliz.</li>
+      <li>Apoiar a construção de uma <strong>rede de cuidado</strong> para a família.</li>
+      <li>Atenção redobrada para sinais de <strong>violência e negligência</strong>.</li>
+      <li>Acionar <strong>Conselho Tutelar</strong> se houver indícios de violação dos direitos da criança.</li>
+    </ul>`
+  },
+
+  r_inter_cuidado: {
+    result:true, type:'amber', badge:'🟡 Risco Intermediário — Cuidado',
+    title:'APS com Apoio Matricial da AAE',
+    body:`<ul>
+      <li>Atualizar <strong>esquema vacinal</strong> o mais breve possível.</li>
+      <li><strong>Busca ativa</strong> para crianças faltosas na puericultura.</li>
+      <li>Orientar sobre higiene oral, corporal e genital de forma empática, <strong>sem julgamentos</strong>.</li>
+      <li>Trabalhar <strong>autoeficácia</strong> com mãe, pai ou cuidador — educação em saúde permanente.</li>
+      <li>Para criança com <strong>1 internação no último ano</strong>: investigar causa e reforçar acompanhamento.</li>
+      <li>Vincular criança ao <strong>ACS e à UBS</strong> de referência.</li>
+      <li>Orientar sobre riscos da exposição precoce a <strong>telas</strong>.</li>
+    </ul>`
+  },
+
+  r_inter_ambiente: {
+    result:true, type:'amber', badge:'🟡 Risco Intermediário — Ambiental',
+    title:'APS com Apoio Matricial da AAE',
+    body:`<ul>
+      <li>Orientar sobre os <strong>riscos do tabagismo passivo</strong> e incentivar cessação do tabagismo familiar.</li>
+      <li>Articular com <strong>assistência social</strong> para melhoria das condições de moradia.</li>
+      <li>Identificar e acionar <strong>benefícios sociais</strong> disponíveis (Bolsa Família, BPC, Auxílio Brasil).</li>
+      <li>Facilitar o <strong>acesso aos serviços de saúde</strong>: transporte, horários flexíveis, visitas domiciliares.</li>
+    </ul>`
+  },
+
+  r_inter_doenca: {
+    result:true, type:'amber', badge:'🟡 Risco Intermediário — Doença do Ciclo de Vida',
+    title:'APS com Apoio Matricial da AAE',
+    body:`<ul>
+      <li>Tratar <strong>doenças transitórias sem complicações</strong> na APS.</li>
+      <li>Para <strong>cárie dentária severa</strong>: encaminhar ao CEO (Centro Especializado Odontológico).</li>
+      <li>Para <strong>doença periodontal</strong>: tratamento e orientação de higiene oral.</li>
+      <li>Monitorar evolução — <strong>reclassificar para Alto Risco</strong> se houver complicações ou cronicidade.</li>
+    </ul>`
+  },
+
+  r_habitual: {
+    result:true, type:'green', badge:'🟢 Risco Habitual',
+    title:'Acompanhamento pela Equipe de Atenção Primária à Saúde',
+    body:`<ul>
+      <li>Acompanhamento de acordo com as <strong>diretrizes clínicas</strong> e calendário de puericultura padrão.</li>
+      <li>Manter vigilância contínua do <strong>crescimento e desenvolvimento</strong> em todas as consultas.</li>
+      <li><strong>Reavaliar o estrato de risco</strong> em cada consulta — um novo critério pode reclassificar a criança.</li>
+      <li>Registrar na <strong>Caderneta da Criança</strong> e no <strong>e-SUS APS</strong>.</li>
+    </ul>`
+  }
+};
+
+let algoHistory = [], algoTrail = [], pendingTimeout = null;
+
+function startAlgo() { algoHistory=[]; algoTrail=[]; pendingTimeout=null; renderAlgoStep('s0'); }
+
+function renderAlgoStep(key) {
+  const node = algo[key];
+  if (!node) return;
+  const stepEl   = document.getElementById('algo-step');
+  const trailEl  = document.getElementById('algo-trail');
+  const resetBtn = document.getElementById('algo-reset');
+  const voltarBtn= document.getElementById('algo-voltar');
+
+  if (node.result) {
+    trailEl.style.display = 'flex';
+    trailEl.innerHTML = algoTrail.map(t=>`<span class="step-chip">${t}</span>`).join('');
+    stepEl.innerHTML  = `<div class="result-box ${node.type}"><div class="result-badge ${node.type}">${node.badge}</div><div class="result-title">${node.title}</div><div class="result-body">${node.body}</div></div>`;
+    resetBtn.style.display = 'inline-block';
+    voltarBtn.style.display= 'inline-block';
+    return;
+  }
+
+  trailEl.style.display = algoTrail.length ? 'flex' : 'none';
+  trailEl.innerHTML = algoTrail.map(t=>`<span class="step-chip">${t}</span>`).join('');
+
+  let html = `<div class="algo-question">${node.q}</div>`;
+  if (node.hint) html += `<div class="info-box amber" style="margin-bottom:0.8rem"><span>ℹ️</span><span style="font-size:0.78rem">${node.hint}</span></div>`;
+  html += `<div class="btn-group">`;
+  node.opts.forEach((opt,i) => { html += `<button class="btn-opt" onclick="algoChoose('${key}',${i})">${opt.label}</button>`; });
+  html += `</div>`;
+  stepEl.innerHTML = html;
+
+  const has = algoHistory.length > 0;
+  resetBtn.style.display  = has ? 'inline-block' : 'none';
+  voltarBtn.style.display = has ? 'inline-block' : 'none';
+}
+
+function algoChoose(fromKey, optIdx) {
+  const buttons = document.querySelectorAll('#algo-step .btn-opt');
+  if (buttons[optIdx].classList.contains('selected')) {
+    if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout=null; }
+    buttons[optIdx].classList.remove('selected'); return;
+  }
+  if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout=null; }
+  const opt = algo[fromKey].opts[optIdx];
+  algoHistory.push(fromKey);
+  algoTrail.push(opt.label.replace(/<[^>]+>/g,'').substring(0,60));
+  buttons.forEach((b,i) => b.classList.toggle('selected', i===optIdx));
+  pendingTimeout = setTimeout(()=>{ pendingTimeout=null; renderAlgoStep(opt.next); }, 280);
+}
+
+function voltarAlgo() {
+  if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout=null; }
+  if (!algoHistory.length) return;
+  algoTrail.pop();
+  renderAlgoStep(algoHistory.pop());
+}
+
+function resetAlgo() {
+  if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout=null; }
+  algoHistory=[]; algoTrail=[];
+  document.getElementById('algo-trail').style.display='none';
+  document.getElementById('algo-reset').style.display='none';
+  document.getElementById('algo-voltar').style.display='none';
+  renderAlgoStep('s0');
+}
+
+// ══════════════════════════════════════════════════════════
+//  M-CHAT-R
+// ══════════════════════════════════════════════════════════
+const mchatItems = [
+  {n:1,  q:'Se você apontar para algum objeto no quarto, a sua filha olha para este objeto?',                                                                 riskIfNo:true },
+  {n:2,  q:'Alguma vez você se perguntou se a sua filha pode ser surda?',                                                                                     riskIfNo:false},
+  {n:3,  q:'A sua filha brinca de faz de contas? (ex.: bebe em copo vazio, fala ao telefone, dá comida a boneca)',                                            riskIfNo:true },
+  {n:4,  q:'A sua filha gosta de subir nas coisas? (ex.: móveis, brinquedos em parques ou escadas)',                                                          riskIfNo:true },
+  {n:5,  q:'A sua filha faz movimentos estranhos com os dedos perto dos olhos? (ex.: mexe os dedos em frente aos olhos e fica olhando para eles)',            riskIfNo:false},
+  {n:6,  q:'A sua filha aponta com o dedo para pedir algo ou conseguir ajuda?',                                                                               riskIfNo:true },
+  {n:7,  q:'A sua filha aponta com o dedo para mostrar algo interessante para você? (ex.: avião no céu, caminhão na rua)',                                    riskIfNo:true },
+  {n:8,  q:'A sua filha se interessa por outras crianças? (ex.: olha, sorri ou se aproxima delas)',                                                           riskIfNo:true },
+  {n:9,  q:'A sua filha traz coisas para mostrar para você — não para conseguir ajuda, mas apenas para compartilhar?',                                        riskIfNo:true },
+  {n:10, q:'A sua filha responde quando você a chama pelo nome?',                                                                                              riskIfNo:true },
+  {n:11, q:'Quando você sorri para a sua filha, ela sorri de volta para você?',                                                                               riskIfNo:true },
+  {n:12, q:'A sua filha fica muito incomodada com barulhos do dia a dia? (ex.: grita ou chora com liquidificador ou música alta)',                            riskIfNo:false},
+  {n:13, q:'A sua filha anda?',                                                                                                                               riskIfNo:true },
+  {n:14, q:'A sua filha olha nos seus olhos quando você está falando ou brincando com ela, ou vestindo a roupa dela?',                                        riskIfNo:true },
+  {n:15, q:'A sua filha tenta imitar o que você faz? (ex.: dar tchau, bater palmas, jogar um beijo)',                                                         riskIfNo:true },
+  {n:16, q:'Quando você vira a cabeça para olhar para alguma coisa, a sua filha olha ao redor para ver o que você está olhando?',                            riskIfNo:true },
+  {n:17, q:'A sua filha tenta fazer você olhar para ela? (ex.: olha para você para ser elogiada, diz "olha mãe!")',                                           riskIfNo:true },
+  {n:18, q:'A sua filha compreende quando você pede para ela fazer alguma coisa sem apontar? (ex.: "coloca o copo na mesa")',                                 riskIfNo:true },
+  {n:19, q:'Quando acontece algo novo, a sua filha olha para o seu rosto para ver como você se sente?',                                                       riskIfNo:true },
+  {n:20, q:'A sua filha gosta de atividades de movimento? (ex.: ser balançada ou pular nos joelhos)',                                                         riskIfNo:true }
+];
+
+function buildMchat() {
+  const c = document.getElementById('mchat-items');
+  c.innerHTML = mchatItems.map(item => {
+    const exc = [2,5,12].includes(item.n);
+    const badge = exc ? `<span style="font-size:0.63rem;background:#fdeaea;color:#b5292a;padding:0.1rem 0.45rem;border-radius:4px;font-weight:700;white-space:nowrap;flex-shrink:0">SIM = risco</span>` : '';
+    return `
+    <div class="mchat-item">
+      <div class="mchat-header">
+        <span>${item.n}. ${item.q}</span>${badge}
+      </div>
+      <div class="mchat-opts">
+        <label class="mchat-radio"><input type="radio" name="mc${item.n}" value="sim" onchange="calcMchat()"> Sim</label>
+        <label class="mchat-radio"><input type="radio" name="mc${item.n}" value="nao" onchange="calcMchat()"> Não</label>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function calcMchat() {
+  let score=0, answered=0;
+  mchatItems.forEach(item => {
+    const sel = document.querySelector(`input[name="mc${item.n}"]:checked`);
+    if (!sel) return;
+    answered++;
+    const isRisk = item.riskIfNo ? sel.value==='nao' : sel.value==='sim';
+    if (isRisk) score++;
+  });
+  if (!answered) return;
+  const box = document.getElementById('mchat-result-box');
+  box.style.display = 'block';
+  document.getElementById('mchat-score').textContent = score;
+  const interp = document.getElementById('mchat-interp');
+  if (score<=2) {
+    interp.style.background='#1a7a3c';
+    interp.textContent='0–2 pts — Baixo Risco. Se < 24 meses, reaplicar após o 2º aniversário.';
+  } else if (score<=7) {
+    interp.style.background='#c47a1e';
+    interp.textContent=`${score} pts — Risco Médio. Aplicar Entrevista de Seguimento (MCHAT-R/F).`;
+  } else {
+    interp.style.background='#b5292a';
+    interp.textContent=`${score} pts — Risco Elevado. Encaminhar imediatamente para avaliação diagnóstica e intervenção precoce.`;
+  }
+}
+
+function resetMchat() {
+  document.querySelectorAll('.mchat-opts input[type=radio]').forEach(r=>r.checked=false);
+  document.getElementById('mchat-result-box').style.display='none';
+}
+
+window.onload = function() { startAlgo(); buildMchat(); };
+</script>
+</body>
+</html>
