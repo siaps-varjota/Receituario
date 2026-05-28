@@ -1055,8 +1055,8 @@ function App() {
   const clearAll = () => setSelected(new Set());
 
   return (
-    <div style={{ fontFamily:"'Segoe UI', system-ui, sans-serif", background:"#f1f5f9", minHeight:"100vh", zoom: fontScale }}>
-      <div style={{ background:"linear-gradient(135deg, #02343f 0%, #0a5c4e 100%)", padding:"18px 24px", boxShadow:"0 2px 20px rgba(0,0,0,0.2)" }}>
+    <div style={{ fontFamily:"'Segoe UI', system-ui, sans-serif", background:"#f1f5f9", minHeight:"100vh" }}>
+      <div style={{ background:"linear-gradient(135deg, #02343f 0%, #0a5c4e 100%)", padding:"18px 24px", boxShadow:"0 2px 20px rgba(0,0,0,0.2)", position:"fixed", top:0, left:0, right:0, zIndex:200 }}>
         <div style={{ maxWidth:"1200px", margin:"0 auto", display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:"10px" }}>
           <div style={{ display:"flex", alignItems:"center", gap:"10px" }}>
             <span style={{ fontSize:"26px" }}>🏥</span>
@@ -1078,6 +1078,7 @@ function App() {
           </div>
         </div>
       </div>
+      <div style={{ zoom: fontScale, paddingTop:"80px" }}>
 
       <div style={{ maxWidth:"1200px", margin:"0 auto", padding:"24px 16px", display:"grid", gridTemplateColumns:"360px 1fr", gap:"20px", alignItems:"start" }}>
         <div style={{ position:"sticky", top:"16px" }}>
@@ -1187,6 +1188,7 @@ function App() {
 
       <Modal condition={modal} onClose={()=>setModal(null)} />
       {refModal && <ReferenceModal onClose={()=>setRefModal(false)} />}
+      </div>
     </div>
   );
 }
