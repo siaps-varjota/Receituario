@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estratificação de Risco Gestacional — SESA/CE</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --rose-dark:   #881337;
+  --rose:        #be185d;
+  --rose-mid:    #e11d48;
+  --rose-light:  #fb7185;
+  --rose-pale:   #fff1f2;
+  --rose-border: #fecdd3;
+
+  --green:        #1a7a3c;
+  --green-pale:   #e8f8ef;
+  --green-border: #a9dfbf;
+
+  --amber:        #c47a1e;
+  --amber-light:  #fef5e7;
+  --amber-border: #f0c882;
+
+  --red:          #b5292a;
+  --red-light:    #fdeaea;
+  --red-border:   #f0aaaa;
+
+  --vinho:        #7f1d1d;
+  --vinho-light:  #fef2f2;
+  --vinho-border: #fecaca;
+
+  --text:       #1a1a1a;
+  --text-mid:   #3d3d3d;
+  --text-soft:  #666;
+  --bg:         #fdf2f5;
+  --white:      #ffffff;
+  --border:     #f0d0d8;
+  --shadow:     0 2px 12px rgba(136,19,55,0.10);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { font-size:16px; }
+body { font-family:'IBM Plex Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+/* ── HEADER ── */
+.app-header { background:var(--rose-dark); color:white; position:sticky; top:0; z-index:200; box-shadow:0 2px 16px rgba(0,0,0,0.28); }
+.header-top  { display:flex; align-items:center; gap:0.8rem; padding:0.9rem 1rem; border-bottom:1px solid rgba(255,255,255,0.12);  max-width:50rem; margin:0 auto; }
+.header-icon { font-size:1.5rem; background:var(--rose-mid); width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.header-title h1 { font-size:0.97rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; }
+.header-title p  { font-size:0.67rem; opacity:0.6; font-weight:300; margin-top:0.1rem; }
+.badge-ms { font-size:0.62rem; background:rgba(255,255,255,0.13); border:1px solid rgba(255,255,255,0.22); border-radius:4px; padding:0.15rem 0.45rem; margin-left:auto; white-space:nowrap; }
+.font-ctrl { display:flex; align-items:center; gap:0.3rem; margin-left:0.5rem; flex-shrink:0; }
+.font-btn  { background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); color:white; border-radius:6px; width:28px; height:28px; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s; font-family:inherit; }
+.font-btn:hover { background:rgba(255,255,255,0.28); }
+.font-label { font-size:0.65rem; color:rgba(255,255,255,0.5); white-space:nowrap; }
+
+/* ── NAV ── */
+.nav-scroll { display:flex; overflow-x:auto; scrollbar-width:none; max-width:50rem; margin:0 auto; }
+.nav-scroll::-webkit-scrollbar { display:none; }
+.nav-btn { padding:0.65rem 0.9rem; border:none; background:transparent; color:rgba(255,255,255,0.58); font-family:'IBM Plex Sans',sans-serif; font-size:0.72rem; font-weight:500; cursor:pointer; white-space:nowrap; border-bottom:2px solid transparent; transition:all .15s; }
+.nav-btn:hover  { color:rgba(255,255,255,0.9); }
+.nav-btn.active { color:white; border-bottom-color:var(--rose-light); }
+
+/* ── LAYOUT ── */
+.main    { max-width:50rem; margin:0 auto; padding:1.2rem 1rem 5rem; zoom:1.1;}
+.section { display:none; }
+.section.active { display:block; }
+
+/* ── CARD ── */
+.card { background:var(--white); border-radius:12px; border:1px solid var(--border); padding:1.2rem; margin-bottom:0.9rem; box-shadow:var(--shadow); }
+.card-header { display:flex; align-items:center; gap:0.5rem; margin-bottom:1rem; }
+.card-icon  { font-size:1rem; background:var(--rose-pale); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.card-title { font-size:0.85rem; font-weight:700; color:var(--rose-dark); text-transform:uppercase; letter-spacing:0.06em; }
+
+/* ── ALGORITMO ── */
+.algo-question { font-size:0.95rem; font-weight:600; color:var(--text); margin-bottom:1rem; line-height:1.45; }
+.btn-group { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.5rem; }
+.btn-opt  { padding:0.55rem 1.1rem; border:1.5px solid var(--border); border-radius:8px; background:white; font-family:'IBM Plex Sans',sans-serif; font-size:0.85rem; font-weight:500; cursor:pointer; transition:all .15s; color:var(--text-mid); }
+.btn-opt:hover   { border-color:var(--rose-light); color:var(--rose); background:var(--rose-pale); }
+.btn-opt.selected{ background:var(--rose); color:white; border-color:var(--rose); }
+.btn-restart { padding:0.5rem 1rem; background:transparent; border:1.5px solid var(--rose-border); border-radius:8px; color:var(--rose); font-family:'IBM Plex Sans',sans-serif; font-size:0.8rem; font-weight:600; cursor:pointer; margin-top:1rem; transition:all .15s; }
+.btn-restart:hover { background:var(--rose-pale); }
+
+/* trilha */
+.step-trail { display:flex; flex-wrap:wrap; gap:0.3rem; margin-bottom:1rem; }
+.step-chip  { font-size:0.71rem; background:var(--rose-pale); color:var(--rose); border:1px solid var(--rose-border); padding:0.18rem 0.55rem; border-radius:20px; font-weight:500; }
+
+/* resultado */
+.result-box { border-radius:10px; padding:1rem; margin-top:0.8rem; border:1.5px solid; }
+.result-box.green { background:var(--green-pale);  border-color:var(--green-border); }
+.result-box.amber { background:var(--amber-light); border-color:var(--amber-border); }
+.result-box.red   { background:var(--red-light);   border-color:var(--red-border); }
+.result-box.vinho { background:var(--vinho-light); border-color:var(--vinho-border); }
+.result-badge { display:inline-flex; align-items:center; gap:0.35rem; font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; padding:0.2rem 0.6rem; border-radius:4px; margin-bottom:0.6rem; color:white; }
+.result-badge.green { background:var(--green); }
+.result-badge.amber { background:var(--amber); }
+.result-badge.red   { background:var(--red); }
+.result-badge.vinho { background:var(--vinho); }
+.result-title { font-size:0.9rem; font-weight:700; margin-bottom:0.4rem; color:var(--text); }
+.result-body  { font-size:0.83rem; color:var(--text-mid); line-height:1.55; }
+.result-body ul { padding-left:1.2rem; margin-top:0.4rem; }
+.result-body li { margin-bottom:0.3rem; }
+
+/* ── INFO BOX ── */
+.info-box { display:flex; gap:0.6rem; align-items:flex-start; padding:0.75rem 0.9rem; border-radius:8px; font-size:0.82rem; line-height:1.5; margin-bottom:0.8rem; border:1px solid transparent; }
+.info-box.rose   { background:var(--rose-pale);   border-color:var(--rose-border);   color:var(--rose-dark); }
+.info-box.green  { background:var(--green-pale);  border-color:var(--green-border);  color:#145a2b; }
+.info-box.amber  { background:var(--amber-light); border-color:var(--amber-border);  color:#7a4c0e; }
+.info-box.red    { background:var(--red-light);   border-color:var(--red-border);    color:#7a1a1a; }
+.info-box.vinho  { background:var(--vinho-light); border-color:var(--vinho-border);  color:var(--vinho); }
+
+/* ── ACCORDION ── */
+.acc-item { border:1px solid var(--border); border-radius:8px; margin-bottom:0.5rem; overflow:hidden; }
+.acc-header { padding:0.75rem 1rem; font-size:0.85rem; font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; background:#fafcff; transition:background .15s; color:var(--text-mid); }
+.acc-header:hover { background:var(--rose-pale); color:var(--rose); }
+.acc-item.open .acc-header { background:var(--rose-pale); color:var(--rose); }
+.acc-arrow { font-size:0.7rem; transition:transform .2s; }
+.acc-item.open .acc-arrow { transform:rotate(90deg); }
+.acc-body { display:none; padding:0.9rem 1rem; font-size:0.83rem; color:var(--text-mid); line-height:1.6; border-top:1px solid var(--border); }
+.acc-item.open .acc-body { display:block; }
+.acc-body ul { padding-left:1.1rem; margin-top:0.3rem; }
+.acc-body li { margin-bottom:0.35rem; }
+.acc-body p  { margin-bottom:0.5rem; }
+.acc-body strong { color:var(--text); }
+
+/* ── TABELAS ── */
+table.std-table { width:100%; border-collapse:collapse; font-size:0.8rem; margin-bottom:0.5rem; }
+table.std-table th { background:var(--rose-pale); color:var(--rose-dark); padding:0.6rem 0.7rem; text-align:left; font-weight:700; font-size:0.74rem; text-transform:uppercase; letter-spacing:0.04em; }
+table.std-table td { padding:0.6rem 0.7rem; border-bottom:1px solid var(--border); vertical-align:top; color:var(--text-mid); line-height:1.5; }
+table.std-table tr:last-child td { border-bottom:none; }
+table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
+
+/* ── ESTRATO CARDS ── */
+.strato-card { border-radius:10px; margin-bottom:0.7rem; overflow:hidden; border:1.5px solid; }
+.strato-header { padding:0.7rem 1rem; color:white; }
+.strato-header h3 { font-size:0.88rem; font-weight:700; }
+.strato-header p  { font-size:0.72rem; opacity:0.88; margin-top:0.15rem; }
+.strato-body { padding:0.9rem 1rem; font-size:0.82rem; color:var(--text-mid); line-height:1.55; }
+.strato-body .sub-label { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text); margin-bottom:0.3rem; }
+.strato-body ul { padding-left:1.1rem; }
+.strato-body li { margin-bottom:0.28rem; }
+
+.strato-card.habitual .strato-header { background:var(--green); }
+.strato-card.habitual { border-color:var(--green-border); }
+.strato-card.habitual .strato-body { background:var(--green-pale); }
+
+.strato-card.inter .strato-header { background:var(--amber); }
+.strato-card.inter { border-color:var(--amber-border); }
+.strato-card.inter .strato-body { background:var(--amber-light); }
+
+.strato-card.alto .strato-header { background:var(--red); }
+.strato-card.alto { border-color:var(--red-border); }
+.strato-card.alto .strato-body { background:var(--red-light); }
+
+.strato-card.vinho .strato-header { background:var(--vinho); }
+.strato-card.vinho { border-color:var(--vinho-border); }
+.strato-card.vinho .strato-body { background:var(--vinho-light); }
+
+/* ── RISK ROWS ── */
+.risk-grid { display:grid; gap:0.5rem; margin-bottom:0.8rem; }
+.risk-row  { display:grid; grid-template-columns:36px 1fr; gap:0.6rem; align-items:flex-start; padding:0.7rem 0.9rem; border-radius:8px; border:1.5px solid; }
+.risk-row.habitual { background:var(--green-pale);  border-color:var(--green-border); }
+.risk-row.inter    { background:var(--amber-light); border-color:var(--amber-border); }
+.risk-row.alto     { background:var(--red-light);   border-color:var(--red-border); }
+.risk-row.vinho    { background:var(--vinho-light); border-color:var(--vinho-border); }
+.risk-icon  { font-size:1.3rem; line-height:1; }
+.risk-title { font-size:0.82rem; font-weight:700; margin-bottom:0.2rem; }
+.risk-row.habitual .risk-title { color:var(--green); }
+.risk-row.inter    .risk-title { color:var(--amber); }
+.risk-row.alto     .risk-title { color:var(--red); }
+.risk-row.vinho    .risk-title { color:var(--vinho); }
+.risk-desc { font-size:0.77rem; color:var(--text-mid); line-height:1.4; }
+
+/* ── CHIPS ── */
+.chips { display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:0.7rem; }
+.chip       { font-size:0.74rem; font-weight:600; padding:0.2rem 0.6rem; border-radius:20px; background:var(--rose-pale); border:1px solid var(--rose-border); color:var(--rose-dark); }
+.chip.red   { background:var(--red-light);   border-color:var(--red-border);   color:var(--red); }
+.chip.amber { background:var(--amber-light); border-color:var(--amber-border); color:var(--amber); }
+.chip.green { background:var(--green-pale);  border-color:var(--green-border); color:var(--green); }
+.chip.vinho { background:var(--vinho-light); border-color:var(--vinho-border); color:var(--vinho); }
+
+/* ── TIMELINE ── */
+.timeline::before { content:''; position:absolute; left:0.45rem; top:0; bottom:0; width:2px; background:var(--rose-border); }
+.timeline { position:relative; padding-left:1.4rem; }
+.tl-item  { position:relative; margin-bottom:0.9rem; }
+.tl-dot   { position:absolute; left:-1rem; top:0.2rem; width:10px; height:10px; border-radius:50%; background:var(--rose); border:2px solid white; box-shadow:0 0 0 2px var(--rose-border); }
+.tl-title { font-size:0.83rem; font-weight:700; color:var(--text); margin-bottom:0.15rem; }
+.tl-body  { font-size:0.79rem; color:var(--text-mid); line-height:1.5; }
+
+@media (max-width:480px) {
+  table.std-table { font-size:0.72rem; }
+  table.std-table th, table.std-table td { padding:0.4rem 0.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="header-top">
+    <div class="header-icon">🤰</div>
+    <div class="header-title">
+      <h1>Estratificação de Risco Gestacional</h1>
+      <p>Nota Técnica Nº 01 · 08/03/2024 · SESA-CE</p>
+    </div>
+ <button 
+  onclick="window.location.href='portal.html'"
+  style="
+    margin-left:100px;
+    background:#374151;
+    border:1px solid rgba(255,255,255,0.25);
+    color:#e2f8f4;
+    font-size:12px;
+    padding:6px 16px;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:6px;
+  "
+>
+  🏠 Portal
+</button>
+    <div class="badge-ms">SESA · 2024</div>
+    <div class="font-ctrl">
+      <span class="font-label">A</span>
+      <button class="font-btn" onclick="adjustFont(-0.05)">−</button>
+      <button class="font-btn" onclick="adjustFont(0.05)">＋</button>
+    </div>
+  </div>
+  <div class="nav-scroll">
+    <button class="nav-btn active" data-sec="algo">Algoritmo</button>
+    <button class="nav-btn" data-sec="criterios">Critérios</button>
+    <button class="nav-btn" data-sec="conduta">Conduta</button>
+    <button class="nav-btn" data-sec="recomendacoes">Recomendações</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  ALGORITMO                                            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="sec-algo" class="section active">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">🔍</div>
+      <div class="card-title">Algoritmo de Estratificação de Risco</div>
+    </div>
+
+    <div class="info-box amber">
+      <span>⚠️</span>
+      <span><strong>Regra de Ouro:</strong> basta <strong>UM ÚNICO CRITÉRIO</strong> identificado para definir o estrato. Sempre prevalece o de <strong>maior risco</strong>. A estratificação deve ser <strong>atualizada em toda consulta de pré-natal</strong>. Uma vez classificada como alto risco, a gestante <strong>não volta ao baixo risco</strong> nessa gestação.</span>
+    </div>
+
+    <div id="algo-trail" class="step-trail" style="display:none"></div>
+    <div id="algo-step"></div>
+
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem">
+      <button class="btn-restart" id="algo-voltar" style="display:none" onclick="voltarAlgo()">← Voltar</button>
+      <button class="btn-restart" id="algo-reset"  style="display:none" onclick="resetAlgo()">↺ Reiniciar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">⚠️</div><div class="card-title">Alertas Clínicos</div></div>
+    <div class="info-box vinho"><span>🆘</span><span><strong>Urgência/Emergência Obstétrica:</strong> encaminhamento imediato à Unidade Hospitalar. Não aguardar próxima consulta.</span></div>
+    <div class="info-box vinho"><span>🏛️</span><span><strong>Alto Risco com Situações Especiais:</strong> acompanhamento na Atenção Terciária. Gestação múltipla monocoriônica, isoimunização Rh, malformação fetal, HIV/AIDS, transplantes.</span></div>
+    <div class="info-box red"><span>🔴</span><span><strong>Alto Risco:</strong> acompanhamento compartilhado APS + AAE + Serviço de Referência para Gestação de Alto Risco.</span></div>
+    <div class="info-box amber"><span>🟡</span><span><strong>Médio Risco:</strong> APS com encaminhamento à AAE para cuidado compartilhado. Quanto maior o número de critérios combinados, maior a complexidade.</span></div>
+    <div class="info-box rose"><span>🔵</span><span><strong>Estratificação dinâmica:</strong> o risco pode subir em qualquer consulta. Nunca alta da APS independente do nível. Sempre utilizar referência e contra-referência.</span></div>
+  </div>
+
+</div><!-- /sec-algo -->
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  CRITÉRIOS                                            -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="sec-criterios" class="section">
+
+  <!-- URGÊNCIA/EMERGÊNCIA -->
+  <div class="strato-card vinho">
+    <div class="strato-header">
+      <h3>🆘 Urgência / Emergência Obstétrica</h3>
+      <p>Encaminhamento hospitalar imediato — não aguardar consulta agendada</p>
+    </div>
+    <div class="strato-body">
+      <ul>
+        <li>Vômitos incoercíveis não responsivos ao tratamento.</li>
+        <li>Anemia grave (Hb <strong>≤ 7 g/dL</strong>).</li>
+        <li>Condições clínicas de emergência: cefaleia intensa e súbita, sinais neurológicos, crise aguda de asma, edema agudo de pulmão.</li>
+        <li>Crise hipertensiva <strong>(PA ≥ 160/110 mmHg)</strong>.</li>
+        <li>Sinais premonitórios de eclâmpsia: escotomas cintilantes, cefaleia típica occipital, epigastralgia ou dor intensa no hipocôndrio direito, com ou sem hipertensão grave e/ou proteinúria.</li>
+        <li>Eclâmpsia / convulsões.</li>
+        <li>Hipertermia (temperatura axilar ≥ 37,8 °C) na ausência de infecção das vias aéreas superiores.</li>
+        <li>Suspeita de trombose venosa profunda.</li>
+        <li>Suspeita/diagnóstico de abdome agudo.</li>
+        <li>Suspeita/diagnóstico de pielonefrite, infecção ovular ou outra infecção que necessite de internação.</li>
+        <li>Prurido gestacional / icterícia.</li>
+        <li>Hemorragias na gestação (DPP, placenta prévia, abortamento).</li>
+        <li>Idade gestacional de <strong>41 semanas ou mais</strong>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ALTO RISCO COM SITUAÇÕES ESPECIAIS -->
+  <div class="strato-card vinho">
+    <div class="strato-header">
+      <h3>🏛️ Alto Risco com Situações Especiais — Atenção Terciária</h3>
+      <p>Acompanhamento obrigatório em hospital de referência terciária</p>
+    </div>
+    <div class="strato-body">
+      <ul>
+        <li>Gestação múltipla <strong>monocoriônica</strong>.</li>
+        <li>Isoimunização <strong>Rh</strong>.</li>
+        <li>Malformação fetal ou arritmia cardíaca fetal confirmada.</li>
+        <li>Diagnóstico de <strong>HIV/AIDS</strong>.</li>
+        <li><strong>Transplantes</strong> prévios.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ALTO RISCO -->
+  <div class="strato-card alto">
+    <div class="strato-header">
+      <h3>🔴 Alto Risco</h3>
+      <p>APS + AAE + Serviço de Referência para Gestação de Alto Risco</p>
+    </div>
+    <div class="strato-body">
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Características Individuais e Condições Sociodemográficas <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Etilismo com <strong>indicativo de dependência</strong>.</li>
+          <li>Tabagismo com <strong>indicativo de dependência elevada</strong>.</li>
+          <li>Dependência e/ou uso abusivo de drogas.</li>
+          <li>Agravos alimentares ou nutricionais: IMC <strong>≥ 40 kg/m²</strong>, desnutrição, carências nutricionais (hipovitaminoses), transtornos alimentares (anorexia nervosa, bulimia).</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">História Reprodutiva Anterior <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Abortamento habitual/recorrente <strong>(3 ou mais abortos consecutivos)</strong>.</li>
+          <li>Aborto tardio ou morte perinatal explicada ou inexplicada.</li>
+          <li>Isoimunização Rh em gestação anterior.</li>
+          <li>Acretismo placentário.</li>
+          <li>Pré-eclâmpsia grave / síndrome HELLP.</li>
+          <li>Prematuridade anterior.</li>
+          <li>Cesariana prévia com incisão clássica/corporal/longitudinal.</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Condições Clínicas Prévias à Gestação <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Pneumopatias graves: asma em uso de medicamento contínuo, DPOC, fibrose cística.</li>
+          <li>Nefropatias graves: insuficiência renal, rins policísticos.</li>
+          <li>Endocrinopatias: hipotireoidismo clínico em uso de medicamentos, hipertireoidismo.</li>
+          <li>Doenças hematológicas: doença falciforme (exceto traço), PTI, talassemia, coagulopatias.</li>
+          <li>Histórico de tromboembolismo.</li>
+          <li>Doenças neurológicas: epilepsia, AVC, déficits motores graves.</li>
+          <li>Doenças autoimunes: lúpus eritematoso, SAAF, artrite reumatoide, outras colagenoses.</li>
+          <li>Ginecopatias: malformações uterinas, útero bicorno, miomas intramurais &gt; 4 cm ou múltiplos e miomas submucosos, cirurgia uterina prévia fora da gestação.</li>
+          <li>Neoplasias (qualquer) — suspeita, diagnóstico ou em tratamento.</li>
+          <li>Transplantes.</li>
+          <li>Cirurgia bariátrica.</li>
+          <li>Doenças infecciosas: tuberculose, hanseníase, hepatites, condiloma acuminado extenso (canal vaginal, colo uterino ou região genital/perianal).</li>
+          <li>Diagnóstico de HIV/aids prévio.</li>
+          <li>Transtorno mental grave: psicose ou depressão grave.</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Intercorrências Clínicas / Obstétricas na Gestação Atual <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Gestação de homens transsexuais.</li>
+          <li>Mola hidatiforme.</li>
+          <li>Gestação gemelar <strong>monocoriônica</strong>.</li>
+          <li>Gestação multifetal (mais de 1 feto na cavidade uterina).</li>
+          <li>Gestação por reprodução assistida.</li>
+          <li>Malformação fetal ou arritmia cardíaca fetal.</li>
+          <li>Diabetes gestacional <strong>com necessidade de insulina</strong> ou com repercussão fetal.</li>
+          <li>Pré-eclâmpsia com sinais de gravidade ou de instalação precoce <strong>(&lt; 34 semanas)</strong>.</li>
+          <li>Tromboembolismo na gestação.</li>
+          <li>Infecção urinária de repetição: ≥ 3 episódios de ITU baixa ou ≥ 2 episódios de pielonefrite.</li>
+          <li>Sífilis terciária ou resistente ao tratamento com penicilina benzatina; achados ecográficos suspeitos de sífilis congênita; toxoplasmose aguda com suspeita de repercussão fetal; rubéola, citomegalovírus ou HIV/aids na gestação.</li>
+          <li>Restrição de crescimento fetal <strong>confirmada</strong>.</li>
+          <li>Desvios da quantidade de líquido amniótico.</li>
+          <li>Isoimunização Rh.</li>
+          <li>Insuficiência istmocervical diagnosticada na gestação atual.</li>
+          <li>Trabalho de parto pré-termo inibido na gestação atual.</li>
+          <li>Anemia grave (Hb <strong>&lt; 9 g/dL</strong>) ou anemia refratária a tratamento.</li>
+          <li>Hemorragias na gestação atual.</li>
+          <li>Placenta prévia (diagnóstico confirmado após 22 semanas).</li>
+          <li>Acretismo placentário.</li>
+          <li>Colestase gestacional (prurido gestacional ou icterícia persistente).</li>
+          <li>Qualquer patologia clínica que repercuta na gestação ou necessite de acompanhamento clínico especializado.</li>
+          <li>Outras condições de saúde de maior complexidade.</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MÉDIO RISCO -->
+  <div class="strato-card inter">
+    <div class="strato-header">
+      <h3>🟡 Médio Risco (Intermediário)</h3>
+      <p>APS com encaminhamento à AAE para cuidado compartilhado</p>
+    </div>
+    <div class="strato-body">
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Características Individuais e Condições Socioeconômicas <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Idade <strong>menor que 15</strong> ou <strong>maior que 35 anos</strong>.</li>
+          <li>Condições de trabalho desfavoráveis: esforço físico excessivo, carga horária extensa, exposição a agentes físicos, químicos e biológicos nocivos, altos níveis de estresse.</li>
+          <li>Indícios ou ocorrência de <strong>violência doméstica ou de gênero</strong>.</li>
+          <li>Situação conjugal insegura.</li>
+          <li>Insuficiência de apoio familiar.</li>
+          <li>Capacidade de autocuidado insuficiente.</li>
+          <li>Não aceitação da gestação.</li>
+          <li>Baixa escolaridade <strong>(&lt; 5 anos de estudo)</strong>.</li>
+          <li>Uso de medicamentos teratogênicos.</li>
+          <li>Altura <strong>menor que 1,45 m</strong>.</li>
+          <li>IMC <strong>&lt; 18,5</strong> ou de <strong>30 a 39 kg/m²</strong>.</li>
+          <li>Transtorno depressivo ou de ansiedade leve.</li>
+          <li>Etilismo sem indicativo de dependência <em>(requer avaliação ampliada; pode ser reclassificado para Alto Risco se houver indicativo de dependência — NT SESA-CE, p.5).</em></li>
+          <li>Tabagismo com baixo grau de dependência (Fagerström 8 a 10 pontos).</li>
+          <li>Uso ocasional de drogas lícitas e ilícitas.</li>
+          <li>Gestante em situação de rua, comunidades indígenas, quilombolas ou migrantes.</li>
+          <li>Gestante negra (cor de pele preta ou parda).</li>
+          <li>Outras condições de saúde de menor complexidade.</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">História Reprodutiva Anterior <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Abortos precoces (até 12 semanas) em gestações anteriores — <strong>até 2 abortos consecutivos</strong>.</li>
+          <li>Histórico de pré-eclâmpsia grave ou eclâmpsia em gestação anterior. <em>(Nota: histórico de pré-eclâmpsia grave <strong>com síndrome HELLP</strong> ou com sequelas classifica como Alto Risco.)</em></li>
+          <li>Insuficiência istmo-cervical.</li>
+          <li>Alterações no crescimento intrauterino (restrição de crescimento fetal e macrossomia).</li>
+          <li>Malformação fetal.</li>
+          <li>Nuliparidade ou multiparidade <strong>(5 ou mais partos)</strong>.</li>
+          <li>Diabetes gestacional.</li>
+          <li>Síndromes hemorrágicas ou hipertensivas sem critérios de gravidade.</li>
+          <li>Infertilidade.</li>
+          <li>Cesarianas prévias <strong>(2 ou mais)</strong>.</li>
+          <li>Intervalo interpartal <strong>&lt; 2 anos</strong>.</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Condições Clínicas Prévias à Gestação <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Depressão e ansiedade leves <strong>sem necessidade de tratamento medicamentoso</strong>.</li>
+          <li>Asma controlada <strong>sem uso de medicamento contínuo</strong>.</li>
+          <li>Hipotireoidismo subclínico diagnosticado na gestação.</li>
+        </ul></div>
+      </div>
+      <div class="acc-item">
+        <div class="acc-header" onclick="toggleAcc(this)">Intercorrências Clínicas / Obstétricas na Gestação Atual <span class="acc-arrow">▶</span></div>
+        <div class="acc-body"><ul>
+          <li>Gestação resultante de estupro.</li>
+          <li>Gestação gemelar <strong>dicoriônica-diamniótica</strong>.</li>
+          <li>Diabetes gestacional controlada <strong>sem medicação e sem repercussão fetal</strong>.</li>
+          <li>Hipertensão gestacional ou pré-eclâmpsia <strong>sem sinal de gravidade materno-fetal</strong>.</li>
+          <li>Infecção urinária: até 2 ocorrências ou 1 episódio de pielonefrite.</li>
+          <li>Ganho de peso inadequado (insuficiente ou excessivo).</li>
+          <li>Doenças infecciosas: sífilis (exceto sífilis terciária ou resistente ao tratamento com penicilina benzatina e achados ecográficos suspeitos de sífilis congênita); toxoplasmose aguda sem repercussão fetal; herpes simples.</li>
+          <li>Suspeita ou confirmação de dengue, vírus Zika ou chikungunya (quadro febril exantemático).</li>
+          <li>Restrição de crescimento fetal <strong>suspeita</strong>.</li>
+          <li>Feto acima do <strong>percentil 90</strong>.</li>
+          <li>Anemia leve a moderada <strong>(Hb entre 9 g/dL e 11 g/dL)</strong> — conforme texto normativo da Nota Técnica (p.6). <em>Atenção: o Anexo I (p.20) diverge e cita 8–11 g/dL; aguardar consolidação pela SESA.</em></li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BAIXO RISCO -->
+  <div class="strato-card habitual">
+    <div class="strato-header">
+      <h3>🟢 Baixo Risco (Habitual)</h3>
+      <p>Acompanhamento integral pela equipe de APS na UBS</p>
+    </div>
+    <div class="strato-body">
+      <div class="sub-label">Ausência dos critérios acima + presença dos seguintes fatores favoráveis</div>
+      <ul>
+        <li>Idade entre <strong>16 e 34 anos</strong>.</li>
+        <li>Aceitação da gestação.</li>
+        <li>Ausência de intercorrências clínicas; tabagismo Fagerström &lt; 8.</li>
+        <li>Ausência de intercorrências obstétricas na gravidez anterior e/ou atual.</li>
+        <li>Intervalo interpartal <strong>maior que 2 anos</strong>.</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /sec-criterios -->
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  CONDUTA                                             -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="sec-conduta" class="section">
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🏥</div><div class="card-title">Fluxo Assistencial na Rede</div></div>
+    <div style="overflow-x:auto">
+    <table class="std-table">
+      <thead><tr><th>Estrato</th><th>Pré-natal</th><th>Serviços</th></tr></thead>
+      <tbody>
+        <tr><td><strong style="color:var(--green)">🟢 Baixo Risco</strong></td><td>Equipe de APS — médico e enfermeiro alternados + dentista</td><td>UBS</td></tr>
+        <tr><td><strong style="color:var(--amber)">🟡 Médio Risco</strong></td><td>APS + encaminhamento à AAE (cuidado compartilhado)</td><td>UBS / Policlínica ou Serviço Especializado</td></tr>
+        <tr><td><strong style="color:var(--red)">🔴 Alto Risco</strong></td><td>APS + AAE + Serviço de Referência GAR</td><td>UBS / Policlínica / Hospital de Alto Risco</td></tr>
+        <tr><td><strong style="color:var(--vinho)">🏛️ Especial</strong></td><td>APS + AAE + Atenção Terciária</td><td>Hospital Terciário de referência</td></tr>
+        <tr><td><strong style="color:var(--vinho)">🆘 Urgência</strong></td><td>Encaminhamento hospitalar imediato</td><td>Hospital Secundário ou Terciário</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🎯</div><div class="card-title">Conduta Detalhada por Estrato</div></div>
+    <div class="risk-grid">
+      <div class="risk-row habitual">
+        <div class="risk-icon">🟢</div>
+        <div>
+          <div class="risk-title">BAIXO RISCO — APS Integral</div>
+          <div class="risk-desc">Acompanhamento completo na UBS com consultas alternadas entre médico(a) e enfermeiro(a). Incluir avaliação odontológica.</div>
+        </div>
+      </div>
+      <div class="risk-row inter">
+        <div class="risk-icon">🟡</div>
+        <div>
+          <div class="risk-title">MÉDIO RISCO — APS + AAE</div>
+          <div class="risk-desc">Cuidado compartilhado. APS continua o acompanhamento. Encaminhar à AAE com ficha de referência e estratificação anexa. AAE envia obrigatoriamente a contra-referência.</div>
+        </div>
+      </div>
+      <div class="risk-row alto">
+        <div class="risk-icon">🔴</div>
+        <div>
+          <div class="risk-title">ALTO RISCO — APS + AAE + Referência GAR</div>
+          <div class="risk-desc"><strong>APS:</strong> não há alta — continua acompanhamento mesmo com encaminhamento. <strong>AAE:</strong> elabora Plano de Cuidado e encaminha ao serviço de referência para gestação de alto risco. Referenciar a maternidade de alto risco para criação de vínculos.</div>
+        </div>
+      </div>
+      <div class="risk-row vinho">
+        <div class="risk-icon">🏛️</div>
+        <div>
+          <div class="risk-title">SITUAÇÕES ESPECIAIS — Atenção Terciária</div>
+          <div class="risk-desc">APS + AAE + Hospital Terciário. Casos: gestação múltipla monocoriônica, isoimunização Rh, malformação fetal, HIV/AIDS, transplantes.</div>
+        </div>
+      </div>
+      <div class="risk-row vinho">
+        <div class="risk-icon">🆘</div>
+        <div>
+          <div class="risk-title">URGÊNCIA / EMERGÊNCIA — Encaminhamento Hospitalar Imediato</div>
+          <div class="risk-desc">Não aguardar consulta agendada. Encaminhar diretamente ao hospital secundário ou terciário conforme critério identificado.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📅</div><div class="card-title">Periodicidade das Consultas de Pré-natal</div></div>
+    <div style="overflow-x:auto">
+    <table class="std-table">
+      <thead><tr><th>Período</th><th>Frequência</th></tr></thead>
+      <tbody>
+        <tr><td>Até a <strong>28ª semana</strong></td><td>Mensal</td></tr>
+        <tr><td>Da <strong>28ª à 36ª semana</strong></td><td>Quinzenal</td></tr>
+        <tr><td>Da <strong>36ª semana ao parto</strong></td><td>Semanal</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="info-box rose" style="margin-top:0.6rem">
+      <span>ℹ️</span>
+      <span>Consultas <strong>alternadas entre médico(a) e enfermeiro(a)</strong> em todos os estratos. O profissional da APS tem autonomia para solicitar avaliação especializada sempre que considerar necessário.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🔄</div><div class="card-title">Fluxo de Referência — Pontos de Atenção no Ceará</div></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-dot"></div>
+        <div class="tl-title">🏠 UBS / Domicílio — Porta de Entrada e Coordenação</div>
+        <div class="tl-body">Todas as gestantes passam pela APS. Estratificação de risco, garantia de consultas, exames, visita domiciliar e acompanhamento até 2 anos após o parto.</div>
+      </div>
+      <div class="tl-item"><div class="tl-dot"></div>
+        <div class="tl-title">🏛️ Policlínica / AAE — Atenção Especializada</div>
+        <div class="tl-body">Equipe multiprofissional. Atendimento compartilhado com APS. Elaboração do Plano de Cuidados, realização de exames especializados e plano terapêutico.</div>
+      </div>
+      <div class="tl-item"><div class="tl-dot"></div>
+        <div class="tl-title">🏥 Hospital Secundário — Risco Habitual e Intermediário</div>
+        <div class="tl-body">UCI Neonatal. Internações clínicas e cirúrgicas. Berçário de médio risco para RN que requer cuidados intermediários.</div>
+      </div>
+      <div class="tl-item"><div class="tl-dot"></div>
+        <div class="tl-title">🏨 Hospital Terciário — Alto Risco (GAR II)</div>
+        <div class="tl-body">UTI adulto, neonatal e pediátrica. Urgência e emergência obstétrica e pediátrica. HGCC Dr. César Cals, HGF, MEAC (Fortaleza) · HMJMJ (Quixadá) · HMSV (Barbalha) · Santa Casa (Sobral).</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /sec-conduta -->
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  RECOMENDAÇÕES                                        -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="sec-recomendacoes" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📋</div><div class="card-title">Recomendações da Nota Técnica</div></div>
+
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">Princípios Fundamentais da Estratificação <span class="acc-arrow">▶</span></div>
+      <div class="acc-body"><ul>
+        <li>A estratificação é <strong>absoluta</strong>: gestante classificada como alto risco <strong>não volta ao baixo risco</strong> nessa gestação.</li>
+        <li>A estratificação é <strong>contínua</strong>: deve ser atualizada em toda consulta de pré-natal.</li>
+        <li>A identificação precoce das gestantes de maior risco <strong>reduz a mortalidade materna e perinatal</strong>.</li>
+        <li>Os critérios são uma <strong>diretriz</strong>: o profissional da APS tem autonomia para solicitar avaliação sempre que julgar necessário.</li>
+        <li>A ficha de referência à AAE deve conter a <strong>estratificação de risco obstétrico</strong>. A AAE obrigatoriamente envia a <strong>contra-referência</strong> à APS.</li>
+      </ul></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">APS — Não há Alta da Gestante <span class="acc-arrow">▶</span></div>
+      <div class="acc-body"><ul>
+        <li>Independente do nível de risco ou do encaminhamento, a gestante <strong>sempre</strong> estará sendo assistida na APS.</li>
+        <li>O compartilhamento com equipes especializadas pode ocorrer em <strong>qualquer momento</strong> do pré-natal.</li>
+        <li>Independente da disponibilidade de vagas ou morosidade do encaminhamento, a APS continua o acompanhamento com <strong>referência e contra-referência</strong>.</li>
+        <li>Oferecer atendimento a toda mulher com gravidez presumida ou confirmada, independente de turno programado.</li>
+      </ul></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Faixas Etárias de Atenção Especial <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Os profissionais devem observar de forma criteriosa as gestantes nas faixas etárias de <strong>20 a 29 anos</strong> e <strong>35 a 39 anos</strong>, pois a predominância da mortalidade materna no Ceará concentra-se nessas faixas.</p>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Sífilis na Gestação <span class="acc-arrow">▶</span></div>
+      <div class="acc-body"><ul>
+        <li>Gestante com sífilis terciária, resistente à penicilina ou com achados ecográficos suspeitos de sífilis congênita: encaminhar para serviço especializado ou referência para pré-natal de alto risco, com cuidado compartilhado.</li>
+        <li>O tratamento das <strong>parcerias sexuais</strong> é imprescindível para evitar reinfecção durante a gestação.</li>
+      </ul></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Saúde Mental na Gestação <span class="acc-arrow">▶</span></div>
+      <div class="acc-body"><ul>
+        <li>Gestante com <strong>doença psiquiátrica grave</strong> deve ser acompanhada pelo CAPS ou psiquiatra, juntamente com APS e AAE, para elaboração de Plano Terapêutico Singular.</li>
+        <li>Transtorno depressivo ou de ansiedade <strong>leve sem medicação</strong> → Médio Risco.</li>
+        <li>Psicose ou depressão <strong>grave</strong> → Alto Risco.</li>
+      </ul></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Populações em Situação de Vulnerabilidade <span class="acc-arrow">▶</span></div>
+      <div class="acc-body"><ul>
+        <li><strong>Situação de rua:</strong> acompanhadas pela equipe do Consultório na Rua, quando disponível no município.</li>
+        <li><strong>Encarceradas:</strong> acompanhadas pela equipe de Atenção Primária Prisional, quando disponível.</li>
+        <li>Fatores de risco sociais exigem <strong>ações intersetoriais</strong> com educação, assistência social, economia e justiça.</li>
+      </ul></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Transição do Cuidado Pós-parto <span class="acc-arrow">▶</span></div>
+      <div class="acc-body"><ul>
+        <li>APS realiza visita domiciliar puerperal e ao recém-nascido preferencialmente até <strong>72 horas</strong> após a alta hospitalar.</li>
+        <li>Estratificação de risco da criança deve ser iniciada logo após o nascimento, com base nos dados do pré-natal e parto.</li>
+        <li>APS acompanha o binômio mãe/filho <strong>até os 2 anos de vida da criança</strong>.</li>
+        <li>Garantia de transporte para gestantes de alto risco vinculadas a serviços de referência.</li>
+      </ul></div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Hospitais de Referência GAR II no Ceará <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <div class="chips">
+          <span class="chip">HGCC — Fortaleza</span>
+          <span class="chip">HGF — Fortaleza</span>
+          <span class="chip">MEAC — Fortaleza</span>
+          <span class="chip">HMJMJ — Quixadá</span>
+          <span class="chip">HMSV — Barbalha</span>
+          <span class="chip">Santa Casa — Sobral</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📊</div><div class="card-title">Contexto Epidemiológico — Ceará</div></div>
+    <div class="info-box amber">
+      <span>📈</span>
+      <span>A Razão de Mortalidade Materna no Ceará em 2023 foi de <strong>56,8 por 100.000 NV</strong> (queda em relação ao pico de 109,3 em 2021). Doença hipertensiva e hemorragia lideram as causas obstétricas diretas (Nota Técnica SESA-CE Nº 01/2024).</span>
+    </div>
+    <div class="info-box rose">
+      <span>ℹ️</span>
+      <span>No período de 2011 a 2022, as causas obstétricas <strong>indiretas</strong> apresentaram incremento de <strong>85,6%</strong>. Em 2020–2021, causas indiretas superaram as diretas em decorrência da pandemia de COVID-19.</span>
+    </div>
+  </div>
+
+</div><!-- /sec-recomendacoes -->
+
+</div><!-- /main -->
+
+<script>
+// ── FONTE ──────────────────────────────────────────────────
+let fontScale = 1.0;
+try { fontScale = parseFloat(localStorage.getItem('erg_font') || '1.0'); } catch(e) {}
+document.documentElement.style.fontSize = (16 * fontScale) + 'px';
+function adjustFont(d) {
+  fontScale = Math.min(1.8, Math.max(0.75, fontScale + d));
+  document.documentElement.style.fontSize = (16 * fontScale) + 'px';
+  try { localStorage.setItem('erg_font', fontScale.toFixed(2)); } catch(e) {}
+}
+
+// ── NAVEGAÇÃO — vincula por data-sec em vez de índice fixo ──
+document.querySelectorAll('.nav-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() { goSection(btn.dataset.sec); });
+});
+
+function goSection(id) {
+  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+  var sec = document.getElementById('sec-' + id);
+  if (sec) sec.classList.add('active');
+  var btn = document.querySelector('[data-sec="' + id + '"]');
+  if (btn) btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── ACCORDION ──────────────────────────────────────────────
+function toggleAcc(h) { h.parentElement.classList.toggle('open'); }
+
+// ══════════════════════════════════════════════════════════
+//  ALGORITMO — árvore de decisão
+// ══════════════════════════════════════════════════════════
+var algoHistory = [];
+var algoTrail   = [];
+var pendingTimeout = null;
+
+function startAlgo() { renderAlgoStep('s0'); }
+
+function renderAlgoStep(key) {
+  var stepEl    = document.getElementById('algo-step');
+  var trailEl   = document.getElementById('algo-trail');
+  var resetBtn  = document.getElementById('algo-reset');
+  var voltarBtn = document.getElementById('algo-voltar');
+  var node = algo[key];
+  if (!node) return;
+
+  // RESULTADO
+  if (node.result) {
+    // Resultados de alto risco, urgência ou situação especial são IRREVERSÍVEIS
+    // conforme NT SESA-CE Nº 01/2024: a gestante não volta ao baixo risco nesta gestação.
+    var isIrreversivel = (node.type === 'red' || node.type === 'vinho');
+    var avisoIrreversivel = isIrreversivel
+      ? '<div class="info-box red" style="margin-top:0.8rem;font-size:0.78rem">' +
+          '<span>🔒</span>' +
+          '<span><strong>Classificação irreversível nesta gestação.</strong> ' +
+          'Conforme a NT SESA-CE Nº 01/2024, uma vez classificada como Alto Risco, ' +
+          'a gestante não retorna ao Baixo Risco. Use Reiniciar apenas para uma <em>nova</em> avaliação.</span>' +
+        '</div>'
+      : '';
+    stepEl.innerHTML =
+      '<div class="result-box ' + node.type + '">' +
+        '<span class="result-badge ' + node.type + '">' + node.badge + '</span>' +
+        '<div class="result-title">' + node.title + '</div>' +
+        '<div class="result-body">' + node.body + '</div>' +
+      '</div>' + avisoIrreversivel;
+    resetBtn.style.display  = 'inline-block';
+    // Oculta "Voltar" para classificações irreversíveis (alto risco / urgência / especial)
+    voltarBtn.style.display = isIrreversivel ? 'none' : 'inline-block';
+    return;
+  }
+
+  // TRILHA
+  trailEl.style.display = algoTrail.length ? 'flex' : 'none';
+  trailEl.innerHTML = algoTrail.map(function(t) {
+    return '<span class="step-chip">' + t + '</span>';
+  }).join('');
+
+  // PERGUNTA
+  var html = '<div class="algo-question">' + node.q + '</div>';
+  if (node.hint) {
+    html += '<div class="info-box amber" style="margin-bottom:0.8rem"><span>ℹ️</span>' +
+            '<span style="font-size:0.78rem">' + node.hint + '</span></div>';
+  }
+  html += '<div class="btn-group">';
+  node.opts.forEach(function(opt, i) {
+    html += '<button class="btn-opt" data-idx="' + i + '" data-from="' + key + '">' + opt.label + '</button>';
+  });
+  html += '</div>';
+  stepEl.innerHTML = html;
+
+  // Evento: usar delegação para evitar race condition
+  stepEl.querySelectorAll('.btn-opt').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      algoChoose(btn.dataset.from, parseInt(btn.dataset.idx, 10));
+    });
+  });
+
+  var has = algoHistory.length > 0;
+  resetBtn.style.display  = has ? 'inline-block' : 'none';
+  voltarBtn.style.display = has ? 'inline-block' : 'none';
+}
+
+function algoChoose(fromKey, optIdx) {
+  if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
+  var buttons = document.querySelectorAll('#algo-step .btn-opt');
+  var clicked  = buttons[optIdx];
+  if (!clicked) return;
+  // Toggle: clicou no já selecionado → desmarca e cancela
+  if (clicked.classList.contains('selected')) {
+    clicked.classList.remove('selected');
+    return;
+  }
+  var opt = algo[fromKey].opts[optIdx];
+  algoHistory.push(fromKey);
+  algoTrail.push(opt.label.replace(/<[^>]+>/g, '').substring(0, 60));
+  // Feedback visual
+  buttons.forEach(function(b, i) { b.classList.toggle('selected', i === optIdx); });
+  pendingTimeout = setTimeout(function() {
+    pendingTimeout = null;
+    renderAlgoStep(opt.next);
+  }, 280);
+}
+
+function voltarAlgo() {
+  if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
+  if (!algoHistory.length) return;
+  algoTrail.pop();
+  renderAlgoStep(algoHistory.pop());
+}
+
+function resetAlgo() {
+  if (pendingTimeout) { clearTimeout(pendingTimeout); pendingTimeout = null; }
+  algoHistory = []; algoTrail = [];
+  document.getElementById('algo-trail').style.display  = 'none';
+  document.getElementById('algo-reset').style.display  = 'none';
+  document.getElementById('algo-voltar').style.display = 'none';
+  renderAlgoStep('s0');
+}
+
+// ══════════════════════════════════════════════════════════
+//  ÁRVORE DE DECISÃO (completa e corrigida)
+// ══════════════════════════════════════════════════════════
+var algo = {
+
+  // ── PASSO 0: urgência/emergência ───────────────────────
+  s0: {
+    q: 'A gestante apresenta algum sinal de Urgência ou Emergência Obstétrica?',
+    hint: 'PA ≥ 160/110 mmHg · Sinais premonitórios de eclâmpsia (escotomas, cefaleia, epigastralgia) · Eclâmpsia/convulsões · Hemorragias · Vômitos incoercíveis · Anemia grave (Hb ≤ 7 g/dL) · Temperatura axilar ≥ 37,8 °C sem sinais clínicos de infecção das vias aéreas superiores · Suspeita de trombose/abdome agudo/pielonefrite · Prurido/icterícia · IG ≥ 41 semanas.',
+    opts: [
+      { label: '🆘 Sim — há sinal de urgência/emergência', next: 'r_urgencia' },
+      { label: '❌ Não — não apresenta',                   next: 's1'         }
+    ]
+  },
+
+  // ── PASSO 1: situações especiais / atenção terciária ───
+  s1: {
+    q: 'A gestante apresenta alguma condição de Alto Risco com Situação Especial (Atenção Terciária)?',
+    hint: 'Gestação múltipla monocoriônica · Isoimunização Rh · Malformação fetal ou arritmia cardíaca fetal confirmada · Diagnóstico de HIV/AIDS · Transplantes prévios.',
+    opts: [
+      { label: '🏛️ Sim — há situação especial terciária', next: 'r_especial' },
+      { label: '❌ Não — não apresenta',                  next: 's2'         }
+    ]
+  },
+
+  // ── PASSO 2: alto risco ────────────────────────────────
+  s2: {
+    q: 'A gestante apresenta algum critério de Alto Risco?',
+    hint: 'Inclui: dependência de drogas/álcool; IMC ≥ 40 kg/m² ou desnutrição grave; história reprodutiva de alto risco (aborto recorrente ≥ 3, morte perinatal, HELLP, prematuridade, cesárea clássica, acretismo); doenças clínicas prévias graves; intercorrências obstétricas graves na gestação atual. Veja detalhes em "Critérios".',
+    opts: [
+      { label: '🔴 Sim — apresenta critério de alto risco', next: 's2b' },
+      { label: '❌ Não — não apresenta',                    next: 's3'  }
+    ]
+  },
+
+  // ── Detalhamento do Alto Risco ─────────────────────────
+  s2b: {
+    q: 'Qual o principal domínio do critério de Alto Risco identificado?',
+    opts: [
+      { label: '🧍 Individual/sociodemográfico (dependência de drogas/álcool, IMC ≥ 40 kg/m², desnutrição grave, transtornos alimentares)',                                next: 'r_alto_social'   },
+      { label: '📜 História reprodutiva (aborto recorrente ≥ 3, morte perinatal, pré-eclâmpsia grave/HELLP, prematuridade, cesárea clássica, acretismo, isoimunização Rh)', next: 'r_alto_repro'    },
+      { label: '🩺 Condição clínica prévia (pneumopatia/nefropatia/cardiopatia graves, doença autoimune, neoplasia, HIV, transtorno mental grave, epilepsia, tromboembolismo...)', next: 'r_alto_clinico'  },
+      { label: '🤰 Intercorrência na gestação atual (gestação de homens transsexuais, gemelar monocoriônica, DM c/ insulina, pré-eclâmpsia grave/precoce, restrição confirmada, hemorragia, anemia grave Hb 7–9 g/dL, ITU ≥ 3 episódios...)', next: 'r_alto_gestacao' }
+    ]
+  },
+
+  // ── PASSO 3: médio risco ───────────────────────────────
+  s3: {
+    q: 'A gestante apresenta algum critério de Médio Risco (Intermediário)?',
+    hint: 'Inclui: fatores socioeconômicos (idade < 15 ou > 35 anos, baixa escolaridade, violência doméstica, vulnerabilidades, tabagismo Fagerström 8–10, etilismo sem dependência); história reprodutiva intermediária (cesáreas ≥ 2, DG prévia, aborto precoce até 2, intervalo < 2 anos); condições clínicas leves (asma controlada, depressão/ansiedade leve, hipotireoidismo subclínico); intercorrências obstétricas moderadas.',
+    opts: [
+      { label: '🟡 Sim — apresenta fator de médio risco', next: 's3b'       },
+      { label: '✅ Não — ausência de fatores de risco',   next: 'r_habitual' }
+    ]
+  },
+
+  // ── Detalhamento do Médio Risco ───────────────────────
+  s3b: {
+    q: 'Qual o principal domínio do fator de Médio Risco identificado?',
+    opts: [
+      { label: '🧍 Individual/socioeconômico (idade, violência, vulnerabilidade, IMC <18,5 ou 30–39 kg/m², baixa escolaridade, uso de drogas leve, medicamentos teratogênicos, gestante negra/indígena/migrante, tabagismo Fagerström 8–10...)', next: 'r_medio_social'   },
+      { label: '📜 História reprodutiva (aborto precoce ≤ 2, DG prévia, cesáreas ≥ 2, intervalo < 2 anos, nuliparidade ou multípara ≥ 5 partos, insuf. istmo-cervical, malformação fetal prévia...)',       next: 'r_medio_repro'    },
+      { label: '🩺 Condição clínica prévia (asma controlada sem medicação, depressão/ansiedade leve sem medicação, hipotireoidismo subclínico na gestação)',                                                next: 'r_medio_clinico'  },
+      { label: '🤰 Intercorrência na gestação atual (gemelar dicoriônica, DM sem medicação, HAS s/ gravidade, ITU ≤ 2 episódios, sífilis simples, dengue/Zika, restrição suspeita, anemia Hb 8–11 g/dL, ganho de peso inadequado...)', next: 'r_medio_gestacao' }
+    ]
+  },
+
+  // ══════════════════════════════════════════════════════
+  //  RESULTADOS
+  // ══════════════════════════════════════════════════════
+
+  r_urgencia: {
+    result: true, type: 'vinho', badge: '🆘 Urgência / Emergência Obstétrica',
+    title: 'Encaminhamento Hospitalar Imediato',
+    body: '<ul>' +
+      '<li>Acionar SAMU ou garantir transporte imediato ao Hospital Secundário ou Terciário de referência.</li>' +
+      '<li>Não aguardar próxima consulta agendada.</li>' +
+      '<li>Registrar e comunicar à equipe de saúde responsável.</li>' +
+      '<li>APS mantém o acompanhamento após resolução do quadro.</li>' +
+    '</ul>'
+  },
+
+  r_especial: {
+    result: true, type: 'vinho', badge: '🏛️ Alto Risco com Situações Especiais',
+    title: 'Acompanhamento na Atenção Terciária — APS + AAE + Hospital Terciário',
+    body: '<ul>' +
+      '<li>Encaminhar ao Hospital Terciário de referência conforme situação identificada.</li>' +
+      '<li>APS continua acompanhamento — não há alta da gestante.</li>' +
+      '<li>Garantir vinculação da gestante à maternidade terciária.</li>' +
+      '<li>Elaborar Plano Terapêutico Singular com equipe interdisciplinar.</li>' +
+      '<li>Utilizar referência e contra-referência em todos os encaminhamentos.</li>' +
+    '</ul>'
+  },
+
+  r_alto_social: {
+    result: true, type: 'red', badge: '🔴 Alto Risco — Fatores Individuais/Sociais',
+    title: 'Acompanhamento Compartilhado APS + AAE + Referência GAR',
+    body: '<ul>' +
+      '<li><strong>Dependência de drogas/álcool:</strong> articular com CAPS-AD; abordagem de redução de danos.</li>' +
+      '<li><strong>IMC ≥ 40 kg/m² / desnutrição grave:</strong> encaminhar para nutricionista; avaliação clínica intensificada.</li>' +
+      '<li><strong>Transtornos alimentares (anorexia, bulimia):</strong> referência para acompanhamento em saúde mental e nutricional.</li>' +
+      '<li>Acionar assistência social (CRAS/CREAS) para suporte às vulnerabilidades identificadas.</li>' +
+      '<li>APS não realiza alta — manter acompanhamento independente do encaminhamento.</li>' +
+    '</ul>'
+  },
+
+  r_alto_repro: {
+    result: true, type: 'red', badge: '🔴 Alto Risco — História Reprodutiva',
+    title: 'Acompanhamento Compartilhado APS + AAE + Referência GAR',
+    body: '<ul>' +
+      '<li><strong>Abortamento habitual (≥ 3 consecutivos):</strong> investigar causa; encaminhar para ginecologista/hematologista.</li>' +
+      '<li><strong>Pré-eclâmpsia grave / síndrome HELLP anterior:</strong> monitoramento intensivo da PA e exames laboratoriais.</li>' +
+      '<li><strong>Prematuridade anterior:</strong> rastrear insuficiência istmo-cervical; considerar progesterona profilática.</li>' +
+      '<li><strong>Cesárea com incisão clássica/corporal/longitudinal:</strong> referenciar para pré-natal de alto risco; avaliar acretismo.</li>' +
+      '<li><strong>Isoimunização Rh:</strong> se ainda não avaliada como situação especial, retornar ao início do algoritmo e confirmar encaminhamento à Atenção Terciária via s1.</li>' +
+      '<li>Referenciar à maternidade de alto risco para criação de vínculo e planejamento do parto.</li>' +
+    '</ul>'
+  },
+
+  r_alto_clinico: {
+    result: true, type: 'red', badge: '🔴 Alto Risco — Condição Clínica Prévia',
+    title: 'Acompanhamento Compartilhado APS + AAE + Especialidade + Referência GAR',
+    body: '<ul>' +
+      '<li><strong>Pneumopatias graves:</strong> encaminhar para pneumologista; atentar para exacerbações na gestação.</li>' +
+      '<li><strong>Nefropatias graves:</strong> nefrologista + monitoramento de função renal e PA frequentes.</li>' +
+      '<li><strong>Doenças autoimunes (lúpus, SAAF):</strong> reumatologista + hematologista.</li>' +
+      '<li><strong>Epilepsia:</strong> neurologista; ajuste de medicação para minimizar teratogenicidade.</li>' +
+      '<li><strong>HIV prévio:</strong> infectologista; TARV e profilaxia de transmissão vertical.</li>' +
+      '<li><strong>Transtorno mental grave (psicose ou depressão grave):</strong> CAPS ou psiquiatra + APS + AAE para Plano Terapêutico Singular.</li>' +
+      '<li>Qualquer especialidade pertinente deve ser acionada conforme condição identificada.</li>' +
+    '</ul>'
+  },
+
+  r_alto_gestacao: {
+    result: true, type: 'red', badge: '🔴 Alto Risco — Intercorrência na Gestação Atual',
+    title: 'Acompanhamento Compartilhado APS + AAE + Referência GAR',
+    body: '<ul>' +
+      '<li><strong>DM gestacional com necessidade de insulina ou com repercussão fetal:</strong> endocrinologista; monitoramento glicêmico intensivo.</li>' +
+      '<li><strong>Pré-eclâmpsia grave / instalação precoce (&lt; 34 sem):</strong> internação se necessário; anti-hipertensivos e sulfato de magnésio conforme protocolo.</li>' +
+      '<li><strong>Restrição de crescimento fetal confirmada:</strong> USG com dopplerfluxometria frequentes.</li>' +
+      '<li><strong>Anemia grave (Hb &lt; 9 g/dL) ou anemia refratária a tratamento:</strong> investigar causa; suplementação e/ou hemotransfusão conforme indicação.</li>' +
+      '<li><strong>ITU de repetição (≥ 3 episódios ITU baixa ou ≥ 2 pielonefrites):</strong> antibioticoterapia e uroculturas seriadas; uroginecologista se necessário.</li>' +
+      '<li><strong>Hemorragias:</strong> avaliação hospitalar urgente se necessário.</li>' +
+      '<li>Referenciar à maternidade de alto risco para acompanhamento e planejamento do parto seguro.</li>' +
+    '</ul>'
+  },
+
+  r_medio_social: {
+    result: true, type: 'amber', badge: '🟡 Médio Risco — Fatores Individuais/Sociais',
+    title: 'APS com Encaminhamento à AAE para Cuidado Compartilhado',
+    body: '<ul>' +
+      '<li>Encaminhar à AAE com ficha de referência + estratificação de risco obstétrico anexa.</li>' +
+      '<li><strong>Violência doméstica:</strong> notificar (compulsório); acionar rede de proteção; elaborar Plano de Segurança.</li>' +
+      '<li><strong>Vulnerabilidade social:</strong> articular com CRAS, Bolsa Família, assistência social.</li>' +
+      '<li><strong>Uso de drogas sem dependência:</strong> abordagem de redução de danos; encaminhar para CAPS se necessário.</li>' +
+      '<li><strong>Gestante negra/indígena/quilombola/migrante:</strong> observar determinantes sociais; garantir acesso equitativo.</li>' +
+      '<li>Aumentar frequência das consultas e visitas domiciliares pelo ACS.</li>' +
+      '<li>Atentar para progressão do risco a cada consulta — reclassificar se novos critérios surgirem.</li>' +
+      '<li><strong>⚠️ Atenção:</strong> se a gestante apresenta critérios em mais de um domínio, a complexidade é maior (NT SESA-CE, p.4). Priorizar encaminhamento à AAE e aumentar frequência de consultas.</li>' +
+    '</ul>'
+  },
+
+  r_medio_repro: {
+    result: true, type: 'amber', badge: '🟡 Médio Risco — História Reprodutiva',
+    title: 'APS com Encaminhamento à AAE para Cuidado Compartilhado',
+    body: '<ul>' +
+      '<li><strong>Cesáreas ≥ 2:</strong> rastreamento de acretismo placentário via ultrassonografia.</li>' +
+      '<li><strong>DG em gestação anterior:</strong> TOTG precoce na gestação atual; orientação alimentar desde o início.</li>' +
+      '<li><strong>Intervalo interpartal &lt; 2 anos:</strong> monitoramento nutricional; rastreamento de anemia.</li>' +
+      '<li><strong>Insuficiência istmo-cervical prévia:</strong> ultrassonografia transvaginal para avaliação do colo.</li>' +
+      '<li><strong>Aborto precoce (até 2 consecutivos):</strong> investigar causas; acompanhamento psicossocial.</li>' +
+      '<li>Encaminhar à AAE com prioridade para avaliação especializada conforme critério identificado.</li>' +
+      '<li><strong>⚠️ Atenção:</strong> critérios em múltiplos domínios aumentam a complexidade (NT SESA-CE, p.4). Priorizar encaminhamento à AAE e aumentar frequência de consultas.</li>' +
+    '</ul>'
+  },
+
+  r_medio_clinico: {
+    result: true, type: 'amber', badge: '🟡 Médio Risco — Condição Clínica Prévia',
+    title: 'APS com Encaminhamento à AAE para Cuidado Compartilhado',
+    body: '<ul>' +
+      '<li><strong>Asma controlada sem medicação contínua:</strong> atentar para exacerbações; broncodilatador de resgate disponível.</li>' +
+      '<li><strong>Depressão/ansiedade leve sem medicação:</strong> apoio psicossocial na APS; encaminhar se houver progressão para formas graves → reclassificar como alto risco.</li>' +
+      '<li><strong>Hipotireoidismo subclínico diagnosticado na gestação:</strong> monitoramento com TSH a cada trimestre; ajuste terapêutico conforme evolução.</li>' +
+      '<li><strong>⚠️ Atenção:</strong> critérios em múltiplos domínios aumentam a complexidade (NT SESA-CE, p.4). Priorizar encaminhamento à AAE e aumentar frequência de consultas.</li>' +
+    '</ul>'
+  },
+
+  r_medio_gestacao: {
+    result: true, type: 'amber', badge: '🟡 Médio Risco — Intercorrência na Gestação Atual',
+    title: 'APS com Encaminhamento à AAE para Cuidado Compartilhado',
+    body: '<ul>' +
+      '<li><strong>DM gestacional sem medicação e sem repercussão fetal:</strong> TOTG seriado; orientação alimentar intensiva; auto-monitoramento glicêmico. Se evoluir para necessidade de insulina → reclassificar como alto risco.</li>' +
+      '<li><strong>HAS gestacional sem gravidade:</strong> monitoramento pressórico frequente; orientar sinais de alarme de pré-eclâmpsia.</li>' +
+      '<li><strong>Sífilis (exceto terciária/resistente):</strong> tratar com penicilina benzatina conforme protocolo; tratar parceiro; notificar.</li>' +
+      '<li><strong>Anemia Hb 9–11 g/dL:</strong> suplementação de ferro + ácido fólico; investigar causa; controle laboratorial.' +
+      ' Se Hb entre 7 e 9 g/dL → reclassificar como <strong>Alto Risco</strong>.' +
+      ' Se Hb ≤ 7 g/dL → <strong>Urgência</strong>: encaminhar ao hospital imediatamente (acionar SAMU).</li>' +
+      '<li><strong>Dengue/Zika/Chikungunya:</strong> notificar compulsoriamente; monitoramento fetal; orientar sinais de gravidade.</li>' +
+      '<li><strong>ITU até 2 episódios ou 1 pielonefrite:</strong> antibioticoterapia conforme urocultura; urocultura de controle. Se ≥ 3 episódios ITU ou ≥ 2 pielonefrites → reclassificar como alto risco.</li>' +
+      '<li>Encaminhar à AAE com estratificação de risco. Reclassificar se surgirem novos critérios.</li>' +
+      '<li><strong>⚠️ Atenção:</strong> critérios em múltiplos domínios aumentam a complexidade (NT SESA-CE, p.4). Priorizar encaminhamento à AAE e aumentar frequência de consultas.</li>' +
+    '</ul>'
+  },
+
+  r_habitual: {
+    result: true, type: 'green', badge: '🟢 Baixo Risco (Habitual)',
+    title: 'Acompanhamento Integral pela Equipe de APS na UBS',
+    body: '<ul>' +
+      '<li>Consultas alternadas entre <strong>médico(a) e enfermeiro(a)</strong>: mensais até 28ª sem → quinzenais da 28ª à 36ª → semanais a partir da 36ª semana.</li>' +
+      '<li>Incluir avaliação odontológica com o dentista da equipe de saúde bucal.</li>' +
+      '<li>Solicitar e monitorar <strong>todos os exames do pré-natal</strong> conforme protocolo do Ministério da Saúde.</li>' +
+      '<li>Garantir vinculação à maternidade de referência (Hospital Secundário).</li>' +
+      '<li>Orientar sinais de alarme e quando buscar atendimento de urgência.</li>' +
+      '<li><strong>Reavaliar o risco em toda consulta</strong> — qualquer novo critério pode alterar a classificação.</li>' +
+    '</ul>'
+  }
+
+};
+
+window.onload = function() { startAlgo(); };
+</script>
+</body>
+</html>
