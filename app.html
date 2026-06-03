@@ -1513,7 +1513,8 @@ async function generatePDF(mode = 'save') {
   const grupos = [];
   let grupoAtual = null;
   for (const dr of drugList) {
-    if (!grupoAtual || grupoAtual.tipo !== dr.tipo) {
+    const maxPorReceita = dr.tipo === 'antibiotico' ? 2 : Infinity;
+    if (!grupoAtual || grupoAtual.tipo !== dr.tipo || grupoAtual.drugs.length >= maxPorReceita) {
       grupoAtual = { tipo: dr.tipo, drugs: [] };
       grupos.push(grupoAtual);
     }
