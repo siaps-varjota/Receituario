@@ -1765,7 +1765,7 @@ async function generatePDF(mode = 'save') {
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(7);
       doc.setTextColor(0);
-      doc.text(fit(d.e_nome, sigLineW, 7, 'helvetica', 'bold'), cx, y + boxH - 8.5, { align: 'center' });
+      doc.text(fit(d.e_nome, sigLineW, 8, 'helvetica', 'bold'), cx, y + boxH - 8.5, { align: 'center' });
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(6.5);
       if (d.e_conselho) { doc.text(fit(d.e_conselho, sigLineW, 6.5), cx, y + boxH - 5.5,   { align: 'center' }); }
