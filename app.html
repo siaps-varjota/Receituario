@@ -887,6 +887,43 @@ function setType(btn, type) {
   currentType = type;
 }
 
+/* ── Lista de antibióticos para detecção automática ── */
+const ANTIBIOTICOS_LISTA = [
+  'benzilpenicilina benzatina','penicilina benzatina',
+  'doxiciclina','azitromicina','ceftriaxona','ciprofloxacino',
+  'metronidazol','secnidazol','clindamicina',
+  'nitrofurantoina','nitrofurantoína',
+  'sulfametoxazol','trimetoprima','trimetropina','trimetoprim','trimetoprina',
+  'levofloxacino','amoxicilina','ampicilina','cefalexina','eritromicina',
+  'isoniazida','rifampicina','pirazinamida','etambutol','dapsona',
+  'clofazimina','rifapentina',
+  'mupirocina','neomicina','bacitracina',
+  'amoxicilina clavulanato','amoxicilina + clavulanato',
+];
+
+function _normalizaNome(s) {
+  return (s || '').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9 +]/g, ' ')
+    .replace(/\s+/g, ' ').trim();
+}
+
+function isAntibiotico(nome) {
+  if (!nome) return false;
+  const n = _normalizaNome(nome);
+  return ANTIBIOTICOS_LISTA.some(a => {
+    const an = _normalizaNome(a);
+    return n === an || n.startsWith(an + ' ') || n.includes(' ' + an) || n.includes(an);
+  });
+}
+
+function autoDetectTipo(n) {
+  const nome = (document.getElementById(`d${n}_nome`)?.value || '').trim();
+  if (!nome) return; // não altera se campo vazio
+  const tipo = isAntibiotico(nome) ? 'antibiotico' : 'simples';
+  setDrugTipo(n, tipo);
+}
+
 function setDrugTipo(n, tipo) {
   const di = document.getElementById('di_' + n);
   if (!di) return;
@@ -1306,6 +1343,7 @@ function updateDrugPreview(n) {
   const preview = document.getElementById(`d${n}_preview`);
   if (!preview) return;
   preview.textContent = nome ? (conc ? `${nome} ${conc}` : nome) : '—';
+  autoDetectTipo(n);
 }
 
 function clearDrug(n) {
