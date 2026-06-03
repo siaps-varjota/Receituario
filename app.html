@@ -1917,9 +1917,10 @@ async function generatePDF(mode = 'save') {
       const PH_local = 210;
       const fixedH     = calcFixedHeaderHeight();
       const sigH       = calcSignatureHeight();
-      // Para antibiótico, a assinatura e as caixas ficam na base fixa;
-      // o limite superior da área de medicamentos é PH - ANTIBIOTICO_BASE_RESERVA - aposSection(4)
-      const limiteAnti = PH_local - ANTIBIOTICO_BASE_RESERVA - 4;
+      // Para antibiótico, a assinatura fica ACIMA das caixas de comprador/fornecedor.
+      // As caixas começam em PH - 49. A assinatura ocupa ~31.5mm (boxH=22 + 0.5 + cidade=4 + aposSection=4 + margem=1).
+      // Portanto o limite superior da área de medicamentos é: PH - 49 - sigH - aposSection(4)
+      const limiteAnti = PH_local - ANTIBIOTICO_BASE_RESERVA - sigH - 4;
       const limiteSimp = PH_local - sigH - 4; // aposSection = 4
 
       const lotes = [];
