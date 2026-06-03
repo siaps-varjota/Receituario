@@ -1839,32 +1839,116 @@ async function generatePDF(mode = 'save') {
       doc.setLineDashPattern([], 0);
     }
 
-    function calcNomeLines(dr) {
+    /* ── Cálculo de altura de um card de medicamento ── */
+    function calcDrugCardHeight(dr, idx) {
+      const cw = half - 14;
+      const SP = {
+        nomeLinhaPasso: 4.3, headerMinH: 9, headerPadding: 1.5,
+        posologiaLinha: 4,   cardPaddingInf: 1.5, entreCards: 1.2,
+      };
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(9.0);
-      const nomeMaxW = (half - 14) * 0.63;
-      return doc.splitTextToSize(`1. ${dr.nome}`, nomeMaxW).length;
+      const nomeMaxW = cw * 0.63;
+      const continuoTag = ' — uso contínuo';
+      const continuoW = dr.continuo ? (() => {
+        doc.setFont('helvetica', 'bolditalic'); doc.setFontSize(8.0);
+        const w = doc.getTextWidth(continuoTag);
+        doc.setFont('helvetica', 'bold'); doc.setFontSize(9.0);
+        return w;
+      })() : 0;
+      const nomeLines = doc.splitTextToSize(`${idx + 1}. ${dr.nome}`, nomeMaxW);
+      const ultimaLinhaW = doc.getTextWidth(nomeLines[nomeLines.length - 1]);
+      const continuoNaLinhaFinal = dr.continuo && (ultimaLinhaW + continuoW + 1) <= nomeMaxW;
+      const continuoLinhaExtra   = dr.continuo && !continuoNaLinhaFinal;
+      const nomeLinhas = nomeLines.length + (continuoLinhaExtra ? 1 : 0);
+      const nomeH   = nomeLinhas * SP.nomeLinhaPasso;
+      const headerH = Math.max(SP.headerMinH, nomeH + SP.headerPadding);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9.5);
+      const posLines = dr.pos ? doc.splitTextToSize(dr.pos, cw - 8) : [];
+      const info = [dr.inicio ? `A partir de ${fmtShort(dr.inicio)}` : '', dr.dur || ''].filter(Boolean).join(' durante ');
+      const boxH = headerH + posLines.length * SP.posologiaLinha + (info ? SP.posologiaLinha : 0) + SP.cardPaddingInf;
+      return boxH + SP.entreCards;
     }
 
-    const allDrugs = d.drugs;
-    let lotes = [];
-    if (d.tipo !== 'antibiotico') {
-      lotes = [allDrugs];
-    } else {
-      let lote = [];
-      for (const dr of allDrugs) {
-        const linhas = calcNomeLines(dr);
-        const nomeQuebraTexto = linhas > 1;
-        if (nomeQuebraTexto) {
-          if (lote.length) { lotes.push(lote); lote = []; }
-          lotes.push([dr]);
+    /* ── Altura fixa do cabeçalho (logo, título, emitente, cidadão, seção medicamentos) ── */
+    function calcFixedHeaderHeight() {
+      const logoH = SP_LOGO * 104 / 259;
+      // topoY + logo + logoAposLinha + tituloApos
+      let y = 5 + logoH + 2 + 14;
+      // EMITENTE: section(6) + nome(4) + end condicional(4) + emitenteApos(2)
+      y += 6 + 4 + (d.e_end ? 4 : 0) + 2;
+      // CIDADÃO: section(6) + nome(4) + end condicional(4) + cidadaoApos(2)
+      y += 6 + 4 + (d.p_end ? 4 : 0) + 2;
+      // MEDICAMENTOS section header (sectionAposLabel + sectionAposLinha - 2 ajuste)
+      y += 6 - 2;
+      return y;
+    }
+    const SP_LOGO = 30; // logoW
+
+    /* ── Altura reservada para assinatura + rodapé ── */
+    function calcSignatureHeight() {
+      // boxH assinatura(22) + 0.5 + cidade/data(~4) + rodapé(3) + margem(2)
+      return 22 + 0.5 + 4 + 3 + 2;
+    }
+
+    /* ── Altura reservada para protocolos ── */
+    function calcProtocolosHeight(drugs) {
+      const cw = half - 14;
+      const lista = [...new Set(drugs.map(dr => dr.obs).filter(Boolean))];
+      if (!lista.length) return 0;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(9);
+      // section header(6) + linhas
+      let h = 6;
+      lista.forEach((prot, idx) => {
+        const lines = doc.splitTextToSize(`${idx + 1}. ${prot}`, cw - 10);
+        h += lines.length * 3 + 1;
+      });
+      h += 2; // y += 2 no final
+      return h;
+    }
+
+    /* ── Altura mínima para a caixa de comprador/fornecedor (antibiótico) ── */
+    const ANTIBIOTICO_BASE_RESERVA = 49; // compY = PH - 49
+
+    /* ── Paginação inteligente por altura real ── */
+    function paginarDrugs(drugs) {
+      const PH_local = 210;
+      const fixedH     = calcFixedHeaderHeight();
+      const sigH       = calcSignatureHeight();
+      // Para antibiótico, a assinatura e as caixas ficam na base fixa;
+      // o limite superior da área de medicamentos é PH - ANTIBIOTICO_BASE_RESERVA - aposSection(4)
+      const limiteAnti = PH_local - ANTIBIOTICO_BASE_RESERVA - 4;
+      const limiteSimp = PH_local - sigH - 4; // aposSection = 4
+
+      const lotes = [];
+      let lote    = [];
+      let yUsado  = fixedH;
+
+      for (let i = 0; i < drugs.length; i++) {
+        const dr   = drugs[i];
+        const cardH = calcDrugCardHeight(dr, lote.length); // índice relativo ao lote
+        const protH = calcProtocolosHeight([...lote, dr]);
+        const limite = d.tipo === 'antibiotico' ? limiteAnti : limiteSimp;
+        const fimComEste = yUsado + cardH + (d.tipo !== 'antibiotico' ? protH : 0);
+
+        if (lote.length > 0 && fimComEste > limite) {
+          // Não cabe: fecha lote atual e abre novo
+          lotes.push(lote);
+          lote   = [dr];
+          yUsado = fixedH + cardH;
         } else {
           lote.push(dr);
-          if (lote.length === 2) { lotes.push(lote); lote = []; }
+          yUsado += cardH;
         }
       }
       if (lote.length) lotes.push(lote);
+      return lotes.length ? lotes : [[]];
     }
+
+    const allDrugs = d.drugs;
+    const lotes = paginarDrugs(allDrugs);
 
     const totalPaginas = lotes.length || 1;
     for (let pgIdx = 0; pgIdx < totalPaginas; pgIdx++) {
