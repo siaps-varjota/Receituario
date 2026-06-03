@@ -727,11 +727,11 @@ body {
         <div class="gd311">
           <div class="field">
             <label>Endereço da Unidade</label>
-            <input id="e_end" value="Rua 31 de Marco, S/n - Pedreira - Varjota/CE">
+            <input id="e_end" placeholder="Rua 31 de Marco, S/n - Pedreira - Varjota/CE">
           </div>
           <div class="field">
             <label>Município</label>
-            <input id="u_municipio" value="VARJOTA">
+            <input id="u_municipio" placeholder="VARJOTA">
           </div>
           <div class="field">
             <label>Estado</label>
@@ -768,16 +768,16 @@ body {
         </div>
         <div class="field">
           <label>Nome Completo do Profissional *</label>
-          <input id="e_nome" value="Alidemberg Araujo Loiola">
+          <input id="e_nome" placeholder="Alidemberg Araujo Loiola">
         </div>
         <div class="gd3">
           <div class="field">
             <label>Conselho / Registro *</label>
-            <input id="e_conselho" value="COREN - CE 134611 - ENF" placeholder="Ex: COREN-CE 134611-ENF">
+            <input id="e_conselho" placeholder="COREN - CE 134611 - ENF">
           </div>
           <div class="field">
             <label>Cargo / Especialidade</label>
-            <input id="e_cargo" value="Enfermeiro da Estratégia de Saúde da Família" placeholder="Enfermeiro da Estratégia de Saúde da Família">
+            <input id="e_cargo" placeholder="Enfermeiro da Estratégia de Saúde da Família">
           </div>
           <div class="field">
             <label>CPF do Profissional</label>
@@ -791,7 +791,7 @@ body {
           </div>
           <div class="field">
             <label>Cidade (para assinatura)</label>
-            <input id="sig_cidade" value="Varjota - CE">
+            <input id="sig_cidade" placeholder="Varjota - CE">
           </div>
           <div class="field">
             <label>Data da Prescrição *</label>
@@ -935,6 +935,7 @@ function setDrugTipo(n, tipo) {
 }
 
 function v(id) { const e = document.getElementById(id); return e ? e.value.trim() : ''; }
+function vp(id) { const e = document.getElementById(id); if (!e) return ''; return e.value.trim() || e.placeholder || ''; }
 
 /* ── Drug management ── */
 function addDrug() {
@@ -1505,7 +1506,7 @@ const LOGO_URL = 'https://raw.githubusercontent.com/siaps-varjota/Receituario/ma
 ══════════════════════════════════════════ */
 async function generatePDF(mode = 'save') {
   if (!v('p_nome'))   { alert('Informe o nome do paciente.'); return; }
-  if (!v('e_nome'))   { alert('Informe o nome do profissional.'); return; }
+  if (!vp('e_nome'))   { alert('Informe o nome do profissional.'); return; }
   if (!v('sig_data')) { alert('Informe a data da prescrição.'); return; }
   const drugList = getDrugs();
   if (!drugList.length) { alert('Adicione pelo menos um medicamento.'); return; }
@@ -1530,19 +1531,19 @@ async function generatePDF(mode = 'save') {
     const d = {
       tipo:        grupo.tipo,
       u_estado:    v('u_estado'),
-      u_municipio: v('u_municipio'),
+      u_municipio: vp('u_municipio'),
       u_unidade:   v('u_unidade'),
-      e_nome:      v('e_nome'),
+      e_nome:      vp('e_nome'),
       e_cpf:       v('e_cpf'),
       e_telefone:  v('e_telefone'),
-      e_conselho:  v('e_conselho'),
-      e_end:       v('e_end'),
-      e_cargo:     v('e_cargo'),
+      e_conselho:  vp('e_conselho'),
+      e_end:       vp('e_end'),
+      e_cargo:     vp('e_cargo'),
       p_nome:      v('p_nome'),
       p_doc:       v('p_doc'),
       p_nasc:      v('p_nasc'),
       p_end:       v('p_end'),
-      sig_cidade:  v('sig_cidade'),
+      sig_cidade:  vp('sig_cidade'),
       sig_data:    v('sig_data'),
       drugs:       grupo.drugs,
     };
