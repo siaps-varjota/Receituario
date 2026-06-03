@@ -1521,6 +1521,11 @@ async function generatePDF(mode = 'save') {
     grupoAtual.drugs.push(dr);
   }
 
+  // Único documento PDF para todos os grupos/receitas
+  const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+  const PW = 297, PH = 210, half = PW / 2;
+  let primeiraFolha = true;
+
   for (const [gi, grupo] of grupos.entries()) {
     const d = {
       tipo:        grupo.tipo,
@@ -1541,9 +1546,6 @@ async function generatePDF(mode = 'save') {
       sig_data:    v('sig_data'),
       drugs:       grupo.drugs,
     };
-
-    const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-    const PW = 297, PH = 210, half = PW / 2;
 
     function fit(text, maxW, fs, font = 'helvetica', style = 'normal') {
       if (!text) return '';
@@ -1954,25 +1956,27 @@ async function generatePDF(mode = 'save') {
 
     const totalPaginas = lotes.length || 1;
     for (let pgIdx = 0; pgIdx < totalPaginas; pgIdx++) {
-      if (pgIdx > 0) doc.addPage();
+      if (!primeiraFolha) doc.addPage();
+      primeiraFolha = false;
       d.drugs = lotes[pgIdx] || [];
       drawDivider();
       await drawVia(0, 0, pgIdx + 1, totalPaginas);
       await drawVia(half, 1, pgIdx + 1, totalPaginas);
     }
     d.drugs = allDrugs;
+  }
 
-    const tipoSufixo  = grupo.tipo === 'antibiotico' ? '_antibiotico' : '_simples';
-    const grupoSufixo = grupos.length > 1 ? `_${gi + 1}` : '';
-    const fname = `receita_${(d.p_nome||'paciente').split(' ')[0].toLowerCase()}${tipoSufixo}${grupoSufixo}_${d.sig_data}.pdf`;
-    if (mode === 'print') {
-      doc.autoPrint();
-      const blobUrl = doc.output('bloburl');
-      const win = window.open(blobUrl, '_blank');
-      if (!win) alert('Permita pop-ups neste site para abrir a janela de impressão.');
-    } else {
-      doc.save(fname);
-    }
+  // Gera o nome do arquivo com base no primeiro paciente
+  const pNome = v('p_nome') || 'paciente';
+  const sigData = v('sig_data');
+  const fname = `receita_${pNome.split(' ')[0].toLowerCase()}_${sigData}.pdf`;
+  if (mode === 'print') {
+    doc.autoPrint();
+    const blobUrl = doc.output('bloburl');
+    const win = window.open(blobUrl, '_blank');
+    if (!win) alert('Permita pop-ups neste site para abrir a janela de impressão.');
+  } else {
+    doc.save(fname);
   }
 }
 
