@@ -2544,7 +2544,7 @@ async function gerarPdfTriagem(){
   y+=oriH;
 
   // ── ASSINATURA ──
-  y+=10;
+  y+=14;
   ln(ML,y,ML+80,y,0.5,[80,80,80]);
   sf('normal',6.5,[100,100,100]);ct('Assinatura / Carimbo do profissional responsável',ML+8,y+3.8);
   cell('Data',fmtDate(gv('t_data')),ML+CW-30,y-6,30,10);
@@ -2603,14 +2603,14 @@ async function gerarPdfEncaminhamento(){
     y+=criH;
 
     // Texto de encaminhamento
-    y+=3;
+    y+=14;
     sf('normal',8.5,BK);
     ct('Encaminho a usuária acima para inserção de Implante Subdérmico.',ML,y+4);
     sf('bold',7,[60,60,60]);ct('Data: '+fmtDate(gv('e_data')),ML,y+10);y+=16;
 
     // Assinatura
     ln(ML,y,ML+80,y,0.5,[80,80,80]);
-    sf('normal',6.5,[100,100,100]);ct('Assinatura / Carimbo',ML+8,y+3.8);
+    sf('normal',6.5,[100,100,100]);ct('Assinatura / Carimbo',ML+18,y+3.8);
 
     return yOff+131;
   };
