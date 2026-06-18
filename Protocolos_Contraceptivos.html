@@ -2544,10 +2544,11 @@ async function gerarPdfTriagem(){
   y+=oriH;
 
   // ── ASSINATURA ──
-  y+=14;
-  ln(ML,y,ML+80,y,0.5,[80,80,80]);
-  sf('normal',6.5,[100,100,100]);ct('Assinatura / Carimbo do profissional responsável',ML+8,y+3.8);
-  cell('Data',fmtDate(gv('t_data')),ML+CW-30,y-6,30,10);
+  y+=20;
+  ln(ML,y,ML+90,y,0.5,[80,80,80]);
+  sf('normal',6.5,[100,100,100]);ct('Assinatura / Carimbo do profissional responsável',ML+45,y+4,{align:'center'});
+  const today=new Date().toLocaleDateString('pt-BR');
+  cell('Data',today,ML+CW-32,y-7,32,12);
 
   // ── RODAPÉ ──
   sf('normal',5.5,[120,120,120]);
@@ -2609,9 +2610,11 @@ async function gerarPdfEncaminhamento(){
     y+=10;
    
     // Assinatura
-    ln(ML,y,ML+80,y,0.5,[80,80,80]);
-    sf('normal',6.5,[100,100,100]);ct('Assinatura / Carimbo do profissional responsável',ML,y+3.8);
-    cell('Data',fmtDate(gv('e_data')),ML+CW-30,y-6,30,10);
+    y+=6;
+    ln(ML,y,ML+90,y,0.5,[80,80,80]);
+    sf('normal',6.5,[100,100,100]);ct('Assinatura / Carimbo do profissional responsável',ML+45,y+4,{align:'center'});
+    const today=new Date().toLocaleDateString('pt-BR');
+    cell('Data',today,ML+CW-32,y-7,32,12);
 
     return yOff+131;
   };
