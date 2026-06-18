@@ -2544,7 +2544,7 @@ async function gerarPdfTriagem(){
   y+=oriH;
 
   // ── ASSINATURA ──
-  y+=4;
+  y+=10;
   ln(ML,y,ML+80,y,0.5,[80,80,80]);
   sf('normal',6.5,[100,100,100]);ct('Assinatura / Carimbo do profissional responsável',ML,y+3.8);
   cell('Data',fmtDate(gv('t_data')),ML+CW-30,y-6,30,10);
