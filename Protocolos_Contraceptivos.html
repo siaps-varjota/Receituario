@@ -2399,18 +2399,14 @@ async function gerarPdfTriagem(){
   // ── CABEÇALHO ──
   const hH=16;
   border(ML,y,CW,hH);
-  // Zona esquerda: até ~38% da largura
-  const zLeft=CW*0.38;
-  sf('bold',8,BK);ct('PREFEITURA MUNICIPAL DE VARJOTA',ML+2,y+6);
-  sf('normal',6,[60,60,60]);ct('Secretaria Municipal de Saúde',ML+2,y+11);
-  // Zona direita: a partir de 62% da largura
-  sf('bold',9,BK);ct('FICHA DE TRIAGEM — IMPLANTE SUBDÉRMICO',PW-MR-2,y+6,{align:'right'});
-  sf('italic',6,[60,60,60]);ct('Programa Municipal de Contracepção / APS',PW-MR-2,y+11,{align:'right'});
-  // Logo centralizado na zona central (38%–62%)
+  // Logo à esquerda
   const logoW=30,logoH=12;
-  const logoX=ML+(CW-logoW)/2;
+  const logoX=ML+2;
   const logoY=y+(hH-logoH)/2;
   try{const img=await new Promise((res,rej)=>{const i=new Image();i.crossOrigin='anonymous';i.onload=()=>res(i);i.onerror=rej;i.src=LOGO_URL;});doc.addImage(img,'PNG',logoX,logoY,logoW,logoH);}catch(e){}
+  // Título e subtítulo à direita
+  sf('bold',10,BK);ct('FICHA DE TRIAGEM — IMPLANTE SUBDÉRMICO',PW-MR-2,y+6,{align:'right'});
+  sf('italic',6.5,[60,60,60]);ct('Programa Municipal de Contracepção / APS',PW-MR-2,y+11.5,{align:'right'});
   y+=hH;
 
   // ── 1. IDENTIFICAÇÃO ──
@@ -2524,17 +2520,14 @@ async function gerarPdfEncaminhamento(){
     // Cabeçalho
     const hH=16;
     border(ML,y,CW,hH);
-    // Zona esquerda
-    sf('bold',8,BK);ct('PREFEITURA MUNICIPAL DE VARJOTA',ML+2,y+6);
-    sf('normal',6,[60,60,60]);ct('Secretaria Municipal de Saúde',ML+2,y+11);
-    // Zona direita
-    sf('bold',9,BK);ct('FICHA DE ENCAMINHAMENTO — IMPLANTE SUBDÉRMICO',PW-MR-2,y+6,{align:'right'});
-    sf('italic',6,[60,60,60]);ct('Programa Municipal de Contracepção / APS',PW-MR-2,y+11,{align:'right'});
-    // Logo centralizado
+    // Logo à esquerda
     const logoW=30,logoH=12;
-    const logoX=ML+(CW-logoW)/2;
+    const logoX=ML+2;
     const logoY=y+(hH-logoH)/2;
     try{const img=await new Promise((res,rej)=>{const i=new Image();i.crossOrigin='anonymous';i.onload=()=>res(i);i.onerror=rej;i.src=LOGO_URL;});doc.addImage(img,'PNG',logoX,logoY,logoW,logoH);}catch(e){}
+    // Título e subtítulo à direita
+    sf('bold',10,BK);ct('FICHA DE ENCAMINHAMENTO — IMPLANTE SUBDÉRMICO',PW-MR-2,y+6,{align:'right'});
+    sf('italic',6.5,[60,60,60]);ct('Programa Municipal de Contracepção / APS',PW-MR-2,y+11.5,{align:'right'});
     y+=hH;
 
     // Identificação
