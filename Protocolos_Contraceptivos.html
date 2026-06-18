@@ -2404,9 +2404,9 @@ async function gerarPdfTriagem(){
   const logoX=ML+2;
   const logoY=y+(hH-logoH)/2;
   try{const img=await new Promise((res,rej)=>{const i=new Image();i.crossOrigin='anonymous';i.onload=()=>res(i);i.onerror=rej;i.src=LOGO_URL;});doc.addImage(img,'PNG',logoX,logoY,logoW,logoH);}catch(e){}
-  // Título e subtítulo à direita
-  sf('bold',10,BK);ct('FICHA DE TRIAGEM — IMPLANTE SUBDÉRMICO',PW-MR-2,y+6,{align:'right'});
-  sf('italic',6.5,[60,60,60]);ct('Programa Municipal de Contracepção / APS',PW-MR-2,y+11.5,{align:'right'});
+  // Título e subtítulo à direita do logo
+  sf('bold',10,BK);ct('FICHA DE TRIAGEM — IMPLANTE SUBDÉRMICO',ML+logoW+6,y+6);
+  sf('italic',6.5,[60,60,60]);ct('Programa Municipal de Contracepção / APS',ML+logoW+6,y+11.5);
   y+=hH;
 
   // ── 1. IDENTIFICAÇÃO ──
@@ -2525,9 +2525,9 @@ async function gerarPdfEncaminhamento(){
     const logoX=ML+2;
     const logoY=y+(hH-logoH)/2;
     try{const img=await new Promise((res,rej)=>{const i=new Image();i.crossOrigin='anonymous';i.onload=()=>res(i);i.onerror=rej;i.src=LOGO_URL;});doc.addImage(img,'PNG',logoX,logoY,logoW,logoH);}catch(e){}
-    // Título e subtítulo à direita
-    sf('bold',10,BK);ct('FICHA DE ENCAMINHAMENTO — IMPLANTE SUBDÉRMICO',PW-MR-2,y+6,{align:'right'});
-    sf('italic',6.5,[60,60,60]);ct('Programa Municipal de Contracepção / APS',PW-MR-2,y+11.5,{align:'right'});
+    // Título e subtítulo à direita do logo
+    sf('bold',10,BK);ct('FICHA DE ENCAMINHAMENTO — IMPLANTE SUBDÉRMICO',ML+logoW+6,y+6);
+    sf('italic',6.5,[60,60,60]);ct('Programa Municipal de Contracepção / APS',ML+logoW+6,y+11.5);
     y+=hH;
 
     // Identificação
