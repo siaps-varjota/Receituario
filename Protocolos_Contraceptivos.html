@@ -198,6 +198,12 @@ table.std-table tr:nth-child(even) td { background:var(--baby-pale); }
 /* ── FICHAS (Triagem / Encaminhamento) ── */
 .ficha-card { background:var(--white); border-radius:12px; border:1px solid var(--border); box-shadow:var(--shadow); margin-bottom:0.9rem; overflow:hidden; }
 .ficha-sec-header { background:var(--baby-dark); color:white; padding:0.5rem 1rem; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; display:flex; align-items:center; gap:0.5rem; }
+.ficha-sec-header.collapsible { cursor:pointer; justify-content:space-between; user-select:none; }
+.ficha-sec-header.collapsible:hover { filter:brightness(1.12); }
+.ficha-sec-header .fsec-arrow { font-size:0.7rem; transition:transform .2s; flex-shrink:0; }
+.ficha-sec-header.collapsed .fsec-arrow { transform:rotate(-90deg); }
+.ficha-collapsible { overflow:hidden; transition:max-height .25s ease, opacity .2s ease; max-height:2000px; opacity:1; }
+.ficha-collapsible.collapsed { max-height:0; opacity:0; }
 .ficha-body { padding:1rem; }
 .ficha-grid { display:grid; gap:0.65rem; }
 .ficha-grid.g1 { grid-template-columns:1fr; }
@@ -1499,120 +1505,144 @@ table.std-table tr:nth-child(even) td { background:var(--baby-pale); }
       <div class="info-box blue" style="margin-bottom:1rem"><span>ℹ️</span><span>Preencha os campos abaixo e clique em <strong>Gerar PDF</strong> para imprimir a ficha de triagem. Nenhum dado é enviado ou armazenado.</span></div>
 
       <!-- 1. IDENTIFICAÇÃO -->
-      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">1. Identificação da Usuária</div>
-      <div class="ficha-grid g1" style="margin-bottom:0.6rem">
-        <div class="ficha-field"><label>Nome completo</label><input type="text" id="t_nome" placeholder="Nome completo da usuária"></div>
+      <div class="ficha-sec-header collapsible" style="border-radius:8px 8px 0 0;" onclick="toggleFichaSection(this)"><span>1. Identificação da Usuária</span><span class="fsec-arrow">▼</span></div>
+      <div class="ficha-collapsible">
+      <div style="margin-bottom:0.6rem;padding-top:0.6rem">
+        <div class="ficha-grid g1" style="margin-bottom:0.6rem">
+          <div class="ficha-field"><label>Nome completo</label><input type="text" id="t_nome" placeholder="Nome completo da usuária"></div>
+        </div>
+        <div class="ficha-grid g4" style="margin-bottom:0.6rem">
+          <div class="ficha-field"><label>Data de nascimento</label><input type="date" id="t_nasc"></div>
+          <div class="ficha-field"><label>Idade</label><input type="text" id="t_idade" placeholder="Ex.: 24 anos"></div>
+          <div class="ficha-field span2"><label>Cartão SUS</label><input type="text" id="t_sus" placeholder="Nº do Cartão SUS"></div>
+        </div>
+        <div class="ficha-grid g3" style="margin-bottom:0.6rem">
+          <div class="ficha-field"><label>Telefone</label><input type="tel" id="t_tel" placeholder="(00) 00000-0000"></div>
+          <div class="ficha-field span2"><label>UBS de referência</label><input type="text" id="t_ubs" placeholder="Nome da UBS"></div>
+        </div>
+        <div class="ficha-grid g3" style="margin-bottom:1rem">
+          <div class="ficha-field"><label>Microárea / ACS</label><input type="text" id="t_acs" placeholder="Microárea ou nome do ACS"></div>
+          <div class="ficha-field span2"><label>Profissional responsável pela triagem</label><input type="text" id="t_prof" placeholder="Nome e categoria profissional"></div>
+        </div>
+        <div class="ficha-grid g2a" style="margin-bottom:0.6rem">
+          <div class="ficha-field"><label>Data da triagem</label><input type="date" id="t_data"></div>
+        </div>
       </div>
-      <div class="ficha-grid g4" style="margin-bottom:0.6rem">
-        <div class="ficha-field"><label>Data de nascimento</label><input type="date" id="t_nasc"></div>
-        <div class="ficha-field"><label>Idade</label><input type="text" id="t_idade" placeholder="Ex.: 24 anos"></div>
-        <div class="ficha-field span2"><label>Cartão SUS</label><input type="text" id="t_sus" placeholder="Nº do Cartão SUS"></div>
-      </div>
-      <div class="ficha-grid g3" style="margin-bottom:0.6rem">
-        <div class="ficha-field"><label>Telefone</label><input type="tel" id="t_tel" placeholder="(00) 00000-0000"></div>
-        <div class="ficha-field span2"><label>UBS de referência</label><input type="text" id="t_ubs" placeholder="Nome da UBS"></div>
-      </div>
-      <div class="ficha-grid g3" style="margin-bottom:1rem">
-        <div class="ficha-field"><label>Microárea / ACS</label><input type="text" id="t_acs" placeholder="Microárea ou nome do ACS"></div>
-        <div class="ficha-field span2"><label>Profissional responsável pela triagem</label><input type="text" id="t_prof" placeholder="Nome e categoria profissional"></div>
-      </div>
-      <div class="ficha-grid g2a" style="margin-bottom:1rem">
-        <div class="ficha-field"><label>Data da triagem</label><input type="date" id="t_data"></div>
       </div>
 
       <hr class="ficha-divider">
 
       <!-- 2. AVALIAÇÃO INICIAL -->
-      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">2. Avaliação Inicial</div>
-      <div class="ficha-grid g1" style="margin-bottom:1rem">
-        <div class="ficha-field"><label>Método contraceptivo em uso atualmente</label><input type="text" id="t_metodo_atual" placeholder="Método atual ou 'Nenhum'"></div>
+      <div class="ficha-sec-header collapsible" style="border-radius:8px 8px 0 0;" onclick="toggleFichaSection(this)"><span>2. Avaliação Inicial</span><span class="fsec-arrow">▼</span></div>
+      <div class="ficha-collapsible">
+      <div style="padding-top:0.6rem;margin-bottom:0.6rem">
+        <div class="ficha-grid g1" style="margin-bottom:1rem">
+          <div class="ficha-field"><label>Método contraceptivo em uso atualmente</label><input type="text" id="t_metodo_atual" placeholder="Método atual ou 'Nenhum'"></div>
+        </div>
+      </div>
       </div>
 
       <hr class="ficha-divider">
 
       <!-- 3. INVESTIGAÇÃO DE GRAVIDEZ -->
-      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">3. Investigação de Gravidez</div>
-      <div class="ficha-grid g2" style="margin-bottom:0.6rem">
-        <div>
-          <span class="inline-lbl">Existe possibilidade de gravidez atual?</span>
+      <div class="ficha-sec-header collapsible" style="border-radius:8px 8px 0 0;" onclick="toggleFichaSection(this)"><span>3. Investigação de Gravidez</span><span class="fsec-arrow">▼</span></div>
+      <div class="ficha-collapsible">
+      <div style="padding-top:0.6rem;margin-bottom:0.6rem">
+        <div class="ficha-grid g2" style="margin-bottom:0.6rem">
+          <div>
+            <span class="inline-lbl">Existe possibilidade de gravidez atual?</span>
+            <div class="check-group">
+              <label class="check-item"><input type="radio" name="t_grav" value="Não"> Não</label>
+              <label class="check-item"><input type="radio" name="t_grav" value="Sim"> Sim</label>
+              <label class="check-item"><input type="radio" name="t_grav" value="Dúvida"> Dúvida</label>
+            </div>
+          </div>
+          <div class="ficha-field"><label>Data da última menstruação (DUM)</label><input type="date" id="t_dum"></div>
+        </div>
+        <div style="margin-bottom:1rem">
+          <span class="inline-lbl">Resultado do teste rápido de gravidez</span>
           <div class="check-group">
-            <label class="check-item"><input type="radio" name="t_grav" value="Não"> Não</label>
-            <label class="check-item"><input type="radio" name="t_grav" value="Sim"> Sim</label>
-            <label class="check-item"><input type="radio" name="t_grav" value="Dúvida"> Dúvida</label>
+            <label class="check-item"><input type="radio" name="t_trg" value="Negativo"> Negativo</label>
+            <label class="check-item"><input type="radio" name="t_trg" value="Positivo"> Positivo</label>
+            <label class="check-item"><input type="radio" name="t_trg" value="Não realizado"> Não realizado</label>
           </div>
         </div>
-        <div class="ficha-field"><label>Data da última menstruação (DUM)</label><input type="date" id="t_dum"></div>
       </div>
-      <div style="margin-bottom:1rem">
-        <span class="inline-lbl">Resultado do teste rápido de gravidez</span>
-        <div class="check-group">
-          <label class="check-item"><input type="radio" name="t_trg" value="Negativo"> Negativo</label>
-          <label class="check-item"><input type="radio" name="t_trg" value="Positivo"> Positivo</label>
-          <label class="check-item"><input type="radio" name="t_trg" value="Não realizado"> Não realizado</label>
-        </div>
       </div>
 
       <hr class="ficha-divider">
 
       <!-- 4. CRITÉRIOS DE INCLUSÃO -->
-      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">4. Critérios de Inclusão / Prioridade</div>
-      <span class="inline-lbl">A usuária se enquadra em algum grupo prioritário?</span>
-      <div class="check-group" style="margin-bottom:1rem">
-        <label class="check-item"><input type="checkbox" id="t_p1"> Situação de vulnerabilidade social</label>
-        <label class="check-item"><input type="checkbox" id="t_p2"> Situação de rua</label>
-        <label class="check-item"><input type="checkbox" id="t_p3"> Privação de liberdade</label>
-        <label class="check-item"><input type="checkbox" id="t_p4"> Adolescente em vulnerabilidade</label>
-        <label class="check-item"><input type="checkbox" id="t_p5"> Pessoa vivendo com HIV</label>
-        <label class="check-item"><input type="checkbox" id="t_p6"> Trabalhadora do sexo</label>
-        <label class="check-item"><input type="checkbox" id="t_p7"> Puérpera de alto risco clínico/social</label>
-        <label class="check-item"><input type="checkbox" id="t_p8"> Contraindicação à laqueadura</label>
-        <label class="check-item"><input type="checkbox" id="t_p9"> Recusa de método definitivo</label>
-        <label class="check-item"><input type="checkbox" id="t_p10"> Condição ginecológica crônica</label>
-        <label class="check-item"><input type="checkbox" id="t_p11"> Dificuldade de adesão a outros métodos</label>
+      <div class="ficha-sec-header collapsible" style="border-radius:8px 8px 0 0;" onclick="toggleFichaSection(this)"><span>4. Critérios de Inclusão / Prioridade</span><span class="fsec-arrow">▼</span></div>
+      <div class="ficha-collapsible">
+      <div style="padding-top:0.6rem;margin-bottom:0.6rem">
+        <span class="inline-lbl">A usuária se enquadra em algum grupo prioritário?</span>
+        <div class="check-group" style="margin-bottom:1rem">
+          <label class="check-item"><input type="checkbox" id="t_p1"> Situação de vulnerabilidade social</label>
+          <label class="check-item"><input type="checkbox" id="t_p2"> Situação de rua</label>
+          <label class="check-item"><input type="checkbox" id="t_p3"> Privação de liberdade</label>
+          <label class="check-item"><input type="checkbox" id="t_p4"> Adolescente em vulnerabilidade</label>
+          <label class="check-item"><input type="checkbox" id="t_p5"> Pessoa vivendo com HIV</label>
+          <label class="check-item"><input type="checkbox" id="t_p6"> Trabalhadora do sexo</label>
+          <label class="check-item"><input type="checkbox" id="t_p7"> Puérpera de alto risco clínico/social</label>
+          <label class="check-item"><input type="checkbox" id="t_p8"> Contraindicação à laqueadura</label>
+          <label class="check-item"><input type="checkbox" id="t_p9"> Recusa de método definitivo</label>
+          <label class="check-item"><input type="checkbox" id="t_p10"> Condição ginecológica crônica</label>
+          <label class="check-item"><input type="checkbox" id="t_p11"> Dificuldade de adesão a outros métodos</label>
+        </div>
+        <div class="ficha-grid g1" style="margin-bottom:1rem">
+          <div class="ficha-field"><label>Outro grupo prioritário</label><input type="text" id="t_p_outro" placeholder="Especificar se aplicável"></div>
+        </div>
       </div>
-      <div class="ficha-grid g1" style="margin-bottom:1rem">
-        <div class="ficha-field"><label>Outro grupo prioritário</label><input type="text" id="t_p_outro" placeholder="Especificar se aplicável"></div>
       </div>
 
       <hr class="ficha-divider">
 
       <!-- 5. CONTRAINDICAÇÕES -->
-      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">5. Avaliação de Contraindicações</div>
-      <div class="ficha-grid g2" style="margin-bottom:0.8rem">
-        <div>
-          <span class="inline-lbl">Contraindicações absolutas — A usuária apresenta:</span>
-          <div class="check-group" style="flex-direction:column;gap:0.3rem">
-            <label class="check-item"><input type="checkbox" id="t_ca1"> Gravidez confirmada</label>
-            <label class="check-item"><input type="checkbox" id="t_ca2"> Suspeita de gravidez</label>
-            <label class="check-item"><input type="checkbox" id="t_ca3"> Câncer de mama ativo ou suspeito</label>
-            <label class="check-item"><input type="checkbox" id="t_ca4"> Hipersensibilidade ao componente do implante</label>
+      <div class="ficha-sec-header collapsible" style="border-radius:8px 8px 0 0;" onclick="toggleFichaSection(this)"><span>5. Avaliação de Contraindicações</span><span class="fsec-arrow">▼</span></div>
+      <div class="ficha-collapsible">
+      <div style="padding-top:0.6rem;margin-bottom:0.6rem">
+        <div class="ficha-grid g2" style="margin-bottom:0.8rem">
+          <div>
+            <span class="inline-lbl">Contraindicações absolutas — A usuária apresenta:</span>
+            <div class="check-group" style="flex-direction:column;gap:0.3rem">
+              <label class="check-item"><input type="checkbox" id="t_ca1"> Gravidez confirmada</label>
+              <label class="check-item"><input type="checkbox" id="t_ca2"> Suspeita de gravidez</label>
+              <label class="check-item"><input type="checkbox" id="t_ca3"> Câncer de mama ativo ou suspeito</label>
+              <label class="check-item"><input type="checkbox" id="t_ca4"> Hipersensibilidade ao componente do implante</label>
+            </div>
+            <div class="info-box red" style="margin-top:0.6rem;font-size:0.78rem"><span>🚫</span><span>Se <strong>SIM</strong> para qualquer item acima → <strong>NÃO encaminhar</strong>.</span></div>
           </div>
-          <div class="info-box red" style="margin-top:0.6rem;font-size:0.78rem"><span>🚫</span><span>Se <strong>SIM</strong> para qualquer item acima → <strong>NÃO encaminhar</strong>.</span></div>
-        </div>
-        <div>
-          <span class="inline-lbl">Contraindicações relativas</span>
-          <div class="check-group" style="flex-direction:column;gap:0.3rem">
-            <label class="check-item"><input type="checkbox" id="t_cr1"> História recente de câncer de mama</label>
-            <label class="check-item"><input type="checkbox" id="t_cr2"> Doença hepática grave ativa</label>
-            <label class="check-item"><input type="checkbox" id="t_cr3"> Sangramento genital anormal não investigado</label>
+          <div>
+            <span class="inline-lbl">Contraindicações relativas</span>
+            <div class="check-group" style="flex-direction:column;gap:0.3rem">
+              <label class="check-item"><input type="checkbox" id="t_cr1"> História recente de câncer de mama</label>
+              <label class="check-item"><input type="checkbox" id="t_cr2"> Doença hepática grave ativa</label>
+              <label class="check-item"><input type="checkbox" id="t_cr3"> Sangramento genital anormal não investigado</label>
+            </div>
+            <div class="ficha-field" style="margin-top:0.6rem"><label>Observações</label><textarea id="t_obs_ci" rows="2" placeholder="Detalhar se necessário"></textarea></div>
           </div>
-          <div class="ficha-field" style="margin-top:0.6rem"><label>Observações</label><textarea id="t_obs_ci" rows="2" placeholder="Detalhar se necessário"></textarea></div>
         </div>
+      </div>
       </div>
 
       <hr class="ficha-divider">
 
       <!-- 6. ORIENTAÇÕES -->
-      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">6. Orientações Realizadas</div>
-      <span class="inline-lbl">Foi orientada sobre:</span>
-      <div class="check-group" style="margin-bottom:1rem">
-        <label class="check-item"><input type="checkbox" id="t_o1"> Funcionamento do método</label>
-        <label class="check-item"><input type="checkbox" id="t_o2"> Tempo de duração do implante</label>
-        <label class="check-item"><input type="checkbox" id="t_o3"> Possíveis efeitos adversos</label>
-        <label class="check-item"><input type="checkbox" id="t_o4"> Alterações menstruais esperadas</label>
-        <label class="check-item"><input type="checkbox" id="t_o5"> Necessidade de acompanhamento</label>
-        <label class="check-item"><input type="checkbox" id="t_o6"> Uso de preservativo para prevenção de ISTs</label>
-        <label class="check-item"><input type="checkbox" id="t_o7"> Livre decisão e consentimento</label>
+      <div class="ficha-sec-header collapsible" style="border-radius:8px 8px 0 0;" onclick="toggleFichaSection(this)"><span>6. Orientações Realizadas</span><span class="fsec-arrow">▼</span></div>
+      <div class="ficha-collapsible">
+      <div style="padding-top:0.6rem;margin-bottom:0.6rem">
+        <span class="inline-lbl">Foi orientada sobre:</span>
+        <div class="check-group" style="margin-bottom:1rem">
+          <label class="check-item"><input type="checkbox" id="t_o1"> Funcionamento do método</label>
+          <label class="check-item"><input type="checkbox" id="t_o2"> Tempo de duração do implante</label>
+          <label class="check-item"><input type="checkbox" id="t_o3"> Possíveis efeitos adversos</label>
+          <label class="check-item"><input type="checkbox" id="t_o4"> Alterações menstruais esperadas</label>
+          <label class="check-item"><input type="checkbox" id="t_o5"> Necessidade de acompanhamento</label>
+          <label class="check-item"><input type="checkbox" id="t_o6"> Uso de preservativo para prevenção de ISTs</label>
+          <label class="check-item"><input type="checkbox" id="t_o7"> Livre decisão e consentimento</label>
+        </div>
+      </div>
       </div>
 
       <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
@@ -1634,51 +1664,63 @@ table.std-table tr:nth-child(even) td { background:var(--baby-pale); }
       <div class="info-box blue" style="margin-bottom:1rem"><span>ℹ️</span><span>A ficha é impressa em <strong>duas vias</strong> na mesma folha A4. Preencha os dados abaixo e clique em <strong>Gerar PDF</strong>.</span></div>
 
       <!-- IDENTIFICAÇÃO -->
-      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">Identificação</div>
-      <div class="ficha-grid g1" style="margin-bottom:0.6rem">
-        <div class="ficha-field"><label>UBS</label><input type="text" id="e_ubs" placeholder="Nome da UBS de origem"></div>
+      <div class="ficha-sec-header collapsible" style="border-radius:8px 8px 0 0;" onclick="toggleFichaSection(this)"><span>Identificação</span><span class="fsec-arrow">▼</span></div>
+      <div class="ficha-collapsible">
+      <div style="padding-top:0.6rem;margin-bottom:0.6rem">
+        <div class="ficha-grid g1" style="margin-bottom:0.6rem">
+          <div class="ficha-field"><label>UBS</label><input type="text" id="e_ubs" placeholder="Nome da UBS de origem"></div>
+        </div>
+        <div class="ficha-grid g3" style="margin-bottom:0.6rem">
+          <div class="ficha-field span2"><label>Nome da usuária</label><input type="text" id="e_nome" placeholder="Nome completo"></div>
+          <div class="ficha-field"><label>Data de nascimento</label><input type="date" id="e_nasc"></div>
+        </div>
+        <div class="ficha-grid g2" style="margin-bottom:1rem">
+          <div class="ficha-field"><label>Cartão SUS</label><input type="text" id="e_sus" placeholder="Nº do Cartão SUS"></div>
+          <div class="ficha-field"><label>Telefone</label><input type="tel" id="e_tel" placeholder="(00) 00000-0000"></div>
+        </div>
       </div>
-      <div class="ficha-grid g3" style="margin-bottom:0.6rem">
-        <div class="ficha-field span2"><label>Nome da usuária</label><input type="text" id="e_nome" placeholder="Nome completo"></div>
-        <div class="ficha-field"><label>Data de nascimento</label><input type="date" id="e_nasc"></div>
-      </div>
-      <div class="ficha-grid g2" style="margin-bottom:1rem">
-        <div class="ficha-field"><label>Cartão SUS</label><input type="text" id="e_sus" placeholder="Nº do Cartão SUS"></div>
-        <div class="ficha-field"><label>Telefone</label><input type="tel" id="e_tel" placeholder="(00) 00000-0000"></div>
       </div>
 
       <hr class="ficha-divider">
 
       <!-- CRITÉRIOS AVALIADOS -->
-      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">Critérios Avaliados</div>
-      <div class="ficha-grid g2" style="margin-bottom:1rem">
-        <div>
-          <span class="inline-lbl">Critérios confirmados</span>
-          <div class="check-group" style="flex-direction:column;gap:0.35rem">
-            <label class="check-item"><input type="checkbox" id="e_c1"> Sem suspeita de gravidez</label>
-            <label class="check-item"><input type="checkbox" id="e_c2"> Sem contraindicação ao método</label>
-            <label class="check-item"><input type="checkbox" id="e_c3"> Orientações realizadas</label>
-            <label class="check-item"><input type="checkbox" id="e_c4"> Interesse / consentimento confirmado</label>
+      <div class="ficha-sec-header collapsible" style="border-radius:8px 8px 0 0;" onclick="toggleFichaSection(this)"><span>Critérios Avaliados</span><span class="fsec-arrow">▼</span></div>
+      <div class="ficha-collapsible">
+      <div style="padding-top:0.6rem;margin-bottom:0.6rem">
+        <div class="ficha-grid g2" style="margin-bottom:1rem">
+          <div>
+            <span class="inline-lbl">Critérios confirmados</span>
+            <div class="check-group" style="flex-direction:column;gap:0.35rem">
+              <label class="check-item"><input type="checkbox" id="e_c1"> Sem suspeita de gravidez</label>
+              <label class="check-item"><input type="checkbox" id="e_c2"> Sem contraindicação ao método</label>
+              <label class="check-item"><input type="checkbox" id="e_c3"> Orientações realizadas</label>
+              <label class="check-item"><input type="checkbox" id="e_c4"> Interesse / consentimento confirmado</label>
+            </div>
+          </div>
+          <div>
+            <span class="inline-lbl">Grupo prioritário</span>
+            <div class="check-group" style="flex-direction:column;gap:0.35rem">
+              <label class="check-item"><input type="checkbox" id="e_g1"> Adolescente</label>
+              <label class="check-item"><input type="checkbox" id="e_g2"> Puérpera de risco</label>
+              <label class="check-item"><input type="checkbox" id="e_g3"> Vulnerabilidade social</label>
+              <label class="check-item"><input type="checkbox" id="e_g4"> HIV</label>
+            </div>
+            <div class="ficha-field" style="margin-top:0.5rem"><label>Outro</label><input type="text" id="e_g_outro" placeholder="Especificar"></div>
           </div>
         </div>
-        <div>
-          <span class="inline-lbl">Grupo prioritário</span>
-          <div class="check-group" style="flex-direction:column;gap:0.35rem">
-            <label class="check-item"><input type="checkbox" id="e_g1"> Adolescente</label>
-            <label class="check-item"><input type="checkbox" id="e_g2"> Puérpera de risco</label>
-            <label class="check-item"><input type="checkbox" id="e_g3"> Vulnerabilidade social</label>
-            <label class="check-item"><input type="checkbox" id="e_g4"> HIV</label>
-          </div>
-          <div class="ficha-field" style="margin-top:0.5rem"><label>Outro</label><input type="text" id="e_g_outro" placeholder="Especificar"></div>
-        </div>
+      </div>
       </div>
 
       <hr class="ficha-divider">
 
       <!-- DATA E ASSINATURA -->
-      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">Encaminhamento</div>
-      <div class="ficha-grid g2a" style="margin-bottom:1rem">
-        <div class="ficha-field"><label>Data do encaminhamento</label><input type="date" id="e_data"></div>
+      <div class="ficha-sec-header collapsible" style="border-radius:8px 8px 0 0;" onclick="toggleFichaSection(this)"><span>Encaminhamento</span><span class="fsec-arrow">▼</span></div>
+      <div class="ficha-collapsible">
+      <div style="padding-top:0.6rem;margin-bottom:0.6rem">
+        <div class="ficha-grid g2a" style="margin-bottom:1rem">
+          <div class="ficha-field"><label>Data do encaminhamento</label><input type="date" id="e_data"></div>
+        </div>
+      </div>
       </div>
 
       <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
@@ -1714,6 +1756,11 @@ function goSection(id){
 
 // ── ACCORDION ────────────────────────────────────────────
 function toggleAcc(h){ h.parentElement.classList.toggle('open'); }
+function toggleFichaSection(h){
+  h.classList.toggle('collapsed');
+  const body=h.nextElementSibling;
+  if(body&&body.classList.contains('ficha-collapsible')) body.classList.toggle('collapsed');
+}
 
 // ── ABAS INTERNAS — REFERÊNCIAS ───────────────────────────
 function goRefTab(id){
