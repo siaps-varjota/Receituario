@@ -1,0 +1,2605 @@
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocolos de Contraceptivos — APS/SUS</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+:root {
+  --baby-dark:    #1e4976;
+  --baby:         #2e86c1;
+  --baby-mid:     #3498db;
+  --baby-light:   #5dade2;
+  --baby-pale:    #ebf5fb;
+  --baby-border:  #aed6f1;
+
+  --pink:         #c0396b;
+  --pink-pale:    #fdeef4;
+  --pink-border:  #f0aac5;
+
+  --green:        #1a7a3c;
+  --green-pale:   #e8f8ef;
+  --green-border: #a9dfbf;
+
+  --amber:        #c47a1e;
+  --amber-light:  #fef5e7;
+  --amber-border: #f0c882;
+
+  --red:          #b5292a;
+  --red-light:    #fdeaea;
+  --red-border:   #f0aaaa;
+
+  --purple:       #6a3fa0;
+  --purple-light: #f3eeff;
+  --purple-border:#d0b8f5;
+
+  --teal:         #0e7490;
+  --teal-light:   #e0f7fa;
+  --teal-border:  #99d6e8;
+
+  --text:      #1a1a1a;
+  --text-mid:  #3d3d3d;
+  --text-soft: #666;
+  --bg:        #eef4fb;
+  --white:     #ffffff;
+  --border:    #c5ddf0;
+  --shadow:    0 2px 12px rgba(30,73,118,0.10);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { font-size:16px; }
+body { font-family:'IBM Plex Sans',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+
+/* ── HEADER ── */
+.app-header { background:var(--baby-dark); color:white; position:sticky; top:0; z-index:200; box-shadow:0 2px 16px rgba(0,0,0,0.28); }
+.header-top  { display:flex; align-items:center; gap:0.8rem; padding:0.9rem 1rem; border-bottom:1px solid rgba(255,255,255,0.12); max-width:60rem; margin:0 auto; }
+.header-icon { font-size:1.4rem; background:var(--baby-mid); width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.header-title h1 { font-size:0.97rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; }
+.header-title p  { font-size:0.67rem; opacity:0.6; font-weight:300; margin-top:0.1rem; }
+.badge-ms { font-size:0.62rem; background:rgba(255,255,255,0.13); border:1px solid rgba(255,255,255,0.22); border-radius:4px; padding:0.15rem 0.45rem; margin-left:auto; white-space:nowrap; }
+.font-ctrl { display:flex; align-items:center; gap:0.3rem; margin-left:0.5rem; flex-shrink:0; }
+.font-btn  { background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.25); color:white; border-radius:6px; width:28px; height:28px; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .15s; font-family:inherit; }
+.font-btn:hover { background:rgba(255,255,255,0.28); }
+.font-label { font-size:0.65rem; color:rgba(255,255,255,0.5); }
+
+/* ── NAV ── */
+.nav-scroll { display:flex; overflow-x:auto; scrollbar-width:none; max-width:60rem; margin:0 auto; }
+.nav-scroll::-webkit-scrollbar { display:none; }
+.nav-btn { padding:0.65rem 0.9rem; border:none; background:transparent; color:rgba(255,255,255,0.58); font-family:'IBM Plex Sans',sans-serif; font-size:0.72rem; font-weight:500; cursor:pointer; white-space:nowrap; border-bottom:2px solid transparent; transition:all .15s; }
+.nav-btn:hover  { color:rgba(255,255,255,0.9); }
+.nav-btn.active { color:white; border-bottom-color:#7ec8e3; }
+
+/* ── LAYOUT ── */
+.main    { max-width:60rem; margin:0 auto; padding:1.2rem 1rem 5rem; }
+.section { display:none; }
+.section.active { display:block; }
+
+/* ── CARD ── */
+.card { background:var(--white); border-radius:12px; border:1px solid var(--border); padding:1.2rem; margin-bottom:0.9rem; box-shadow:var(--shadow); }
+.card-header { display:flex; align-items:center; gap:0.5rem; margin-bottom:1rem; }
+.card-icon  { font-size:1rem; background:var(--baby-pale); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.card-title { font-size:0.85rem; font-weight:700; color:var(--baby-dark); text-transform:uppercase; letter-spacing:0.06em; }
+
+/* ── INFO BOX ── */
+.info-box { display:flex; gap:0.6rem; align-items:flex-start; padding:0.75rem 0.9rem; border-radius:8px; font-size:0.82rem; line-height:1.52; margin-bottom:0.8rem; border:1px solid transparent; }
+.info-box.blue   { background:var(--baby-pale);    border-color:var(--baby-border);   color:var(--baby-dark); }
+.info-box.green  { background:var(--green-pale);   border-color:var(--green-border);  color:#145a2b; }
+.info-box.amber  { background:var(--amber-light);  border-color:var(--amber-border);  color:#7a4c0e; }
+.info-box.red    { background:var(--red-light);    border-color:var(--red-border);    color:#7a1a1a; }
+.info-box.pink   { background:var(--pink-pale);    border-color:var(--pink-border);   color:#7a1a3c; }
+.info-box.purple { background:var(--purple-light); border-color:var(--purple-border); color:#3a1a6a; }
+.info-box.teal   { background:var(--teal-light);   border-color:var(--teal-border);   color:#0a4a60; }
+
+/* ── ACCORDION ── */
+.acc-item { border:1px solid var(--border); border-radius:8px; margin-bottom:0.5rem; overflow:hidden; }
+.acc-header { padding:0.75rem 1rem; font-size:0.85rem; font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; background:#fafcff; transition:background .15s; color:var(--text-mid); }
+.acc-header:hover { background:var(--baby-pale); color:var(--baby); }
+.acc-item.open .acc-header { background:var(--baby-pale); color:var(--baby); }
+.acc-arrow { font-size:0.7rem; transition:transform .2s; }
+.acc-item.open .acc-arrow { transform:rotate(90deg); }
+.acc-body { display:none; padding:0.9rem 1rem; font-size:0.83rem; color:var(--text-mid); line-height:1.6; border-top:1px solid var(--border); }
+.acc-item.open .acc-body { display:block; }
+.acc-body ul { padding-left:1.1rem; margin-top:0.3rem; }
+.acc-body li { margin-bottom:0.35rem; }
+.acc-body p  { margin-bottom:0.5rem; }
+.acc-body strong { color:var(--text); }
+
+/* ── TABELAS ── */
+table.std-table { width:100%; border-collapse:collapse; font-size:0.8rem; margin-bottom:0.5rem; }
+table.std-table th { background:var(--baby-pale); color:var(--baby-dark); padding:0.6rem 0.7rem; text-align:left; font-weight:700; font-size:0.74rem; text-transform:uppercase; letter-spacing:0.04em; border-bottom:2px solid var(--baby-border); }
+table.std-table td { padding:0.6rem 0.7rem; border-bottom:1px solid var(--border); vertical-align:top; color:var(--text-mid); line-height:1.5; }
+table.std-table tr:last-child td { border-bottom:none; }
+table.std-table tr:nth-child(even) td { background:var(--baby-pale); }
+
+/* ── ALGORITMO ── */
+.algo-question { font-size:0.95rem; font-weight:600; color:var(--text); margin-bottom:1rem; line-height:1.45; }
+.btn-group { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.5rem; }
+.btn-opt  { padding:0.55rem 1.1rem; border:1.5px solid var(--border); border-radius:8px; background:white; font-family:'IBM Plex Sans',sans-serif; font-size:0.84rem; font-weight:500; cursor:pointer; transition:all .15s; color:var(--text-mid); line-height:1.4; text-align:left; }
+.btn-opt:hover    { border-color:var(--baby-light); color:var(--baby); background:var(--baby-pale); }
+.btn-opt.selected { background:var(--baby); color:white; border-color:var(--baby); }
+.btn-restart { padding:0.5rem 1rem; background:transparent; border:1.5px solid var(--baby-border); border-radius:8px; color:var(--baby); font-family:'IBM Plex Sans',sans-serif; font-size:0.8rem; font-weight:600; cursor:pointer; margin-top:1rem; transition:all .15s; }
+.btn-restart:hover { background:var(--baby-pale); }
+.step-trail { display:flex; flex-wrap:wrap; gap:0.3rem; margin-bottom:1rem; }
+.step-chip  { font-size:0.71rem; background:var(--baby-pale); color:var(--baby); border:1px solid var(--baby-border); padding:0.18rem 0.55rem; border-radius:20px; font-weight:500; }
+
+/* ── RESULTADOS ── */
+.result-box { border-radius:10px; padding:1rem; margin-top:0.8rem; border:1.5px solid; }
+.result-box.green  { background:var(--green-pale);  border-color:var(--green-border); }
+.result-box.amber  { background:var(--amber-light); border-color:var(--amber-border); }
+.result-box.red    { background:var(--red-light);   border-color:var(--red-border); }
+.result-box.pink   { background:var(--pink-pale);   border-color:var(--pink-border); }
+.result-box.purple { background:var(--purple-light);border-color:var(--purple-border); }
+.result-box.teal   { background:var(--teal-light);  border-color:var(--teal-border); }
+.result-badge { display:inline-flex; align-items:center; gap:0.35rem; font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; padding:0.2rem 0.6rem; border-radius:4px; margin-bottom:0.6rem; color:white; }
+.result-badge.green  { background:var(--green); }
+.result-badge.amber  { background:var(--amber); }
+.result-badge.red    { background:var(--red); }
+.result-badge.pink   { background:var(--pink); }
+.result-badge.purple { background:var(--purple); }
+.result-badge.teal   { background:var(--teal); }
+.result-title { font-size:0.9rem; font-weight:700; margin-bottom:0.6rem; color:var(--text); }
+.result-body  { font-size:0.83rem; color:var(--text-mid); line-height:1.58; }
+.result-body ul { padding-left:1.2rem; margin-top:0.4rem; }
+.result-body li { margin-bottom:0.35rem; }
+.result-body .method-tag { display:inline-block; background:white; border:1.5px solid; border-radius:6px; padding:0.2rem 0.55rem; font-size:0.78rem; font-weight:700; margin:0.15rem 0.15rem 0.15rem 0; }
+.result-body .method-tag.green  { border-color:var(--green-border);  color:var(--green); }
+.result-body .method-tag.amber  { border-color:var(--amber-border);  color:var(--amber); }
+.result-body .method-tag.teal   { border-color:var(--teal-border);   color:var(--teal); }
+.result-body .method-tag.purple { border-color:var(--purple-border); color:var(--purple); }
+.result-body .method-tag.pink   { border-color:var(--pink-border);   color:var(--pink); }
+.result-body .method-tag.blue   { border-color:var(--baby-border);   color:var(--baby); }
+.result-body .method-tag.red    { border-color:var(--red-border);    color:var(--red); }
+.mec-badge { display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; font-size:0.7rem; font-weight:700; color:white; margin-right:0.25rem; }
+.mec1 { background:#1a7a3c; }
+.mec2 { background:#c47a1e; }
+.mec3 { background:#b5292a; }
+.mec4 { background:#7f1d1d; }
+
+/* ── MÉTODO CARDS ── */
+.method-card { border-radius:10px; border:1.5px solid var(--border); margin-bottom:0.7rem; overflow:hidden; }
+.method-card-header { display:flex; align-items:center; gap:0.6rem; padding:0.7rem 1rem; }
+.method-card-icon { font-size:1.4rem; flex-shrink:0; }
+.method-card-title { font-size:0.88rem; font-weight:700; color:var(--text); }
+.method-card-sub   { font-size:0.72rem; color:var(--text-soft); margin-top:0.1rem; }
+.method-card-body  { padding:0.8rem 1rem; font-size:0.82rem; color:var(--text-mid); line-height:1.55; border-top:1px solid var(--border); background:#fafcff; }
+.method-card-body ul { padding-left:1rem; margin-top:0.3rem; }
+.method-card-body li { margin-bottom:0.28rem; }
+.eficacia-bar { height:8px; border-radius:4px; margin:0.3rem 0 0.6rem; background:#e8f0fb; overflow:hidden; }
+.eficacia-fill { height:100%; border-radius:4px; transition:width 1s ease; }
+
+/* ── CHIPS ── */
+.chips { display:flex; flex-wrap:wrap; gap:0.35rem; margin-bottom:0.7rem; }
+.chip       { font-size:0.74rem; font-weight:600; padding:0.2rem 0.6rem; border-radius:20px; background:var(--baby-pale); border:1px solid var(--baby-border); color:var(--baby-dark); }
+.chip.green { background:var(--green-pale);   border-color:var(--green-border); color:var(--green); }
+.chip.red   { background:var(--red-light);    border-color:var(--red-border);   color:var(--red); }
+.chip.amber { background:var(--amber-light);  border-color:var(--amber-border); color:var(--amber); }
+.chip.pink  { background:var(--pink-pale);    border-color:var(--pink-border);  color:var(--pink); }
+
+/* ── TIMELINE ── */
+.timeline { position:relative; padding-left:1.4rem; }
+.timeline::before { content:''; position:absolute; left:0.45rem; top:0; bottom:0; width:2px; background:var(--baby-border); }
+.tl-item  { position:relative; margin-bottom:1rem; }
+.tl-dot   { position:absolute; left:-1rem; top:0.2rem; width:10px; height:10px; border-radius:50%; background:var(--baby); border:2px solid white; box-shadow:0 0 0 2px var(--baby-border); }
+.tl-num   { position:absolute; left:-1.05rem; top:0.15rem; width:12px; height:12px; border-radius:50%; background:var(--baby-dark); color:white; font-size:0.55rem; font-weight:700; display:flex; align-items:center; justify-content:center; }
+.tl-title { font-size:0.83rem; font-weight:700; color:var(--baby-dark); margin-bottom:0.2rem; }
+.tl-body  { font-size:0.79rem; color:var(--text-mid); line-height:1.52; }
+
+/* ── MEC TABLE ── */
+.mec-row-1 td { background:#e8f8ef; }
+.mec-row-2 td { background:#fef5e7; }
+.mec-row-3 td { background:#fdeaea; }
+.mec-row-4 td { background:#fef2f2; }
+
+/* ── REF TABS ── */
+.ref-tab { padding:0.45rem 0.85rem; border:1.5px solid var(--border); border-radius:8px; background:white; font-family:'IBM Plex Sans',sans-serif; font-size:0.78rem; font-weight:600; cursor:pointer; transition:all .15s; color:var(--text-mid); }
+.ref-tab:hover { border-color:var(--baby-light); color:var(--baby); background:var(--baby-pale); }
+.ref-tab.active { background:var(--baby-dark); color:white; border-color:var(--baby-dark); }
+
+/* ── FICHAS (Triagem / Encaminhamento) ── */
+.ficha-card { background:var(--white); border-radius:12px; border:1px solid var(--border); box-shadow:var(--shadow); margin-bottom:0.9rem; overflow:hidden; }
+.ficha-sec-header { background:var(--baby-dark); color:white; padding:0.5rem 1rem; font-size:0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:0.1em; display:flex; align-items:center; gap:0.5rem; }
+.ficha-body { padding:1rem; }
+.ficha-grid { display:grid; gap:0.65rem; }
+.ficha-grid.g1 { grid-template-columns:1fr; }
+.ficha-grid.g2 { grid-template-columns:1fr 1fr; }
+.ficha-grid.g3 { grid-template-columns:1fr 1fr 1fr; }
+.ficha-grid.g4 { grid-template-columns:1fr 1fr 1fr 1fr; }
+.ficha-grid.g2a { grid-template-columns:2fr 1fr; }
+.ficha-grid.g1a2 { grid-template-columns:1fr 2fr; }
+.span2 { grid-column: span 2; }
+.span3 { grid-column: span 3; }
+.span4 { grid-column: span 4; }
+.ficha-field { display:flex; flex-direction:column; gap:3px; }
+.ficha-field label { font-size:0.68rem; font-weight:700; color:#777; text-transform:uppercase; letter-spacing:0.07em; }
+.ficha-field input, .ficha-field select, .ficha-field textarea {
+  padding:0.42rem 0.6rem; border:1.5px solid var(--border); border-radius:6px;
+  font-family:'IBM Plex Sans',sans-serif; font-size:0.84rem; color:var(--text);
+  background:#fafcff; outline:none; transition:border-color .15s, box-shadow .15s;
+}
+.ficha-field input:focus, .ficha-field select:focus, .ficha-field textarea:focus {
+  border-color:var(--baby-mid); box-shadow:0 0 0 3px rgba(52,152,219,0.12); background:white;
+}
+.ficha-field textarea { resize:vertical; min-height:60px; }
+.check-group { display:flex; flex-wrap:wrap; gap:0.4rem 1rem; margin-top:0.3rem; }
+.check-item { display:flex; align-items:center; gap:0.35rem; font-size:0.82rem; color:var(--text-mid); cursor:pointer; }
+.check-item input[type=checkbox], .check-item input[type=radio] { width:15px; height:15px; accent-color:var(--baby-mid); cursor:pointer; }
+.inline-lbl { font-size:0.68rem; font-weight:700; color:#777; text-transform:uppercase; letter-spacing:0.07em; display:block; margin-bottom:0.3rem; }
+.ficha-divider { border:none; border-top:1px dashed var(--border); margin:0.8rem 0; }
+.btn-pdf { display:inline-flex; align-items:center; gap:0.45rem; padding:0.6rem 1.4rem; background:var(--baby-dark); color:white; border:none; border-radius:8px; font-family:'IBM Plex Sans',sans-serif; font-size:0.84rem; font-weight:700; cursor:pointer; transition:background .15s; margin-top:0.5rem; }
+.btn-pdf:hover { background:var(--baby); }
+.btn-limpar { display:inline-flex; align-items:center; gap:0.45rem; padding:0.6rem 1.1rem; background:transparent; color:var(--text-soft); border:1.5px solid var(--border); border-radius:8px; font-family:'IBM Plex Sans',sans-serif; font-size:0.84rem; font-weight:600; cursor:pointer; transition:all .15s; margin-top:0.5rem; margin-left:0.5rem; }
+.btn-limpar:hover { border-color:var(--baby-border); color:var(--baby); }
+
+@media (max-width:520px){
+  .ficha-grid.g2,.ficha-grid.g3,.ficha-grid.g4,.ficha-grid.g2a,.ficha-grid.g1a2 { grid-template-columns:1fr; }
+  .span2,.span3,.span4 { grid-column:span 1; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="header-top">
+    <div class="header-icon">💊</div>
+    <div class="header-title">
+      <h1>Protocolos de Contraceptivos — APS/SUS</h1>
+      <p>Diretrizes OMS MEC 6ª Ed. (2025) · Ministério da Saúde do Brasil</p>
+    </div>
+    <div class="badge-ms">OMS · 2025</div>
+    <div class="font-ctrl">
+      <span class="font-label">A</span>
+      <button class="font-btn" onclick="adjustFont(-0.05)">−</button>
+      <button class="font-btn" onclick="adjustFont(0.05)">＋</button>
+    </div>
+  </div>
+  <div class="nav-scroll">
+    <button class="nav-btn active" onclick="goSection('algo')">Fluxograma</button>
+    <button class="nav-btn" onclick="goSection('metodos')">Métodos</button>
+    <button class="nav-btn" onclick="goSection('mec')">MEC / OMS</button>
+    <button class="nav-btn" onclick="goSection('eficacia')">Eficácia</button>
+    <button class="nav-btn" onclick="goSection('sus')">SUS</button>
+    <button class="nav-btn" onclick="goSection('especiais')">Situações Especiais</button>
+    <button class="nav-btn" onclick="goSection('implante')">💊 Implante</button>
+    <button class="nav-btn" onclick="goSection('triagem')">📋 Triagem</button>
+    <button class="nav-btn" onclick="goSection('encaminhamento')">📤 Encaminhamento</button>
+    <button class="nav-btn" onclick="goSection('ref')">📚 Referências</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!--  FLUXOGRAMA / ALGORITMO                                  -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="sec-algo" class="section active">
+
+  <div class="card" id="algo-card">
+    <div class="card-header">
+      <div class="card-icon">🔍</div>
+      <div class="card-title">Fluxograma de Escolha do Método Contraceptivo</div>
+    </div>
+    <div class="info-box blue">
+      <span>📌</span>
+      <span>Baseado nos <strong>Critérios Médicos de Elegibilidade da OMS (MEC — 6ª Ed., 2025)</strong> e nas diretrizes do <strong>Ministério da Saúde do Brasil</strong>. A decisão final é <strong>sempre da paciente</strong>, após aconselhamento informado. O fluxograma incorpora avaliação de necessidades associadas baseada em <strong>Bitzer et al., 2021 (estudo COCO — PMID: 33871288)</strong>, que demonstrou aumento de 30% na satisfação com aconselhamento estruturado.</span>
+    </div>
+    <div class="info-box pink">
+      <span>🛡️</span>
+      <span><strong>Dupla proteção:</strong> o preservativo (masculino ou feminino) é o único método que protege simultaneamente contra gravidez e <strong>ISTs/HIV</strong>. Sempre orientar o uso combinado.</span>
+    </div>
+    <div id="algo-trail" class="step-trail" style="display:none"></div>
+    <div id="algo-step"></div>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1rem">
+      <button class="btn-restart" onclick="voltarAlgo()" id="algo-voltar" style="display:none">← Voltar</button>
+      <button class="btn-restart" onclick="resetAlgo()"  id="algo-reset"  style="display:none">↺ Reiniciar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">⚠️</div><div class="card-title">Contraindicações Absolutas (MEC 4)</div></div>
+    <div class="info-box red">
+      <span>🚫</span>
+      <span>Nas situações abaixo, o método <strong>não deve ser utilizado sob nenhuma circunstância</strong>. Verificar sempre antes de prescrever.</span>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Contraceptivos Hormonais Combinados (CHC) — MEC 4 <span class="acc-arrow">▶</span></div>
+      <div class="acc-body"><ul>
+        <li>Amamentação < 6 semanas pós-parto.</li>
+        <li>Tabagismo ≥ 35 anos ou ≥ 15 cigarros/dia.</li>
+        <li>Hipertensão arterial grave (PA sistólica ≥ 160 mmHg ou diastólica ≥ 100 mmHg).</li>
+        <li>Doença vascular (incluindo doença cardíaca isquêmica, AVC).</li>
+        <li>Tromboembolismo venoso (TEV) atual ou história de TEV.</li>
+        <li>Trombofilia conhecida (ex.: mutação do fator V de Leiden).</li>
+        <li>Enxaqueca com aura, em qualquer idade.</li>
+        <li>Diabetes mellitus com nefropatia, retinopatia, neuropatia ou outra doença vascular.</li>
+        <li>Doença hepática grave ativa (cirrose descompensada, hepatite viral ativa, tumor hepático).</li>
+        <li>Câncer de mama atual ou prévio.</li>
+        <li>Cirurgia de grande porte com imobilização prolongada.</li>
+      </ul></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">DIU de Cobre — MEC 4 <span class="acc-arrow">▶</span></div>
+      <div class="acc-body"><ul>
+        <li>Gravidez confirmada ou suspeita.</li>
+        <li>Sangramento vaginal não explicado (antes de avaliação).</li>
+        <li>Doença inflamatória pélvica (DIP) atual ou nos últimos 3 meses.</li>
+        <li>Distorção grave da cavidade uterina.</li>
+        <li>Câncer de colo, endométrio ou ovário (não tratado).</li>
+        <li>Tuberculose pélvica.</li>
+        <li>Alergia conhecida ao cobre / doença de Wilson.</li>
+      </ul></div>
+    </div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">Progestagênios Isolados — MEC 4 <span class="acc-arrow">▶</span></div>
+      <div class="acc-body"><ul>
+        <li>Câncer de mama atual.</li>
+        <li>Doença hepática grave ativa (para pílulas e implante).</li>
+        <li><em>Obs.:</em> progestagênios têm menos restrições do que CHC — TEV e enxaqueca com aura <strong>não</strong> são MEC 4 para progestagênios.</li>
+      </ul></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!--  MÉTODOS                                                 -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="sec-metodos" class="section">
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">💊</div><div class="card-title">Métodos Contraceptivos Disponíveis</div></div>
+    <div class="info-box blue"><span>ℹ️</span><span>Clique em cada método para ver detalhes, eficácia, contraindicações e orientações de uso.</span></div>
+
+    <!-- LARC -->
+    <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--baby-dark);margin:0.3rem 0 0.5rem">🔒 LARC — Métodos Reversíveis de Longa Duração</div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🦾 Implante Subdérmico (Etonogestrel) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Duração:</strong> 3 anos · <strong>Falha (uso típico):</strong> 0,05% (índice de Pearl) · <strong>Mecanismo:</strong> supressão da ovulação + espessamento do muco cervical.</p>
+        <div class="eficacia-bar"><div class="eficacia-fill" style="width:99.9%;background:var(--green)"></div></div>
+        <p><strong>Vantagens:</strong></p>
+        <ul>
+          <li>Altamente eficaz — não depende de adesão diária.</li>
+          <li>Retorno rápido da fertilidade após remoção.</li>
+          <li>Adequado para adolescentes e mulheres que não desejam método diário.</li>
+          <li>Pode reduzir dismenorreia.</li>
+        </ul>
+        <p><strong>Desvantagens / Efeitos Colaterais:</strong></p>
+        <ul>
+          <li>Irregularidade menstrual frequente (sangramento imprevisível, amenorreia).</li>
+          <li>Requer profissional habilitado para inserção e remoção.</li>
+          <li>Não protege contra ISTs.</li>
+        </ul>
+        <p><strong>Contraindicações principais (MEC 3/4):</strong> câncer de mama atual, doença hepática grave ativa.</p>
+        <div class="info-box amber" style="margin-top:0.5rem"><span>⚠️</span><span>Disponível no SUS apenas em algumas regiões. Inserção deve ser realizada por profissional treinado.</span></div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🔵 DIU Hormonal (SIU-LNG) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Duração:</strong> 5–8 anos · <strong>Falha (uso típico):</strong> 0,4% · <strong>Mecanismo:</strong> liberação local de levonorgestrel — espessamento do muco, atrofia endometrial, inibição parcial da ovulação.</p>
+        <div class="eficacia-bar"><div class="eficacia-fill" style="width:99.6%;background:var(--green)"></div></div>
+        <ul>
+          <li>Reduz fortemente o fluxo menstrual (pode causar amenorreia em até 50%).</li>
+          <li>Indicado no tratamento de endometriose e menorragia.</li>
+          <li>Pode ser usado em nulíparas e adolescentes.</li>
+          <li>Retorno rápido da fertilidade após remoção.</li>
+        </ul>
+        <p><strong>Contraindicações principais:</strong> gravidez, DIP atual, distorção uterina grave, câncer de mama atual, doença hepática grave ativa.</p>
+        <div class="info-box amber" style="margin-top:0.5rem"><span>⚠️</span><span><strong>Pós-parto:</strong> inserção nas primeiras 48h ou após 4 semanas (MEC 1). Entre 48h e 4 semanas: MEC 3 (risco de expulsão elevado).</span></div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🟠 DIU de Cobre (Não Hormonal) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Duração:</strong> 10–12 anos · <strong>Falha (uso típico):</strong> 0,8% · <strong>Mecanismo:</strong> ação espermicida e inflamatória local do cobre.</p>
+        <div class="eficacia-bar"><div class="eficacia-fill" style="width:99.2%;background:var(--green)"></div></div>
+        <ul>
+          <li>Único LARC <strong>completamente não hormonal</strong>.</li>
+          <li>Pode ser usado como <strong>contracepção de emergência</strong> se inserido até 5 dias após relação desprotegida (eficácia > 99%).</li>
+          <li>Adequado para mulheres com contraindicação a métodos hormonais.</li>
+          <li>Disponível gratuitamente no SUS.</li>
+        </ul>
+        <p><strong>Desvantagens:</strong> pode aumentar volume e duração do fluxo menstrual e cólicas.</p>
+        <p><strong>Contraindicações principais:</strong> gravidez, DIP ativa, distorção uterina, câncer ginecológico não tratado, tuberculose pélvica, alergia ao cobre, doença de Wilson.</p>
+        <div class="info-box green" style="margin-top:0.5rem"><span>✅</span><span><strong>Pós-parto:</strong> inserção nas primeiras 48h ou após 4 semanas — MEC 1. Entre 48h–4 semanas: MEC 2.</span></div>
+      </div>
+    </div>
+
+    <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--baby-dark);margin:0.8rem 0 0.5rem">⏱️ SARC — Métodos Reversíveis de Curta Duração</div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">💊 Pílula Oral Combinada (POC) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Falha (uso típico):</strong> 7% · <strong>Composição:</strong> estrogênio (etinilestradiol) + progestagênio.</p>
+        <div class="eficacia-bar"><div class="eficacia-fill" style="width:93%;background:var(--amber)"></div></div>
+        <ul>
+          <li>Regula o ciclo menstrual e reduz dismenorreia e TPM.</li>
+          <li>Melhora acne e reduz sangramento.</li>
+          <li>Pode ser usada no tratamento de endometriose e SOP.</li>
+          <li>Eficácia depende fortemente da <strong>adesão diária</strong> e no mesmo horário.</li>
+        </ul>
+        <p><strong>Contraindicações absolutas (MEC 4):</strong> TEV atual, enxaqueca com aura, tabagismo ≥ 35 anos, PA ≥ 160/100 mmHg, cardiopatia isquêmica, AVC, câncer de mama atual, amamentação < 6 semanas, doença hepática grave.</p>
+        <div class="info-box amber" style="margin-top:0.5rem"><span>⚠️</span><span>Esquecimento de 1 comprimido: tomar assim que lembrar + continuar normalmente. Esquecimento > 1 comprimido: usar método de barreira por 7 dias.</span></div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">💊 Minipílula — Progestagênio Isolado (POP) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Falha (uso típico):</strong> 7% · <strong>Composição:</strong> levonorgestrel ou desogestrel (progestagênio apenas).</p>
+        <div class="eficacia-bar"><div class="eficacia-fill" style="width:93%;background:var(--amber)"></div></div>
+        <ul>
+          <li>Indicada quando há contraindicação ao estrogênio: amamentação, TEV, enxaqueca com aura, tabagismo ≥ 35 anos, hipertensão.</li>
+          <li>Aprovada para uso durante amamentação a partir de 6 semanas pós-parto (MEC 1).</li>
+          <li>Exige horário muito fixo (janela de 3h — para levonorgestrel).</li>
+        </ul>
+        <p><strong>Contraindicações MEC 3/4:</strong> câncer de mama atual (MEC 4), doença hepática grave ativa (MEC 3).</p>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">💉 Injetável Mensal (Combinado) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Falha (uso típico):</strong> 4% · <strong>Composição:</strong> estrogênio + progestagênio (ex.: cipionato de estradiol + acetato de medroxiprogesterona).</p>
+        <div class="eficacia-bar"><div class="eficacia-fill" style="width:96%;background:var(--baby)"></div></div>
+        <ul>
+          <li>Aplicação mensal — maior praticidade que a pílula diária.</li>
+          <li>Mantém regularidade menstrual na maioria das usuárias.</li>
+          <li>Mesmas contraindicações dos CHC (contém estrogênio).</li>
+        </ul>
+        <div class="info-box blue" style="margin-top:0.5rem"><span>📅</span><span>Iniciar no 1º ao 5º dia do ciclo. Retorno a cada 30 dias (±3 dias de tolerância).</span></div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">💉 Injetável Trimestral — AMPD (Progestagênio) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Falha (uso típico):</strong> 4% · <strong>Composição:</strong> acetato de medroxiprogesterona depot 150 mg.</p>
+        <div class="eficacia-bar"><div class="eficacia-fill" style="width:96%;background:var(--baby)"></div></div>
+        <ul>
+          <li>Alta eficácia com apenas 4 aplicações por ano.</li>
+          <li>Amenorreia frequente após uso prolongado (efeito desejado por algumas usuárias).</li>
+          <li>Pode atrasar o retorno da fertilidade por até 12–18 meses após a interrupção.</li>
+          <li>Menos contraindicações que os CHC (não contém estrogênio).</li>
+        </ul>
+        <p><strong>Contraindicações MEC 3/4:</strong> câncer de mama atual, antes de 6 semanas pós-parto em amamentação (MEC 3).</p>
+        <div class="info-box amber" style="margin-top:0.5rem"><span>⚠️</span><span>Pode reduzir densidade óssea com uso prolongado. Avaliar risco-benefício em adolescentes e mulheres pré-menopáusicas com fatores de risco para osteoporose.</span></div>
+      </div>
+    </div>
+
+    <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--baby-dark);margin:0.8rem 0 0.5rem">🛡️ Métodos de Barreira e Comportamentais</div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🔒 Preservativo Masculino e Feminino <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Falha (uso típico):</strong> 13% (masculino) · <strong>Único método</strong> com dupla proteção: gravidez + ISTs/HIV.</p>
+        <div class="eficacia-bar"><div class="eficacia-fill" style="width:87%;background:var(--amber)"></div></div>
+        <ul>
+          <li>Sem contraindicações médicas (exceto alergia ao látex — usar poliuretano).</li>
+          <li>Deve ser orientado em associação com outros métodos para maximizar proteção.</li>
+          <li>Disponível gratuitamente no SUS, UBSs e unidades de saúde.</li>
+          <li>Uso correto e consistente aumenta a eficácia para ~98%.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🚫 Coito Interrompido <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Falha (uso típico):</strong> 20% · Não recomendado como método principal.</p>
+        <div class="eficacia-bar"><div class="eficacia-fill" style="width:80%;background:var(--red)"></div></div>
+        <ul>
+          <li>Alta taxa de falha por dificuldade de execução e presença de espermatozoides no líquido pré-ejaculatório.</li>
+          <li>Não protege contra ISTs.</li>
+          <li>Orientar migração para método mais eficaz.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--baby-dark);margin:0.8rem 0 0.5rem">🔴 Métodos Definitivos</div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">✂️ Laqueadura Tubária e Vasectomia <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Falha (uso típico):</strong> < 0,5% · Considerados permanentes.</p>
+        <div class="eficacia-bar"><div class="eficacia-fill" style="width:99.5%;background:var(--green)"></div></div>
+        <ul>
+          <li>Lei nº 9.263/1996 (atualizada pela Lei nº 14.443/2022): <strong>idade mínima: 21 anos</strong> (ou menos, com pelo menos 2 filhos vivos). Dispensa o consentimento do cônjuge.</li>
+          <li>Requer consentimento livre e informado e período mínimo de reflexão de 60 dias.</li>
+          <li>Vasectomia é procedimento mais simples, ambulatorial e com menos complicações que a laqueadura.</li>
+          <li>Ambos disponíveis no SUS.</li>
+        </ul>
+        <div class="info-box amber" style="margin-top:0.5rem"><span>⚠️</span><span>O profissional de saúde <strong>não pode exigir</strong> autorização do cônjuge nem condicionar a realização a outros procedimentos ou número de filhos além do previsto em lei.</span></div>
+      </div>
+    </div>
+
+    <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--baby-dark);margin:0.8rem 0 0.5rem">⚡ Contracepção de Emergência</div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">⚡ Pílula do Dia Seguinte (Levonorgestrel) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Janela de uso:</strong> até 72h (eficácia máxima) — pode ser usada até 120h com menor eficácia. <strong>MEC Categoria 1</strong> — sem restrições médicas para uso único ou repetido.</p>
+        <div class="eficacia-bar"><div class="eficacia-fill" style="width:95%;background:var(--purple)"></div></div>
+        <ul>
+          <li><strong>Levonorgestrel 1,5 mg</strong> (dose única) — mais eficaz que o esquema fracionado.</li>
+          <li>Mecanismo: inibição ou atraso da ovulação (não é abortivo).</li>
+          <li>Dispensada <strong>sem receita médica</strong> em farmácias e gratuitamente no SUS.</li>
+          <li>Uso repetido classificado como MEC 1 — sem restrições, mas orientar método regular.</li>
+          <li>Em caso de violência sexual: oferecer dentro de 72h, com acompanhamento completo.</li>
+        </ul>
+        <div class="info-box green" style="margin-top:0.5rem"><span>✅</span><span><strong>DIU de cobre</strong> é a opção mais eficaz de contracepção de emergência (> 99%) — inserção até 5 dias após a relação desprotegida.</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!--  MEC / OMS                                              -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="sec-mec" class="section">
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📋</div><div class="card-title">Critérios Médicos de Elegibilidade — OMS 6ª Ed. (2025)</div></div>
+    <div class="info-box blue"><span>ℹ️</span><span>O MEC classifica a <strong>segurança de uso</strong> de cada método contraceptivo em função das condições médicas da paciente. Categorias 1 e 2 = uso permitido. Categorias 3 e 4 = evitar / contraindicado.</span></div>
+    <div style="overflow-x:auto">
+    <table class="std-table">
+      <thead><tr><th>Categoria</th><th>Significado Clínico</th><th>Recomendação de Uso</th></tr></thead>
+      <tbody>
+        <tr class="mec-row-1">
+          <td><span class="mec-badge mec1">1</span><strong style="color:var(--green)">Sem Restrições</strong></td>
+          <td>Não há restrições para o uso do método.</td>
+          <td>O método pode ser usado em qualquer circunstância.</td>
+        </tr>
+        <tr class="mec-row-2">
+          <td><span class="mec-badge mec2">2</span><strong style="color:var(--amber)">Benefícios > Riscos</strong></td>
+          <td>Os benefícios geralmente superam os riscos teóricos ou comprovados.</td>
+          <td>O método pode ser usado na maioria dos casos, com acompanhamento adequado.</td>
+        </tr>
+        <tr class="mec-row-3">
+          <td><span class="mec-badge mec3">3</span><strong style="color:var(--red)">Riscos > Benefícios</strong></td>
+          <td>Os riscos geralmente superam os benefícios.</td>
+          <td>Não recomendado, a menos que métodos mais adequados não estejam disponíveis. Requer avaliação clínica rigorosa.</td>
+        </tr>
+        <tr class="mec-row-4">
+          <td><span class="mec-badge mec4">4</span><strong style="color:var(--vinho)">Risco Inaceitável</strong></td>
+          <td>O uso representa risco inaceitável à saúde.</td>
+          <td>O método <strong>não deve ser utilizado</strong> sob nenhuma circunstância (contraindicação absoluta).</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📊</div><div class="card-title">Resumo do MEC por Condição Clínica</div></div>
+    <div style="overflow-x:auto">
+    <table class="std-table">
+      <thead><tr><th>Condição</th><th>CHC</th><th>Progestagênio</th><th>DIU Cobre</th><th>DIU Hormonal</th></tr></thead>
+      <tbody>
+        <tr><td>Amamentação < 6 sem</td><td style="color:var(--red)"><strong>4</strong></td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--amber)"><strong>2</strong></td></tr>
+        <tr><td>Amamentação 6 sem – 6 m</td><td style="color:var(--red)"><strong>3</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--green)"><strong>1</strong></td></tr>
+        <tr><td>Pós-parto < 48h (inserção DIU)</td><td>—</td><td>—</td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--green)"><strong>1</strong></td></tr>
+        <tr><td>Pós-parto 48h–4 sem (inserção DIU)</td><td>—</td><td>—</td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--red)"><strong>3</strong></td></tr>
+        <tr><td>Pós-parto ≥ 4 semanas (inserção DIU)</td><td>—</td><td>—</td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--green)"><strong>1</strong></td></tr>
+        <tr><td>Hipertensão leve (140–159/90–99)</td><td style="color:var(--red)"><strong>3</strong></td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--amber)"><strong>2</strong></td></tr>
+        <tr><td>Hipertensão grave (≥ 160/100)</td><td style="color:var(--red)"><strong>4</strong></td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--amber)"><strong>2</strong></td></tr>
+        <tr><td>Diabetes sem complicações</td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--amber)"><strong>2</strong></td></tr>
+        <tr><td>Diabetes com doença vascular</td><td style="color:var(--red)"><strong>4</strong></td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--amber)"><strong>2</strong></td></tr>
+        <tr><td>Enxaqueca SEM aura</td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--green)"><strong>1</strong></td></tr>
+        <tr><td>Enxaqueca COM aura</td><td style="color:var(--red)"><strong>4</strong></td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--amber)"><strong>2</strong></td></tr>
+        <tr><td>Tabagismo < 35 anos</td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--green)"><strong>1</strong></td></tr>
+        <tr><td>Tabagismo ≥ 35 anos</td><td style="color:var(--red)"><strong>4</strong></td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--amber)"><strong>2</strong></td></tr>
+        <tr><td>TEV atual / história de TEV</td><td style="color:var(--red)"><strong>4</strong></td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--amber)"><strong>2</strong></td></tr>
+        <tr><td>HIV positivo (sob TARV)</td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--amber)"><strong>2</strong></td></tr>
+        <tr><td>Obesidade (IMC ≥ 30)</td><td style="color:var(--amber)"><strong>2</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--green)"><strong>1</strong></td></tr>
+        <tr><td>Câncer de mama atual</td><td style="color:var(--red)"><strong>4</strong></td><td style="color:var(--red)"><strong>4</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--red)"><strong>4</strong></td></tr>
+        <tr><td>Doença hepática grave ativa</td><td style="color:var(--red)"><strong>4</strong></td><td style="color:var(--red)"><strong>3/4</strong></td><td style="color:var(--green)"><strong>1</strong></td><td style="color:var(--red)"><strong>3</strong></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p style="font-size:0.72rem;color:var(--text-soft);margin-top:0.5rem">CHC = Contraceptivo Hormonal Combinado (pílula, injetável mensal, anel, adesivo). Fonte: OMS MEC 6ª ed., 2025.</p>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!--  EFICÁCIA                                               -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="sec-eficacia" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📈</div><div class="card-title">Eficácia Comparada dos Métodos</div></div>
+    <div class="info-box blue"><span>ℹ️</span><span><strong>Uso típico</strong> reflete a realidade cotidiana, incluindo esquecimentos e uso incorreto. <strong>Uso perfeito</strong> considera a técnica ideal. A barra representa a <strong>taxa de eficácia</strong> (100% − taxa de falha).</span></div>
+
+    <div id="barchart"></div>
+
+    <div style="overflow-x:auto;margin-top:0.8rem">
+    <table class="std-table">
+      <thead><tr><th>Método</th><th>Falha – Uso Típico</th><th>Falha – Uso Perfeito</th><th>Tipo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Implante Subdérmico</strong></td><td style="color:var(--green)"><strong>0,05%</strong></td><td style="color:var(--green)"><strong>0,05%</strong></td><td>LARC</td></tr>
+        <tr><td><strong>DIU Hormonal (SIU-LNG)</strong></td><td style="color:var(--green)"><strong>0,4%</strong></td><td style="color:var(--green)"><strong>0,2%</strong></td><td>LARC</td></tr>
+        <tr><td><strong>DIU de Cobre</strong></td><td style="color:var(--green)"><strong>0,8%</strong></td><td style="color:var(--green)"><strong>0,6%</strong></td><td>LARC</td></tr>
+        <tr><td><strong>Laqueadura / Vasectomia</strong></td><td style="color:var(--green)"><strong>0,5%</strong></td><td style="color:var(--green)"><strong>0,5%</strong></td><td>Definitivo</td></tr>
+        <tr><td><strong>Injetável Trimestral (AMPD)</strong></td><td style="color:var(--baby)"><strong>4%</strong></td><td style="color:var(--green)"><strong>0,2%</strong></td><td>SARC</td></tr>
+        <tr><td><strong>Injetável Mensal</strong></td><td style="color:var(--baby)"><strong>4%</strong></td><td style="color:var(--green)"><strong>0,05%</strong></td><td>SARC</td></tr>
+        <tr><td><strong>Pílula Oral Combinada</strong></td><td style="color:var(--amber)"><strong>7%</strong></td><td style="color:var(--green)"><strong>0,3%</strong></td><td>SARC</td></tr>
+        <tr><td><strong>Minipílula (POP)</strong></td><td style="color:var(--amber)"><strong>7%</strong></td><td style="color:var(--green)"><strong>0,3%</strong></td><td>SARC</td></tr>
+        <tr><td><strong>Preservativo Masculino</strong></td><td style="color:var(--amber)"><strong>13%</strong></td><td style="color:var(--baby)"><strong>2%</strong></td><td>Barreira</td></tr>
+        <tr><td><strong>Diafragma</strong></td><td style="color:var(--amber)"><strong>17%</strong></td><td style="color:var(--baby)"><strong>6%</strong></td><td>Barreira</td></tr>
+        <tr><td><strong>Coito Interrompido</strong></td><td style="color:var(--red)"><strong>20%</strong></td><td style="color:var(--amber)"><strong>4%</strong></td><td>Comportamental</td></tr>
+        <tr><td><strong>Sem Método</strong></td><td style="color:var(--red)"><strong>85%</strong></td><td>—</td><td>—</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!--  SUS                                                    -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="sec-sus" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🏥</div><div class="card-title">Fluxo de Atendimento em Planejamento Familiar — APS</div></div>
+    <div class="info-box green"><span>✅</span><span>O atendimento em planejamento familiar na APS deve ser <strong>acolhedor, humanizado e centrado na paciente</strong>, garantindo escolha informada e autonomia reprodutiva.</span></div>
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-num">1</div>
+        <div class="tl-title">🤝 Acolhimento e Escuta Qualificada</div>
+        <div class="tl-body">Identificar a demanda e os desejos reprodutivos. Perguntar abertamente sobre o desejo de engravidar agora ou no futuro. Criar vínculo e ambiente de confiança.</div>
+      </div>
+      <div class="tl-item"><div class="tl-num">2</div>
+        <div class="tl-title">🩺 Avaliação Clínica e Triagem MEC</div>
+        <div class="tl-body">Anamnese completa: hipertensão, tabagismo, histórico de trombose, diabetes, enxaqueca, doenças hepáticas, uso de medicamentos, amamentação, pós-parto. Aplicar a Roda MEC da OMS para classificar segurança dos métodos.</div>
+      </div>
+      <div class="tl-item"><div class="tl-num">3</div>
+        <div class="tl-title">💬 Aconselhamento e Escolha Informada</div>
+        <div class="tl-body">Apresentar métodos seguros (MEC 1 e 2). Explicar eficácia, mecanismo de ação, forma de uso, efeitos colaterais, sinais de alerta e retorno da fertilidade. A decisão final é sempre da paciente.</div>
+      </div>
+      <div class="tl-item"><div class="tl-num">4</div>
+        <div class="tl-title">📝 Prescrição e Fornecimento</div>
+        <div class="tl-body">Prescrever o método escolhido. Fornecer pílulas, injetáveis ou preservativos diretamente na UBS, ou agendar procedimento para inserção de DIU ou implante.</div>
+      </div>
+      <div class="tl-item"><div class="tl-num">5</div>
+        <div class="tl-title">🔁 Acompanhamento e Retorno</div>
+        <div class="tl-body">Agendar retorno para avaliar adaptação, efeitos colaterais e satisfação. Se insatisfação ou problema clínico: retornar ao passo 3 (aconselhamento) para troca do método.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🇧🇷</div><div class="card-title">Métodos Disponíveis Gratuitamente no SUS</div></div>
+    <div style="overflow-x:auto">
+    <table class="std-table">
+      <thead><tr><th>Método</th><th>Categoria</th><th>Observações</th></tr></thead>
+      <tbody>
+        <tr><td>Pílula Oral Combinada (POC)</td><td>Hormonal oral</td><td>Disponível em todas as UBSs</td></tr>
+        <tr><td>Minipílula (progestagênio isolado)</td><td>Hormonal oral</td><td>Disponível em todas as UBSs</td></tr>
+        <tr><td>Injetável Mensal (combinado)</td><td>Hormonal injetável</td><td>Disponível em todas as UBSs</td></tr>
+        <tr><td>Injetável Trimestral (AMPD)</td><td>Hormonal injetável</td><td>Disponível em todas as UBSs</td></tr>
+        <tr><td>DIU de Cobre</td><td>LARC não hormonal</td><td>Inserção agendada; profissional habilitado</td></tr>
+        <tr><td>Implante Subdérmico</td><td>LARC hormonal</td><td>Disponibilidade variável por região</td></tr>
+        <tr><td>Preservativo Masculino</td><td>Barreira</td><td>Distribuição em UBSs, farmácias populares e farmácias sem receita</td></tr>
+        <tr><td>Preservativo Feminino</td><td>Barreira</td><td>Disponível em UBSs e distribuição gratuita</td></tr>
+        <tr><td>Pílula do Dia Seguinte</td><td>Emergência</td><td>Sem receita médica; gratuita no SUS e farmácias</td></tr>
+        <tr><td>Laqueadura Tubária</td><td>Definitivo</td><td>Lei nº 9.263/96 (atualizada 2022): ≥ 21 anos, <em>ou</em> &lt; 21 anos com ≥ 2 filhos vivos. Reflexão mínima de 60 dias. Sem necessidade de consentimento do cônjuge.</td></tr>
+        <tr><td>Vasectomia</td><td>Definitivo</td><td>Mesmos critérios da laqueadura. Procedimento mais simples e com menor risco cirúrgico.</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="info-box amber" style="margin-top:0.7rem"><span>📌</span><span>O DIU hormonal (SIU-LNG) <strong>não está amplamente disponível no SUS</strong> atualmente, embora seja previsto em algumas políticas estaduais. Verificar disponibilidade regional.</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!--  SITUAÇÕES ESPECIAIS                                     -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="sec-especiais" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-icon">⭐</div><div class="card-title">Situações Clínicas Especiais</div></div>
+
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">🤱 Pós-Parto e Amamentação <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Novidade MEC 6ª Ed. (2025):</strong> Progestagênios isolados durante amamentação foram reclassificados:</p>
+        <div class="chips" style="margin-top:0.4rem">
+          <span class="chip amber">< 6 semanas pós-parto → Progestagênio: MEC 2</span>
+          <span class="chip green">≥ 6 semanas pós-parto → Progestagênio: MEC 1</span>
+        </div>
+        <ul>
+          <li><strong>CHC (estrogênio):</strong> contraindicado antes de 6 meses em amamentação (MEC 4 antes de 6 sem; MEC 3 entre 6 sem e 6 meses).</li>
+          <li><strong>DIU de cobre:</strong> inserção nas primeiras 48h ou após 4 semanas — MEC 1. Entre 48h e 4 semanas — MEC 2.</li>
+          <li><strong>DIU hormonal:</strong> inserção nas primeiras 48h ou após 4 semanas — MEC 1. Entre 48h e 4 semanas — MEC 3.</li>
+          <li><strong>Método LAM (Amenorreia Lactacional):</strong> eficaz até 6 meses se amamentação exclusiva + amenorreia. Orientar método adicional após qualquer uma dessas condições cessar.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🦠 HIV / TARV / PrEP <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>MEC 6ª Ed. (2025):</strong> Mulheres vivendo com HIV sob TARV ou usando PrEP podem usar a maioria dos métodos com segurança (MEC 1 ou 2).</p>
+        <ul>
+          <li><strong>Atenção ao Efavirenz (EFV):</strong> pode reduzir eficácia do implante subdérmico e da pílula de progestagênio — preferir DIU, injetável trimestral (AMPD) ou CHC (se não contraindicado).</li>
+          <li><strong>Rifampicina</strong> (tratamento de tuberculose): também reduz eficácia de métodos hormonais — preferir DIU de cobre ou injetável trimestral.</li>
+          <li>Sempre reforçar uso do preservativo para prevenção de ISTs e transmissão do HIV ao parceiro.</li>
+          <li>DIU (cobre ou hormonal): MEC 2 para mulheres com HIV em TARV e CD4 ≥ 200 células/mL.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">👧 Adolescentes <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Adolescentes têm <strong>direito à contracepção sem necessidade de acompanhamento dos pais</strong> — respeitar autonomia e sigilo.</li>
+          <li>LARC (implante, DIU) são especialmente recomendados — menor dependência de adesão diária e alta eficácia.</li>
+          <li>Orientar sempre sobre <strong>dupla proteção</strong> (contraceptivo + preservativo).</li>
+          <li>CHC pode ser usado — sem contraindicação por idade isoladamente (MEC 1).</li>
+          <li>Atenção a tabagismo, enxaqueca com aura e outros fatores que elevam a categoria MEC.</li>
+        </ul>
+        <div class="info-box blue" style="margin-top:0.5rem"><span>📌</span><span>A <strong>laqueadura só pode ser realizada a partir dos 21 anos</strong> (ou com pelo menos 2 filhos vivos) — orientar métodos reversíveis para adolescentes.</span></div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🫀 Doenças Cardiovasculares e Fatores de Risco <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li><strong>Hipertensão leve (140–159/90–99):</strong> CHC → MEC 3; Progestagênios → MEC 2; DIU cobre → MEC 1.</li>
+          <li><strong>Hipertensão grave (≥ 160/100 ou com doença de órgão-alvo):</strong> CHC → MEC 4; preferir DIU de cobre (MEC 1) ou progestagênio (MEC 2).</li>
+          <li><strong>Cardiopatia isquêmica / AVC:</strong> CHC → MEC 4; DIU de cobre → MEC 1.</li>
+          <li><strong>TEV (histórico ou atual):</strong> CHC → MEC 4; progestagênio oral → MEC 2; DIU cobre → MEC 1.</li>
+          <li><strong>Tabagismo ≥ 35 anos:</strong> CHC → MEC 4; preferir não hormonal ou progestagênio.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🧪 Diabetes Mellitus <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li><strong>DM sem doença vascular:</strong> CHC, progestagênio, DIU → MEC 2 (todos usáveis).</li>
+          <li><strong>DM com nefropatia, retinopatia, neuropatia ou doença vascular:</strong> CHC → MEC 3 ou 4; preferir DIU de cobre (MEC 1) ou progestagênio.</li>
+          <li>Monitorar glicemia — progestagênios em altas doses podem alterar metabolismo glicídico.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🧠 Enxaqueca <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li><strong>Enxaqueca SEM aura:</strong> CHC → MEC 2 (qualquer idade). Pode ser usado com monitoramento. ⚠️ <em>Atenção: se associada a tabagismo, hipertensão ou obesidade, o risco vascular aumenta — reavaliar MEC caso a caso.</em></li>
+          <li><strong>Enxaqueca COM aura (escotomas, deficit motor/sensitivo):</strong> CHC → MEC 4 (risco de AVC). Preferir progestagênio (MEC 2) ou DIU de cobre (MEC 1).</li>
+          <li>Se enxaqueca surgir ou piorar com uso de CHC, avaliar suspensão imediata.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">💊 Interações Medicamentosas com Contraceptivos <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Indutores enzimáticos do CYP3A4</strong> reduzem significativamente a eficácia de métodos hormonais orais e do implante subdérmico:</p>
+        <div class="chips" style="margin-top:0.4rem">
+          <span class="chip red">Fenitoína · Carbamazepina · Barbitúricos</span>
+          <span class="chip red">Topiramato · Oxcarbazepina · Rifampicina</span>
+          <span class="chip green">Levetiracetam · Gabapentina · Valproato · Lacosamida — Sem interação</span>
+        </div>
+        <ul>
+          <li><strong>DIU de cobre ou DIU hormonal:</strong> primeiras escolhas — não afetados por indução enzimática.</li>
+          <li><strong>AMPD trimestral:</strong> pode ser considerado com monitoramento — menor impacto das interações.</li>
+          <li><strong>Evitar:</strong> pílula combinada, minipílula e implante subdérmico com indutores potentes.</li>
+          <li><strong>Rifampicina</strong> é o indutor mais potente — contraindicar qualquer hormonal oral ou implante.</li>
+          <li>Se a paciente usa antiepiléptico sem interação (levetiracetam, valproato, gabapentina): CHC pode ser usado normalmente.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">⚖️ Obesidade (IMC ≥ 30) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li><strong>CHC (estrogênio + progestagênio):</strong> MEC 2 — os benefícios superam os riscos, mas o risco de TEV está aumentado em relação ao peso normal. Usar com cautela e informar a paciente.</li>
+          <li><strong>Progestagênios isolados (minipílula, implante, AMPD):</strong> MEC 1 — sem restrição por IMC.</li>
+          <li><strong>DIU de cobre ou hormonal:</strong> MEC 1 — primeira escolha em obesas que desejam LARC.</li>
+          <li>Se houver outros fatores de risco vascular (HAS, DM, tabagismo), reconsiderar CHC (risco combinado pode alcançar MEC 3/4).</li>
+          <li>Implante subdérmico: eficácia mantida independentemente do IMC nos 3 anos aprovados.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">⚡ Contracepção de Emergência em Violência Sexual <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Oferecer contracepção de emergência em até <strong>72h</strong> (levonorgestrel 1,5 mg — dose única) — quanto antes, maior a eficácia. <strong>Nunca negar o medicamento</strong> à paciente que chega entre 72h e 120h: o uso até 120h ainda confere proteção, embora com eficácia reduzida (MEC Categoria 1 — sem restrições médicas).</li>
+          <li><strong>DIU de cobre</strong>: opção mais eficaz (> 99%) em até 5 dias após a relação — preferir quando disponível e aceito.</li>
+          <li>Oferecer profilaxia pós-exposição (PEP) para HIV em até 72h.</li>
+          <li>Rastrear ISTs e hepatite B; oferecer vacinação se não imunizada.</li>
+          <li>Garantir escuta qualificada, apoio psicossocial e notificação compulsória (SINAN).</li>
+          <li>Encaminhar ao serviço de referência para aborto legal se aplicável (Lei 12.845/2013).</li>
+        </ul>
+        <div class="info-box red" style="margin-top:0.5rem"><span>🚨</span><span>O atendimento à vítima de violência sexual é <strong>obrigatório</strong> em toda a rede SUS, independentemente de boletim de ocorrência.</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!--  IMPLANTE SUBDÉRMICO DE ETONOGESTREL                     -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="sec-implante" class="section">
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">💊</div><div class="card-title">Implante Subdérmico — Etonogestrel 68mg</div></div>
+    <div class="info-box blue"><span>📌</span><span>Baseado no <strong>Manual para Inserção do Implante Subdérmico Liberador de Etonogestrel 68mg</strong> (versão preliminar, Ministério da Saúde/Saps, 2025). Incorporado ao SUS pelas <strong>Portarias SECTICS/MS Nº 47 e 48, de 8 de julho de 2025</strong>, para mulheres de 14 a 49 anos. Disponível para inserção/retirada por médico(a) ou enfermeiro(a) treinado(a) (Parecer Cofen Nº 277/2017).</span></div>
+    <div class="info-box amber"><span>⚠️</span><span>Documento de origem é uma <strong>versão preliminar</strong>. Onde houver divergência numérica entre partes do manual, esta página adota o <strong>valor mais conservador/seguro</strong> e sinaliza com nota — confirme sempre a versão final publicada pelo MS antes de aplicar na prática.</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🧬</div><div class="card-title">1–4. Apresentação, Justificativa, Objetivo e Tecnologia</div></div>
+
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">🧪 O que é e como age <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Bastão de plástico (etileno vinil acetato) com <strong>4 cm de comprimento e 2 mm de diâmetro</strong>, contendo <strong>68 mg de etonogestrel</strong> (progestagênio sintético), inserido sob a pele do braço não dominante.</p>
+        <ul>
+          <li>Mecanismo: <strong>inibe a ovulação</strong> + <strong>espessa o muco cervical</strong>, dificultando a passagem de espermatozoides.</li>
+          <li><strong>Duração de uso: 3 anos.</strong></li>
+          <li>Eficácia <strong>não depende da adesão da usuária</strong> — menor taxa de falha entre os métodos disponíveis: <strong>~0,05%</strong> (índice de Pearl), equivalente a 5 gestações em 10.000 usuárias/ano.</li>
+          <li>Não são necessários exames complementares de rotina para inserção ou retirada.</li>
+          <li>Implantes não palpáveis (inserção profunda) são raros: <strong>&lt; 3 casos / 1.000 inserções</strong> (Reed et al., 2019; Sium et al., 2025).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">📊 Contexto epidemiológico <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>84% das gravidezes não planejadas em países em desenvolvimento decorrem de demanda contraceptiva não atendida (Darroch et al., 2017).</li>
+          <li>Brasil (IBGE, 2019): 80,5% das mulheres em uso de algum método; apenas <strong>4,4%</strong> usavam DIU no período.</li>
+          <li>33–40% das gestantes (Nascer no Brasil II, 2021–2023) não planejaram a gravidez.</li>
+          <li>Continuidade de uso no 1º ano: implante <strong>57–97%</strong> (a depender da orientação pré-inserção); DIU de cobre <strong>78%</strong> (Moray et al., 2021).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">➕ ➖ Vantagens e efeitos adversos <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <div class="chips" style="margin-bottom:0.5rem">
+          <span class="chip green">Pode ser usado na amamentação (AIPEO)</span>
+          <span class="chip green">Sem atraso no retorno da fertilidade após remoção</span>
+          <span class="chip green">Reduz dismenorreia e dor da endometriose</span>
+        </div>
+        <p><strong>Efeitos positivos:</strong> redução de cólicas, da frequência/duração da menstruação e da dor pélvica associada à endometriose.</p>
+        <p><strong>Efeitos negativos mais relatados:</strong> sangramento imprevisível/prolongado, tontura, acne e cefaleia.</p>
+        <p><strong>Sem</strong> impacto negativo demonstrado na densidade óssea, nem aumento de risco de câncer de mama/ovário ou eventos cardiovasculares (IAM, AVC).</p>
+        <div class="info-box red" style="margin-top:0.4rem"><span>🚨</span><span><strong>Principal causa de remoção precoce: sangramento uterino desfavorável</strong> — especialmente quando a orientação pré-inserção sobre alterações menstruais é inadequada. Aconselhamento de qualidade é a principal estratégia de prevenção do abandono do método.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">✅</div><div class="card-title">5. Critérios de Elegibilidade</div></div>
+
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">🗓️ Quando iniciar o método <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <div class="info-box amber" style="margin-bottom:0.6rem"><span>⚠️</span><span><strong>Divergência identificada na fonte:</strong> a seção técnica do manual cita "até o <strong>7º dia</strong> do ciclo menstrual", enquanto o Termo de Consentimento (Anexo I) cita "até <strong>5 dias</strong> após o início da menstruação". <strong>Esta página adota o prazo mais conservador de 5 dias</strong> até confirmação da versão final — confirme a referência oficial vigente na sua localidade antes de orientar a usuária.</span></div>
+        <p>O implante pode ser inserido a qualquer momento, desde que haja razoável certeza de ausência de gravidez (Tepper et al., 2013), observando-se:</p>
+        <ul>
+          <li>Até o <strong>5º dia</strong> do ciclo menstrual (ver nota acima);</li>
+          <li>Ausência de relação sexual desprotegida no mês prévio, com menstruação regular;</li>
+          <li>Uso prévio consistente e correto de qualquer método contraceptivo confiável;</li>
+          <li>Imediatamente pós-parto ou pós-aborto;</li>
+          <li>Nos 7 primeiros dias após aborto;</li>
+          <li>Até 4 semanas após o parto, independente da amamentação;</li>
+          <li>Entre 4 semanas e 6 meses pós-parto, <strong>se</strong> amamentação exclusiva + amenorreia.</li>
+        </ul>
+        <div class="info-box blue" style="margin-top:0.5rem"><span>📌</span><span>Sem certeza razoável de ausência de gravidez → realizar <strong>teste rápido de gravidez</strong>. Ultrassonografia transvaginal, citologia ou outros exames <strong>não devem condicionar nem atrasar</strong> o acesso ao método.</span></div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">⛔ Contraindicações (OMS/MEC, 2015) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>Categoria 4 — Contraindicação absoluta:</strong></p>
+        <ul>
+          <li>Câncer de mama atual e demais neoplasias sensíveis a esteroides sexuais (histórico familiar <u>não</u> contraindica);</li>
+          <li>Gravidez.</li>
+        </ul>
+        <p style="margin-top:0.6rem"><strong>Categoria 3 — Contraindicação relativa (uso desencorajado; se usado, exige acompanhamento rigoroso):</strong></p>
+        <ul>
+          <li>Sangramento genital irregular não investigado (quando não for possível afastar gestação);</li>
+          <li>Tromboembolismo venoso agudo sem anticoagulação;</li>
+          <li>IAM ou AVC <strong>em vigência</strong> do uso do método (histórico prévio dessas condições é categoria 2);</li>
+          <li>Enxaqueca <strong>com aura</strong> surgida durante o uso (se prévia à inserção, sem contraindicação);</li>
+          <li>Adenoma hepatocelular, adenocarcinoma hepatocelular, cirrose hepática severa;</li>
+          <li>Câncer de mama tratado há mais de 5 anos, sem evidência de doença ativa;</li>
+          <li>Lúpus eritematoso sistêmico com positividade para anticorpos antifosfolipídeos;</li>
+          <li>Hipersensibilidade ao princípio ativo ou a qualquer componente do implante.</li>
+        </ul>
+        <div class="info-box red" style="margin-top:0.6rem"><span>🚨</span><span>Sem elegibilidade ao método → orientar <strong>método contraceptivo alternativo disponível</strong>, nunca deixar a usuária sem opção.</span></div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">📋 Tabela de categorias por condição clínica <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <div class="info-box amber" style="margin-bottom:0.6rem"><span>⚠️</span><span><strong>Atenção:</strong> na tabela original do manual preliminar, parte das condições (mioma com distorção da cavidade uterina/anormalidades anatômicas/DIP atual/TB pélvica; câncer de colo; câncer de endométrio) aparece <strong>sem categoria numérica claramente associada</strong> no documento-fonte — possível erro de diagramação. <strong>Confirme a versão final do MS</strong> antes de usar esses itens especificamente. Os valores abaixo foram organizados a partir do texto corrido do item 5.4 sempre que disponível; quando ausentes na fonte, foram marcados como "a confirmar".</span></div>
+        <table class="std-table">
+          <tr><th>Condição clínica</th><th>Categoria</th></tr>
+          <tr><td>48h a 4 semanas pós-parto</td><td>2</td></tr>
+          <tr><td>Imediato pós-aborto</td><td>1</td></tr>
+          <tr><td>Neoplasia trofoblástica gestacional</td><td>1</td></tr>
+          <tr><td>LES com anticorpo antifosfolípide positivo</td><td>3</td></tr>
+          <tr><td>TEV agudo sem uso de anticoagulação</td><td>3</td></tr>
+          <tr><td>IAM, AVC ou enxaqueca com aura <strong>durante</strong> uso do método</td><td>3</td></tr>
+          <tr><td>Histórico de IAM, AVC ou TEV (sem uso atual)</td><td>2</td></tr>
+          <tr><td>Adenoma hepatocelular, adenocarcinoma hepatocelular, cirrose hepática severa</td><td>3</td></tr>
+          <tr><td>Sangramento vaginal inexplicado, quando não é possível afastar gestação</td><td>3</td></tr>
+          <tr><td>Hepatite viral aguda</td><td>1</td></tr>
+          <tr><td>Mioma com distorção da cavidade uterina, anormalidades anatômicas, DIP atual, TB pélvica</td><td>a confirmar*</td></tr>
+          <tr><td>Câncer de colo</td><td>a confirmar*</td></tr>
+          <tr><td>Câncer de mama atual</td><td>4 (conforme item 5.4.1 do texto)</td></tr>
+          <tr><td>Câncer de endométrio</td><td>a confirmar*</td></tr>
+          <tr><td>Câncer de mama sem evidência de doença ativa por 5 anos</td><td>3 (conforme item 5.4.2 do texto)</td></tr>
+        </table>
+        <p style="font-size:0.78rem;color:var(--text-mid)">* Itens cuja categoria não pôde ser confirmada de forma inequívoca na versão preliminar consultada. <strong>Nota clínica:</strong> mioma com distorção da cavidade, anormalidades anatômicas, DIP atual e TB pélvica são critérios clássicos de elegibilidade para <strong>DIU</strong> (método intrauterino) — sua presença nesta tabela do implante (método subdérmico, sem contato com a cavidade uterina) pode indicar duplicação indevida da tabela de DIU; vale conferir com a fonte MEC/OMS 2015 específica para implantes antes de aplicar.</p>
+        <p style="font-size:0.78rem;color:var(--text-mid);margin-top:0.4rem">Sigla: NTG = neoplasia trofoblástica gestacional; BHCG = gonadotrofina coriônica humana; LES = lúpus eritematoso sistêmico; AVC = acidente vascular cerebral; IAM = infarto agudo do miocárdio; TEV = tromboembolismo venoso; DIP = doença inflamatória pélvica; TB = tuberculose.</p>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">💊 Interações medicamentosas <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <div class="info-box red"><span>🚨</span><span><strong>Indutores enzimáticos (CYP3A4) reduzem a eficácia do implante</strong> — informação de segurança não detalhada no manual original, mas essencial para a prática clínica.</span></div>
+        <div class="chips" style="margin-top:0.5rem">
+          <span class="chip red">Rifampicina (indutor mais potente)</span>
+          <span class="chip red">Fenitoína · Carbamazepina · Barbitúricos</span>
+          <span class="chip red">Topiramato · Oxcarbazepina</span>
+          <span class="chip green">Efavirenz (TARV): pode reduzir eficácia — preferir DIU ou AMPD</span>
+        </div>
+        <ul style="margin-top:0.6rem">
+          <li>Na presença de indutor enzimático potente, <strong>preferir DIU de cobre ou hormonal</strong> (não afetados) ou AMPD trimestral com monitoramento.</li>
+          <li>Antiepilépticos sem interação relevante (levetiracetam, valproato, gabapentina, lacosamida): implante pode ser usado normalmente.</li>
+          <li>Reforçar que isso é uma extrapolação de princípios farmacológicos gerais de progestagênios — consultar bula vigente e literatura específica do etonogestrel 68 mg para confirmação.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📝</div><div class="card-title">6. Termo de Consentimento Livre e Esclarecido</div></div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">✍️ Pontos obrigatórios na orientação <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Leitura e assinatura do Termo (Anexo I do manual) <strong>antes</strong> da inserção, com linguagem adaptada ao contexto cultural da usuária.</li>
+          <li>Esclarecer todas as dúvidas sobre efeitos adversos e secundários esperados.</li>
+          <li>Assegurar à usuária o <strong>direito à retirada a qualquer momento</strong>, mediante seu desejo.</li>
+          <li><strong>Adolescentes:</strong> direito ao atendimento mesmo sem acompanhante responsável; <strong>não é obrigatória autorização verbal ou escrita dos responsáveis</strong> para inserção do implante ou prescrição de outro método (Brasil, 2021; 2022).</li>
+          <li>Acompanhante é um direito da/o adolescente, não uma exigência — preservar privacidade e sigilo (ECA).</li>
+          <li>Sigilo é obrigatório, exceto em risco à vida/integridade física ou psicológica da/o adolescente ou de terceiros.</li>
+          <li>Duas vias do Termo: uma arquivada na unidade (junto ao prontuário), outra entregue à usuária ou ao responsável legal.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">💉</div><div class="card-title">7. Inserção do Implante — Passo a Passo</div></div>
+
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">🧰 Material necessário <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Luvas de procedimento</li>
+          <li>Antisséptico: clorexidina alcoólica 0,5%, álcool 70% ou iodopovidona tópico 10%</li>
+          <li>Gaze estéril</li>
+          <li>Seringa de 3 mL</li>
+          <li>Agulha para aspiração 40x12mm</li>
+          <li>Agulha para injeção 13x4,5mm</li>
+          <li>Lidocaína 1% ou 2%, <strong>sem vasoconstritor</strong></li>
+          <li>Esparadrapo e/ou atadura</li>
+          <li>Implante subdérmico</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">📐 Posicionamento e marcação <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Identificar a paciente ativamente com <strong>2 identificadores</strong> (nome completo + data de nascimento).</li>
+          <li>Braço <strong>não dominante</strong>, flexionado na altura do cotovelo, mão sob a cabeça; avaliar visualmente lesões/processos infecciosos prévios.</li>
+          <li>Posicionar-se para visualizar a progressão da agulha <strong>logo abaixo da pele</strong> (olhando lateralmente, não por cima do aplicador) — previne inserções profundas.</li>
+          <li>Local de inserção: face medial do braço.</li>
+          <li>Medir <strong>8 a 10 cm</strong> do epicôndilo medial do úmero, e <strong>3 a 5 cm</strong> abaixo do sulco entre bíceps e tríceps.</li>
+          <li>Em braços finos onde 3–5 cm não é possível: inserir o <strong>mais distante possível do sulco</strong>, evitando vasos e nervos da região.</li>
+          <li>Realizar a 1ª marcação (ponto de inserção) e, depois, a 2ª marcação ~5 cm da primeira (marca-guia/ponto de orientação).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🩹 Preparo, antissepsia e anestesia <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Explicar novamente o procedimento; verificar validade do implante; retirar invólucro externo; conferir integridade do invólucro interno.</li>
+          <li>Separar bula e cartão da paciente para preenchimento posterior.</li>
+          <li>Lavar as mãos; calçar luvas de procedimento.</li>
+          <li>Antissepsia do local de inserção.</li>
+          <li>Anestesia local com lidocaína 1% ou 2% sem vasoconstritor, cobrindo toda a região de inserção (~4 cm) — <strong>dose recomendada: 2 mL</strong>.</li>
+        </ul>
+        <div class="info-box red" style="margin-top:0.5rem"><span>🚨</span><span><strong>Dose máxima de lidocaína 2% sem vasoconstritor:</strong> 4,5 mg/kg por aplicação, <strong>não excedendo 300 mg totais</strong>.</span></div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🎯 Técnica de inserção do aplicador <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Retirar o aplicador do blíster mantendo agulha e implante estéreis (se contaminar, usar outro implante).</li>
+          <li>Retirar a proteção da agulha, segurando pela lateral do aplicador.</li>
+          <li>Perfurar a pele em ângulo <strong>ligeiramente inferior a 30°</strong>, inserindo apenas o bisel sob a pele (se ultrapassar o bisel, recue).</li>
+          <li>Abaixar o aplicador para posição <strong>paralela à pele</strong>; esticar a pele em direção ao cotovelo e inserir de forma subdérmica.</li>
+          <li>Tracionar a pele e avançar a agulha cuidadosamente até estar <strong>completamente subdérmica</strong>; não fazer força excessiva mesmo com resistência. Se a ponta perfurar a pele, recuar e reposicionar.</li>
+          <li>Puxar a alavanca roxa <strong>somente após</strong> inserção total da agulha, sem mover agulha/aplicador.</li>
+        </ul>
+        <div class="info-box amber" style="margin-top:0.5rem"><span>👁️</span><span>Durante todo o procedimento, o profissional deve <strong>conseguir ver a agulha logo abaixo da pele</strong>.</span></div>
+        <div class="info-box red" style="margin-top:0.5rem"><span>🚨</span><span>Se a agulha não foi totalmente inserida, ou o aplicador se moveu ao acionar a alavanca, parte do implante pode ficar exteriorizada. <strong>Não empurre o implante</strong> — remova e descarte; use outro dispositivo.</span></div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">✅ Confirmação e curativo <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li><strong>Confirmar por palpação imediatamente</strong> após inserção (profissional e também a própria usuária, protegendo o orifício de entrada) — deve-se sentir o bastão de 4 cm com ambas as extremidades.</li>
+          <li>Curativo com gaze estéril + curativo compressivo, para minimizar hematoma.</li>
+          <li>Trocar por curativo menor após 24h; manter por <strong>3 a 5 dias</strong>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🗓️ Orientações pós-inserção (7.1) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Evitar atividades traumáticas ou com peso no membro durante <strong>24h</strong>; equimose local pode ocorrer.</li>
+          <li>Manter o curativo seco; proteger com filme PVC durante o banho.</li>
+          <li>Orientar uso de <strong>preservativo</strong> para todas as pessoas — reforçar que o implante <strong>não protege contra ISTs</strong>.</li>
+          <li>Se a inserção ocorreu <strong>após o 7º dia do ciclo</strong>, orientar prática sexual protegida nos <strong>7 dias seguintes</strong> à inserção.</li>
+          <li>Hematomas locais costumam resolver espontaneamente em <strong>7 a 14 dias</strong>; compressa fria pode aliviar.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🖥️</div><div class="card-title">8. Registro do Procedimento (PEC / e-SUS APS)</div></div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🗂️ Codificação e documentação <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Registrar no PEC/e-SUS ou prontuário institucional: braço de inserção/retirada, lote e validade do implante.</p>
+        <p>Entregar à usuária um <strong>cartão</strong> com: data da inserção, data limite para remoção, número do lote e braço de inserção — assinado e carimbado pelo profissional.</p>
+        <p>A etiqueta do dispositivo (nº do lote) deve ser colada no Termo assinado e arquivada na unidade.</p>
+        <div class="chips" style="margin-top:0.6rem">
+          <span class="chip">CID Z300 — aconselhamento geral sobre contracepção</span>
+          <span class="chip">CID Z308 — outro procedimento anticoncepcional</span>
+          <span class="chip">CID Z309 — procedimento anticoncepcional não especificado</span>
+          <span class="chip">CIAP W14 — Contracepção/outros</span>
+        </div>
+        <table class="std-table" style="margin-top:0.6rem">
+          <tr><th>Procedimento</th><th>Código SIGTAP</th></tr>
+          <tr><td>Inserção do implante subdérmico contraceptivo liberador de etonogestrel</td><td>03.01.04.017-6</td></tr>
+          <tr><td>Retirada do implante subdérmico liberador de etonogestrel</td><td>03.01.04.018-4</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🩺</div><div class="card-title">9. Retornos Clínicos e Manejo de Intercorrências</div></div>
+
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">🔍 Acompanhamento longitudinal <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>O retorno é oportunidade para: avaliação de adaptação ao método, testes rápidos de IST, rastreio de neoplasias de colo/mama e seguimento de comorbidades.</p>
+        <p>Sintomas negativos mais comuns: <strong>cefaleia, acne, mastalgia e sangramento desfavorável</strong>. Cefaleia e mastalgia em geral são autolimitadas (orientar analgésicos simples e resolução espontânea esperada).</p>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🫧 Cistos foliculares <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Ocorrem em <strong>20–25%</strong> das usuárias; geralmente assintomáticos, sem necessidade de cirurgia — regressão espontânea em <strong>8 a 12 semanas</strong>.</p>
+        <p>USG transvaginal/pélvica: solicitar apenas se houver sintomatologia associada (dor pélvica persistente) ou sangramento irregular refratário ao manejo medicamentoso.</p>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🔴 Acne <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Incidência de até <strong>11%</strong> (efeito androgênico leve do etonogestrel).</p>
+        <ul>
+          <li>Opções: terapia tópica (peróxido de benzoíla, ácido azelaico), antibiótico sistêmico, pílula combinada, espironolactona ou isotretinoína (casos graves/refratários).</li>
+          <li><strong>Espironolactona</strong> — disponível no Componente Básico da Assistência Farmacêutica, primeira escolha oral: <strong>50–100 mg/dia por 3 a 6 meses</strong>, reavaliando após o período. Melhora significativa em &gt;60% das usuárias nesse intervalo.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🩸 Sangramento desfavorável <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p><strong>78%</strong> das usuárias apresentam padrão <strong>favorável</strong>: amenorreia, sangramento infrequente (&lt; 1x/mês) ou de frequência normal (1x/mês).</p>
+        <p><strong>22%</strong> apresentam padrão <strong>desfavorável</strong> aos 12 meses de uso: frequente (&gt; 1x/mês) ou prolongado (≥ 14 dias/mês, independente da frequência).</p>
+        <ul>
+          <li>Desfavorável é mais comum nos primeiros 3 meses (<strong>40–50%</strong>), reduzindo ao longo do 1º ano.</li>
+          <li>Padrão favorável nos 3 primeiros meses tende a se manter nos 2 anos seguintes.</li>
+          <li>Padrão desfavorável tem <strong>50% de chance de melhora</strong>, especialmente no 1º ano.</li>
+        </ul>
+        <div class="info-box blue" style="margin-top:0.6rem"><span>🧭</span><span><strong>Conduta conforme tempo de uso e duração do sangramento:</strong><br>
+        • &lt; 1 mês de uso → conduta expectante (orientar);<br>
+        • &gt; 1 mês de uso, sangramento &lt; 7 dias → expectante;<br>
+        • &gt; 1 mês de uso, sangramento ≥ 7 dias → orientar e tratar, se solicitado pela usuária.</span></div>
+        <p style="margin-top:0.6rem">Tratamento <strong>interrompe</strong> o episódio vigente, mas não evita recidiva (causa não totalmente elucidada). <strong>Usar uma terapêutica por vez</strong>, reavaliando após cada prescrição — uso simultâneo de todos os fármacos é desencorajado e equivocado. Em recorrência, priorizar o medicamento que gerou melhora prévia (Guazelli et al., 2022).</p>
+        <table class="std-table" style="margin-top:0.6rem">
+          <tr><th>Medicação</th><th>Posologia</th></tr>
+          <tr><td>Ácido tranexâmico 500mg ou ibuprofeno 600mg¹</td><td>1 comp. a cada 8h, por 5 dias</td></tr>
+          <tr><td>Pílula combinada (etinilestradiol 30mcg + levonorgestrel 150mcg)</td><td>1 comp./dia por 2–4 semanas</td></tr>
+          <tr><td>Doxiciclina 100mg</td><td>1 comp. a cada 12h, por 5 dias</td></tr>
+          <tr><td>Injetável mensal (AMP 25mg + cipionato de estradiol 5mg)</td><td>1 ampola IM, dose única</td></tr>
+        </table>
+        <p style="font-size:0.78rem;color:var(--text-mid)">¹ Anti-inflamatório testado nos estudos do etonogestrel; qualquer AINE por 5 dias é aceitável, incluindo ibuprofeno 600mg (RENAME).</p>
+        <p style="margin-top:0.5rem"><strong>Alternativas FEBRASGO (2022), fora da RENAME:</strong> Noretisterona 10mg (1 comp./dia por 7, 14 ou 30 dias) · Ácido mefenâmico 500mg (1 comp. a cada 8h por 5 dias) · Tamoxifeno 10mg (1 comp. a cada 12h por 7 dias) · Desogestrel 75mcg (1 comp./dia por 30–90 dias).</p>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🤰 Gravidez em uso do implante <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Risco não é completamente excluído, sobretudo se a avaliação prévia à inserção foi inadequada.</li>
+          <li><strong>Retirar o implante o quanto antes</strong>, por profissional habilitado.</li>
+          <li>Orientar que o etonogestrel <strong>não é abortivo nem teratogênico</strong> — não causa malformações fetais em caso de gravidez inadvertida (Lazorwitz et al., 2018).</li>
+        </ul>
+        <div class="info-box amber" style="margin-top:0.5rem"><span>⚠️</span><span><strong>Conteúdo não detalhado na fonte:</strong> o manual não comenta especificamente o seguimento obstétrico recomendado nem o risco proporcional de gravidez ectópica nesse cenário (geralmente menor que com SIU hormonal, mas merece avaliação clínica). Avalie conforme protocolo obstétrico local.</span></div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🔨 Fratura do implante <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Fissuras/quebras (ex.: impacto em esportes de contato, acidentes) podem alterar o padrão de liberação do etonogestrel e o padrão de sangramento (Campodonico, 2019). Discutir com a usuária sobre manutenção ou troca do dispositivo.</p>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🦠 Infecção local após inserção <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Suspeitar diante de eritema, calor local, dor e secreção purulenta no sítio.</li>
+          <li>Orientar higiene local; avaliar necessidade de antibioticoterapia para infecção de pele.</li>
+          <li>Seguimento próximo, atento a sinais de necessidade de drenagem.</li>
+          <li>Sintomas sistêmicos, ausência de resposta ou recidiva → <strong>retirar o dispositivo</strong> e inserir no braço contralateral.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🔧</div><div class="card-title">10. Retirada do Implante</div></div>
+
+    <div class="acc-item open">
+      <div class="acc-header" onclick="toggleAcc(this)">📅 Indicação e avaliação prévia <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <p>Retirar após <strong>3 anos de uso</strong> ou a qualquer momento por desejo da usuária, independentemente do tempo de uso. Diante de efeitos negativos manejáveis, informar opções de tratamento e respeitar a decisão informada da usuária sobre continuar ou não.</p>
+        <div class="info-box amber"><span>🩻</span><span>Implante <strong>não palpável</strong> → solicitar exame de imagem. Por ser <strong>radiopaco</strong>, a <strong>radiografia simples</strong> é a primeira escolha. Implantes profundos devem ser removidos em <strong>Atenção Especializada</strong> (cirurgia geral/vascular).</span></div>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🧰 Material para retirada (implantes palpáveis) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Luvas de procedimento ou estéreis</li>
+          <li>Antisséptico (clorexidina alcoólica 0,5%, álcool 70% ou iodopovidona tópico 10%)</li>
+          <li>Gaze estéril · Seringa de 3mL</li>
+          <li>Agulha para aspiração 40x12mm · Agulha para injeção 13x4,5mm</li>
+          <li>Lidocaína 1% ou 2%, sem vasoconstritor</li>
+          <li>Pinça Halstead (mosquito) ou Pinça Kelly</li>
+          <li>Lâmina de bisturi nº 15 ou 11 (preferencial)</li>
+          <li>Esparadrapo e/ou atadura</li>
+        </ul>
+        <p style="margin-top:0.5rem">Material de sutura (porta-agulha + fio de nylon 4.0) é <strong>opcional</strong>, apenas se necessário fechamento do ponto.</p>
+      </div>
+    </div>
+
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">🔬 Técnica de remoção <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Localizar o implante por palpação; comprimir a extremidade <strong>proximal</strong> (em direção ao ombro) para evidenciar a extremidade <strong>distal</strong> (próxima ao cotovelo) como saliência na pele.</li>
+          <li>Lavar as mãos; limpar a extremidade distal e antissepsia local.</li>
+          <li>Anestesia com <strong>0,5 a 1 mL</strong> de lidocaína 1–2% sem vasoconstritor, no local da incisão — injetar <strong>abaixo do implante</strong>, mantendo-o próximo da superfície.</li>
+          <li>Empurrar a extremidade proximal para estabilizar; incisão longitudinal de <strong>2 mm</strong> em direção ao cotovelo, a partir da ponta distal — cuidado para não seccionar a ponta do implante.</li>
+          <li>Empurrar suavemente o implante até a extremidade ficar visível; segurar com pinça (Halstead "mosquito" curva ou reta) e remover.</li>
+          <li>Em caso de fibrose: dissecção romba do tecido; se a extremidade não se exteriorizar, incisão da cápsula com bisturi e remoção com a pinça.</li>
+          <li>A depender do tamanho da incisão, sutura simples — orientar retirada de pontos em <strong>7 a 10 dias</strong>.</li>
+          <li>Curativo estéril de fechamento + gaze estéril com faixa compressiva (minimiza equimose).</li>
+          <li>Orientar remoção da faixa em <strong>4 a 6 horas</strong>; curativo de fechamento mantido por <strong>3 a 5 dias</strong>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🔄</div><div class="card-title">11. Troca do Implante</div></div>
+    <div class="acc-item">
+      <div class="acc-header" onclick="toggleAcc(this)">➕ Reinserção (mesma incisão ou braço contralateral) <span class="acc-arrow">▶</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>Novo implante pode ser inserido no <strong>mesmo braço</strong>, frequentemente pela <strong>mesma incisão</strong> da retirada anterior.</li>
+          <li>Anestesiar com <strong>2 mL de lidocaína 1%</strong>, logo abaixo da pele, do local da incisão ao longo do trajeto de inserção.</li>
+          <li><strong>Inserção completa da agulha é essencial</strong> — caso contrário, o implante pode ficar parcialmente visível na incisão de retirada.</li>
+          <li>Fechar a incisão com curativo, aproximando as bordas.</li>
+          <li>Curativo com gaze estéril mantido por pelo menos <strong>24h</strong>, permitindo cicatrização da incisão de retirada.</li>
+          <li>Se o local anterior não for apropriado, inserir no <strong>braço contralateral</strong>, seguindo a técnica padrão de inserção inicial (seção 7) e as orientações pós-inserção (item 7.1).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!--  REFERÊNCIAS RÁPIDAS                                     -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="sec-ref" class="section">
+
+  <!-- ── Cabeçalho da seção ── -->
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📚</div><div class="card-title">Referências Rápidas</div></div>
+    <div class="info-box blue"><span>📌</span><span>Consulta rápida por categoria. Selecione uma aba abaixo para acessar as tabelas de referência específicas para este protocolo.</span></div>
+
+    <!-- ── Abas internas ── -->
+    <div id="ref-tabs" style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:1rem">
+      <button class="ref-tab active" onclick="goRefTab('siglas')">🔤 Siglas</button>
+      <button class="ref-tab" onclick="goRefTab('doses')">💊 Doses de Emergência</button>
+      <button class="ref-tab" onclick="goRefTab('janelas')">📅 Janelas Temporais</button>
+      <button class="ref-tab" onclick="goRefTab('leis')">⚖️ Base Legal</button>
+    </div>
+
+    <!-- ════ ABA: SIGLAS ════ -->
+    <div id="ref-siglas" class="ref-panel">
+      <p style="font-size:0.75rem;color:var(--text-soft);margin-bottom:0.7rem">Siglas e abreviações utilizadas neste protocolo e nos documentos do MS/OMS.</p>
+      <div style="overflow-x:auto">
+      <table class="std-table">
+        <thead><tr><th style="width:22%">Sigla</th><th>Significado</th><th>Contexto</th></tr></thead>
+        <tbody>
+          <tr><td><strong>APS</strong></td><td>Atenção Primária à Saúde</td><td>Nível de atenção onde ocorre o planejamento familiar no SUS</td></tr>
+          <tr><td><strong>AMPD</strong></td><td>Acetato de Medroxiprogesterona Depot</td><td>Injetável trimestral de progestagênio (150 mg/3 meses)</td></tr>
+          <tr><td><strong>AVC</strong></td><td>Acidente Vascular Cerebral</td><td>Contraindicação absoluta (MEC 4) para CHC</td></tr>
+          <tr><td><strong>CD4</strong></td><td>Linfócito T CD4+</td><td>Marcador imunológico para avaliação de segurança do DIU em pacientes com HIV</td></tr>
+          <tr><td><strong>CHC</strong></td><td>Contraceptivo Hormonal Combinado</td><td>Pílula combinada, injetável mensal, anel vaginal, adesivo transdérmico</td></tr>
+          <tr><td><strong>CI</strong></td><td>Contraindicação</td><td>Condição clínica que impede ou restringe o uso de um método</td></tr>
+          <tr><td><strong>DIU</strong></td><td>Dispositivo Intrauterino</td><td>LARC inserido na cavidade uterina — de cobre (não hormonal) ou hormonal (SIU-LNG)</td></tr>
+          <tr><td><strong>DIP</strong></td><td>Doença Inflamatória Pélvica</td><td>Contraindicação absoluta (MEC 4) para inserção de DIU</td></tr>
+          <tr><td><strong>ECP</strong></td><td>Emergency Contraceptive Pills</td><td>Pílulas de contracepção de emergência (levonorgestrel)</td></tr>
+          <tr><td><strong>EFV</strong></td><td>Efavirenz</td><td>Antirretroviral indutor enzimático que reduz eficácia de hormonais orais e implante</td></tr>
+          <tr><td><strong>HIV</strong></td><td>Vírus da Imunodeficiência Humana</td><td>Infecção de atenção especial na escolha contraceptiva (interações TARV)</td></tr>
+          <tr><td><strong>IMC</strong></td><td>Índice de Massa Corporal</td><td>≥ 30 = obesidade; CHC = MEC 2, progestagênios/DIU = MEC 1</td></tr>
+          <tr><td><strong>IST</strong></td><td>Infecção Sexualmente Transmissível</td><td>Preservativo é o único método contraceptivo com dupla proteção (IST + gravidez)</td></tr>
+          <tr><td><strong>LAM</strong></td><td>Método da Amenorreia Lactacional</td><td>Eficaz até 6 meses se amamentação exclusiva + amenorreia + < 6 meses pós-parto</td></tr>
+          <tr><td><strong>LARC</strong></td><td>Long-Acting Reversible Contraception</td><td>Métodos reversíveis de longa duração: implante, DIU hormonal, DIU cobre</td></tr>
+          <tr><td><strong>LNG</strong></td><td>Levonorgestrel</td><td>Progestagênio usado na minipílula, DIU hormonal (SIU-LNG) e pílula de emergência</td></tr>
+          <tr><td><strong>MEC</strong></td><td>Critérios Médicos de Elegibilidade</td><td>Sistema OMS de 4 categorias que classifica a segurança de uso dos métodos contraceptivos</td></tr>
+          <tr><td><strong>MS</strong></td><td>Ministério da Saúde</td><td>Órgão federal responsável pelas diretrizes de planejamento familiar no Brasil</td></tr>
+          <tr><td><strong>OMS</strong></td><td>Organização Mundial da Saúde</td><td>Publica os MEC e os guidelines internacionais de contracepção</td></tr>
+          <tr><td><strong>PA</strong></td><td>Pressão Arterial</td><td>PA ≥ 160/100 mmHg = CHC MEC 4; PA 140–159/90–99 = CHC MEC 3</td></tr>
+          <tr><td><strong>PEP</strong></td><td>Profilaxia Pós-Exposição</td><td>Antirretrovirais usados até 72h após exposição ao HIV (ex.: violência sexual)</td></tr>
+          <tr><td><strong>POC</strong></td><td>Pílula Oral Combinada</td><td>Estrogênio + progestagênio; falha típica 7%</td></tr>
+          <tr><td><strong>POP</strong></td><td>Progestogen-Only Pill (Minipílula)</td><td>Somente progestagênio; indicada quando há CI ao estrogênio</td></tr>
+          <tr><td><strong>PrEP</strong></td><td>Profilaxia Pré-Exposição</td><td>Antirretroviral preventivo ao HIV; pacientes em PrEP podem usar métodos contraceptivos MEC 1/2</td></tr>
+          <tr><td><strong>SARC</strong></td><td>Short-Acting Reversible Contraception</td><td>Métodos reversíveis de curta duração: pílulas, injetáveis, preservativos</td></tr>
+          <tr><td><strong>SINAN</strong></td><td>Sistema de Informação de Agravos de Notificação</td><td>Violência sexual deve ser notificada compulsoriamente no SINAN</td></tr>
+          <tr><td><strong>SIU-LNG</strong></td><td>Sistema Intrauterino de Levonorgestrel</td><td>DIU hormonal; duração 5–8 anos; falha típica 0,4%</td></tr>
+          <tr><td><strong>SOP</strong></td><td>Síndrome do Ovário Policístico</td><td>CHC pode ser usado terapeuticamente (MEC 1 se sem outras CI)</td></tr>
+          <tr><td><strong>SUS</strong></td><td>Sistema Único de Saúde</td><td>Rede pública de saúde do Brasil; oferece métodos contraceptivos gratuitamente</td></tr>
+          <tr><td><strong>TARV</strong></td><td>Terapia Antirretroviral</td><td>Tratamento do HIV; maioria dos esquemas = MEC 1/2 para contraceptivos (exceto EFV)</td></tr>
+          <tr><td><strong>TEV</strong></td><td>Tromboembolismo Venoso</td><td>Histórico ou ativo = CHC MEC 4; progestagênio = MEC 2; DIU cobre = MEC 1</td></tr>
+          <tr><td><strong>TPM</strong></td><td>Tensão Pré-Menstrual</td><td>POC pode atenuar sintomas; benefício não contraceptivo do CHC</td></tr>
+          <tr><td><strong>UBS</strong></td><td>Unidade Básica de Saúde</td><td>Principal ponto de dispensação de métodos contraceptivos no SUS</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- ════ ABA: DOSES DE EMERGÊNCIA ════ -->
+    <div id="ref-doses" class="ref-panel" style="display:none">
+      <p style="font-size:0.75rem;color:var(--text-soft);margin-bottom:0.7rem">Referência de uso para contracepção de emergência e situações pós-exposição.</p>
+      <div style="overflow-x:auto">
+      <table class="std-table">
+        <thead><tr><th style="width:28%">Método / Fármaco</th><th>Dose e Posologia</th><th>Janela Máxima</th><th>Disponibilidade</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Levonorgestrel 1,5 mg</strong><br><span style="font-size:0.75rem;color:var(--text-soft)">Pílula do dia seguinte</span></td>
+            <td>1 comprimido de 1,5 mg — dose única. <em>Quanto antes, maior a eficácia.</em></td>
+            <td><span style="color:var(--green);font-weight:700">72h</span> (ideal) · até <span style="color:var(--amber);font-weight:700">120h</span> com eficácia reduzida. <strong>Nunca negar</strong> entre 72h–120h.</td>
+            <td>Sem receita médica · Gratuito no SUS · Farmácias populares</td>
+          </tr>
+          <tr>
+            <td><strong>DIU de Cobre</strong><br><span style="font-size:0.75rem;color:var(--text-soft)">CE mais eficaz disponível</span></td>
+            <td>Inserção por profissional habilitado. Eficácia > 99% como CE.</td>
+            <td><span style="color:var(--green);font-weight:700">5 dias</span> (120h) após relação desprotegida</td>
+            <td>Inserção agendada em UBS habilitada · Gratuito no SUS</td>
+          </tr>
+          <tr>
+            <td><strong>PEP — Profilaxia HIV</strong><br><span style="font-size:0.75rem;color:var(--text-soft)">Pós-exposição ao HIV</span></td>
+            <td>Esquema antirretroviral de 28 dias (TDF + 3TC + DTG ou RAL). Iniciar o mais rápido possível.</td>
+            <td><span style="color:var(--red);font-weight:700">72h</span> após exposição — após esse prazo, não indicado</td>
+            <td>Serviço de referência IST/Aids · UPA · Hospital · Gratuito no SUS</td>
+          </tr>
+          <tr>
+            <td><strong>Imunoglobulina Anti-HBs</strong><br><span style="font-size:0.75rem;color:var(--text-soft)">Violência sexual / HBV</span></td>
+            <td>0,06 mL/kg IM, dose única. Associar à 1ª dose da vacina de hepatite B se não imunizada.</td>
+            <td><span style="color:var(--amber);font-weight:700">14 dias</span> após exposição</td>
+            <td>Serviço de referência IST / UPA · Gratuito no SUS</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="info-box amber" style="margin-top:0.7rem"><span>⚠️</span><span>Em caso de violência sexual: acionar o protocolo completo — CE + PEP HIV + rastreio ISTs + notificação SINAN + apoio psicossocial + encaminhamento para aborto legal se aplicável (Lei 12.845/2013). Atendimento obrigatório em toda a rede SUS, sem necessidade de boletim de ocorrência.</span></div>
+    </div>
+
+    <!-- ════ ABA: JANELAS TEMPORAIS ════ -->
+    <div id="ref-janelas" class="ref-panel" style="display:none">
+      <p style="font-size:0.75rem;color:var(--text-soft);margin-bottom:0.7rem">Resumo das janelas temporais críticas para escolha do método — especialmente no período pós-parto e pós-exposição.</p>
+      <div style="overflow-x:auto">
+      <table class="std-table">
+        <thead><tr><th>Janela / Período</th><th>CHC</th><th>Progestagênio</th><th>DIU Cobre</th><th>DIU Hormonal</th><th>Observação</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Pós-parto &lt; 48h</strong></td>
+            <td style="color:var(--red)"><strong>MEC 4</strong> (se amamentando)</td>
+            <td style="color:var(--amber)"><strong>MEC 2</strong></td>
+            <td style="color:var(--green)"><strong>MEC 1</strong></td>
+            <td style="color:var(--green)"><strong>MEC 1</strong></td>
+            <td>Janela ideal para DIU pós-placentário</td>
+          </tr>
+          <tr>
+            <td><strong>Pós-parto 48h – 4 sem</strong></td>
+            <td style="color:var(--red)"><strong>MEC 4</strong> (se amamentando)</td>
+            <td style="color:var(--amber)"><strong>MEC 2</strong></td>
+            <td style="color:var(--amber)"><strong>MEC 2</strong></td>
+            <td style="color:var(--red)"><strong>MEC 3</strong></td>
+            <td>Risco elevado de expulsão do DIU. Preferir preservativo até janela ideal.</td>
+          </tr>
+          <tr>
+            <td><strong>Pós-parto ≥ 4 sem</strong></td>
+            <td style="color:var(--red)"><strong>MEC 3</strong> (até 6m, amamentando)</td>
+            <td style="color:var(--amber)"><strong>MEC 2</strong> (até 6 sem)</td>
+            <td style="color:var(--green)"><strong>MEC 1</strong></td>
+            <td style="color:var(--green)"><strong>MEC 1</strong></td>
+            <td>Bom momento para inserção de DIU ou iniciar progestagênio</td>
+          </tr>
+          <tr>
+            <td><strong>Amamentação &lt; 6 sem</strong></td>
+            <td style="color:var(--red)"><strong>MEC 4</strong></td>
+            <td style="color:var(--amber)"><strong>MEC 2</strong></td>
+            <td style="color:var(--green)"><strong>MEC 1</strong></td>
+            <td style="color:var(--amber)"><strong>MEC 2</strong></td>
+            <td>CHC absolutamente contraindicado nesta janela</td>
+          </tr>
+          <tr>
+            <td><strong>Amamentação 6 sem – 6 m</strong></td>
+            <td style="color:var(--red)"><strong>MEC 3</strong></td>
+            <td style="color:var(--green)"><strong>MEC 1</strong></td>
+            <td style="color:var(--green)"><strong>MEC 1</strong></td>
+            <td style="color:var(--green)"><strong>MEC 1</strong></td>
+            <td>Progestagênios isolados e LARC são as primeiras escolhas</td>
+          </tr>
+          <tr>
+            <td><strong>Amamentação &gt; 6 m</strong></td>
+            <td style="color:var(--green)"><strong>MEC 1</strong></td>
+            <td style="color:var(--green)"><strong>MEC 1</strong></td>
+            <td style="color:var(--green)"><strong>MEC 1</strong></td>
+            <td style="color:var(--green)"><strong>MEC 1</strong></td>
+            <td>Todos os métodos liberados (avaliar outras CI individuais)</td>
+          </tr>
+          <tr style="background:var(--purple-light)">
+            <td><strong>CE — LNG (pós-exposição)</strong></td>
+            <td colspan="4" style="color:var(--purple)"><strong>MEC 1</strong> — uso único ou repetido, sem restrições médicas</td>
+            <td>Até 72h (ideal) · até 120h (reduzida) · Nunca negar entre 72–120h</td>
+          </tr>
+          <tr style="background:var(--green-pale)">
+            <td><strong>CE — DIU Cobre (pós-exposição)</strong></td>
+            <td colspan="4" style="color:var(--green)"><strong>&gt; 99%</strong> eficácia como CE</td>
+            <td>Até 5 dias (120h) após relação desprotegida</td>
+          </tr>
+          <tr style="background:var(--red-light)">
+            <td><strong>PEP HIV (pós-exposição)</strong></td>
+            <td colspan="4" style="color:var(--red)">Não contraceptivo — antirretroviral 28 dias</td>
+            <td><strong>Máximo 72h</strong> após exposição — após esse prazo, não indicado</td>
+          </tr>
+          <tr>
+            <td><strong>LAM — Amenorreia Lactacional</strong></td>
+            <td colspan="4" style="color:var(--baby)">Eficaz se: amamentação <strong>exclusiva</strong> + <strong>amenorreia</strong> + &lt; <strong>6 meses</strong> pós-parto</td>
+            <td>Se qualquer das 3 condições cessar, orientar método adicional imediatamente</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </div>
+
+    <!-- ════ ABA: BASE LEGAL ════ -->
+    <div id="ref-leis" class="ref-panel" style="display:none">
+      <p style="font-size:0.75rem;color:var(--text-soft);margin-bottom:0.7rem">Legislação e documentos normativos que embasam este protocolo no contexto brasileiro.</p>
+      <div style="overflow-x:auto">
+      <table class="std-table">
+        <thead><tr><th style="width:32%">Norma / Documento</th><th>Conteúdo Relevante</th><th>Aplicação Prática</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Lei nº 9.263/1996</strong><br><span style="font-size:0.75rem;color:var(--text-soft)">Atualizada pela Lei nº 14.443/2022</span></td>
+            <td>Regula o planejamento familiar e a esterilização voluntária. Idade mínima: 21 anos, <em>ou</em> &lt; 21 anos com ≥ 2 filhos vivos. Dispensa consentimento do cônjuge. Reflexão mínima: 60 dias.</td>
+            <td>Laqueadura tubária e vasectomia no SUS. O profissional não pode exigir autorização do cônjuge nem condicionar a outros critérios além dos legais.</td>
+          </tr>
+          <tr>
+            <td><strong>Lei nº 12.845/2013</strong><br><span style="font-size:0.75rem;color:var(--text-soft)">Lei do Atendimento à Violência Sexual</span></td>
+            <td>Atendimento obrigatório e imediato a vítimas de violência sexual em toda a rede SUS, independentemente de boletim de ocorrência.</td>
+            <td>Inclui: CE (LNG ou DIU cobre), PEP HIV, rastreio ISTs, notificação SINAN, apoio psicossocial e encaminhamento para aborto legal quando aplicável.</td>
+          </tr>
+          <tr>
+            <td><strong>OMS — MEC 6ª Ed. (2025)</strong><br><span style="font-size:0.75rem;color:var(--text-soft)">Medical Eligibility Criteria for Contraceptive Use</span></td>
+            <td>Classifica a segurança de uso de métodos contraceptivos em 4 categorias (1–4) com base em condições clínicas preexistentes. Inclui atualizações sobre pós-parto, amamentação, HIV/PrEP e CE.</td>
+            <td>Base para toda a triagem clínica neste protocolo. Disponível em: <a href="https://www.who.int/publications/i/item/9789240076327" target="_blank" style="color:var(--baby)">who.int</a></td>
+          </tr>
+          <tr>
+            <td><strong>MS — Caderno de Atenção Básica nº 26</strong><br><span style="font-size:0.75rem;color:var(--text-soft)">Saúde Sexual e Reprodutiva</span></td>
+            <td>Diretrizes do Ministério da Saúde para planejamento familiar na APS. Inclui fluxogramas, critérios de elegibilidade adaptados ao SUS e orientações para dispensação de métodos.</td>
+            <td>Referência nacional para o fluxo de atendimento (etapas 1–5) e lista de métodos disponíveis no SUS.</td>
+          </tr>
+          <tr>
+            <td><strong>Bitzer et al., 2021</strong><br><span style="font-size:0.75rem;color:var(--text-soft)">PMID: 33871288 — Estudo COCO</span></td>
+            <td>Demonstrou aumento de 30% na satisfação da paciente com o uso de aconselhamento estruturado baseado em necessidades associadas à contracepção.</td>
+            <td>Embasamento para a avaliação de necessidades associadas incorporada ao fluxograma (passos s3_necessidades e s3_necessidades_larc).</td>
+          </tr>
+          <tr>
+            <td><strong>ECA — Lei nº 8.069/1990</strong><br><span style="font-size:0.75rem;color:var(--text-soft)">Estatuto da Criança e do Adolescente</span></td>
+            <td>Adolescentes têm direito ao atendimento em saúde reprodutiva com sigilo e sem necessidade de autorização dos pais para contracepção.</td>
+            <td>Garantia de autonomia e sigilo no atendimento de adolescentes. Orientar LARC como primeira escolha pela alta eficácia e independência de adesão diária.</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="info-box green" style="margin-top:0.7rem"><span>📋</span><span>Este protocolo foi elaborado com base nas referências acima. Para situações clínicas complexas não cobertas, consultar o texto completo do MEC OMS 6ª edição e as diretrizes do Ministério da Saúde.</span></div>
+    </div>
+
+  </div><!-- /card -->
+</div><!-- /sec-ref -->
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!--  FICHA DE TRIAGEM                                        -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="sec-triagem" class="section">
+
+  <div class="ficha-card">
+    <div class="ficha-sec-header">📋 Ficha de Triagem para Inserção de Implante Subdérmico</div>
+    <div class="ficha-body">
+      <div class="info-box blue" style="margin-bottom:1rem"><span>ℹ️</span><span>Preencha os campos abaixo e clique em <strong>Gerar PDF</strong> para imprimir a ficha de triagem. Nenhum dado é enviado ou armazenado.</span></div>
+
+      <!-- 1. IDENTIFICAÇÃO -->
+      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">1. Identificação da Usuária</div>
+      <div class="ficha-grid g1" style="margin-bottom:0.6rem">
+        <div class="ficha-field"><label>Nome completo</label><input type="text" id="t_nome" placeholder="Nome completo da usuária"></div>
+      </div>
+      <div class="ficha-grid g4" style="margin-bottom:0.6rem">
+        <div class="ficha-field"><label>Data de nascimento</label><input type="date" id="t_nasc"></div>
+        <div class="ficha-field"><label>Idade</label><input type="text" id="t_idade" placeholder="Ex.: 24 anos"></div>
+        <div class="ficha-field span2"><label>Cartão SUS</label><input type="text" id="t_sus" placeholder="Nº do Cartão SUS"></div>
+      </div>
+      <div class="ficha-grid g3" style="margin-bottom:0.6rem">
+        <div class="ficha-field"><label>Telefone</label><input type="tel" id="t_tel" placeholder="(00) 00000-0000"></div>
+        <div class="ficha-field span2"><label>UBS de referência</label><input type="text" id="t_ubs" placeholder="Nome da UBS"></div>
+      </div>
+      <div class="ficha-grid g3" style="margin-bottom:1rem">
+        <div class="ficha-field"><label>Microárea / ACS</label><input type="text" id="t_acs" placeholder="Microárea ou nome do ACS"></div>
+        <div class="ficha-field span2"><label>Profissional responsável pela triagem</label><input type="text" id="t_prof" placeholder="Nome e categoria profissional"></div>
+      </div>
+      <div class="ficha-grid g2a" style="margin-bottom:1rem">
+        <div class="ficha-field"><label>Data da triagem</label><input type="date" id="t_data"></div>
+      </div>
+
+      <hr class="ficha-divider">
+
+      <!-- 2. AVALIAÇÃO INICIAL -->
+      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">2. Avaliação Inicial</div>
+      <div class="ficha-grid g1" style="margin-bottom:1rem">
+        <div class="ficha-field"><label>Método contraceptivo em uso atualmente</label><input type="text" id="t_metodo_atual" placeholder="Método atual ou 'Nenhum'"></div>
+      </div>
+
+      <hr class="ficha-divider">
+
+      <!-- 3. INVESTIGAÇÃO DE GRAVIDEZ -->
+      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">3. Investigação de Gravidez</div>
+      <div class="ficha-grid g2" style="margin-bottom:0.6rem">
+        <div>
+          <span class="inline-lbl">Existe possibilidade de gravidez atual?</span>
+          <div class="check-group">
+            <label class="check-item"><input type="radio" name="t_grav" value="Não"> Não</label>
+            <label class="check-item"><input type="radio" name="t_grav" value="Sim"> Sim</label>
+            <label class="check-item"><input type="radio" name="t_grav" value="Dúvida"> Dúvida</label>
+          </div>
+        </div>
+        <div class="ficha-field"><label>Data da última menstruação (DUM)</label><input type="date" id="t_dum"></div>
+      </div>
+      <div style="margin-bottom:1rem">
+        <span class="inline-lbl">Resultado do teste rápido de gravidez</span>
+        <div class="check-group">
+          <label class="check-item"><input type="radio" name="t_trg" value="Negativo"> Negativo</label>
+          <label class="check-item"><input type="radio" name="t_trg" value="Positivo"> Positivo</label>
+          <label class="check-item"><input type="radio" name="t_trg" value="Não realizado"> Não realizado</label>
+        </div>
+      </div>
+
+      <hr class="ficha-divider">
+
+      <!-- 4. CRITÉRIOS DE INCLUSÃO -->
+      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">4. Critérios de Inclusão / Prioridade</div>
+      <span class="inline-lbl">A usuária se enquadra em algum grupo prioritário?</span>
+      <div class="check-group" style="margin-bottom:1rem">
+        <label class="check-item"><input type="checkbox" id="t_p1"> Situação de vulnerabilidade social</label>
+        <label class="check-item"><input type="checkbox" id="t_p2"> Situação de rua</label>
+        <label class="check-item"><input type="checkbox" id="t_p3"> Privação de liberdade</label>
+        <label class="check-item"><input type="checkbox" id="t_p4"> Adolescente em vulnerabilidade</label>
+        <label class="check-item"><input type="checkbox" id="t_p5"> Pessoa vivendo com HIV</label>
+        <label class="check-item"><input type="checkbox" id="t_p6"> Trabalhadora do sexo</label>
+        <label class="check-item"><input type="checkbox" id="t_p7"> Puérpera de alto risco clínico/social</label>
+        <label class="check-item"><input type="checkbox" id="t_p8"> Contraindicação à laqueadura</label>
+        <label class="check-item"><input type="checkbox" id="t_p9"> Recusa de método definitivo</label>
+        <label class="check-item"><input type="checkbox" id="t_p10"> Condição ginecológica crônica</label>
+        <label class="check-item"><input type="checkbox" id="t_p11"> Dificuldade de adesão a outros métodos</label>
+      </div>
+      <div class="ficha-grid g1" style="margin-bottom:1rem">
+        <div class="ficha-field"><label>Outro grupo prioritário</label><input type="text" id="t_p_outro" placeholder="Especificar se aplicável"></div>
+      </div>
+
+      <hr class="ficha-divider">
+
+      <!-- 5. CONTRAINDICAÇÕES -->
+      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">5. Avaliação de Contraindicações</div>
+      <div class="ficha-grid g2" style="margin-bottom:0.8rem">
+        <div>
+          <span class="inline-lbl">Contraindicações absolutas — A usuária apresenta:</span>
+          <div class="check-group" style="flex-direction:column;gap:0.3rem">
+            <label class="check-item"><input type="checkbox" id="t_ca1"> Gravidez confirmada</label>
+            <label class="check-item"><input type="checkbox" id="t_ca2"> Suspeita de gravidez</label>
+            <label class="check-item"><input type="checkbox" id="t_ca3"> Câncer de mama ativo ou suspeito</label>
+            <label class="check-item"><input type="checkbox" id="t_ca4"> Hipersensibilidade ao componente do implante</label>
+          </div>
+          <div class="info-box red" style="margin-top:0.6rem;font-size:0.78rem"><span>🚫</span><span>Se <strong>SIM</strong> para qualquer item acima → <strong>NÃO encaminhar</strong>.</span></div>
+        </div>
+        <div>
+          <span class="inline-lbl">Contraindicações relativas</span>
+          <div class="check-group" style="flex-direction:column;gap:0.3rem">
+            <label class="check-item"><input type="checkbox" id="t_cr1"> História recente de câncer de mama</label>
+            <label class="check-item"><input type="checkbox" id="t_cr2"> Doença hepática grave ativa</label>
+            <label class="check-item"><input type="checkbox" id="t_cr3"> Sangramento genital anormal não investigado</label>
+          </div>
+          <div class="ficha-field" style="margin-top:0.6rem"><label>Observações</label><textarea id="t_obs_ci" rows="2" placeholder="Detalhar se necessário"></textarea></div>
+        </div>
+      </div>
+
+      <hr class="ficha-divider">
+
+      <!-- 6. ORIENTAÇÕES -->
+      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">6. Orientações Realizadas</div>
+      <span class="inline-lbl">Foi orientada sobre:</span>
+      <div class="check-group" style="margin-bottom:1rem">
+        <label class="check-item"><input type="checkbox" id="t_o1"> Funcionamento do método</label>
+        <label class="check-item"><input type="checkbox" id="t_o2"> Tempo de duração do implante</label>
+        <label class="check-item"><input type="checkbox" id="t_o3"> Possíveis efeitos adversos</label>
+        <label class="check-item"><input type="checkbox" id="t_o4"> Alterações menstruais esperadas</label>
+        <label class="check-item"><input type="checkbox" id="t_o5"> Necessidade de acompanhamento</label>
+        <label class="check-item"><input type="checkbox" id="t_o6"> Uso de preservativo para prevenção de ISTs</label>
+        <label class="check-item"><input type="checkbox" id="t_o7"> Livre decisão e consentimento</label>
+      </div>
+
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+        <button class="btn-pdf" onclick="gerarPdfTriagem()">⬇ Gerar PDF</button>
+        <button class="btn-limpar" onclick="limparForm('triagem')">↺ Limpar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!--  FICHA DE ENCAMINHAMENTO                                 -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="sec-encaminhamento" class="section">
+
+  <div class="ficha-card">
+    <div class="ficha-sec-header">📤 Ficha de Encaminhamento — Implante Subdérmico</div>
+    <div class="ficha-body">
+      <div class="info-box blue" style="margin-bottom:1rem"><span>ℹ️</span><span>A ficha é impressa em <strong>duas vias</strong> na mesma folha A4. Preencha os dados abaixo e clique em <strong>Gerar PDF</strong>.</span></div>
+
+      <!-- IDENTIFICAÇÃO -->
+      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">Identificação</div>
+      <div class="ficha-grid g1" style="margin-bottom:0.6rem">
+        <div class="ficha-field"><label>UBS</label><input type="text" id="e_ubs" placeholder="Nome da UBS de origem"></div>
+      </div>
+      <div class="ficha-grid g3" style="margin-bottom:0.6rem">
+        <div class="ficha-field span2"><label>Nome da usuária</label><input type="text" id="e_nome" placeholder="Nome completo"></div>
+        <div class="ficha-field"><label>Data de nascimento</label><input type="date" id="e_nasc"></div>
+      </div>
+      <div class="ficha-grid g2" style="margin-bottom:1rem">
+        <div class="ficha-field"><label>Cartão SUS</label><input type="text" id="e_sus" placeholder="Nº do Cartão SUS"></div>
+        <div class="ficha-field"><label>Telefone</label><input type="tel" id="e_tel" placeholder="(00) 00000-0000"></div>
+      </div>
+
+      <hr class="ficha-divider">
+
+      <!-- CRITÉRIOS AVALIADOS -->
+      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">Critérios Avaliados</div>
+      <div class="ficha-grid g2" style="margin-bottom:1rem">
+        <div>
+          <span class="inline-lbl">Critérios confirmados</span>
+          <div class="check-group" style="flex-direction:column;gap:0.35rem">
+            <label class="check-item"><input type="checkbox" id="e_c1"> Sem suspeita de gravidez</label>
+            <label class="check-item"><input type="checkbox" id="e_c2"> Sem contraindicação ao método</label>
+            <label class="check-item"><input type="checkbox" id="e_c3"> Orientações realizadas</label>
+            <label class="check-item"><input type="checkbox" id="e_c4"> Interesse / consentimento confirmado</label>
+          </div>
+        </div>
+        <div>
+          <span class="inline-lbl">Grupo prioritário</span>
+          <div class="check-group" style="flex-direction:column;gap:0.35rem">
+            <label class="check-item"><input type="checkbox" id="e_g1"> Adolescente</label>
+            <label class="check-item"><input type="checkbox" id="e_g2"> Puérpera de risco</label>
+            <label class="check-item"><input type="checkbox" id="e_g3"> Vulnerabilidade social</label>
+            <label class="check-item"><input type="checkbox" id="e_g4"> HIV</label>
+          </div>
+          <div class="ficha-field" style="margin-top:0.5rem"><label>Outro</label><input type="text" id="e_g_outro" placeholder="Especificar"></div>
+        </div>
+      </div>
+
+      <hr class="ficha-divider">
+
+      <!-- DATA E ASSINATURA -->
+      <div class="ficha-sec-header" style="border-radius:8px 8px 0 0;margin-bottom:0.6rem">Encaminhamento</div>
+      <div class="ficha-grid g2a" style="margin-bottom:1rem">
+        <div class="ficha-field"><label>Data do encaminhamento</label><input type="date" id="e_data"></div>
+      </div>
+
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+        <button class="btn-pdf" onclick="gerarPdfEncaminhamento()">⬇ Gerar PDF (2 vias)</button>
+        <button class="btn-limpar" onclick="limparForm('encaminhamento')">↺ Limpar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+// ── FONTE ────────────────────────────────────────────────
+let fontScale = parseFloat(localStorage.getItem('cp_font') || '1.0');
+document.documentElement.style.fontSize = (16*fontScale)+'px';
+function adjustFont(d){
+  fontScale=Math.min(1.8,Math.max(0.75,fontScale+d));
+  document.documentElement.style.fontSize=(16*fontScale)+'px';
+  localStorage.setItem('cp_font',fontScale.toFixed(2));
+}
+
+// ── NAVEGAÇÃO ────────────────────────────────────────────
+function goSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  const order=['algo','metodos','mec','eficacia','sus','especiais','implante','triagem','encaminhamento','ref'];
+  const idx=order.indexOf(id);
+  if(idx>=0) document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── ACCORDION ────────────────────────────────────────────
+function toggleAcc(h){ h.parentElement.classList.toggle('open'); }
+
+// ── ABAS INTERNAS — REFERÊNCIAS ───────────────────────────
+function goRefTab(id){
+  document.querySelectorAll('.ref-panel').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.ref-tab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('ref-'+id).style.display='block';
+  const tabs=document.querySelectorAll('.ref-tab');
+  const order=['siglas','doses','janelas','leis'];
+  const idx=order.indexOf(id);
+  if(idx>=0) tabs[idx].classList.add('active');
+}
+
+// ════════════════════════════════════════════════════════
+//  ALGORITMO — Fluxograma completo
+// ════════════════════════════════════════════════════════
+const algo = {
+
+  // ── PASSO 0: desejo reprodutivo ─────────────────────
+  s0:{
+    q:'Qual é o desejo reprodutivo atual da paciente?',
+    opts:[
+      {label:'✅ Deseja evitar gravidez agora',      next:'s1'},
+      {label:'🤰 Deseja engravidar agora',            next:'r_engravidar'},
+      {label:'🔮 Deseja engravidar no futuro (não agora)', next:'s1'},
+      {label:'🚫 Não deseja engravidar nunca mais',   next:'s_definitivo'}
+    ]
+  },
+
+  s_definitivo:{
+    q:'A paciente atende aos critérios legais para esterilização voluntária?',
+    hint:'Lei nº 9.263/96 (atualizada 2022): ≥ 21 anos OU < 21 anos com pelo menos 2 filhos vivos. Período mínimo de reflexão de 60 dias. Sem necessidade de consentimento do cônjuge.',
+    opts:[
+      {label:'✅ Sim — atende aos critérios',         next:'r_definitivo'},
+      {label:'❌ Não atende ainda (ex.: < 21 anos sem 2 filhos)', next:'s1'}
+    ]
+  },
+
+  // ════════════════════════════════════════════════════
+  //  PASSO 1 — Avaliação Clínica (Anamnese MEC)
+  //  Fiel ao fluxograma do MS/OMS: todas as condições
+  //  são triadas juntas, sem hierarquia artificial.
+  //  Pós-parto entra no mesmo nível que HAS, HIV etc.
+  // ════════════════════════════════════════════════════
+  s1:{
+    q:'Na avaliação clínica (anamnese), a paciente apresenta alguma das condições abaixo?',
+    hint:'Aplicar a Roda MEC da OMS: avaliar todas as condições simultaneamente. Selecione a condição mais relevante para determinar as restrições. Se houver mais de uma, priorize a de maior restrição ao CHC.',
+    opts:[
+      {label:'🤱 Pós-parto e/ou amamentação (≤ 6 meses)',         next:'s1_posparto_periodo'},
+      {label:'🫀 Hipertensão grave (PA ≥ 160/100 mmHg)',           next:'r_hiper_grave'},
+      {label:'💉 TEV, IAM ou AVC — evento ATUAL/em vigência',     next:'r_sem_estrogen_restrito'},
+      {label:'📋 Histórico de TEV, IAM ou AVC (sem evento atual)', next:'r_sem_estrogen'},
+      {label:'🧠 Enxaqueca COM aura — surgida/presente agora',     next:'r_sem_estrogen_restrito'},
+      {label:'🚬 Tabagismo e idade ≥ 35 anos',                    next:'r_sem_estrogen'},
+      {label:'🦠 HIV / em uso de TARV ou PrEP',                   next:'s1_hiv'},
+      {label:'💊 Anticonvulsivantes indutores ou Rifampicina',    next:'r_interacao_enzimatica'},
+      {label:'🎗️ Câncer de mama atual ou recente',               next:'r_cancer_mama'},
+      {label:'🍺 Doença hepática grave ativa',                    next:'r_hepatico'},
+      {label:'✅ Nenhuma condição especial identificada',          next:'s3'}
+    ]
+  },
+
+  // ── HIV: sub-triagem por esquema TARV ────────────────
+  s1_hiv:{
+    q:'A paciente usa Efavirenz (EFV) no esquema antirretroviral?',
+    hint:'O Efavirenz é indutor enzimático e reduz eficácia de hormonais orais e implante. Os demais ARVs geralmente não interferem.',
+    opts:[
+      {label:'✅ Sim — usa Efavirenz (EFV)',          next:'r_hiv_efv'},
+      {label:'❌ Não usa Efavirenz',                  next:'r_hiv_sem_efv'},
+      {label:'💊 Usa PrEP (sem TARV)',                next:'r_hiv_sem_efv'}
+    ]
+  },
+
+  // ── Pós-parto: período primeiro, amamentação emerge do período ──
+  // O período já determina se amamentação é fator limitante,
+  // sem precisar perguntar amamentação como triagem separada.
+  s1_posparto_periodo:{
+    q:'Qual o período pós-parto?',
+    hint:'O período e a amamentação determinam juntos as categorias MEC. As opções a seguir já incorporam a distinção por amamentação dentro de cada janela temporal.',
+    opts:[
+      {label:'< 48 horas após o parto',                           next:'s1_pp_48h'},
+      {label:'48h a 4 semanas pós-parto',                         next:'s1_pp_4sem'},
+      {label:'4 semanas a 6 semanas pós-parto',                   next:'s1_pp_4a6sem'},
+      {label:'6 semanas a 6 meses — com amamentação ativa',       next:'s1_pp_6sem_ama'},
+      {label:'6 semanas a 6 meses — sem amamentação',             next:'s3'},
+      {label:'> 6 meses pós-parto (amamentação ou não)',          next:'s3'}
+    ]
+  },
+
+  // ── Janelas pós-parto: preferência de método dentro das restrições ──
+
+  s1_pp_48h:{
+    q:'Pós-parto < 48h: qual é a preferência da paciente?',
+    hint:'Janela ideal para DIU pós-placentário (MEC 1). Implante subdérmico: permitido imediatamente pós-parto (MEC 1 — Manual MS/Saps 2025). CHC: contraindicado se amamentando (MEC 4). Minipílula e AMPD (progestagênios orais/injetáveis): aguardar 6 semanas se amamentando (MEC 2–3 antes disso).',
+    opts:[
+      {label:'🟠 DIU de Cobre — pós-placentário (MEC 1)',         next:'r_diu_cobre'},
+      {label:'🔵 DIU Hormonal — pós-placentário (MEC 1)',         next:'r_diu_hormonal'},
+      {label:'🦾 Implante subdérmico — imediato pós-parto (MEC 1)', next:'r_implante'},
+      {label:'⏳ Não quer DIU agora — orientar período de espera', next:'r_posparto_espera'}
+    ]
+  },
+
+  s1_pp_4sem:{
+    q:'Pós-parto 48h–4 semanas: qual é a preferência da paciente?',
+    hint:'Período crítico: risco elevado de expulsão de DIU. DIU cobre: MEC 2 (aceitável com ressalva). DIU hormonal: MEC 3 (evitar). Implante subdérmico: MEC 2 — permitido até 4 semanas independente de amamentação (Manual MS/Saps 2025). CHC: MEC 4 se amamentando. Minipílula e AMPD: aguardar 6 semanas se amamentando (MEC 2–3 antes disso).',
+    opts:[
+      {label:'🟠 DIU de Cobre agora (MEC 2 — risco de expulsão, mas aceitável)', next:'r_diu_cobre'},
+      {label:'🦾 Implante subdérmico (MEC 2 — até 4 sem pós-parto)', next:'r_implante'},
+      {label:'🔒 Preservativo até janela ideal de inserção',      next:'r_preservativo'},
+      {label:'⏳ Aguardar 4 semanas — usar LAM se amamentação exclusiva', next:'r_posparto_espera'}
+    ]
+  },
+
+  s1_pp_4a6sem:{
+    q:'Pós-parto 4–6 semanas: qual é a preferência da paciente?',
+    hint:'Bom momento para inserção de DIU (MEC 1). Implante subdérmico: MEC 1 a partir de 4 semanas, independente de amamentação. Minipílula e AMPD: MEC 2 entre 4–6 semanas se amamentando, MEC 1 após 6 semanas. CHC: MEC 3 se amamentando (evitar), MEC 1 se não amamentando.',
+    opts:[
+      {label:'🟠 DIU de Cobre (MEC 1)',                           next:'r_diu_cobre'},
+      {label:'🔵 DIU Hormonal (MEC 1)',                           next:'r_diu_hormonal'},
+      {label:'🦾 Implante subdérmico (MEC 1 a partir de 4 sem)',  next:'r_implante'},
+      {label:'💊 Progestagênio oral / AMPD (MEC 2 se amamentando)', next:'r_inj_trimestral'},
+      {label:'🔒 Preservativo',                                   next:'r_preservativo'}
+    ]
+  },
+
+  s1_pp_6sem_ama:{
+    q:'Pós-parto 6 semanas–6 meses com amamentação ativa: qual é a preferência da paciente?',
+    hint:'Implante subdérmico, DIU (cobre e hormonal) e AMPD: MEC 1 — seguros e não prejudicam a amamentação. Minipílula: MEC 1 a partir de 6 semanas. CHC: MEC 3 até 6 meses de amamentação (evitar). LARC é a primeira escolha pela alta eficácia e independência de adesão diária.',
+    opts:[
+      {label:'🟠 DIU de Cobre (MEC 1)',                           next:'r_diu_cobre'},
+      {label:'🔵 DIU Hormonal (MEC 1)',                           next:'r_diu_hormonal'},
+      {label:'🦾 Implante subdérmico (MEC 1)',                    next:'r_implante'},
+      {label:'💉 Injetável trimestral — AMPD (MEC 1)',            next:'r_inj_trimestral'},
+      {label:'💊 Progestagênio oral / minipílula (MEC 1)',        next:'r_pilula_combinada'},
+      {label:'🔒 Preservativo',                                   next:'r_preservativo'}
+    ]
+  },
+
+  // ── PASSO 3: paciente sem CI ao CHC — preferências ──
+  s3:{
+    q:'A paciente tem preferência ou restrição em relação ao tipo de método?',
+    opts:[
+      {label:'💊 Prefere método diário (pílula)',           next:'s3_necessidades'},
+      {label:'💉 Prefere método injetável',                 next:'s3_injetavel'},
+      {label:'🔒 Prefere método de longa duração (LARC)',   next:'s3_necessidades_larc'},
+      {label:'🛡️ Prefere método não hormonal',             next:'s3_nao_hormonal'},
+      {label:'⚡ Busca apenas contracepção de emergência',  next:'r_emergencia'},
+      {label:'❓ Sem preferência — orientar a melhor opção', next:'s4'}
+    ]
+  },
+
+  // ── NECESSIDADES ASSOCIADAS (baseado no estudo COCO — PMID 33871288) ──
+  s3_necessidades:{
+    q:'A paciente tem alguma necessidade ou prioridade além da contracepção?',
+    hint:'Avaliar necessidades não contraceptivas aumenta satisfação em até 30% (Bitzer et al., 2021 — estudo COCO).',
+    opts:[
+      {label:'🩸 Controle de fluxo intenso ou cólicas',        next:'r_diu_hormonal'},
+      {label:'🛡️ Proteção contra ISTs é prioridade',           next:'r_preservativo_mais_pilula'},
+      {label:'🤫 Discrição / uso invisível ao parceiro',       next:'r_pilula_combinada'},
+      {label:'⏰ Dificuldade de adesão a horário fixo diário', next:'r_inj_mensal'},
+      {label:'✅ Nenhuma necessidade específica',               next:'r_pilula_combinada'}
+    ]
+  },
+
+  s3_necessidades_larc:{
+    q:'A paciente tem alguma necessidade ou prioridade associada ao LARC?',
+    hint:'Avaliar necessidades não contraceptivas aumenta satisfação em até 30% (Bitzer et al., 2021 — estudo COCO).',
+    opts:[
+      {label:'🩸 Controle de fluxo intenso ou dismenorreia',   next:'r_diu_hormonal'},
+      {label:'🚫 Prefere método completamente não hormonal',   next:'r_diu_cobre'},
+      {label:'🙈 Prefere não ter dispositivo intrauterino',    next:'r_implante'},
+      {label:'✅ Sem preferência entre os LARCs',              next:'r_larc_geral'}
+    ]
+  },
+
+  s3_injetavel:{
+    q:'Há contraindicação ao estrogênio (CHC)?',
+    opts:[
+      {label:'✅ Sim — há CI ao estrogênio',          next:'r_inj_trimestral'},
+      {label:'❌ Não — pode usar estrogênio',         next:'r_inj_mensal'}
+    ]
+  },
+
+  s3_nao_hormonal:{
+    q:'Qual método não hormonal?',
+    opts:[
+      {label:'🟠 DIU de cobre (LARC — até 10–12 anos)',   next:'r_diu_cobre'},
+      {label:'🔒 Preservativo (barreira)',                 next:'r_preservativo'},
+      {label:'🚫 Coito interrompido',                      next:'r_coito_interrompido'}
+    ]
+  },
+
+  // ── PASSO 4: sem preferência — triagem rápida ───────
+  s4:{
+    q:'A paciente planeja engravidar nos próximos 1–2 anos?',
+    opts:[
+      {label:'✅ Sim — deseja engravidar em breve',    next:'r_curto_prazo'},
+      {label:'❌ Não — não deseja engravidar por ≥ 2 anos', next:'r_larc_geral'}
+    ]
+  },
+
+  // ════════════════════════════════════════════════════
+  //  RESULTADOS
+  // ════════════════════════════════════════════════════
+
+  r_engravidar:{
+    result:true, type:'green', badge:'🤰 Planejamento Pré-Concepcional',
+    title:'Orientar para Gestação Saudável',
+    body:`<ul>
+      <li>Prescrever <strong>ácido fólico 400 mcg/dia</strong> (iniciar 1–3 meses antes de tentar engravidar).</li>
+      <li>Verificar e atualizar <strong>imunizações</strong> (rubéola, varicela, hepatite B, dTpa).</li>
+      <li>Rastrear <strong>ISTs, diabetes gestacional, anemia e outras condições</strong>.</li>
+      <li>Orientar sobre estilo de vida saudável: cessar tabagismo e álcool, alimentação equilibrada.</li>
+      <li>Agendar <strong>consulta de pré-natal</strong> assim que confirmada a gravidez.</li>
+    </ul>`
+  },
+
+  r_definitivo:{
+    result:true, type:'purple', badge:'✂️ Esterilização Voluntária',
+    title:'Laqueadura Tubária ou Vasectomia — Encaminhar',
+    body:`<ul>
+      <li>Confirmar critérios: <strong>≥ 21 anos</strong> ou < 21 anos com pelo menos 2 filhos vivos.</li>
+      <li>Período obrigatório de <strong>reflexão de 60 dias</strong> entre a solicitação e o procedimento.</li>
+      <li>Realizar <strong>aconselhamento</strong> sobre irreversibilidade e alternativas (LARC).</li>
+      <li>Sem necessidade de consentimento do cônjuge (Lei nº 14.443/2022).</li>
+      <li><strong>Vasectomia:</strong> procedimento ambulatorial mais simples — sugerir para o parceiro como alternativa.</li>
+      <li>Prescrever <strong>método contraceptivo temporário</strong> durante o período de reflexão e até confirmação da cirurgia.</li>
+    </ul>`
+  },
+
+  r_sem_estrogen:{
+    result:true, type:'teal', badge:'🚫 CHC Contraindicado — Progestagênio ou DIU',
+    title:'Opções Sem Estrogênio Indicadas',
+    body:`<p>Devido à contraindicação ao estrogênio, as melhores opções são:</p>
+      <span class="method-tag teal">🦾 Implante Subdérmico (LARC)</span>
+      <span class="method-tag teal">🟠 DIU de Cobre (LARC)</span>
+      <span class="method-tag blue">💉 Injetável Trimestral (AMPD)</span>
+      <span class="method-tag blue">💊 Minipílula (POP)</span>
+      <ul style="margin-top:0.6rem">
+        <li><strong>Melhor opção:</strong> DIU de cobre (não hormonal, LARC, MEC 1 para maioria das condições) ou implante subdérmico (histórico de TEV/IAM/AVC sem evento atual = MEC 2 para progestagênios).</li>
+        <li><strong>Minipílula:</strong> exige horário fixo rigoroso — menor margem de erro que a POC.</li>
+        <li><strong>Injetável trimestral:</strong> boa opção se há dificuldade de adesão diária; atenção ao retorno tardio da fertilidade.</li>
+        <li>Sempre orientar uso do <strong>preservativo</strong> para proteção contra ISTs.</li>
+      </ul>`
+  },
+
+  r_sem_estrogen_restrito:{
+    result:true, type:'red', badge:'🚫 CHC e Implante Contraindicados — Evento Ativo',
+    title:'TEV/IAM/AVC em Vigência ou Enxaqueca com Aura — Restringir Hormonais',
+    body:`<p>Nestas condições <strong>ativas</strong> (TEV/IAM/AVC em vigência, ou enxaqueca com aura surgida/presente), o implante subdérmico e demais progestagênios sistêmicos passam para <strong>MEC Categoria 3</strong> (uso não recomendado, exceto sem alternativa e com acompanhamento rigoroso) — diferente do histórico isolado dessas condições, que é Categoria 2.</p>
+      <span class="method-tag green">🟠 DIU de Cobre — MEC 1 (melhor opção, não hormonal)</span>
+      <span class="method-tag red">🦾 Implante Subdérmico — MEC 3 (evitar; só se não houver alternativa)</span>
+      <span class="method-tag red">💉 Progestagênio oral/injetável — MEC 3 (evitar)</span>
+      <ul style="margin-top:0.6rem">
+        <li><strong>DIU de cobre</strong> é a opção preferencial: não hormonal, sem impacto sobre o evento vascular, alta eficácia (LARC).</li>
+        <li>Enxaqueca com aura <strong>prévia à inserção</strong> (sem piora) não é a mesma situação — ver opção de histórico isolado.</li>
+        <li>Encaminhar para avaliação especializada (hematologia/cardiologia/neurologia, conforme o caso) antes de definir método hormonal.</li>
+        <li>Sempre orientar uso do <strong>preservativo</strong> para dupla proteção.</li>
+      </ul>`
+  },
+
+  r_interacao_enzimatica:{
+    result:true, type:'amber', badge:'💊 Indutores Enzimáticos — Redução de Eficácia Hormonal',
+    title:'Anticonvulsivantes ou Rifampicina: Evitar Hormonais Orais e Implante',
+    body:`<p>Fenitoína, carbamazepina, barbitúricos, topiramato, oxcarbazepina e rifampicina induzem o CYP3A4, reduzindo significativamente os níveis séricos de progestagênios e estrogênios.</p>
+      <span class="method-tag green">🟠 DIU de Cobre — Melhor Opção (MEC 1)</span>
+      <span class="method-tag teal">🔵 DIU Hormonal — Aceitável (MEC 1, não afetado por via sistêmica)</span>
+      <span class="method-tag blue">💉 AMPD Trimestral — Pode ser considerado (MEC 2)</span>
+      <ul style="margin-top:0.6rem">
+        <li><strong>Evitar:</strong> pílula combinada, minipílula e implante subdérmico — risco real de falha contraceptiva por interação.</li>
+        <li><strong>DIU de cobre:</strong> não é afetado por interações medicamentosas — primeira escolha absoluta.</li>
+        <li><strong>DIU hormonal (SIU-LNG):</strong> a liberação local intrauterina minimiza a influência da indução enzimática — opção válida.</li>
+        <li><strong>Rifampicina:</strong> interação especialmente intensa — preferir exclusivamente DIU de cobre ou hormonal.</li>
+        <li>Lacosamida, levetiracetam, gabapentina e valproato <strong>não</strong> são indutores — CHC pode ser usado normalmente nesses casos.</li>
+        <li>Sempre orientar uso do <strong>preservativo</strong> para dupla proteção.</li>
+      </ul>`
+  },
+
+  r_hiper_grave:{
+    result:true, type:'red', badge:'🫀 Hipertensão Grave — CHC Contraindicado (MEC 4)',
+    title:'Opções Seguras para Hipertensão Grave (PA ≥ 160/100 mmHg)',
+    body:`<span class="method-tag green">🟠 DIU de Cobre — MEC 1</span>
+      <span class="method-tag amber">💊 Progestagênio Oral — MEC 2</span>
+      <span class="method-tag amber">💉 AMPD Trimestral — MEC 2</span>
+      <span class="method-tag amber">🦾 Implante — MEC 2</span>
+      <ul style="margin-top:0.6rem">
+        <li><strong>DIU de cobre</strong> é a melhor opção: não hormonal, sem efeito sobre PA, LARC de alta eficácia.</li>
+        <li>Progestagênios: podem ser usados com monitoramento (MEC 2).</li>
+        <li>Encaminhar para controle da PA e acompanhamento cardiológico se necessário.</li>
+      </ul>`
+  },
+
+  r_hiv_efv:{
+    result:true, type:'amber', badge:'🦠 HIV com Efavirenz — Atenção à Interação',
+    title:'Efavirenz Reduz Eficácia de Métodos Hormonais',
+    body:`<p>O Efavirenz (EFV) induz enzimas hepáticas e reduz os níveis séricos de progestagênios e estrogênios.</p>
+      <span class="method-tag green">🟠 DIU de Cobre — Melhor Opção (MEC 1)</span>
+      <span class="method-tag blue">💉 AMPD Trimestral — Opção Aceitável (MEC 2)</span>
+      <ul style="margin-top:0.6rem">
+        <li><strong>Evitar:</strong> implante subdérmico, minipílula, pílula combinada — risco de falha por interação.</li>
+        <li><strong>DIU de cobre</strong>: não afetado por interações medicamentosas — primeira escolha.</li>
+        <li>Reforçar uso do <strong>preservativo</strong> para prevenção de transmissão do HIV ao parceiro.</li>
+      </ul>`
+  },
+
+  r_hiv_sem_efv:{
+    result:true, type:'teal', badge:'🦠 HIV sob TARV (sem Efavirenz) — MEC 1/2',
+    title:'Maioria dos Métodos Pode Ser Usada com Segurança',
+    body:`<p>Conforme MEC 6ª Ed. (2025), mulheres com HIV sob TARV (sem EFV) podem usar a maioria dos métodos com segurança:</p>
+      <span class="method-tag green">🟠 DIU de Cobre</span>
+      <span class="method-tag green">🦾 Implante</span>
+      <span class="method-tag blue">💊 Pílula Combinada</span>
+      <span class="method-tag blue">💉 Injetáveis</span>
+      <ul style="margin-top:0.6rem">
+        <li>CD4 ≥ 200 células/mL: DIU (MEC 2).</li>
+        <li>Verificar outras contraindicações (hipertensão, tabagismo etc.) normalmente.</li>
+        <li>Reforçar uso do <strong>preservativo</strong> em todas as relações.</li>
+      </ul>`
+  },
+
+  r_cancer_mama:{
+    result:true, type:'red', badge:'🎗️ Câncer de Mama Atual — Contraindicação a Hormonais',
+    title:'Métodos Não Hormonais São as Únicas Opções Seguras',
+    body:`<span class="method-tag green">🟠 DIU de Cobre — MEC 1 (única opção LARC segura)</span>
+      <span class="method-tag green">🔒 Preservativo</span>
+      <ul style="margin-top:0.6rem">
+        <li>Todos os métodos hormonais (CHC, progestagênios, DIU hormonal, implante) são <strong>MEC 4</strong>.</li>
+        <li>DIU de cobre: única opção de LARC segura.</li>
+        <li>Encaminhar para acompanhamento oncológico integrado.</li>
+      </ul>`
+  },
+
+  r_hepatico:{
+    result:true, type:'amber', badge:'🍺 Doença Hepática Grave — Limitar Hormonais',
+    title:'Métodos com Menor Metabolismo Hepático São Preferíveis',
+    body:`<span class="method-tag green">🟠 DIU de Cobre — MEC 1</span>
+      <span class="method-tag green">🔒 Preservativo</span>
+      <ul style="margin-top:0.6rem">
+        <li>CHC e progestagênios orais: <strong>MEC 3/4</strong> — metabolização hepática intensa.</li>
+        <li>AMPD trimestral e implante: MEC 3 — uso apenas se não houver alternativa.</li>
+        <li>DIU de cobre: não é metabolizado pelo fígado — primeira escolha.</li>
+      </ul>`
+  },
+
+  r_posparto_espera:{
+    result:true, type:'amber', badge:'🤱 Pós-Parto — Aguardar Método Definitivo',
+    title:'Orientação para o Período de Espera',
+    body:`<ul>
+      <li><strong>Método LAM (Amenorreia Lactacional):</strong> eficaz até 6 meses se <em>amamentação exclusiva + amenorreia</em>. Taxa de falha < 2% quando todas as condições são cumpridas.</li>
+      <li><strong>Preservativo:</strong> pode ser usado imediatamente — orientar técnica correta e disponibilidade gratuita na UBS.</li>
+      <li><strong>Retornar assim que possível</strong> para inserção de DIU (após 4 semanas) ou início de progestagênio (após 6 semanas).</li>
+      <li>Reforçar que o LAM <strong>perde eficácia imediatamente</strong> se: a amamentação deixar de ser exclusiva, menstruação retornar, ou bebê completar 6 meses.</li>
+      <li>Agendar consulta de retorno para 6 semanas pós-parto.</li>
+    </ul>`
+  },
+
+  r_pilula_combinada:{
+    result:true, type:'blue', badge:'💊 Pílula Oral Combinada (POC)',
+    title:'Contraceptivo Oral Combinado — SARC',
+    body:`<ul>
+      <li><strong>Iniciar:</strong> no 1º ao 5º dia do ciclo (início rápido — Quick Start também é aceitável em algumas situações).</li>
+      <li>Tomar <strong>diariamente no mesmo horário</strong>. Margem: se o atraso for <strong>< 12h</strong> do horário habitual, tomar imediatamente e continuar normalmente — sem necessidade de barreira. Se ≥ 12h de atraso, tratar como comprimido esquecido (abaixo).</li>
+      <li>Se esquecer 1 comprimido (≥ 12h do horário habitual): tomar imediatamente, continuar a cartela e usar método de barreira por 7 dias.</li>
+      <li>Se esquecer ≥ 2 comprimidos: usar método de barreira por 7 dias + tomar o esquecido.</li>
+      <li>Verificar interações medicamentosas (rifampicina, anticonvulsivantes, antifúngicos).</li>
+      <li>Orientar sobre sinais de alerta: dor torácica intensa, dispneia, dor nas pernas, cefaleia intensa.</li>
+      <li>Disponível gratuitamente no SUS.</li>
+      <li>Usar <strong>preservativo</strong> para proteção contra ISTs.</li>
+    </ul>`
+  },
+
+  r_inj_mensal:{
+    result:true, type:'blue', badge:'💉 Injetável Mensal (Combinado)',
+    title:'Contraceptivo Injetável Mensal — SARC',
+    body:`<ul>
+      <li>Aplicação a cada 30 dias (tolerância de ± 3 dias).</li>
+      <li>Iniciar do 1º ao 5º dia do ciclo.</li>
+      <li>Retorno menstrual regular na maioria das usuárias.</li>
+      <li>Mesmas contraindicações do CHC (contém estrogênio).</li>
+      <li>Disponível no SUS.</li>
+      <li>Orientar preservativo para ISTs.</li>
+    </ul>`
+  },
+
+  r_inj_trimestral:{
+    result:true, type:'teal', badge:'💉 Injetável Trimestral — AMPD',
+    title:'Acetato de Medroxiprogesterona Depot — SARC',
+    body:`<ul>
+      <li>Aplicação a cada <strong>90 dias (3 meses)</strong>.</li>
+      <li>Alta eficácia com apenas 4 aplicações por ano.</li>
+      <li>Amenorreia frequente após uso prolongado.</li>
+      <li>Atenção: retorno da fertilidade pode levar <strong>12–18 meses</strong> após interrupção.</li>
+      <li>Pode reduzir densidade óssea com uso prolongado — avaliar em adolescentes.</li>
+      <li>Disponível no SUS.</li>
+    </ul>`
+  },
+
+  r_implante:{
+    result:true, type:'green', badge:'🦾 Implante Subdérmico — LARC',
+    title:'Etonogestrel Subdérmico — Alta Eficácia por 3 Anos',
+    body:`<ul>
+      <li><strong>Duração:</strong> 3 anos (aprovação ANVISA/bula brasileira; conforme Manual MS/Saps 2025). <strong>Falha:</strong> 0,05% (índice de Pearl) — mais eficaz entre os métodos reversíveis.</li>
+      <li>Inserção no braço não dominante pelo profissional habilitado — procedimento ambulatorial simples.</li>
+      <li>Pode causar irregularidade menstrual (manchas, amenorreia).</li>
+      <li>Retorno rápido da fertilidade após remoção.</li>
+      <li>Verificar disponibilidade no SUS da região.</li>
+      <li>Não inserir em pacientes usando Efavirenz (interação medicamentosa).</li>
+    </ul>`
+  },
+
+  r_diu_hormonal:{
+    result:true, type:'teal', badge:'🔵 DIU Hormonal — SIU-LNG — LARC',
+    title:'Sistema Intrauterino de Levonorgestrel — 5 a 8 Anos',
+    body:`<ul>
+      <li><strong>Duração:</strong> 5 anos (Mirena®/Kyleena® — aprovados ANVISA). <strong>Falha:</strong> 0,4%. <em>Nota: dispositivos de 8 anos (ex.: Liletta®) não estão comercializados no Brasil.</em></li>
+      <li>Reduz fortemente o fluxo menstrual — amenorreia em até 50% das usuárias.</li>
+      <li>Indicado também no tratamento de endometriose e menorragia.</li>
+      <li>Pode ser usado em nulíparas e adolescentes.</li>
+      <li>Verificar disponibilidade (não amplamente disponível no SUS atualmente).</li>
+      <li>Contraindicado em câncer de mama atual (MEC 4).</li>
+    </ul>`
+  },
+
+  r_diu_cobre:{
+    result:true, type:'green', badge:'🟠 DIU de Cobre — Não Hormonal — LARC',
+    title:'Dispositivo Intrauterino de Cobre — Até 10–12 Anos',
+    body:`<ul>
+      <li><strong>Duração:</strong> 10–12 anos. <strong>Falha:</strong> 0,8%.</li>
+      <li>Único LARC completamente não hormonal — indicado em qualquer contraindicação hormonal.</li>
+      <li>Pode ser usado como <strong>contracepção de emergência</strong> (até 5 dias após relação desprotegida — eficácia > 99%).</li>
+      <li>Disponível gratuitamente no SUS.</li>
+      <li>Pode aumentar fluxo menstrual e cólicas — orientar a paciente.</li>
+      <li>Contraindicado em DIP ativa, gravidez, distorção uterina grave.</li>
+    </ul>`
+  },
+
+  r_larc_geral:{
+    result:true, type:'green', badge:'🔒 LARC Recomendado — Alta Eficácia',
+    title:'Métodos Reversíveis de Longa Duração — Primeira Escolha',
+    body:`<p>Para pacientes que não desejam engravidar por ≥ 2 anos e sem preferência definida, os <strong>LARCs são a primeira escolha</strong> pelas menores taxas de falha e independência de adesão diária:</p>
+      <span class="method-tag green">🦾 Implante Subdérmico — 0,05% de falha</span>
+      <span class="method-tag teal">🔵 DIU Hormonal — 0,4% de falha</span>
+      <span class="method-tag green">🟠 DIU de Cobre — 0,8% de falha (não hormonal)</span>
+      <ul style="margin-top:0.6rem">
+        <li>Apresentar todas as opções e discutir preferências da paciente.</li>
+        <li>Se houver contraindicação a hormonais: <strong>DIU de cobre</strong> é a melhor opção.</li>
+        <li>Sempre orientar uso do preservativo para proteção contra ISTs.</li>
+      </ul>`
+  },
+
+  r_curto_prazo:{
+    result:true, type:'blue', badge:'⏱️ Método de Curto Prazo',
+    title:'Métodos SARC ou de Barreira para Uso por < 2 Anos',
+    body:`<p>Para quem planeja engravidar em breve, os métodos de retorno rápido da fertilidade são mais indicados:</p>
+      <span class="method-tag blue">💊 Pílula Oral Combinada</span>
+      <span class="method-tag blue">💊 Minipílula (POP)</span>
+      <span class="method-tag blue">💉 Injetável Mensal</span>
+      <span class="method-tag green">🔒 Preservativo</span>
+      <ul style="margin-top:0.6rem">
+        <li>Evitar injetável trimestral (AMPD): retorno da fertilidade pode levar 12–18 meses.</li>
+        <li>DIU de cobre ou hormonal também são opções — fertilidade retorna logo após remoção.</li>
+        <li>Orientar sobre ácido fólico quando decidir tentar engravidar.</li>
+      </ul>`
+  },
+
+  r_preservativo_mais_pilula:{
+    result:true, type:'pink', badge:'🔒 Dupla Proteção — Preservativo + Método Hormonal',
+    title:'Prioridade em Proteção contra ISTs: Usar Preservativo + Contraceptivo',
+    body:`<ul>
+      <li>O <strong>preservativo</strong> é o único método com dupla proteção: gravidez + ISTs/HIV.</li>
+      <li>Para máxima eficácia contraceptiva <strong>e</strong> proteção contra ISTs, associar preservativo com método hormonal:</li>
+      <span class="method-tag blue" style="margin-left:1rem">💊 Pílula combinada (POC) + preservativo</span>
+      <span class="method-tag teal" style="margin-left:1rem">🦾 Implante + preservativo</span>
+      <span class="method-tag green" style="margin-left:1rem">🟠 DIU de cobre + preservativo</span>
+      <li style="margin-top:0.5rem">Rastrear ISTs periodicamente — especialmente gonorreia, clamídia, sífilis e HIV.</li>
+      <li>Oferecer PrEP para HIV se a paciente tem parceria sorodiferente ou múltiplos parceiros.</li>
+      <li>Preservativos disponíveis gratuitamente em UBSs, farmácias populares e farmácias sem receita.</li>
+    </ul>`
+  },
+
+  r_preservativo:{
+    result:true, type:'pink', badge:'🔒 Preservativo — Dupla Proteção',
+    title:'Método de Barreira + Proteção Contra ISTs',
+    body:`<ul>
+      <li>Único método com <strong>dupla proteção</strong>: gravidez + ISTs/HIV.</li>
+      <li>Distribuído gratuitamente em UBSs e farmácias populares.</li>
+      <li>Uso correto e consistente eleva eficácia para ~98%.</li>
+      <li>Orientar técnica correta de uso: verificar validade, não usar dois preservativos simultaneamente.</li>
+      <li>Para maior proteção contra gravidez: <strong>associar a outro método</strong> contraceptivo.</li>
+    </ul>`
+  },
+
+  r_emergencia:{
+    result:true, type:'purple', badge:'⚡ Contracepção de Emergência',
+    title:'Uso Após Relação Desprotegida ou Falha do Método',
+    body:`<ul>
+      <li><strong>Levonorgestrel 1,5 mg</strong> (dose única): usar em até 72h — quanto antes, maior a eficácia. Pode ser usado até 120h (menor eficácia).</li>
+      <li><strong>DIU de cobre</strong>: até 5 dias após relação desprotegida — opção mais eficaz (> 99%).</li>
+      <li>MEC Categoria 1 para uso único ou repetido de pílula de emergência — sem restrições médicas.</li>
+      <li>Dispensada sem receita médica em farmácias e gratuitamente no SUS.</li>
+      <li><strong>Após uso:</strong> orientar adoção de método contraceptivo regular.</li>
+      <li>Rastrear ISTs se relação desprotegida; oferecer PEP para HIV se aplicável (até 72h).</li>
+    </ul>`
+  },
+
+  r_coito_interrompido:{
+    result:true, type:'red', badge:'⚠️ Coito Interrompido — Não Recomendado',
+    title:'Alta Taxa de Falha — Orientar Método Mais Eficaz',
+    body:`<ul>
+      <li>Taxa de falha em uso típico: <strong>20%</strong> — uma em cada 5 usuárias engravida por ano.</li>
+      <li>Espermatozoides presentes no líquido pré-ejaculatório contribuem para falhas.</li>
+      <li><strong>Não protege</strong> contra ISTs.</li>
+      <li>Orientar migração para método contraceptivo eficaz o mais brevemente possível.</li>
+      <li>Opções de fácil acesso e sem custos: pílula combinada ou preservativo (SUS).</li>
+    </ul>`
+  }
+};
+
+// ── Motor do Algoritmo ────────────────────────────────────
+let algoHistory=[], algoTrail=[], pendingTimeout=null;
+function startAlgo(){ algoHistory=[]; algoTrail=[]; pendingTimeout=null; renderAlgoStep('s0'); }
+
+function renderAlgoStep(key){
+  const node=algo[key];
+  if(!node) return;
+  const stepEl   =document.getElementById('algo-step');
+  const trailEl  =document.getElementById('algo-trail');
+  const resetBtn =document.getElementById('algo-reset');
+  const voltarBtn=document.getElementById('algo-voltar');
+
+  if(node.result){
+    trailEl.style.display='flex';
+    trailEl.innerHTML=algoTrail.map(t=>`<span class="step-chip">${t}</span>`).join('');
+    stepEl.innerHTML=`<div class="result-box ${node.type}"><div class="result-badge ${node.type}">${node.badge}</div><div class="result-title">${node.title}</div><div class="result-body">${node.body}</div></div>`;
+    resetBtn.style.display=voltarBtn.style.display='inline-block';
+    return;
+  }
+  trailEl.style.display=algoTrail.length?'flex':'none';
+  trailEl.innerHTML=algoTrail.map(t=>`<span class="step-chip">${t}</span>`).join('');
+  let html=`<div class="algo-question">${node.q}</div>`;
+  if(node.hint) html+=`<div class="info-box amber" style="margin-bottom:0.8rem"><span>ℹ️</span><span style="font-size:0.78rem">${node.hint}</span></div>`;
+  html+=`<div class="btn-group">`;
+  node.opts.forEach((opt,i)=>{ html+=`<button class="btn-opt" onclick="algoChoose('${key}',${i})">${opt.label}</button>`; });
+  html+=`</div>`;
+  stepEl.innerHTML=html;
+  const has=algoHistory.length>0;
+  resetBtn.style.display=voltarBtn.style.display=has?'inline-block':'none';
+}
+
+function scrollToAlgoCard(){
+  const step=document.getElementById('algo-step');
+  const header=document.querySelector('.app-header');
+  if(!step||!header) return;
+  const headerH=header.offsetHeight;
+  const stepTop=step.getBoundingClientRect().top+window.pageYOffset;
+  const targetY=stepTop-headerH-12; // 12px de respiro abaixo do header
+  window.scrollTo({top:Math.max(targetY,0),behavior:'smooth'});
+}
+
+function algoChoose(fromKey,optIdx){
+  const buttons=document.querySelectorAll('#algo-step .btn-opt');
+  if(buttons[optIdx].classList.contains('selected')){
+    if(pendingTimeout){clearTimeout(pendingTimeout);pendingTimeout=null;}
+    buttons[optIdx].classList.remove('selected'); return;
+  }
+  if(pendingTimeout){clearTimeout(pendingTimeout);pendingTimeout=null;}
+  const opt=algo[fromKey].opts[optIdx];
+  algoHistory.push(fromKey);
+  algoTrail.push(opt.label.replace(/<[^>]+>/g,'').substring(0,60));
+  buttons.forEach((b,i)=>b.classList.toggle('selected',i===optIdx));
+  scrollToAlgoCard();
+  pendingTimeout=setTimeout(()=>{pendingTimeout=null;renderAlgoStep(opt.next);},280);
+}
+function voltarAlgo(){
+  if(pendingTimeout){clearTimeout(pendingTimeout);pendingTimeout=null;}
+  if(!algoHistory.length) return;
+  algoTrail.pop(); renderAlgoStep(algoHistory.pop());
+  scrollToAlgoCard();
+}
+function resetAlgo(){
+  if(pendingTimeout){clearTimeout(pendingTimeout);pendingTimeout=null;}
+  algoHistory=[];algoTrail=[];
+  document.getElementById('algo-trail').style.display='none';
+  document.getElementById('algo-reset').style.display='none';
+  document.getElementById('algo-voltar').style.display='none';
+  renderAlgoStep('s0');
+  scrollToAlgoCard();
+}
+
+// ── Gráfico de Eficácia ───────────────────────────────────
+function buildChart(){
+  const data=[
+    {name:'Implante',efic:99.95,color:'#1a7a3c'},
+    {name:'DIU Hormonal',efic:99.6,color:'#1a7a3c'},
+    {name:'DIU Cobre',efic:99.2,color:'#1a7a3c'},
+    {name:'Laqueadura',efic:99.5,color:'#1a7a3c'},
+    {name:'Injetável 3m',efic:96,color:'#2e86c1'},
+    {name:'Injetável 1m',efic:96,color:'#2e86c1'},
+    {name:'Pílula (CHC)',efic:93,color:'#c47a1e'},
+    {name:'Minipílula',efic:93,color:'#c47a1e'},
+    {name:'Preservativo',efic:87,color:'#c47a1e'},
+    {name:'Diafragma',efic:83,color:'#b5292a'},
+    {name:'Coito Interr.',efic:80,color:'#b5292a'},
+    {name:'Sem Método',efic:15,color:'#7f1d1d'},
+  ];
+  const container=document.getElementById('barchart');
+  container.innerHTML=data.map(d=>`
+    <div style="display:grid;grid-template-columns:110px 1fr 55px;align-items:center;gap:0.5rem;margin-bottom:0.45rem">
+      <div style="font-size:0.75rem;color:var(--text-mid);text-align:right">${d.name}</div>
+      <div style="background:#e8f0fb;border-radius:4px;height:18px;overflow:hidden">
+        <div style="height:100%;width:${d.efic}%;background:${d.color};border-radius:4px;transition:width 1s ease"></div>
+      </div>
+      <div style="font-size:0.75rem;font-weight:700;color:${d.color}">${d.efic.toFixed(1)}%</div>
+    </div>`).join('');
+}
+
+
+// ── FICHAS PDF ────────────────────────────────────────────
+const LOGO_URL = 'https://raw.githubusercontent.com/siaps-varjota/Receituario/main/logo-varjota.png';
+
+function gv(id){ const el=document.getElementById(id); return el?el.value.trim():''; }
+function gc(id){ const el=document.getElementById(id); return el&&el.checked; }
+function grRad(name){ const el=document.querySelector('input[name="'+name+'"]:checked'); return el?el.value:''; }
+function fmtD(s){ if(!s)return '___/___/______'; const[y,m,d]=s.split('-'); return d+'/'+m+'/'+y; }
+
+function marcadores(doc, checks, labels, x, y, colW, lineH){
+  const chk = (v) => v ? '☑' : '☐';
+  let col=0, cx=x, cy=y;
+  labels.forEach((lbl,i)=>{
+    doc.text(chk(checks[i])+' '+lbl, cx, cy);
+    cy+=lineH;
+    if(cy>y+lineH*Math.ceil(labels.length/2)&&col===0&&colW){
+      col=1; cx=x+colW; cy=y;
+    }
+  });
+  return cy;
+}
+
+function cabecalhoPdf(doc, titulo){
+  const {jsPDF}=window.jspdf;
+  const PW=210, ML=14, MR=14, CW=PW-ML-MR;
+  // Faixa azul
+  doc.setFillColor(30,73,118);
+  doc.rect(ML,8,CW,14,'F');
+  doc.setTextColor(255,255,255);
+  doc.setFontSize(7); doc.setFont('helvetica','normal');
+  doc.text('PREFEITURA MUNICIPAL DE VARJOTA — SECRETARIA MUNICIPAL DE SAÚDE',ML+1,13);
+  doc.setFontSize(10); doc.setFont('helvetica','bold');
+  doc.text(titulo, PW/2, 18, {align:'center'});
+  doc.setTextColor(40,40,40);
+  return 28;
+}
+
+// ── PRIMITIVOS COMPARTILHADOS (padrão Mamografia) ─────────
+function _pdfPrimitivos(doc, ML, CW){
+  const PW=210, BK=[0,0,0], WH=[255,255,255], LG=[200,200,200], HG=[240,240,240], NAVY=[30,73,118];
+  const sf=(style,size,color)=>{doc.setFont('helvetica',style);doc.setFontSize(size*1.2);doc.setTextColor(...(color||BK));};
+  const border=(x,y,w,h,lw)=>{doc.setDrawColor(...LG);doc.setLineWidth(lw||0.3);doc.rect(x,y,w,h,'S');};
+  const fillRect=(x,y,w,h,rgb)=>{doc.setFillColor(...rgb);doc.setDrawColor(...LG);doc.setLineWidth(0.3);doc.rect(x,y,w,h,'FD');};
+  const ct=(text,x,y,opts)=>{if(!text&&text!==0)text='';doc.text(String(text),x,y,opts||{});};
+  const cell=(label,value,x,y,w,h)=>{
+    border(x,y,w,h);
+    sf('bold',5.5,[80,80,80]);ct(label,x+1,y+2.8);
+    sf('normal',8,BK);
+    const lines=doc.splitTextToSize(String(value||''),w-2);
+    ct(lines[0]||'',x+1,y+h-1.5);
+  };
+  const secHead=(label,yy)=>{fillRect(ML,yy,CW,5.5,[50,50,50]);sf('bold',8,WH);ct(label.toUpperCase(),ML+2,yy+4);return yy+5.5;};
+  const blockHead=(label,yy)=>{fillRect(ML,yy,CW,5,HG);sf('bold',7.5,BK);ct(label,ML+2,yy+3.8);return yy+5;};
+  const chk=v=>v?'[X]':'[ ]';
+  const ln=(x1,y1,x2,y2,lw,color)=>{doc.setDrawColor(...(color||LG));doc.setLineWidth(lw||0.3);doc.line(x1,y1,x2,y2);};
+  const fmtDate=v=>{if(!v)return '';const m=v.match(/^(\d{4})-(\d{2})-(\d{2})$/);return m?m[3]+'/'+m[2]+'/'+m[1]:v;};
+  return {sf,border,fillRect,ct,cell,secHead,blockHead,chk,ln,fmtDate,BK,WH,LG,HG,NAVY,PW};
+}
+
+async function gerarPdfTriagem(){
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const ML=8,MR=8,CW=210-ML-MR;
+  const {sf,border,fillRect,ct,cell,secHead,blockHead,chk,ln,fmtDate,BK,WH,LG,HG,NAVY,PW}=_pdfPrimitivos(doc,ML,CW);
+  const RH=8;
+  let y=6;
+
+  // ── CABEÇALHO ──
+  const hH=14;
+  border(ML,y,CW,hH);
+  sf('bold',9,BK);ct('PREFEITURA MUNICIPAL DE VARJOTA',ML+2,y+5.5);
+  sf('normal',6.5,[60,60,60]);ct('Secretaria Municipal de Saúde',ML+2,y+10);
+  sf('bold',10,BK);ct('FICHA DE TRIAGEM — IMPLANTE SUBDÉRMICO',PW-MR-2,y+5,{align:'right'});
+  sf('italic',6.5,[60,60,60]);ct('Programa Municipal de Contracepção / APS',PW-MR-2,y+10,{align:'right'});
+  // Logo centralizado
+  const logoW=28,logoH=10;
+  const logoX=ML+(CW-logoW)/2;
+  const logoY=y+(hH-logoH)/2;
+  try{const img=await new Promise((res,rej)=>{const i=new Image();i.crossOrigin='anonymous';i.onload=()=>res(i);i.onerror=rej;i.src=LOGO_URL;});doc.addImage(img,'PNG',logoX,logoY,logoW,logoH);}catch(e){}
+  y+=hH;
+
+  // ── 1. IDENTIFICAÇÃO ──
+  y=secHead('1. Identificação da Usuária',y);
+  cell('Nome Completo',gv('t_nome'),ML,y,CW,RH);y+=RH;
+  const w4=CW/4;
+  cell('Data de Nascimento',fmtDate(gv('t_nasc')),ML,y,w4,RH);
+  cell('Idade',gv('t_idade'),ML+w4,y,w4*0.6,RH);
+  cell('Cartão SUS',gv('t_sus'),ML+w4+w4*0.6,y,CW-w4-w4*0.6,RH);y+=RH;
+  cell('Telefone',gv('t_tel'),ML,y,CW*0.3,RH);
+  cell('UBS de Referência',gv('t_ubs'),ML+CW*0.3,y,CW*0.7,RH);y+=RH;
+  cell('Microárea / ACS',gv('t_acs'),ML,y,CW*0.4,RH);
+  cell('Profissional Responsável pela Triagem',gv('t_prof'),ML+CW*0.4,y,CW*0.6,RH);y+=RH;
+  cell('Data da Triagem',fmtDate(gv('t_data')),ML,y,CW*0.25,RH);y+=RH;
+
+  // ── 2. AVALIAÇÃO INICIAL ──
+  y=secHead('2. Avaliação Inicial',y);
+  cell('Método Contraceptivo em Uso Atualmente',gv('t_metodo_atual'),ML,y,CW,RH);y+=RH;
+
+  // ── 3. INVESTIGAÇÃO DE GRAVIDEZ ──
+  y=secHead('3. Investigação de Gravidez',y);
+  const gravH=26;
+  const gW=CW*0.55, dumW=CW-gW;
+  border(ML,y,gW,gravH);
+  sf('bold',6,[80,80,80]);ct('Existe possibilidade de gravidez atual?*',ML+1,y+3);
+  sf('normal',8,BK);
+  const gravVal=grRad('t_grav');
+  ct(chk(gravVal==='Não')+' Não',ML+2,y+9);
+  ct(chk(gravVal==='Sim')+' Sim',ML+2,y+15);
+  ct(chk(gravVal==='Dúvida')+' Dúvida',ML+2,y+21);
+  border(ML+gW,y,dumW,gravH);
+  sf('bold',6,[80,80,80]);ct('Data da Última Menstruação (DUM)',ML+gW+1,y+3);
+  sf('normal',8,BK);ct(fmtDate(gv('t_dum'))||'___/___/______',ML+gW+1,y+10);
+  sf('bold',6,[80,80,80]);ct('Resultado do Teste Rápido de Gravidez',ML+gW+1,y+16);
+  const trgVal=grRad('t_trg');
+  sf('normal',8,BK);
+  ct(chk(trgVal==='Negativo')+' Negativo   '+chk(trgVal==='Positivo')+' Positivo   '+chk(trgVal==='Não realizado')+' N/R',ML+gW+1,y+23);
+  y+=gravH;
+
+  // ── 4. CRITÉRIOS DE INCLUSÃO / PRIORIDADE ──
+  y=secHead('4. Critérios de Inclusão / Prioridade',y);
+  sf('bold',6,[80,80,80]);
+  const priorH=38;
+  border(ML,y,CW,priorH);
+  ct('A usuária se enquadra em algum grupo prioritário?',ML+1,y+3.5);
+  const priorChecks=[gc('t_p1'),gc('t_p2'),gc('t_p3'),gc('t_p4'),gc('t_p5'),gc('t_p6'),gc('t_p7'),gc('t_p8'),gc('t_p9'),gc('t_p10'),gc('t_p11')];
+  const priorLabels=['Situação de vulnerabilidade social','Situação de rua','Privação de liberdade','Adolescente em vulnerabilidade','Pessoa vivendo com HIV','Trabalhadora do sexo','Puérpera de alto risco clínico/social','Contraindicação à laqueadura','Recusa de método definitivo','Condição ginecológica crônica','Dificuldade de adesão a outros métodos'];
+  sf('normal',7.5,BK);
+  const pColW=CW/2;
+  priorLabels.forEach((l,i)=>{const col=i<6?0:1;const row=i<6?i:i-6;ct(chk(priorChecks[i])+' '+l,ML+2+col*pColW,y+9+row*5);});
+  const pOut=gv('t_p_outro');
+  if(pOut)ct(chk(true)+' Outro: '+pOut,ML+2,y+9+5*5);
+  y+=priorH;
+
+  // ── 5. AVALIAÇÃO DE CONTRAINDICAÇÕES ──
+  y=secHead('5. Avaliação de Contraindicações',y);
+  const ciH=36;
+  const ciW=CW/2;
+  // Absolutas
+  fillRect(ML,y,ciW,5.5,[255,235,235]);
+  sf('bold',7,[160,20,20]);ct('Contraindicações Absolutas — A usuária apresenta:',ML+1,y+4);
+  border(ML,y+5.5,ciW,ciH-5.5);
+  sf('normal',7.5,BK);
+  [[gc('t_ca1'),'Gravidez confirmada'],[gc('t_ca2'),'Suspeita de gravidez'],[gc('t_ca3'),'Câncer de mama ativo ou suspeito'],[gc('t_ca4'),'Hipersensibilidade ao componente do implante']].forEach(([v,l],i)=>{ct(chk(v)+' '+l,ML+2,y+11+i*5.8);});
+  sf('bold',6,[160,20,20]);ct('Se SIM → NÃO encaminhar.',ML+2,y+ciH-2);
+  // Relativas
+  fillRect(ML+ciW,y,ciW,5.5,[255,248,225]);
+  sf('bold',7,[120,60,0]);ct('Contraindicações Relativas',ML+ciW+1,y+4);
+  border(ML+ciW,y+5.5,ciW,ciH-5.5);
+  sf('normal',7.5,BK);
+  [[gc('t_cr1'),'História recente de câncer de mama'],[gc('t_cr2'),'Doença hepática grave ativa'],[gc('t_cr3'),'Sangramento genital anormal não investigado']].forEach(([v,l],i)=>{ct(chk(v)+' '+l,ML+ciW+2,y+11+i*5.8);});
+  y+=ciH;
+  // Observações CI
+  const obsCI=gv('t_obs_ci');
+  if(obsCI){cell('Observações',obsCI,ML,y,CW,RH);y+=RH;}
+
+  // ── 6. ORIENTAÇÕES REALIZADAS ──
+  y=secHead('6. Orientações Realizadas',y);
+  const oriH=30;
+  border(ML,y,CW,oriH);
+  sf('bold',6,[80,80,80]);ct('Foi orientada sobre:',ML+1,y+3.5);
+  const oriChecks=[gc('t_o1'),gc('t_o2'),gc('t_o3'),gc('t_o4'),gc('t_o5'),gc('t_o6'),gc('t_o7')];
+  const oriLabels=['Funcionamento do método','Tempo de duração (3 anos)','Possíveis efeitos adversos','Alterações menstruais esperadas','Necessidade de acompanhamento','Uso de preservativo para prevenção de ISTs','Livre decisão e consentimento'];
+  sf('normal',7.5,BK);
+  oriLabels.forEach((l,i)=>{const col=i<4?0:1;const row=i<4?i:i-4;ct(chk(oriChecks[i])+' '+l,ML+2+col*(CW/2),y+9+row*5.5);});
+  y+=oriH;
+
+  // ── ASSINATURA ──
+  y+=4;
+  ln(ML,y,ML+80,y,0.5,[80,80,80]);
+  sf('normal',6.5,[100,100,100]);ct('Assinatura / Carimbo do profissional responsável',ML,y+3.8);
+  cell('Data',fmtDate(gv('t_data')),ML+CW-30,y-6,30,10);
+
+  // ── RODAPÉ ──
+  sf('normal',5.5,[120,120,120]);
+  ct('Secretaria Municipal de Saúde de Varjota-CE  ·  CNPJ Nº 07.673.114/0001-41  ·  Gerado em: '+new Date().toLocaleDateString('pt-BR'),PW/2,291,{align:'center'});
+
+  doc.save('Triagem_Implante_Subdermico.pdf');
+}
+
+async function gerarPdfEncaminhamento(){
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const ML=8,MR=8,CW=210-ML-MR;
+  const {sf,border,fillRect,ct,cell,secHead,chk,ln,fmtDate,BK,WH,LG,HG,NAVY,PW}=_pdfPrimitivos(doc,ML,CW);
+  const RH=8;
+
+  const desenharVia=async(yOff)=>{
+    let y=yOff;
+
+    // Cabeçalho
+    const hH=14;
+    border(ML,y,CW,hH);
+    sf('bold',8,BK);ct('PREFEITURA MUNICIPAL DE VARJOTA',ML+2,y+5);
+    sf('normal',6,[60,60,60]);ct('Secretaria Municipal de Saúde',ML+2,y+9.5);
+    sf('bold',10,BK);ct('FICHA DE ENCAMINHAMENTO — IMPLANTE SUBDÉRMICO',PW-MR-2,y+5,{align:'right'});
+    sf('italic',6,[60,60,60]);ct('Programa Municipal de Contracepção / APS',PW-MR-2,y+9.5,{align:'right'});
+    // Logo centralizado
+    const logoW=28,logoH=10;
+    const logoX=ML+(CW-logoW)/2;
+    const logoY=y+(hH-logoH)/2;
+    try{const img=await new Promise((res,rej)=>{const i=new Image();i.crossOrigin='anonymous';i.onload=()=>res(i);i.onerror=rej;i.src=LOGO_URL;});doc.addImage(img,'PNG',logoX,logoY,logoW,logoH);}catch(e){}
+    y+=hH;
+
+    // Identificação
+    y=secHead('Identificação',y);
+    cell('UBS',gv('e_ubs'),ML,y,CW*0.4,RH);
+    cell('Nome da Usuária',gv('e_nome'),ML+CW*0.4,y,CW*0.6,RH);y+=RH;
+    cell('Data de Nascimento',fmtDate(gv('e_nasc')),ML,y,CW*0.28,RH);
+    cell('Cartão SUS',gv('e_sus'),ML+CW*0.28,y,CW*0.36,RH);
+    cell('Telefone',gv('e_tel'),ML+CW*0.64,y,CW*0.36,RH);y+=RH;
+
+    // Critérios e Grupo
+    y=secHead('Critérios Avaliados e Grupo Prioritário',y);
+    const criH=28, criW=CW/2;
+    border(ML,y,criW,criH);
+    sf('bold',6.5,NAVY);ct('Critérios confirmados:',ML+1,y+4);
+    sf('normal',7.5,BK);
+    [[gc('e_c1'),'Sem suspeita de gravidez'],[gc('e_c2'),'Sem contraindicação ao método'],[gc('e_c3'),'Orientações realizadas'],[gc('e_c4'),'Interesse/consentimento confirmado']].forEach(([v,l],i)=>{ct(chk(v)+' '+l,ML+2,y+9+i*5);});
+    border(ML+criW,y,criW,criH);
+    sf('bold',6.5,NAVY);ct('Grupo prioritário:',ML+criW+1,y+4);
+    sf('normal',7.5,BK);
+    [[gc('e_g1'),'Adolescente'],[gc('e_g2'),'Puérpera de risco'],[gc('e_g3'),'Vulnerabilidade social'],[gc('e_g4'),'HIV']].forEach(([v,l],i)=>{ct(chk(v)+' '+l,ML+criW+2,y+9+i*5);});
+    const go=gv('e_g_outro');
+    if(go)ct(chk(true)+' Outro: '+go,ML+criW+2,y+9+4*5);
+    y+=criH;
+
+    // Texto de encaminhamento
+    y+=3;
+    sf('normal',8.5,BK);
+    ct('Encaminho a usuária acima para inserção de Implante Subdérmico.',ML,y+4);
+    sf('bold',7,[60,60,60]);ct('Data: '+fmtDate(gv('e_data')),ML,y+10);y+=16;
+
+    // Assinatura
+    ln(ML,y,ML+80,y,0.5,[80,80,80]);
+    sf('normal',6.5,[100,100,100]);ct('Assinatura / Carimbo',ML,y+3.8);
+
+    return yOff+115;
+  };
+
+  // Via 1
+  let divisor=await desenharVia(2);
+
+  // Linha de corte
+  doc.setDrawColor(150,150,150);doc.setLineWidth(0.25);
+  for(let x=ML;x<210-MR;x+=4)doc.line(x,divisor,x+2,divisor);
+  sf('italic',5.5,[140,140,140]);ct('✂  Recortar — 1ª via: UBS de origem  /  2ª via: serviço de inserção',PW/2,divisor+3.5,{align:'center'});
+
+  // Via 2
+  await desenharVia(divisor+6);
+
+  // Rodapé
+  sf('normal',5.5,[120,120,120]);
+  ct('Secretaria Municipal de Saúde de Varjota-CE  ·  CNPJ Nº 07.673.114/0001-41  ·  Gerado em: '+new Date().toLocaleDateString('pt-BR'),PW/2,292,{align:'center'});
+
+  doc.save('Encaminhamento_Implante_Subdermico.pdf');
+}
+
+function limparForm(form){
+  const prefix = form==='triagem'?'t_':'e_';
+  document.querySelectorAll('[id^="'+prefix+'"]').forEach(el=>{
+    if(el.type==='checkbox'||el.type==='radio') el.checked=false;
+    else el.value='';
+  });
+  // limpar radios por name
+  if(form==='triagem'){
+    document.querySelectorAll('input[name="t_grav"],input[name="t_trg"]').forEach(r=>r.checked=false);
+  }
+}
+
+window.onload=function(){startAlgo();buildChart();};
+
+</script>
+</body>
+</html>
