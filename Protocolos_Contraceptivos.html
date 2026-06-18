@@ -2444,7 +2444,7 @@ async function gerarPdfTriagem(){
   let y=6;
 
   // ── CABEÇALHO ──
-  const hH=28;
+  const hH=30;
   border(ML,y,CW,hH);
   // Logo centralizado no topo
   const logoW=38,logoH=14;
@@ -2452,8 +2452,8 @@ async function gerarPdfTriagem(){
   const logoY=y+1.5;
   try{const img=await new Promise((res,rej)=>{const i=new Image();i.crossOrigin='anonymous';i.onload=()=>res(i);i.onerror=rej;i.src=LOGO_URL;});doc.addImage(img,'PNG',logoX,logoY,logoW,logoH);}catch(e){}
   // Título e subtítulo centralizados abaixo do logo
-  sf('bold',10,BK);ct('FICHA DE TRIAGEM PARA INSERÇÃO DE IMPLANTE SUBDÉRMICO',PW/2,y+19,{align:'center'});
-  sf('italic',6.5,[60,60,60]);ct('Programa Municipal de Contracepção / APS — Secretaria Municipal de Saúde de Varjota-CE',PW/2,y+24.5,{align:'center'});
+  sf('bold',10,BK);ct('FICHA DE TRIAGEM PARA INSERÇÃO DE IMPLANTE SUBDÉRMICO',PW/2,y+21,{align:'center'});
+  sf('italic',6.5,[60,60,60]);ct('Programa Municipal de Contracepção / APS — Secretaria Municipal de Saúde de Varjota-CE',PW/2,y+26.5,{align:'center'});
   y+=hH;
 
   // ── 1. IDENTIFICAÇÃO ──
@@ -2549,7 +2549,7 @@ async function gerarPdfTriagem(){
 
   // ── RODAPÉ ──
   sf('normal',5.5,[120,120,120]);
-  ct('Secretaria Municipal de Saúde de Varjota-CE  ·  CNPJ Nº 07.673.114/0001-41  ·  Gerado em: '+new Date().toLocaleDateString('pt-BR'),PW/2,291,{align:'center'});
+  ct('Secretaria Municipal de Saúde de Varjota-CE  ·  CNPJ Nº 07.673.114/0001-41  ·  Gerado em: '+new Date().toLocaleDateString('pt-BR'),PW/2,293,{align:'center'});
 
   doc.save('Triagem_Implante_Subdermico.pdf');
 }
@@ -2565,7 +2565,7 @@ async function gerarPdfEncaminhamento(){
     let y=yOff;
 
     // Cabeçalho
-    const hH=28;
+    const hH=30;
     border(ML,y,CW,hH);
     // Logo centralizado no topo
     const logoW=38,logoH=14;
@@ -2573,8 +2573,8 @@ async function gerarPdfEncaminhamento(){
     const logoY=y+1.5;
     try{const img=await new Promise((res,rej)=>{const i=new Image();i.crossOrigin='anonymous';i.onload=()=>res(i);i.onerror=rej;i.src=LOGO_URL;});doc.addImage(img,'PNG',logoX,logoY,logoW,logoH);}catch(e){}
     // Título e subtítulo centralizados abaixo do logo
-    sf('bold',10,BK);ct('FICHA DE ENCAMINHAMENTO PARA INSERÇÃO DE IMPLANTE SUBDÉRMICO',PW/2,y+19,{align:'center'});
-    sf('italic',6.5,[60,60,60]);ct('Programa Municipal de Contracepção / APS — Secretaria Municipal de Saúde de Varjota-CE',PW/2,y+24.5,{align:'center'});
+    sf('bold',10,BK);ct('FICHA DE ENCAMINHAMENTO PARA INSERÇÃO DE IMPLANTE SUBDÉRMICO',PW/2,y+21,{align:'center'});
+    sf('italic',6.5,[60,60,60]);ct('Programa Municipal de Contracepção / APS — Secretaria Municipal de Saúde de Varjota-CE',PW/2,y+26.5,{align:'center'});
     y+=hH;
 
     // Identificação
@@ -2610,7 +2610,7 @@ async function gerarPdfEncaminhamento(){
     ln(ML,y,ML+80,y,0.5,[80,80,80]);
     sf('normal',6.5,[100,100,100]);ct('Assinatura / Carimbo',ML,y+3.8);
 
-    return yOff+129;
+    return yOff+131;
   };
 
   // Via 1
