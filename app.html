@@ -1769,24 +1769,29 @@ function addDrug() {
           </div>
         </div>
       </div>
-      <div class="field">
+      <div class="field" style="grid-column:1/-1;">
         <label>Duração</label>
-        <div style="display:flex;flex-direction:column;gap:6px;">
-          <input id="d${n}_durnum" type="number" min="1" placeholder="Quantidade de dia(s)/Semana(as)...." style="padding:10px 13px;border:1.5px solid #ddd;border-radius:8px;font-family:inherit;font-size:16.8px;color:#111;background:#fafafa;outline:none;">
-          <div class="radio-group" style="flex-wrap:wrap;gap:10px 16px;">
-            <label><input type="radio" name="d${n}_durun" value="Dia(s)" checked> Dia(s)</label>
-            <label><input type="radio" name="d${n}_durun" value="Semana(s)"> Semana(s)</label>
-            <label><input type="radio" name="d${n}_durun" value="Mês(es)"> Mês(es)</label>
-            <label><input type="radio" name="d${n}_durun" value="Duração Indeterminada"> Duração Indeterminada</label>
+        <div style="display:flex;align-items:flex-start;gap:10px;">
+          <div style="display:flex;flex-direction:column;gap:6px;flex:1;">
+            <input id="d${n}_durnum" type="number" min="1" placeholder="Quantidade de dia(s)/Semana(s)...." style="padding:10px 13px;border:1.5px solid #ddd;border-radius:8px;font-family:inherit;font-size:16.8px;color:#111;background:#fafafa;outline:none;">
+            <div class="radio-group" style="flex-wrap:wrap;gap:10px 16px;">
+              <label><input type="radio" name="d${n}_durun" value="Dia(s)" checked> Dia(s)</label>
+              <label><input type="radio" name="d${n}_durun" value="Semana(s)"> Semana(s)</label>
+              <label><input type="radio" name="d${n}_durun" value="Mês(es)"> Mês(es)</label>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;padding-top:6px;min-width:170px;">
+            <label style="display:flex;align-items:center;gap:7px;text-transform:none;letter-spacing:0;font-size:14.5px;font-weight:500;color:#333;cursor:pointer;">
+              <input type="radio" name="d${n}_durun" value="Duração Indeterminada" id="d${n}_indeter" style="width:15px;height:15px;accent-color:#0f3460;">
+              Duração Indeterminada
+            </label>
+            <label style="display:flex;align-items:center;gap:7px;text-transform:none;letter-spacing:0;font-size:14.5px;font-weight:500;color:#333;cursor:pointer;">
+              <input type="checkbox" id="d${n}_continuo" style="width:15px;height:15px;accent-color:#1e5fa8;border:none;box-shadow:none;padding:0;background:none;">
+              Uso contínuo
+            </label>
           </div>
         </div>
         <input type="hidden" id="d${n}_dur" value="">
-      </div>
-      <div class="field" style="justify-content:flex-end; padding-top:20px;">
-        <label style="display:flex;align-items:center;gap:7px;text-transform:none;letter-spacing:0;font-size:15.6px;font-weight:500;color:#333;cursor:pointer;">
-          <input type="checkbox" id="d${n}_continuo" style="width:15px;height:15px;accent-color:#1e5fa8;border:none;box-shadow:none;padding:0;background:none;">
-          Uso contínuo
-        </label>
       </div>
     </div>
 
