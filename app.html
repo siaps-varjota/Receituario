@@ -44,6 +44,210 @@ body {
 }
 .topbar h1 { font-size: 18px; font-weight: 700; letter-spacing: -.01em; }
 .topbar p  { font-size: 13.2px; opacity: .55; margin-top: 1px; }
+
+/* ── APP NAV TABS ── */
+.app-nav {
+  background: #0a2748;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  position: sticky;
+  top: 95px;
+  z-index: 199;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+.app-nav-scroll {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+.app-nav-scroll::-webkit-scrollbar { display: none; }
+.app-nav-btn {
+  padding: 10px 16px;
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,.55);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2.5px solid transparent;
+  transition: all .15s;
+  letter-spacing: .01em;
+}
+.app-nav-btn:hover { color: rgba(255,255,255,.85); }
+.app-nav-btn.active { color: #fff; border-bottom-color: #e94560; }
+
+/* ── SECÇÕES PRINCIPAIS ── */
+.app-section { display: none; }
+.app-section.active { display: block; }
+
+/* ── TABELA MEDICAMENTOS PORTARIA ── */
+.port-section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f3460;
+  padding: 14px 0 8px;
+  border-bottom: 2px solid #e4e8f0;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.port-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07), 0 2px 8px rgba(0,0,0,.05);
+  border: 1px solid #e4e8f0;
+  margin-bottom: 16px;
+}
+.port-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.port-table th {
+  background: #eef2fa;
+  color: #0f3460;
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 11.5px;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  border-bottom: 2px solid #c5d3ec;
+}
+.port-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid #eef0f5;
+  vertical-align: top;
+  color: #374151;
+  line-height: 1.5;
+}
+.port-table tr:last-child td { border-bottom: none; }
+.port-table tr:nth-child(even) td { background: #f8fafd; }
+.port-table td:first-child { font-weight: 600; color: #0f3460; }
+.badge-conc {
+  display: inline-block;
+  background: #e0eeff;
+  color: #1e4976;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  margin: 1px 0;
+  white-space: nowrap;
+}
+.badge-apres {
+  display: inline-block;
+  background: #f0f4ff;
+  color: #4a5568;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 11px;
+  margin: 1px 0;
+  white-space: nowrap;
+}
+
+/* ── EXAMES ── */
+.exam-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 600px) { .exam-grid { grid-template-columns: 1fr; } }
+.exam-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.exam-list li {
+  padding: 7px 0;
+  border-bottom: 1px solid #eef0f5;
+  font-size: 13.5px;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.exam-list li::before {
+  content: '🔬';
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.exam-list li.img::before { content: '🖼️'; }
+.exam-list li:last-child { border-bottom: none; }
+
+/* ── PORTARIA RESUMO ── */
+.portaria-art {
+  background: #f8fafd;
+  border-left: 4px solid #0f3460;
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+}
+.portaria-art-num {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f3460;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  margin-bottom: 4px;
+}
+.portaria-art p {
+  font-size: 13.5px;
+  color: #374151;
+  line-height: 1.6;
+  margin: 0;
+}
+.info-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12.5px;
+  color: #856404;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.highlight-box {
+  background: #e8f4fd;
+  border: 1px solid #b8dcf5;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  font-size: 13.5px;
+  color: #1a4a7a;
+  line-height: 1.6;
+}
+.receituario-preview {
+  background: #fff;
+  border: 1.5px solid #c5d3ec;
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-top: 10px;
+}
+.receituario-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.receituario-field {
+  flex: 1;
+  min-width: 140px;
+  border-bottom: 1px solid #999;
+  padding-bottom: 4px;
+  font-size: 12.5px;
+  color: #666;
+}
+.receituario-field span { display: block; font-size: 11px; color: #0f3460; font-weight: 700; margin-bottom: 2px; text-transform: uppercase; letter-spacing: .04em; }
 .topbar-gen-btn {
   background: #e94560;
   color: #fff;
@@ -692,7 +896,18 @@ body {
   </button>
 </div>
 
-<!-- ══════ PAGE ══════ -->
+<!-- ══════ NAV ABAS ══════ -->
+<div class="app-nav">
+  <div class="app-nav-scroll">
+    <button class="app-nav-btn active" onclick="goApp('receituario')">📋 Receituário</button>
+    <button class="app-nav-btn" onclick="goApp('medicamentos')">💊 Medicamentos</button>
+    <button class="app-nav-btn" onclick="goApp('exames')">🔬 Exames</button>
+    <button class="app-nav-btn" onclick="goApp('portaria')">📄 Portaria 07/2026</button>
+  </div>
+</div>
+
+<!-- ══════ SEÇÃO: RECEITUÁRIO ══════ -->
+<div class="app-section active" id="sec-receituario">
 <div class="page">
 
   <!-- Linha superior -->
@@ -853,10 +1068,450 @@ body {
     <button class="add-drug-btn" id="btn-add-drug">＋ Adicionar medicamento manualmente</button>
   </div>
 
-</div>
+</div><!-- /page -->
+</div><!-- /sec-receituario -->
 
+<!-- ══════ SEÇÃO: MEDICAMENTOS ══════ -->
+<div class="app-section" id="sec-medicamentos">
+<div class="page">
+
+  <div class="port-card">
+    <div class="port-section-title">💊 1. IST, Saúde Sexual e Reprodutiva</div>
+    <div style="overflow-x:auto">
+    <table class="port-table">
+      <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th><th>Protocolo MS</th></tr></thead>
+      <tbody>
+        <tr><td>Aciclovir</td><td><span class="badge-conc">200mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Herpes genital</td><td>PCDT IST — herpes genital</td></tr>
+        <tr><td>Benzilpenicilina benzatina</td><td><span class="badge-conc">1,2 milhão UI</span></td><td><span class="badge-apres">Suspensão injetável</span></td><td>Sífilis (recente e tardia)</td><td>PCDT IST — sífilis; Portaria MS nº 156/2006</td></tr>
+        <tr><td>Doxiciclina</td><td><span class="badge-conc">100mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Sífilis alternativo (exceto gestantes); donovanose, uretrites</td><td>PCDT IST — sífilis</td></tr>
+        <tr><td>Azitromicina</td><td><span class="badge-conc">500mg</span> <span class="badge-conc">1g</span></td><td><span class="badge-apres">Comprimido</span></td><td>Uretrites, cervicites, clamídia</td><td>PCDT IST — uretrite não gonocócica, clamídia, cancro mole</td></tr>
+        <tr><td>Ceftriaxona</td><td><span class="badge-conc">500mg</span> <span class="badge-conc">1g</span></td><td><span class="badge-apres">Pó p/ sol. injetável</span></td><td>Gonorreia, DIP, outras IST</td><td>PCDT IST — gonorreia, DIP</td></tr>
+        <tr><td>Ciprofloxacino</td><td><span class="badge-conc">500mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Cancroide, Donovanose</td><td>PCDT IST</td></tr>
+        <tr><td>Metronidazol</td><td><span class="badge-conc">250mg</span> <span class="badge-conc">100mg/g</span></td><td><span class="badge-apres">Comprimido</span> <span class="badge-apres">Gel vaginal</span></td><td>Tricomoníase, vaginose bacteriana, Giardia/Lamblia</td><td>PCDT IST</td></tr>
+        <tr><td>Secnidazol</td><td><span class="badge-conc">1g</span></td><td><span class="badge-apres">Comprimido</span></td><td>Tricomoníase (alternativa)</td><td>PCDT IST</td></tr>
+        <tr><td>Nistatina</td><td><span class="badge-conc">100.000 UI</span></td><td><span class="badge-apres">Creme vaginal</span></td><td>Candidíase vulvovaginal (tópica)</td><td>PCDT IST</td></tr>
+        <tr><td>Miconazol</td><td><span class="badge-conc">20mg/g</span></td><td><span class="badge-apres">Creme vaginal</span></td><td>Candidíase vulvovaginal (tópica)</td><td>PCDT IST</td></tr>
+        <tr><td>Fluconazol</td><td><span class="badge-conc">150mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Candidíase vaginal (oral)</td><td>PCDT IST</td></tr>
+        <tr><td>Itraconazol</td><td><span class="badge-conc">100mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Candidíase vaginal (oral)</td><td>PCDT IST</td></tr>
+        <tr><td>Clindamicina</td><td><span class="badge-conc">300mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Vaginose bacteriana; Uretrite por Trichomonas</td><td>PCDT IST</td></tr>
+        <tr><td>Ácido tricloroacético (ATA)</td><td><span class="badge-conc">80–90%</span></td><td><span class="badge-apres">Sol. tópica</span></td><td>Verrugas anogenitais (HPV)</td><td>PCDT IST — HPV</td></tr>
+        <tr><td>Podofilina</td><td><span class="badge-conc">10–25%</span></td><td><span class="badge-apres">Sol. tópica</span></td><td>Verrugas anogenitais (HPV)</td><td>PCDT IST — HPV</td></tr>
+        <tr><td>Imiquimode</td><td><span class="badge-conc">50mg/g</span></td><td><span class="badge-apres">Creme</span></td><td>Verrugas anogenitais (HPV)</td><td>PCDT IST — HPV</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="port-card">
+    <div class="port-section-title">🔵 2. Contracepção e Saúde Sexual/Reprodutiva</div>
+    <div style="overflow-x:auto">
+    <table class="port-table">
+      <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th><th>Protocolo MS</th></tr></thead>
+      <tbody>
+        <tr><td>Etinilestradiol + Levonorgestrel</td><td><span class="badge-conc">0,03mg + 0,15mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Contracepção hormonal combinada oral</td><td>Caderno AB nº 26 — Saúde Sexual e Reprodutiva, 2016</td></tr>
+        <tr><td>Etinilestradiol + Desogestrel</td><td><span class="badge-conc">20mcg+150mcg</span> <span class="badge-conc">30mcg+150mcg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Contracepção hormonal combinada oral</td><td>Caderno AB nº 26, 2016</td></tr>
+        <tr><td>Etinilestradiol + Gestodeno</td><td><span class="badge-conc">20mcg+75mcg</span> <span class="badge-conc">30mcg+75mcg</span> <span class="badge-conc">15mcg+60mcg</span></td><td><span class="badge-apres">Cartela 21/28 compr.</span></td><td>Contracepção hormonal combinada oral</td><td>Caderno AB nº 26, 2016</td></tr>
+        <tr><td>Desogestrel</td><td><span class="badge-conc">75μg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Contracepção só progestagênio</td><td>Caderno AB nº 26 — progestagênicos orais</td></tr>
+        <tr><td>Noretisterona</td><td><span class="badge-conc">0,35mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Contracepção só progestagênio</td><td>Caderno AB nº 26, 2016</td></tr>
+        <tr><td>Acetato de medroxiprogesterona</td><td><span class="badge-conc">150mg</span></td><td><span class="badge-apres">Suspensão injetável</span></td><td>Anticoncepcional injetável trimestral</td><td>Caderno AB nº 26, 2016</td></tr>
+        <tr><td>Acetato de medroxiprogesterona + cipionato de estradiol (IM mensal)</td><td><span class="badge-conc">25mg+5mg</span></td><td><span class="badge-apres">Suspensão injetável</span></td><td>Anticoncepcional injetável mensal combinado</td><td>Caderno AB nº 26</td></tr>
+        <tr><td>Enantato de noretisterona + valerato de estradiol</td><td><span class="badge-conc">50mg+5mg</span></td><td><span class="badge-apres">Solução injetável</span></td><td>Anticoncepcional injetável mensal combinado</td><td>Caderno AB nº 26, 2016</td></tr>
+        <tr><td>Etonogestrel + etinilestradiol</td><td><span class="badge-conc">0,120mg+0,015mg</span></td><td><span class="badge-apres">Anel vaginal</span></td><td>Contracepção hormonal via anel vaginal</td><td>Caderno AB nº 26 — políticas de ampliação do LARC</td></tr>
+        <tr><td>Levonorgestrel</td><td><span class="badge-conc">0,75mg</span> <span class="badge-conc">1,5mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Contracepção de emergência</td><td>Caderno AB nº 26 e fluxos de atenção à violência sexual</td></tr>
+        <tr><td>Implante subdérmico de etonogestrel</td><td><span class="badge-conc">68mg</span></td><td><span class="badge-apres">Implante subdérmico</span></td><td>Contracepção de longa duração (LARC)</td><td>Caderno AB nº 26 e Notas Técnicas do MS sobre implante</td></tr>
+        <tr><td>DIU de cobre</td><td><span class="badge-conc">TCu 380A</span></td><td><span class="badge-apres">Dispositivo intrauterino</span></td><td>Contracepção de longa duração não hormonal</td><td>Caderno AB nº 26; documentos da Rede Cegonha</td></tr>
+        <tr><td>DIU hormonal — levonorgestrel</td><td><span class="badge-conc">19,5mg e 52mg</span></td><td><span class="badge-apres">Dispositivo intrauterino</span></td><td>Contracepção LARC com liberação hormonal local</td><td>Caderno AB nº 26; diretrizes de saúde sexual e reprodutiva</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="port-card">
+    <div class="port-section-title">🔴 3. PEP e PrEP ao HIV</div>
+    <div style="overflow-x:auto">
+    <table class="port-table">
+      <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th><th>Protocolo MS</th></tr></thead>
+      <tbody>
+        <tr><td>Dolutegravir</td><td><span class="badge-conc">50mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Antirretroviral — tratamento e PEP</td><td>PCDT Manejo da Infecção pelo HIV em Adultos; normas de PEP sexual/ocupacional</td></tr>
+        <tr><td>Lamivudina (3TC)</td><td><span class="badge-conc">150mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Antirretroviral — tratamento e PEP</td><td>PCDT HIV — combinações TDF/3TC/DTG e outros esquemas</td></tr>
+        <tr><td>Tenofovir (TDF)</td><td><span class="badge-conc">300mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Antirretroviral — tratamento do HIV e PEP</td><td>PCDT HIV e normas de PEP sexual/ocupacional</td></tr>
+        <tr><td>TDF + Lamivudina</td><td><span class="badge-conc">300mg+300mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Antirretroviral em combinação (tratamento/PEP)</td><td>PCDT HIV — combinação dose fixa TDF/3TC</td></tr>
+        <tr><td>Zidovudina/Lamivudina (AZT/3TC)</td><td><span class="badge-conc">300mg+150mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Antirretroviral — esquema alternativo de PEP</td><td>PCDT HIV e normas de PEP sexual/ocupacional</td></tr>
+        <tr><td>Darunavir (DRV) + ritonavir (RTV)</td><td><span class="badge-conc">800mg+100mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Antirretroviral — esquema alternativo de PEP</td><td>PCDT HIV e normas de PEP</td></tr>
+        <tr><td>Fumarato de tenofovir + desoproxila (TDF) + emtricitabina (FTC)</td><td><span class="badge-conc">300mg+200mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Antirretroviral utilizado em PrEP</td><td>PCDT para Profilaxia Pré-Exposição (PrEP) Oral à Infecção pelo HIV</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="port-card">
+    <div class="port-section-title">🩺 4. Atenção à Saúde da Mulher</div>
+    <div style="overflow-x:auto">
+    <table class="port-table">
+      <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th></tr></thead>
+      <tbody>
+        <tr><td>Dipirona</td><td><span class="badge-conc">500–1.000mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Analgésico/Antitérmico</td></tr>
+        <tr><td>Estriol</td><td><span class="badge-conc">1mg/g</span></td><td><span class="badge-apres">Creme vaginal</span></td><td>Ressecamento vaginal ou colpite atrófica</td></tr>
+        <tr><td>Ibuprofeno</td><td><span class="badge-conc">300–600mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Analgésico/Antitérmico/Dismenorreia</td></tr>
+        <tr><td>Diclofenaco</td><td><span class="badge-conc">50mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Dismenorreia</td></tr>
+        <tr><td>Escopolamina</td><td><span class="badge-conc">10mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Antiespasmódico/Dismenorreia</td></tr>
+        <tr><td>Paracetamol</td><td><span class="badge-conc">500–750mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Analgésico/Antitérmico</td></tr>
+        <tr><td>Piroxicam</td><td><span class="badge-conc">20mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Dismenorreia</td></tr>
+        <tr><td>Nimesulida</td><td><span class="badge-conc">100mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Dismenorreia</td></tr>
+        <tr><td>Nitrofurantoína</td><td><span class="badge-conc">100mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>ITU não complicada — 1ª linha</td></tr>
+        <tr><td>Sulfametoxazol + Trimetoprima</td><td><span class="badge-conc">800mg+160mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>ITU não complicada — 1ª linha</td></tr>
+        <tr><td>Ciprofloxacino</td><td><span class="badge-conc">500mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>ITU não complicada — 2ª linha (resistência)</td></tr>
+        <tr><td>Levofloxacino</td><td><span class="badge-conc">750mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>ITU não complicada — 2ª linha (resistência)</td></tr>
+        <tr><td>Sulfato ferroso</td><td><span class="badge-conc">40mg Fe elementar</span></td><td><span class="badge-apres">Comprimido</span></td><td>Suplementação no puerpério/Anemia</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="port-card">
+    <div class="port-section-title">🤰 5. Pré-natal</div>
+    <div style="overflow-x:auto">
+    <table class="port-table">
+      <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th></tr></thead>
+      <tbody>
+        <tr><td>Aciclovir</td><td><span class="badge-conc">200mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Herpes simples</td></tr>
+        <tr><td>Ácido acetilsalicílico</td><td><span class="badge-conc">100mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Profilaxia de pré-eclâmpsia</td></tr>
+        <tr><td>Ácido fólico</td><td><span class="badge-conc">5mg</span> <span class="badge-conc">0,2mg/ml</span> <span class="badge-conc">400μg</span></td><td><span class="badge-apres">Comprimido / Sol. oral / Cápsula</span></td><td>Suplementação pré-natal; prevenção de defeitos do tubo neural/Anemia megaloblástica</td></tr>
+        <tr><td>Alfa-metildopa</td><td><span class="badge-conc">250mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Amoxicilina</td><td><span class="badge-conc">500mg</span></td><td><span class="badge-apres">Cápsula</span></td><td>Antibioticoterapia</td></tr>
+        <tr><td>Ampicilina</td><td><span class="badge-conc">500mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Antibioticoterapia</td></tr>
+        <tr><td>Azitromicina</td><td><span class="badge-conc">500mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Antibioticoterapia</td></tr>
+        <tr><td>Cefalexina</td><td><span class="badge-conc">500mg</span></td><td><span class="badge-apres">Cápsula</span></td><td>Infecção urinária / Bacteriúria</td></tr>
+        <tr><td>Ceftriaxona</td><td><span class="badge-conc">250/500/1.000mg</span></td><td><span class="badge-apres">Pó p/ sol. injetável</span></td><td>Infecção urinária / Cervicite</td></tr>
+        <tr><td>Dimenidrato + cloridrato de piridoxina</td><td><span class="badge-conc">50mg+10mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Antieméticos</td></tr>
+        <tr><td>Dimeticona</td><td><span class="badge-conc">40/120mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Flatulência</td></tr>
+        <tr><td>Dipirona</td><td><span class="badge-conc">500mg</span></td><td><span class="badge-apres">Comprimido / Sol. oral</span></td><td>Analgésico/Antitérmico</td></tr>
+        <tr><td>Eritromicina</td><td><span class="badge-conc">500mg</span></td><td><span class="badge-apres">Cápsula / Comprimido</span></td><td>Antibioticoterapia</td></tr>
+        <tr><td>Hidróxido de alumínio</td><td><span class="badge-conc">200mg</span> <span class="badge-conc">35,6mg+37mg/ml</span></td><td><span class="badge-apres">Comprimido mastigável / Suspensão oral</span></td><td>Pirose</td></tr>
+        <tr><td>Hioscina/Butilescopolamina</td><td><span class="badge-conc">10mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Cólicas</td></tr>
+        <tr><td>Mebendazol</td><td><span class="badge-conc">150mg</span></td><td><span class="badge-apres">Comprimido / Suspensão oral</span></td><td>Helmintíase</td></tr>
+        <tr><td>Metoclopramida</td><td><span class="badge-conc">10mg / 4mg/ml</span></td><td><span class="badge-apres">Comprimido / Sol. oral</span></td><td>Antieméticos/Hiperemese</td></tr>
+        <tr><td>Metronidazol</td><td><span class="badge-conc">250mg / 5%</span></td><td><span class="badge-apres">Comprimido / Creme vaginal</span></td><td>Corrimento vaginal</td></tr>
+        <tr><td>Nifedipina</td><td><span class="badge-conc">20mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Nitrofurantoína</td><td><span class="badge-conc">100mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Infecção urinária</td></tr>
+        <tr><td>Paracetamol</td><td><span class="badge-conc">500mg / 100mg/ml</span></td><td><span class="badge-apres">Comprimido / Sol. oral</span></td><td>Analgésico/Antitérmico</td></tr>
+        <tr><td>Penicilina benzatina</td><td><span class="badge-conc">1.200.000 UI</span></td><td><span class="badge-apres">Pó p/ sol. injetável</span></td><td>Sífilis</td></tr>
+        <tr><td>Sulfato ferroso</td><td><span class="badge-conc">40mg / 25mg/ml</span></td><td><span class="badge-apres">Comprimido / Sol. oral</span></td><td>Suplementação no pré-natal/Anemia</td></tr>
+        <tr><td>Tiabendazol</td><td><span class="badge-conc">500mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Estrongiloidíase</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="port-card">
+    <div class="port-section-title">👶 6. Atenção à Saúde da Criança</div>
+    <div style="overflow-x:auto">
+    <table class="port-table">
+      <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th><th>Protocolo MS</th></tr></thead>
+      <tbody>
+        <tr><td>Amoxicilina</td><td><span class="badge-conc">250mg/5ml</span></td><td><span class="badge-apres">Suspensão oral</span></td><td>Pneumonia ou infecção aguda de ouvido/garganta</td><td>AIDPI Criança 2–5 anos, 2017</td></tr>
+        <tr><td>Amoxicilina + Clavulanato</td><td><span class="badge-conc">250mg/5ml</span></td><td><span class="badge-apres">Suspensão oral</span></td><td>Pneumonia ou infecção aguda de ouvido/garganta</td><td>AIDPI Criança 2–5 anos, 2017</td></tr>
+        <tr><td>Eritromicina</td><td><span class="badge-conc">250mg/5ml</span></td><td><span class="badge-apres">Suspensão oral</span></td><td>Pneumonia ou infecção aguda de ouvido/garganta</td><td>AIDPI Criança 2–5 anos, 2017</td></tr>
+        <tr><td>Penicilina benzatina</td><td><span class="badge-conc">600.000–1.200.000 UI</span></td><td><span class="badge-apres">Pó suspensão injetável</span></td><td>Infecção moderada de garganta</td><td>AIDPI Criança 2–5 anos, 2017</td></tr>
+        <tr><td>Ceftriaxona</td><td><span class="badge-conc">500mg</span></td><td><span class="badge-apres">Pó suspensão injetável</span></td><td>Disenteria</td><td>AIDPI Criança 2–5 anos, 2017</td></tr>
+        <tr><td>Sulfametoxazol + Trimetoprima</td><td><span class="badge-conc">200mg+40mg/5ml</span></td><td><span class="badge-apres">Suspensão oral</span></td><td>Disenteria/Cólera</td><td>AIDPI Criança 2–5 anos, 2017</td></tr>
+        <tr><td>Azitromicina</td><td><span class="badge-conc">200mg/5ml</span></td><td><span class="badge-apres">Suspensão oral</span></td><td>Cólera</td><td>AIDPI Criança 2–5 anos, 2017</td></tr>
+        <tr><td>Paracetamol</td><td><span class="badge-conc">200mg/ml</span></td><td><span class="badge-apres">Solução oral</span></td><td>Febre, dor de ouvido e garganta</td><td>AIDPI Criança 2–5 anos, 2017</td></tr>
+        <tr><td>Dipirona</td><td><span class="badge-conc">500mg/ml</span></td><td><span class="badge-apres">Solução oral</span></td><td>Febre, dor de ouvido e garganta</td><td>AIDPI Criança 2–5 anos, 2017</td></tr>
+        <tr><td>Ibuprofeno</td><td><span class="badge-conc">50mg/ml</span></td><td><span class="badge-apres">Solução oral</span></td><td>Febre, dor de ouvido e garganta</td><td>AIDPI Criança 2–5 anos, 2017</td></tr>
+        <tr><td>Mebendazol</td><td><span class="badge-conc">100mg/5ml</span></td><td><span class="badge-apres">Suspensão oral</span></td><td>Verminose/Anemia</td><td>AIDPI Criança 2–5 anos, 2017</td></tr>
+        <tr><td>Albendazol</td><td><span class="badge-conc">40mg/ml / 400mg</span></td><td><span class="badge-apres">Suspensão oral / Comprimido</span></td><td>Verminose/Anemia</td><td>AIDPI Criança 2–5 anos, 2017</td></tr>
+        <tr><td>Sulfato ferroso</td><td><span class="badge-conc">5mg/ml / 25mg/ml</span></td><td><span class="badge-apres">Xarope / Solução oral</span></td><td>Suplementação profilática/Anemia</td><td>AIDPI Criança 2–5 anos, 2017; Caderno dos programas nacionais</td></tr>
+        <tr><td>Vitamina A</td><td><span class="badge-conc">100.000 UI / 200.000 UI</span></td><td><span class="badge-apres">Solução oral</span></td><td>Suplementação em crianças e puérperas em áreas prioritárias</td><td>PNSVA e Caderno dos Programas de Micronutrientes</td></tr>
+        <tr><td>Ondansetrona</td><td><span class="badge-conc">4mg</span></td><td><span class="badge-apres">Comprimido dispersível</span></td><td>Desidratação em uso de Plano B com vômitos persistentes</td><td>AIDPI Criança 2–5 anos, 2017</td></tr>
+        <tr><td>Sais de reidratação oral (SRO)</td><td>—</td><td><span class="badge-apres">Pó p/ sol. oral</span></td><td>Desidratação</td><td>AIDPI Criança 2–5 anos, 2017</td></tr>
+        <tr><td>Nistatina</td><td><span class="badge-conc">100.000 UI/mL</span></td><td><span class="badge-apres">Suspensão oral</span></td><td>Candidíase oral</td><td>AIDPI Neonatal, 2014</td></tr>
+        <tr><td>Mupirocina</td><td><span class="badge-conc">20mg/g</span></td><td><span class="badge-apres">Pomada dermatológica</span></td><td>Pústulas na pele ou infecção no umbigo</td><td>AIDPI Neonatal, 2014</td></tr>
+        <tr><td>Neomicina + Bacitracina</td><td><span class="badge-conc">5mg/g+250UI/g</span></td><td><span class="badge-apres">Pomada dermatológica</span></td><td>Pústulas na pele ou infecção no umbigo</td><td>AIDPI Neonatal, 2014</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="port-card">
+    <div class="port-section-title">🫁 7. Tuberculose e Hanseníase</div>
+    <div style="overflow-x:auto">
+    <table class="port-table">
+      <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th></tr></thead>
+      <tbody>
+        <tr><td>Isoniazida</td><td><span class="badge-conc">100/300mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>TB e ILTB (esquemas 2RHZE/4RH e ILTB)</td></tr>
+        <tr><td>Rifampicina</td><td><span class="badge-conc">300mg</span></td><td><span class="badge-apres">Cápsula</span></td><td>Tuberculose e hanseníase — esquemas RH e PQT</td></tr>
+        <tr><td>Pirazinamida</td><td><span class="badge-conc">500mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Tuberculose — fase intensiva (componente Z do RHZE)</td></tr>
+        <tr><td>Cloridrato de etambutol</td><td><span class="badge-conc">400mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Tuberculose — fase intensiva (componente E do RHZE)</td></tr>
+        <tr><td>Rifampicina + isoniazida + pirazinamida + etambutol (RHZE)</td><td><span class="badge-conc">150/75/400/275mg</span></td><td><span class="badge-apres">Comprimidos doses fixas combinadas</span></td><td>TB — comprimidos combinados adultos e adolescentes (≥10 anos)</td></tr>
+        <tr><td>Rifampicina + Isoniazida (RH)</td><td><span class="badge-conc">300/150 mg ou 150/75mg</span></td><td><span class="badge-apres">Comprimidos doses fixas combinadas</span></td><td>TB — fase de manutenção</td></tr>
+        <tr><td>Dapsona</td><td><span class="badge-conc">100/50mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hanseníase — parte da PQT</td></tr>
+        <tr><td>Clofazimina</td><td><span class="badge-conc">50/100mg</span></td><td><span class="badge-apres">Cápsula</span></td><td>Hanseníase — parte da PQT (clofazimina diária e mensal)</td></tr>
+        <tr><td>Rifapentina (P) + Isoniazida (H)</td><td><span class="badge-conc">150mg+300mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Tratamento de ILTB</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="port-card">
+    <div class="port-section-title">❤️ 8. Diabetes, Hipertensão e Risco Cardiovascular</div>
+    <div style="overflow-x:auto">
+    <table class="port-table">
+      <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th></tr></thead>
+      <tbody>
+        <tr><td>Cloridrato de metformina</td><td><span class="badge-conc">500/850mg</span></td><td><span class="badge-apres">Comprimido (inclusive lib. prolongada)</span></td><td>Diabetes mellitus (DM)</td></tr>
+        <tr><td>Gliclazida</td><td><span class="badge-conc">30/60/80mg</span></td><td><span class="badge-apres">Comprimido lib. controlada</span></td><td>Diabetes mellitus</td></tr>
+        <tr><td>Glibenclamida</td><td><span class="badge-conc">5mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Diabetes mellitus</td></tr>
+        <tr><td>Insulina NPH humana</td><td><span class="badge-conc">100 UI/ml</span></td><td><span class="badge-apres">Suspensão injetável</span></td><td>Diabetes mellitus</td></tr>
+        <tr><td>Insulina regular humana</td><td><span class="badge-conc">100 UI/ml</span></td><td><span class="badge-apres">Solução injetável</span></td><td>Diabetes mellitus</td></tr>
+        <tr><td>Hidroclorotiazida</td><td><span class="badge-conc">12,5/25mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Furosemida</td><td><span class="badge-conc">40mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Espironolactona</td><td><span class="badge-conc">25/100mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Atenolol</td><td><span class="badge-conc">50/100mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Succinato de Metoprolol</td><td><span class="badge-conc">25/50/100mg</span></td><td><span class="badge-apres">Comprimido lib. controlada</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Carvedilol</td><td><span class="badge-conc">3,125/6,5/12,5/25mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Propranolol</td><td><span class="badge-conc">10/40mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Metildopa</td><td><span class="badge-conc">250mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Nifedipina</td><td><span class="badge-conc">10mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Besilato de Anlodipino</td><td><span class="badge-conc">5/10mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Cloridrato de Verapamil</td><td><span class="badge-conc">80/120mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Cloridrato de Hidralazina</td><td><span class="badge-conc">25/50mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Maleato de Enalapril</td><td><span class="badge-conc">5/10/20mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Captopril</td><td><span class="badge-conc">25mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Losartana potássica</td><td><span class="badge-conc">50mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Hipertensão arterial</td></tr>
+        <tr><td>Ácido acetilsalicílico</td><td><span class="badge-conc">100mg</span></td><td><span class="badge-apres">Comprimido</span></td><td>Prevenção secundária de eventos cardiovasculares</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="port-card">
+    <div class="port-section-title">🚬 9. Tabagismo &nbsp;&nbsp; 🦟 10. Dengue</div>
+    <div style="overflow-x:auto">
+    <table class="port-table">
+      <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th><th>Protocolo MS</th></tr></thead>
+      <tbody>
+        <tr><td>Nicotina</td><td><span class="badge-conc">2mg</span> <span class="badge-conc">7mg</span> <span class="badge-conc">14mg</span> <span class="badge-conc">21mg</span></td><td><span class="badge-apres">Goma de mascar / Adesivo transdérmico</span></td><td>Terapia de reposição de nicotina no tratamento da pessoa tabagista</td><td>Caderno AB nº 40 — Controle do Tabagismo (Cuidado da pessoa tabagista na APS)</td></tr>
+        <tr><td>Dipirona sódica</td><td><span class="badge-conc">50mg/ml / 500mg/ml / 500mg</span></td><td><span class="badge-apres">Sol. oral (gotas/xarope) / Comprimido</span></td><td>Analgésico/Antipirético</td><td>Dengue: Manual de Enfermagem</td></tr>
+        <tr><td>Paracetamol</td><td><span class="badge-conc">200mg/ml / 500mg</span></td><td><span class="badge-apres">Solução oral / Comprimido</span></td><td>Analgésico/Antipirético</td><td>Dengue: Manual de Enfermagem</td></tr>
+        <tr><td>Sais de reidratação oral (SRO)</td><td>—</td><td><span class="badge-apres">Pó p/ sol. oral</span></td><td>Hidratação oral</td><td>Dengue: Manual de Enfermagem</td></tr>
+        <tr><td>Soro Fisiológico 0,9%</td><td><span class="badge-conc">500mL</span></td><td><span class="badge-apres">Solução endovenosa</span></td><td>Hidratação venosa</td><td>NOTA TÉCNICA Nº 001/2024 — COMITÊ DE OPERAÇÕES DE EMERGÊNCIA EM SAÚDE COES/COFEN</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+</div>
+</div><!-- /sec-medicamentos -->
+
+<!-- ══════ SEÇÃO: EXAMES ══════ -->
+<div class="app-section" id="sec-exames">
+<div class="page">
+
+  <div class="port-card">
+    <div class="port-section-title">🔬 Exames Laboratoriais</div>
+    <div class="exam-grid">
+      <ul class="exam-list">
+        <li>Baciloscopia</li>
+        <li>PT — Prova Tuberculínica</li>
+        <li>Anti HIV (Convencional)</li>
+        <li>Anti HIV (Teste rápido)</li>
+        <li>Teste Rápido para Sífilis</li>
+        <li>Teste rápido para Hepatites</li>
+        <li>Teste rápido para Dengue/Zika/Chikungunya</li>
+        <li>Citomegalovírus</li>
+        <li>TGO</li>
+        <li>TGP</li>
+        <li>EAS (urinálise)</li>
+        <li>Glicemia</li>
+        <li>Colesterol total e frações</li>
+        <li>Triglicérideos</li>
+        <li>Ureia</li>
+        <li>Hemograma</li>
+        <li>Creatinina</li>
+        <li>HDL</li>
+        <li>LDL</li>
+      </ul>
+      <ul class="exam-list">
+        <li>Ácido Úrico</li>
+        <li>VDRL</li>
+        <li>Fator RH</li>
+        <li>Grupo Sanguíneo</li>
+        <li>Sorologia para Hepatite B</li>
+        <li>Sorologia para Toxoplasmose IgG/IgM</li>
+        <li>Citopatológico cérvico-vaginal (Papanicolau)</li>
+        <li>Parasitológico de fezes</li>
+        <li>Teste do Pezinho</li>
+        <li>PSA</li>
+        <li>Beta HCG</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="port-card">
+    <div class="port-section-title">🖼️ Exames de Imagem</div>
+    <ul class="exam-list">
+      <li class="img">Ultrassom obstétrico</li>
+      <li class="img">Ultrassom mamária</li>
+      <li class="img">Ultrassom transvaginal</li>
+      <li class="img">Ultrassom pélvica</li>
+      <li class="img">Mamografia para rastreamento unilateral e bilateral</li>
+    </ul>
+  </div>
+
+</div>
+</div><!-- /sec-exames -->
+
+<!-- ══════ SEÇÃO: PORTARIA ══════ -->
+<div class="app-section" id="sec-portaria">
+<div class="page">
+
+  <div class="port-card">
+    <div class="info-badge">⚖️ Portaria Nº 07/SMS — 31 de Março de 2026 · Varjota-CE</div>
+    <div class="highlight-box">
+      <strong>Ementa:</strong> Dispõe sobre a normatização da prescrição/transcrição de medicamentos e solicitação de exames complementares e de rotina pelos enfermeiros integrantes das equipes de saúde da família, em nível ambulatorial. Revoga a Portaria nº 015 SMS de 18 de Março de 2021.
+    </div>
+
+    <div class="portaria-art">
+      <div class="portaria-art-num">Art. 1º — Objeto</div>
+      <p>Atualiza a normatização da prescrição/transcrição de medicamentos e solicitação de exames pelos <strong>enfermeiros das equipes de Saúde da Família</strong> no âmbito ambulatorial do município de Varjota-CE, em conformidade com o art. 11, inciso II, alínea "c", da Lei nº 7.498/1986 e o Decreto nº 94.406/1987. A prescrição obstétrica restringe-se às competências específicas da obstetriz.</p>
+    </div>
+
+    <div class="portaria-art">
+      <div class="portaria-art-num">Art. 2º — Competência prescritiva</div>
+      <p>Cabe ao enfermeiro prescrever medicamentos <strong>na consulta de enfermagem</strong>, fundamentada em protocolos e rotinas aprovados pelo serviço de saúde ou em protocolos instituídos nos programas de saúde pública, considerando as necessidades específicas de cada usuário.</p>
+    </div>
+
+    <div class="portaria-art">
+      <div class="portaria-art-num">Art. 3º — Requisitos da prescrição</div>
+      <p>A prescrição deve conter obrigatoriamente: <strong>I)</strong> identificação do protocolo utilizado e ano de publicação; <strong>II)</strong> nome da instituição e CNPJ; <strong>III)</strong> nome completo do prescritor, número COREN e assinatura física ou eletrônica; <strong>IV)</strong> data de emissão; <strong>V)</strong> nome completo do paciente e outro identificador (CPF ou data de nascimento); <strong>VI)</strong> medicamento identificado pela <em>denominação genérica</em>, via de administração e posologia.</p>
+    </div>
+
+    <div class="portaria-art">
+      <div class="portaria-art-num">Art. 4º — Prontuário digital</div>
+      <p>O prontuário poderá ser totalmente digital, desde que atendidos os requisitos de segurança e autenticidade previstos em lei. Os documentos devem ser assinados por <strong>assinatura eletrônica avançada ou qualificada</strong> (ICP-Brasil).</p>
+    </div>
+
+    <div class="portaria-art">
+      <div class="portaria-art-num">Art. 5º — Farmacovigilância</div>
+      <p>Eventos adversos relacionados à prescrição devem ser notificados aos órgãos competentes de vigilância em saúde e farmacovigilância, conforme as normas vigentes.</p>
+    </div>
+
+    <div class="portaria-art">
+      <div class="portaria-art-num">Art. 6º — Relação de medicamentos (Anexo II)</div>
+      <p>O Anexo II apresenta rol <em>exemplificativo</em> de medicamentos (relação mínima reconhecida pelo COFEN), destinado a subsidiar protocolos institucionais. Os entes federativos têm <strong>autonomia para ampliar</strong> o rol conforme necessidades epidemiológicas locais, desde que fundamentado em evidências científicas e incorporado a protocolos aprovados.</p>
+    </div>
+
+    <div class="portaria-art">
+      <div class="portaria-art-num">Art. 8º — Vigência</div>
+      <p>Esta Portaria entrou em vigor na data de sua publicação (31/03/2026), revogando a Portaria nº 015 SMS de 18 de Março de 2021.</p>
+    </div>
+
+    <div class="port-section-title" style="margin-top:20px">📋 Modelos de Receituário previstos</div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px">
+      <div class="receituario-preview">
+        <div style="font-size:12px;font-weight:700;color:#0f3460;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">Anexo I-A — Receituário Simples</div>
+        <div class="receituario-row">
+          <div class="receituario-field"><span>Nome</span></div>
+          <div class="receituario-field"><span>COREN</span></div>
+          <div class="receituario-field"><span>UF</span></div>
+        </div>
+        <div class="receituario-row">
+          <div class="receituario-field" style="flex:2"><span>Especialização</span></div>
+        </div>
+        <div style="margin:10px 0 6px;font-size:11px;font-weight:700;color:#666;text-align:center;text-transform:uppercase;letter-spacing:.04em">— Paciente —</div>
+        <div class="receituario-row">
+          <div class="receituario-field"><span>Nome do paciente</span></div>
+        </div>
+        <div class="receituario-row">
+          <div class="receituario-field"><span>DN</span></div>
+          <div class="receituario-field"><span>Sexo</span></div>
+        </div>
+        <div style="margin:10px 0 6px;font-size:11px;font-weight:700;color:#666;text-align:center;text-transform:uppercase;letter-spacing:.04em">— Prescrição —</div>
+        <div style="height:40px;border-bottom:1px solid #ccc;margin-bottom:8px;"></div>
+        <div class="receituario-row">
+          <div class="receituario-field" style="flex:2"><span>Protocolo de aprovação</span></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:14px;font-size:11px;color:#666">
+          <span style="border-top:1px solid #999;padding-top:3px;width:48%">Assinatura e carimbo</span>
+          <span style="border-top:1px solid #999;padding-top:3px;width:30%">Data</span>
+        </div>
+      </div>
+
+      <div class="receituario-preview">
+        <div style="font-size:12px;font-weight:700;color:#7f1d1d;margin-bottom:10px;text-transform:uppercase;letter-spacing:.05em">Anexo I-B — Receita de Controle Especial (Antimicrobianos)</div>
+        <div style="font-size:11px;color:#7f1d1d;margin-bottom:8px">1ª via – Retenção na farmácia · 2ª via – Orientação ao paciente</div>
+        <div class="receituario-row">
+          <div class="receituario-field"><span>Nome completo (emitente)</span></div>
+        </div>
+        <div class="receituario-row">
+          <div class="receituario-field"><span>COREN</span></div>
+          <div class="receituario-field"><span>UF</span></div>
+          <div class="receituario-field"><span>End. Completo</span></div>
+        </div>
+        <div style="margin:8px 0 6px;font-size:11px;font-weight:700;color:#666;text-align:center;text-transform:uppercase;letter-spacing:.04em">— Paciente e Prescrição —</div>
+        <div style="height:40px;border-bottom:1px solid #ccc;margin-bottom:8px;"></div>
+        <div class="receituario-row">
+          <div class="receituario-field" style="flex:2"><span>Protocolo de aprovação</span></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:14px;font-size:11px;color:#666">
+          <span style="border-top:1px solid #999;padding-top:3px;width:100%">Assinatura e carimbo do enfermeiro</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;border-top:1px solid #ddd;padding-top:8px">
+          <div style="font-size:10px;color:#555"><strong>ID do Comprador</strong><br>Nome · RG · Endereço</div>
+          <div style="font-size:10px;color:#555"><strong>ID do Fornecedor</strong><br>Farmacêutico · CRF · Farmácia</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="port-section-title" style="margin-top:20px">⚖️ Principais embasamentos legais</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+      <div class="portaria-art" style="border-left-color:#e94560">
+        <div class="portaria-art-num">Constituição Federal de 1988</div>
+        <p>Art. 196 (saúde como direito de todos e dever do Estado) e Art. 5º, XIII (liberdade do exercício profissional).</p>
+      </div>
+      <div class="portaria-art" style="border-left-color:#e94560">
+        <div class="portaria-art-num">Lei nº 7.498/1986 — Lei do Exercício da Enfermagem</div>
+        <p>Art. 11, II, "c" — fundamenta a prescrição de medicamentos pelo enfermeiro em programas de saúde pública.</p>
+      </div>
+      <div class="portaria-art" style="border-left-color:#e94560">
+        <div class="portaria-art-num">Resolução COFEN nº 801/2026</div>
+        <p>Base normativa federal que o Município adota, incluindo rol exemplificativo de medicamentos (Anexo II) e modelos de receituário (Anexo I-A e I-B).</p>
+      </div>
+      <div class="portaria-art" style="border-left-color:#e94560">
+        <div class="portaria-art-num">RDC nº 973/2025 (ANVISA)</div>
+        <p>Altera a RDC nº 471/2021 — critérios para prescrição, dispensação e rotulagem de antimicrobianos, incluindo a escrituração de receitas de enfermeiros no SNGPC.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div><!-- /sec-portaria -->
 
 <script>
+// ── NAVEGAÇÃO ENTRE ABAS ─────────────────────────────────────────
+const APP_SECTIONS = ['receituario', 'medicamentos', 'exames', 'portaria'];
+function goApp(id) {
+  APP_SECTIONS.forEach(s => {
+    const el = document.getElementById('sec-' + s);
+    if (el) el.classList.toggle('active', s === id);
+  });
+  document.querySelectorAll('.app-nav-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', APP_SECTIONS[i] === id);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Ajustar top da nav conforme altura real da topbar
+function ajustarNavTop() {
+  const topbar = document.querySelector('.topbar');
+  const nav = document.querySelector('.app-nav');
+  if (topbar && nav) nav.style.top = topbar.offsetHeight + 'px';
+}
+window.addEventListener('load', ajustarNavTop);
+window.addEventListener('resize', ajustarNavTop);
+
 // ── GUARD DE SESSÃO ─────────────────────────────────────────────
 (function(){
   var SESSION_KEY = "receituario_auth";
