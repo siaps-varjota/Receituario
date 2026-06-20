@@ -2165,12 +2165,120 @@ const LOGO_URL = 'https://raw.githubusercontent.com/siaps-varjota/Receituario/ma
 /* ══════════════════════════════════════════
    PDF GENERATION
 ══════════════════════════════════════════ */
+function highlightField(id, on) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.style.borderColor = on ? '#e94560' : '';
+  el.style.boxShadow   = on ? '0 0 0 2px rgba(233,69,96,.18)' : '';
+}
+
+function showValidationToast(erros) {
+  document.getElementById('val-toast')?.remove();
+  const toast = document.createElement('div');
+  toast.id = 'val-toast';
+  toast.style.cssText = `
+    position:fixed;top:20px;right:20px;z-index:9999;
+    background:#fff;border:1.5px solid #e94560;border-radius:10px;
+    box-shadow:0 4px 20px rgba(0,0,0,.18);padding:16px 20px;
+    max-width:340px;font-family:inherit;
+  `;
+  const avisos = erros.avisos || [];
+  const criticos = erros.criticos || [];
+  let html = `<div style="font-weight:700;color:#e94560;font-size:14px;margin-bottom:10px;">⚠️ Campos obrigatórios em falta</div>`;
+  if (criticos.length) {
+    html += `<ul style="margin:0 0 8px;padding-left:18px;font-size:13px;color:#1a1a2e;">`;
+    criticos.forEach(m => { html += `<li style="margin-bottom:4px;">${m}</li>`; });
+    html += `</ul>`;
+  }
+  if (avisos.length) {
+    html += `<div style="font-weight:700;color:#b45309;font-size:13px;margin:8px 0 6px;">📋 Campos recomendados em falta</div>`;
+    html += `<ul style="margin:0;padding-left:18px;font-size:13px;color:#78350f;">`;
+    avisos.forEach(m => { html += `<li style="margin-bottom:4px;">${m}</li>`; });
+    html += `</ul>`;
+    html += `<div style="margin-top:10px;font-size:12px;color:#666;">O PDF será gerado mesmo assim.</div>`;
+  }
+  html += `<button onclick="document.getElementById('val-toast').remove()" style="margin-top:12px;width:100%;padding:6px;border:1px solid #ddd;border-radius:6px;background:#f5f7fb;cursor:pointer;font-size:13px;font-weight:600;">Fechar</button>`;
+  toast.innerHTML = html;
+  document.body.appendChild(toast);
+  setTimeout(() => toast?.remove(), 8000);
+}
+
 async function generatePDF(mode = 'save') {
-  if (!v('p_nome'))   { alert('Informe o nome do paciente.'); return; }
-  if (!vp('e_nome'))   { alert('Informe o nome do profissional.'); return; }
-  if (!v('sig_data')) { alert('Informe a data da prescrição.'); return; }
+  // Limpar highlights anteriores
+  ['p_nome','sig_data'].forEach(id => highlightField(id, false));
+  drugs.forEach(n => {
+    [`d${n}_nome`,`d${n}_via`,`d${n}_qtddose`,`d${n}_unidade`,`d${n}_qtd`,`d${n}_durnum`]
+      .forEach(id => highlightField(id, false));
+  });
+
+  const criticos = [];
+  const avisos = [];
+
+  // Campos globais obrigatórios
+  if (!v('p_nome'))   { highlightField('p_nome', true);   criticos.push('Nome do paciente'); }
+  if (!vp('e_nome'))  { highlightField('e_nome', true);   criticos.push('Nome do profissional'); }
+  if (!v('sig_data')) { highlightField('sig_data', true); criticos.push('Data da prescrição'); }
+
   const drugList = getDrugs();
-  if (!drugList.length) { alert('Adicione pelo menos um medicamento.'); return; }
+  if (!drugList.length) { criticos.push('Adicione pelo menos um medicamento'); }
+
+  // Validação por medicamento (campos obrigatórios e opcionais)
+  drugs.forEach((n, idx) => {
+    const cb = document.getElementById(`d${n}_imprimir`);
+    if (cb && !cb.checked) return;
+    const label = `Prescrição ${idx + 1}`;
+
+    const campos = [
+      { id: `d${n}_nome`,    label: 'Princípio ativo',     obrig: true  },
+      { id: `d${n}_via`,     label: 'Via de administração', obrig: true },
+      { id: `d${n}_qtddose`, label: 'Quantidade da dose',   obrig: true },
+      { id: `d${n}_unidade`, label: 'Unidade de medida',    obrig: true },
+      { id: `d${n}_qtd`,     label: 'Quantidade prescrita', obrig: true },
+    ];
+
+    campos.forEach(({ id, label: lbl, obrig }) => {
+      const val = v(id);
+      if (!val) {
+        highlightField(id, true);
+        const msg = `${label} — ${lbl}`;
+        if (obrig) criticos.push(msg); else avisos.push(msg);
+      }
+    });
+
+    // Periodicidade (hidden com valor)
+    const activeTab = document.querySelector(`#di_${n} .period-tab.active`);
+    let temPeriodo = false;
+    if (activeTab) {
+      const tab = activeTab.textContent.trim();
+      if (tab === 'Intervalo') temPeriodo = !!v(`d${n}_intervalo`);
+      else if (tab === 'Frequência') temPeriodo = !!v(`d${n}_frequencia`);
+      else if (tab === 'Turno') {
+        temPeriodo = ['manha','tarde','noite','madrugada'].some(t => document.getElementById(`d${n}_t_${t}`)?.checked);
+      }
+    }
+    if (!temPeriodo) criticos.push(`${label} — Periodicidade da dose`);
+
+    // Duração (obrigatório)
+    const durVal = v(`d${n}_dur`);
+    if (!durVal) {
+      highlightField(`d${n}_durnum`, true);
+      criticos.push(`${label} — Duração`);
+    }
+
+    // Opcionais: avisar mas não bloquear
+    if (!v(`d${n}_pos`))   avisos.push(`${label} — Posologia / Instrução adicional`);
+    if (!v(`d${n}_inicio`)) avisos.push(`${label} — Data de início do tratamento`);
+    if (!v(`d${n}_obs`))    avisos.push(`${label} — Protocolo/Documento de referência`);
+  });
+
+  if (criticos.length) {
+    showValidationToast({ criticos, avisos });
+    return;
+  }
+  if (avisos.length) {
+    showValidationToast({ avisos });
+    // continua gerando o PDF
+  }
 
   const grupos = [];
   let grupoAtual = null;
