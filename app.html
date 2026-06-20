@@ -2023,14 +2023,6 @@ function updateDurBlock(n) {
     durnum.style.cursor      = bloquear ? 'not-allowed' : '';
     if (bloquear) durnum.value = '';
   }
-  // Radios de unidade de tempo: bloquear junto
-  ['Dia(s)','Semana(s)','Mês(es)'].forEach(val => {
-    const rd = document.querySelector(`input[name="d${n}_durun"][value="${val}"]`);
-    if (rd) {
-      rd.disabled = bloquear;
-      if (rd.parentElement) rd.parentElement.style.opacity = bloquear ? '0.4' : '';
-    }
-  });
   syncDurUnit(n);
 }
 
