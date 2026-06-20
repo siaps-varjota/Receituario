@@ -1836,6 +1836,26 @@ function addDrug() {
   </div>
   `;
   document.getElementById('drugList').appendChild(div);
+
+  // Pré-definir início como hoje
+  const inicioEl = document.getElementById(`d${n}_inicio`);
+  if (inicioEl) inicioEl.value = new Date().toISOString().slice(0, 10);
+
+  // Listeners de controle de duração
+  const indeter  = document.getElementById(`d${n}_indeter`);
+  const continuo = document.getElementById(`d${n}_continuo`);
+  if (indeter)  indeter.addEventListener('change', () => updateDurBlock(n));
+  if (continuo) continuo.addEventListener('change', () => {
+    if (continuo.checked && indeter) { indeter.checked = true; syncDurUnit(n); }
+    updateDurBlock(n);
+  });
+  document.querySelectorAll(`input[name="d${n}_tipodose"]`).forEach(rd => {
+    rd.addEventListener('change', () => updateDurBlock(n));
+  });
+  document.querySelectorAll(`input[name="d${n}_durun"]`).forEach(rd => {
+    rd.addEventListener('change', () => updateDurBlock(n));
+  });
+
   setupDrugAutocomplete(n);
 }
 
@@ -1980,12 +2000,38 @@ function updateFreqBtns(n) {
 }
 
 function syncDurUnit(n) {
-  const num = document.getElementById(`d${n}_durnum`).value;
-  const unit = (document.querySelector(`input[name="d${n}_durun"]:checked`) || {}).value || 'Dia(s)';
+  const num    = document.getElementById(`d${n}_durnum`).value;
+  const unit   = (document.querySelector(`input[name="d${n}_durun"]:checked`) || {}).value || 'Dia(s)';
   const hidden = document.getElementById(`d${n}_dur`);
   if (!hidden) return;
   if (unit === 'Duração Indeterminada') { hidden.value = 'Duração Indeterminada'; }
   else { hidden.value = num ? `${num} ${unit}` : ''; }
+}
+
+function updateDurBlock(n) {
+  const indeter   = document.getElementById(`d${n}_indeter`);
+  const continuo  = document.getElementById(`d${n}_continuo`);
+  const durnum    = document.getElementById(`d${n}_durnum`);
+  const tipodose  = (document.querySelector(`input[name="d${n}_tipodose"]:checked`) || {}).value || '';
+  const rdUnica   = tipodose === 'Única';
+  const bloquear  = indeter?.checked || continuo?.checked || rdUnica;
+
+  if (durnum) {
+    durnum.disabled = bloquear;
+    durnum.style.background  = bloquear ? '#f0f2f5' : '#fafafa';
+    durnum.style.color       = bloquear ? '#aaa'    : '#111';
+    durnum.style.cursor      = bloquear ? 'not-allowed' : '';
+    if (bloquear) durnum.value = '';
+  }
+  // Radios de unidade de tempo: bloquear junto
+  ['Dia(s)','Semana(s)','Mês(es)'].forEach(val => {
+    const rd = document.querySelector(`input[name="d${n}_durun"][value="${val}"]`);
+    if (rd) {
+      rd.disabled = bloquear;
+      if (rd.parentElement) rd.parentElement.style.opacity = bloquear ? '0.4' : '';
+    }
+  });
+  syncDurUnit(n);
 }
 
 function removeDrug(n) {
@@ -2036,6 +2082,9 @@ function clearDrug(n) {
   });
   const cont = document.getElementById(`d${n}_continuo`);
   if (cont) cont.checked = false;
+  const inicioEl = document.getElementById(`d${n}_inicio`);
+  if (inicioEl) inicioEl.value = new Date().toISOString().slice(0, 10);
+  updateDurBlock(n);
   const imp = document.getElementById(`d${n}_imprimir`);
   if (imp) imp.checked = true;
   setDrugTipo(n, 'antibiotico');
@@ -2207,7 +2256,7 @@ async function generatePDF(mode = 'save') {
   // Limpar highlights anteriores
   ['p_nome','sig_data'].forEach(id => highlightField(id, false));
   drugs.forEach(n => {
-    [`d${n}_nome`,`d${n}_via`,`d${n}_qtddose`,`d${n}_unidade`,`d${n}_qtd`,`d${n}_unid_forn`,`d${n}_durnum`]
+    [`d${n}_nome`,`d${n}_via`,`d${n}_qtddose`,`d${n}_unidade`,`d${n}_qtd`,`d${n}_unid_forn`,`d${n}_durnum`,`d${n}_inicio`]
       .forEach(id => highlightField(id, false));
   });
 
@@ -2259,19 +2308,26 @@ async function generatePDF(mode = 'save') {
     }
     if (!temPeriodo) criticos.push(`${label} — Periodicidade da dose`);
 
-    // Duração — obrigatória só se não for Indeterminada e não for uso contínuo
-    const durVal = v(`d${n}_dur`);
-    const indeter = document.getElementById(`d${n}_indeter`)?.checked;
+    // Duração — obrigatória só se não for Indeterminada, não for uso contínuo e não for dose Única
+    const durVal   = v(`d${n}_dur`);
+    const indeter  = document.getElementById(`d${n}_indeter`)?.checked;
     const continuo = document.getElementById(`d${n}_continuo`)?.checked;
-    if (!durVal && !indeter && !continuo) {
+    const tipodose = (document.querySelector(`input[name="d${n}_tipodose"]:checked`) || {}).value || '';
+    const doseUnica = tipodose === 'Única';
+    if (!durVal && !indeter && !continuo && !doseUnica) {
       highlightField(`d${n}_durnum`, true);
       criticos.push(`${label} — Duração`);
     }
 
+    // Início do tratamento — obrigatório
+    if (!v(`d${n}_inicio`)) {
+      highlightField(`d${n}_inicio`, true);
+      criticos.push(`${label} — Data de início do tratamento`);
+    }
+
     // Opcionais: avisar mas não bloquear
-    if (!v(`d${n}_pos`))   avisos.push(`${label} — Posologia / Instrução adicional`);
-    if (!v(`d${n}_inicio`)) avisos.push(`${label} — Data de início do tratamento`);
-    if (!v(`d${n}_obs`))    avisos.push(`${label} — Protocolo/Documento de referência`);
+    if (!v(`d${n}_pos`)) avisos.push(`${label} — Posologia / Instrução adicional`);
+    if (!v(`d${n}_obs`)) avisos.push(`${label} — Protocolo/Documento de referência`);
   });
 
   if (criticos.length) {
