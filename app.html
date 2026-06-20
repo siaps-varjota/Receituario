@@ -2207,7 +2207,7 @@ async function generatePDF(mode = 'save') {
   // Limpar highlights anteriores
   ['p_nome','sig_data'].forEach(id => highlightField(id, false));
   drugs.forEach(n => {
-    [`d${n}_nome`,`d${n}_via`,`d${n}_qtddose`,`d${n}_unidade`,`d${n}_qtd`,`d${n}_durnum`]
+    [`d${n}_nome`,`d${n}_via`,`d${n}_qtddose`,`d${n}_unidade`,`d${n}_qtd`,`d${n}_unid_forn`,`d${n}_durnum`]
       .forEach(id => highlightField(id, false));
   });
 
@@ -2229,11 +2229,12 @@ async function generatePDF(mode = 'save') {
     const label = `Prescrição ${idx + 1}`;
 
     const campos = [
-      { id: `d${n}_nome`,    label: 'Princípio ativo',     obrig: true  },
-      { id: `d${n}_via`,     label: 'Via de administração', obrig: true },
-      { id: `d${n}_qtddose`, label: 'Quantidade da dose',   obrig: true },
-      { id: `d${n}_unidade`, label: 'Unidade de medida',    obrig: true },
-      { id: `d${n}_qtd`,     label: 'Quantidade prescrita', obrig: true },
+      { id: `d${n}_nome`,      label: 'Princípio ativo',          obrig: true },
+      { id: `d${n}_via`,       label: 'Via de administração',      obrig: true },
+      { id: `d${n}_qtddose`,   label: 'Quantidade da dose',        obrig: true },
+      { id: `d${n}_unidade`,   label: 'Unidade de medida',         obrig: true },
+      { id: `d${n}_qtd`,       label: 'Quantidade prescrita',      obrig: true },
+      { id: `d${n}_unid_forn`, label: 'Unidade de fornecimento',   obrig: true },
     ];
 
     campos.forEach(({ id, label: lbl, obrig }) => {
@@ -2258,9 +2259,11 @@ async function generatePDF(mode = 'save') {
     }
     if (!temPeriodo) criticos.push(`${label} — Periodicidade da dose`);
 
-    // Duração (obrigatório)
+    // Duração — obrigatória só se não for Indeterminada e não for uso contínuo
     const durVal = v(`d${n}_dur`);
-    if (!durVal) {
+    const indeter = document.getElementById(`d${n}_indeter`)?.checked;
+    const continuo = document.getElementById(`d${n}_continuo`)?.checked;
+    if (!durVal && !indeter && !continuo) {
       highlightField(`d${n}_durnum`, true);
       criticos.push(`${label} — Duração`);
     }
