@@ -84,7 +84,20 @@ body {
 .app-section { display: none; }
 .app-section.active { display: block; }
 
-/* ── TABELA MEDICAMENTOS PORTARIA ── */
+/* ── CONTAINERS RECOLHÍVEIS ── */
+.pc-card { background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07),0 2px 8px rgba(0,0,0,.05);border:1px solid #e4e8f0;margin-bottom:16px;overflow:hidden; }
+.pc-header {
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;cursor:pointer;user-select:none;
+  border-bottom:2px solid transparent;transition:border-color .15s,background .15s;
+}
+.pc-header:hover { background:#f5f8ff; }
+.pc-card.open .pc-header { border-bottom-color:#e4e8f0; }
+.pc-title { font-size:15px;font-weight:700;color:#0f3460;display:flex;align-items:center;gap:8px; }
+.pc-chevron { font-size:13px;color:#0f3460;transition:transform .2s;display:inline-block; }
+.pc-card.open .pc-chevron { transform:rotate(90deg); }
+.pc-body { display:none;padding:14px 20px 18px; }
+.pc-card.open .pc-body { display:block; }
 .port-section-title {
   font-size: 15px;
   font-weight: 700;
@@ -919,9 +932,9 @@ body {
         <div class="collapsible-header-left">
           <span class="icon">🏢</span> Unidade / Emitente
         </div>
-        <span class="collapsible-chevron">▼</span>
+        <span class="pc-chevron">▼</span>
       </div>
-      <div class="collapsible-body">
+      <div class="pc-body">
         <div class="gd1">
           <div class="field">
             <label>Nome da Unidade *</label>
@@ -1075,8 +1088,12 @@ body {
 <div class="app-section" id="sec-medicamentos">
 <div class="page">
 
-  <div class="port-card">
-    <div class="port-section-title">💊 1. IST, Saúde Sexual e Reprodutiva</div>
+  <div class="pc-card open">
+  <div class="pc-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="pc-title">💊 1. IST, Saúde Sexual e Reprodutiva</span>
+    <span class="pc-chevron">▶</span>
+  </div>
+  <div class="pc-body">
     <div style="overflow-x:auto">
     <table class="port-table">
       <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th><th>Protocolo MS</th></tr></thead>
@@ -1100,10 +1117,15 @@ body {
       </tbody>
     </table>
     </div>
+</div>
   </div>
 
-  <div class="port-card">
-    <div class="port-section-title">🔵 2. Contracepção e Saúde Sexual/Reprodutiva</div>
+  <div class="pc-card open">
+  <div class="pc-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="pc-title">🔵 2. Contracepção e Saúde Sexual/Reprodutiva</span>
+    <span class="pc-chevron">▶</span>
+  </div>
+  <div class="pc-body">
     <div style="overflow-x:auto">
     <table class="port-table">
       <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th><th>Protocolo MS</th></tr></thead>
@@ -1124,10 +1146,15 @@ body {
       </tbody>
     </table>
     </div>
+</div>
   </div>
 
-  <div class="port-card">
-    <div class="port-section-title">🔴 3. PEP e PrEP ao HIV</div>
+  <div class="pc-card open">
+  <div class="pc-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="pc-title">🔴 3. PEP e PrEP ao HIV</span>
+    <span class="pc-chevron">▶</span>
+  </div>
+  <div class="pc-body">
     <div style="overflow-x:auto">
     <table class="port-table">
       <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th><th>Protocolo MS</th></tr></thead>
@@ -1142,10 +1169,15 @@ body {
       </tbody>
     </table>
     </div>
+</div>
   </div>
 
-  <div class="port-card">
-    <div class="port-section-title">🩺 4. Atenção à Saúde da Mulher</div>
+  <div class="pc-card open">
+  <div class="pc-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="pc-title">🩺 4. Atenção à Saúde da Mulher</span>
+    <span class="pc-chevron">▶</span>
+  </div>
+  <div class="pc-body">
     <div style="overflow-x:auto">
     <table class="port-table">
       <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th></tr></thead>
@@ -1166,10 +1198,15 @@ body {
       </tbody>
     </table>
     </div>
+</div>
   </div>
 
-  <div class="port-card">
-    <div class="port-section-title">🤰 5. Pré-natal</div>
+  <div class="pc-card open">
+  <div class="pc-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="pc-title">🤰 5. Pré-natal</span>
+    <span class="pc-chevron">▶</span>
+  </div>
+  <div class="pc-body">
     <div style="overflow-x:auto">
     <table class="port-table">
       <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th></tr></thead>
@@ -1201,10 +1238,15 @@ body {
       </tbody>
     </table>
     </div>
+</div>
   </div>
 
-  <div class="port-card">
-    <div class="port-section-title">👶 6. Atenção à Saúde da Criança</div>
+  <div class="pc-card open">
+  <div class="pc-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="pc-title">👶 6. Atenção à Saúde da Criança</span>
+    <span class="pc-chevron">▶</span>
+  </div>
+  <div class="pc-body">
     <div style="overflow-x:auto">
     <table class="port-table">
       <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th><th>Protocolo MS</th></tr></thead>
@@ -1231,10 +1273,15 @@ body {
       </tbody>
     </table>
     </div>
+</div>
   </div>
 
-  <div class="port-card">
-    <div class="port-section-title">🫁 7. Tuberculose e Hanseníase</div>
+  <div class="pc-card open">
+  <div class="pc-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="pc-title">🫁 7. Tuberculose e Hanseníase</span>
+    <span class="pc-chevron">▶</span>
+  </div>
+  <div class="pc-body">
     <div style="overflow-x:auto">
     <table class="port-table">
       <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th></tr></thead>
@@ -1251,10 +1298,15 @@ body {
       </tbody>
     </table>
     </div>
+</div>
   </div>
 
-  <div class="port-card">
-    <div class="port-section-title">❤️ 8. Diabetes, Hipertensão e Risco Cardiovascular</div>
+  <div class="pc-card open">
+  <div class="pc-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="pc-title">❤️ 8. Diabetes, Hipertensão e Risco Cardiovascular</span>
+    <span class="pc-chevron">▶</span>
+  </div>
+  <div class="pc-body">
     <div style="overflow-x:auto">
     <table class="port-table">
       <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th></tr></thead>
@@ -1283,10 +1335,15 @@ body {
       </tbody>
     </table>
     </div>
+</div>
   </div>
 
-  <div class="port-card">
-    <div class="port-section-title">🚬 9. Tabagismo &nbsp;&nbsp; 🦟 10. Dengue</div>
+  <div class="pc-card open">
+  <div class="pc-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="pc-title">🚬 9. Tabagismo &nbsp;&nbsp; 🦟 10. Dengue</span>
+    <span class="pc-chevron">▶</span>
+  </div>
+  <div class="pc-body">
     <div style="overflow-x:auto">
     <table class="port-table">
       <thead><tr><th>Medicamento</th><th>Concentração</th><th>Apresentação</th><th>Uso Principal</th><th>Protocolo MS</th></tr></thead>
@@ -1299,6 +1356,7 @@ body {
       </tbody>
     </table>
     </div>
+</div>
   </div>
 
 </div>
@@ -1308,8 +1366,12 @@ body {
 <div class="app-section" id="sec-exames">
 <div class="page">
 
-  <div class="port-card">
-    <div class="port-section-title">🔬 Exames Laboratoriais</div>
+  <div class="pc-card open">
+  <div class="pc-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="pc-title">🔬 Exames Laboratoriais</span>
+    <span class="pc-chevron">▶</span>
+  </div>
+  <div class="pc-body">
     <div class="exam-grid">
       <ul class="exam-list">
         <li>Baciloscopia</li>
@@ -1346,10 +1408,15 @@ body {
         <li>Beta HCG</li>
       </ul>
     </div>
+</div>
   </div>
 
-  <div class="port-card">
-    <div class="port-section-title">🖼️ Exames de Imagem</div>
+  <div class="pc-card open">
+  <div class="pc-header" onclick="this.parentElement.classList.toggle('open')">
+    <span class="pc-title">🖼️ Exames de Imagem</span>
+    <span class="pc-chevron">▶</span>
+  </div>
+  <div class="pc-body">
     <ul class="exam-list">
       <li class="img">Ultrassom obstétrico</li>
       <li class="img">Ultrassom mamária</li>
@@ -1358,6 +1425,7 @@ body {
       <li class="img">Mamografia para rastreamento unilateral e bilateral</li>
     </ul>
   </div>
+</div>
 
 </div>
 </div><!-- /sec-exames -->
@@ -2111,8 +2179,17 @@ function pluralize(unidade, qty) {
 
 function pluralizeForma(forma, qty) {
   const n = parseFloat(qty);
-  if (!forma || n <= 1) return forma;
-  const map = {
+  if (!forma) return forma;
+  // Sempre retorna singular; plural só quando qty > 1
+  const singular = {
+    'Comprimidos':'Comprimido','Comprimidos revestidos':'Comprimido revestido',
+    'Cápsulas':'Cápsula','Soluções orais':'Solução oral','Suspensões orais':'Suspensão oral',
+    'Xaropes':'Xarope','Ampolas':'Ampola','Frascos':'Frasco','Frascos-ampola':'Frasco-ampola',
+    'Pomadas':'Pomada','Cremes':'Creme','Géis':'Gel','Colírios':'Colírio',
+    'Sprays nasais':'Spray nasal','Inaladores':'Inalador','Supositórios':'Supositório',
+    'Adesivos transdérmicos':'Adesivo transdérmico',
+  };
+  const plural = {
     'Comprimido':'Comprimidos','Comprimido revestido':'Comprimidos revestidos',
     'Cápsula':'Cápsulas','Solução oral':'Soluções orais','Suspensão oral':'Suspensões orais',
     'Xarope':'Xaropes','Ampola':'Ampolas','Frasco':'Frascos','Frasco-ampola':'Frascos-ampola',
@@ -2120,7 +2197,9 @@ function pluralizeForma(forma, qty) {
     'Spray nasal':'Sprays nasais','Inalador':'Inaladores','Supositório':'Supositórios',
     'Adesivo transdérmico':'Adesivos transdérmicos',
   };
-  return map[forma] || forma;
+  // normaliza para singular primeiro
+  const base = singular[forma] || forma;
+  return n > 1 ? (plural[base] || base) : base;
 }
 
 function getDrugs() {
@@ -2492,7 +2571,7 @@ async function generatePDF(mode = 'save') {
         const posLines = dr.pos ? doc.splitTextToSize(dr.pos, cw - 8) : [];
         let info = '';
         if (dr.inicio) info = `A partir de ${fmtShort(dr.inicio)}`;
-        if (dr.dur)    info += (info ? ' durante ' : '') + dr.dur;
+        if (dr.dur)    info += (info ? ' durante ' : '') + (dr.dur === 'Duração Indeterminada' ? 'por período indeterminado' : dr.dur);
         const boxH = headerH + posLines.length * SP.posologiaLinha + (info ? SP.posologiaLinha : 0) + SP.cardPaddingInf;
 
         doc.setDrawColor(180);
@@ -2690,7 +2769,8 @@ async function generatePDF(mode = 'save') {
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(9.5);
       const posLines = dr.pos ? doc.splitTextToSize(dr.pos, cw - 8) : [];
-      const info = [dr.inicio ? `A partir de ${fmtShort(dr.inicio)}` : '', dr.dur || ''].filter(Boolean).join(' durante ');
+      const durLabel = dr.dur === 'Duração Indeterminada' ? 'por período indeterminado' : dr.dur;
+      const info = [dr.inicio ? `A partir de ${fmtShort(dr.inicio)}` : '', durLabel || ''].filter(Boolean).join(' durante ');
       const boxH = headerH + posLines.length * SP.posologiaLinha + (info ? SP.posologiaLinha : 0) + SP.cardPaddingInf;
       return boxH + SP.entreCards;
     }
