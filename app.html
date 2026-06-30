@@ -2224,7 +2224,7 @@ function getDrugs() {
         const turnos = ['manha','tarde','noite','madrugada'].filter(t => {
           const el = document.getElementById(`d${n}_t_${t}`);
           return el && el.checked;
-        }).map(t => t.charAt(0).toUpperCase() + t.slice(1));
+        }).map(t => ({'manha':'Manhã','tarde':'Tarde','noite':'Noite','madrugada':'Madrugada'})[t] || (t.charAt(0).toUpperCase() + t.slice(1)));
         periodo = turnos.join(' + ');
       }
     }
