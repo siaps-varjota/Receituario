@@ -932,9 +932,9 @@ body {
         <div class="collapsible-header-left">
           <span class="icon">🏢</span> Unidade / Emitente
         </div>
-        <span class="collapsible-chevron">▼</span>
+        <span class="pc-chevron">▼</span>
       </div>
-      <div class="collapsible-body">
+      <div class="pc-body">
         <div class="gd1">
           <div class="field">
             <label>Nome da Unidade *</label>
@@ -2136,7 +2136,7 @@ function clearDrug(n) {
   const btn8h = [...intBtns].find(b => b.textContent.trim() === '8h');
   if (btn8h) { btn8h.classList.add('active'); document.getElementById(`d${n}_intervalo`).value = '8h'; }
   document.querySelectorAll(`#d${n}_panel_frequencia .int-btn`).forEach(b => b.classList.remove('active'));
-  ['manha','tarde','noite','madrugada'].forEach(t => {
+  ['manhã','tarde','noite','madrugada'].forEach(t => {
     const el = document.getElementById(`d${n}_t_${t}`);
     if (el) el.checked = false;
   });
@@ -2221,7 +2221,7 @@ function getDrugs() {
       if (tab === 'Intervalo') periodo = v(`d${n}_intervalo`) ? `A cada ${v(`d${n}_intervalo`)}` : '';
       else if (tab === 'Frequência') periodo = v(`d${n}_frequencia`);
       else if (tab === 'Turno') {
-        const turnos = ['manha','tarde','noite','madrugada'].filter(t => {
+        const turnos = ['manhã','tarde','noite','madrugada'].filter(t => {
           const el = document.getElementById(`d${n}_t_${t}`);
           return el && el.checked;
         }).map(t => t.charAt(0).toUpperCase() + t.slice(1));
@@ -2374,7 +2374,7 @@ async function generatePDF(mode = 'save') {
       if (tab === 'Intervalo') temPeriodo = !!v(`d${n}_intervalo`);
       else if (tab === 'Frequência') temPeriodo = !!v(`d${n}_frequencia`);
       else if (tab === 'Turno') {
-        temPeriodo = ['manha','tarde','noite','madrugada'].some(t => document.getElementById(`d${n}_t_${t}`)?.checked);
+        temPeriodo = ['manhã','tarde','noite','madrugada'].some(t => document.getElementById(`d${n}_t_${t}`)?.checked);
       }
     }
     if (!temPeriodo) criticos.push(`${label} — Periodicidade da dose`);
@@ -2634,14 +2634,23 @@ async function generatePDF(mode = 'save') {
         .replace(/\u2264/g, '<= ')
         .replace(/[^\x00-\xFF]/g, '?');
 
-      const protocolosList = [...new Set(d.drugs.map(dr => dr.obs).filter(Boolean))];
+      // Agrupa números de medicamentos por protocolo (mesmo protocolo => "3 e 4. Protocolo...")
+      const protMap = new Map();
+      d.drugs.forEach((dr, i) => {
+        if (!dr.obs) return;
+        if (!protMap.has(dr.obs)) protMap.set(dr.obs, []);
+        protMap.get(dr.obs).push(i + 1);
+      });
+      const protocolosList = [...protMap.entries()];
       if (protocolosList.length) {
         section('PROTOCOLOS/DOCUMENTOS DE REFERÊNCIA (MS)');
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(9);
         doc.setTextColor(40);
-        protocolosList.forEach((prot, idx) => {
-          const prefix = `${idx + 1}. `;
+        protocolosList.forEach(([prot, nums]) => {
+          const numStr = nums.length === 1 ? String(nums[0]) :
+            nums.slice(0, -1).join(', ') + ' e ' + nums[nums.length - 1];
+          const prefix = numStr + '. ';
           const clean = sanitize(prefix + prot);
           const lines = doc.splitTextToSize(clean, cw - 10);
           lines.forEach((l, li) => { doc.text(l, li === 0 ? lm + 3 : lm + 7, y); y += 3; });
@@ -2800,14 +2809,23 @@ async function generatePDF(mode = 'save') {
     /* ── Altura reservada para protocolos ── */
     function calcProtocolosHeight(drugs) {
       const cw = half - 14;
-      const lista = [...new Set(drugs.map(dr => dr.obs).filter(Boolean))];
+      // Agrupa por protocolo para calcular altura real (com prefixo "X e Y.")
+      const protMapH = new Map();
+      drugs.forEach((dr, i) => {
+        if (!dr.obs) return;
+        if (!protMapH.has(dr.obs)) protMapH.set(dr.obs, []);
+        protMapH.get(dr.obs).push(i + 1);
+      });
+      const lista = [...protMapH.entries()];
       if (!lista.length) return 0;
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(9);
       // section header(6) + linhas
       let h = 6;
-      lista.forEach((prot, idx) => {
-        const lines = doc.splitTextToSize(`${idx + 1}. ${prot}`, cw - 10);
+      lista.forEach(([prot, nums]) => {
+        const numStr = nums.length === 1 ? String(nums[0]) :
+          nums.slice(0, -1).join(', ') + ' e ' + nums[nums.length - 1];
+        const lines = doc.splitTextToSize(numStr + '. ' + prot, cw - 10);
         h += lines.length * 3 + 1;
       });
       h += 2; // y += 2 no final
