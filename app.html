@@ -2136,7 +2136,7 @@ function clearDrug(n) {
   const btn8h = [...intBtns].find(b => b.textContent.trim() === '8h');
   if (btn8h) { btn8h.classList.add('active'); document.getElementById(`d${n}_intervalo`).value = '8h'; }
   document.querySelectorAll(`#d${n}_panel_frequencia .int-btn`).forEach(b => b.classList.remove('active'));
-  ['manhã','tarde','noite','madrugada'].forEach(t => {
+  ['manha','tarde','noite','madrugada'].forEach(t => {
     const el = document.getElementById(`d${n}_t_${t}`);
     if (el) el.checked = false;
   });
@@ -2221,7 +2221,7 @@ function getDrugs() {
       if (tab === 'Intervalo') periodo = v(`d${n}_intervalo`) ? `A cada ${v(`d${n}_intervalo`)}` : '';
       else if (tab === 'Frequência') periodo = v(`d${n}_frequencia`);
       else if (tab === 'Turno') {
-        const turnos = ['manhã','tarde','noite','madrugada'].filter(t => {
+        const turnos = ['manha','tarde','noite','madrugada'].filter(t => {
           const el = document.getElementById(`d${n}_t_${t}`);
           return el && el.checked;
         }).map(t => t.charAt(0).toUpperCase() + t.slice(1));
@@ -2374,7 +2374,7 @@ async function generatePDF(mode = 'save') {
       if (tab === 'Intervalo') temPeriodo = !!v(`d${n}_intervalo`);
       else if (tab === 'Frequência') temPeriodo = !!v(`d${n}_frequencia`);
       else if (tab === 'Turno') {
-        temPeriodo = ['manhã','tarde','noite','madrugada'].some(t => document.getElementById(`d${n}_t_${t}`)?.checked);
+        temPeriodo = ['manha','tarde','noite','madrugada'].some(t => document.getElementById(`d${n}_t_${t}`)?.checked);
       }
     }
     if (!temPeriodo) criticos.push(`${label} — Periodicidade da dose`);
