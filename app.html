@@ -2576,10 +2576,11 @@ async function generatePDF(mode = 'save') {
 
       section('CIDADÃO');
       doc.setFontSize(10.5);
-      const cidNasc = d.p_nasc ? ` — Nasc.: ${fmtShort(d.p_nasc)}` : '';
-      const cidLine = `${d.p_nome.toUpperCase()}${d.p_doc ? ' - ' + d.p_doc : ''}${cidNasc}`;
+      const cidNasc = d.p_nasc ? `Nasc.: ${fmtShort(d.p_nasc)}` : '';
+      const cidLine = `${d.p_nome.toUpperCase()}${d.p_doc ? ' - ' + d.p_doc : ''}`;
       doc.text(fit(cidLine, cw - 4, 10.5), lm + 3, y); y += SP.cidadaoLinha;
-      if (d.p_end) { doc.text(fit(d.p_end, cw - 4, 10.5), lm + 3, y); y += SP.cidadaoLinha; }
+      const endNascLine = [d.p_end, cidNasc].filter(Boolean).join('  —  ');
+      if (endNascLine) { doc.text(fit(endNascLine, cw - 4, 10.5), lm + 3, y); y += SP.cidadaoLinha; }
       y += SP.cidadaoApos;
 
       section('MEDICAMENTOS');
