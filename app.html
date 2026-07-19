@@ -1979,10 +1979,16 @@ function setupDrugAutocomplete(n) {
   function getMatches(q) {
     if (!q || q.length < 2) return [];
     const ql = q.toLowerCase();
-    return PROTOCOLS.filter(p =>
+    const locais = PROTOCOLS.filter(p =>
       p.nome.toLowerCase().includes(ql) ||
       (p.uso && p.uso.toLowerCase().includes(ql))
-    ).slice(0, 10);
+    );
+    if (locais.length) return locais.slice(0, 10);
+    // Nada no protocolo local? busca no fallback BNAFAR (RENAME), se já carregado
+    const bnafar = (window.BNAFAR_FALLBACK || []).filter(p =>
+      p.nome.toLowerCase().includes(ql)
+    );
+    return bnafar.slice(0, 10);
   }
 
   function renderAc(items) {
@@ -2032,12 +2038,12 @@ function applyProtocolToDrug(n, p) {
   setVal(`d${n}_conc`, p.conc);
   updateDrugPreview(n);
   const viaEl = document.getElementById(`d${n}_via`);
-  if (viaEl) {
+  if (viaEl && p.via) {
     const opt = Array.from(viaEl.options).find(o => o.value === p.via || o.text.toLowerCase() === p.via.toLowerCase());
     if (opt) viaEl.value = opt.value;
   }
   const formaEl = document.getElementById(`d${n}_forma`);
-  if (formaEl) {
+  if (formaEl && p.forma) {
     const formaSimple = p.forma.split(/[,/]/)[0].trim();
     const opt = Array.from(formaEl.options).find(o =>
       o.value.toLowerCase() === formaSimple.toLowerCase() ||
@@ -2045,8 +2051,8 @@ function applyProtocolToDrug(n, p) {
     );
     if (opt) formaEl.value = opt.value;
   }
-  setVal(`d${n}_pos`, p.uso);
-  setVal(`d${n}_obs`, p.protocolo);
+  setVal(`d${n}_pos`, p.uso || '');
+  setVal(`d${n}_obs`, p.protocolo || '');
   const concEl = document.getElementById(`d${n}_conc`);
   if (concEl) concEl.focus();
 }
@@ -3186,6 +3192,18 @@ document.addEventListener('click', e => {
     document.getElementById('protocolToggle').classList.remove('open');
   }
 });
+
+/* ── Fallback BNAFAR (RENAME) ──
+   Carrega bnafar_medicamentos.json, gerado pelo script extrair_bnafar.py.
+   Usado só quando a busca não encontra nada nos protocolos locais.
+   Se o arquivo não existir ou não puder ser lido (ex: abrindo o app
+   direto do disco, sem servidor), o app continua funcionando normal,
+   só sem esse fallback extra. */
+window.BNAFAR_FALLBACK = [];
+fetch('bnafar_medicamentos.json')
+  .then(r => r.ok ? r.json() : [])
+  .then(lista => { window.BNAFAR_FALLBACK = Array.isArray(lista) ? lista : []; })
+  .catch(() => { window.BNAFAR_FALLBACK = []; });
 
 /* ── Init ── */
 addDrug();
