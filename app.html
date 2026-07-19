@@ -2078,8 +2078,7 @@ function setupDrugAutocomplete(n) {
   const clearBtn = document.getElementById(`d${n}_nome_clear`);
   if (clearBtn) {
     clearBtn.addEventListener('click', () => {
-      input.value = '';
-      toggleNomeClearBtn(n);
+      clearDrug(n);
       ac.style.display = 'none';
       input.focus();
     });
@@ -2306,6 +2305,8 @@ function clearDrug(n) {
   setDrugTipo(n, 'antibiotico');
   const tabIntervalo = document.querySelector(`#di_${n} .period-tab`);
   if (tabIntervalo) setPeriodTab(n, 'intervalo', tabIntervalo);
+  toggleNomeClearBtn(n);
+  updateDrugPreview(n);
 }
 
 function clearPaciente() {
