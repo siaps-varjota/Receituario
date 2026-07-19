@@ -2349,6 +2349,16 @@ function fmtLong(iso) {
                  'julho','agosto','setembro','outubro','novembro','dezembro'];
   return `${parseInt(d)} de ${meses[parseInt(m)-1]} de ${y}`;
 }
+/* Texto "A partir de DD/MM/AAAA durante N Dia(s)" exibido no card do medicamento (PDF e cálculo de altura).
+   Quando a duração é indeterminada, evita a redundância "durante por período indeterminado". */
+function buildDrugInfoText(dr) {
+  const inicioTxt = dr.inicio ? `A partir de ${fmtShort(dr.inicio)}` : '';
+  if (!dr.dur) return inicioTxt;
+  if (dr.dur === 'Duração Indeterminada') {
+    return inicioTxt ? `${inicioTxt}, por período indeterminado` : 'Por período indeterminado';
+  }
+  return inicioTxt ? `${inicioTxt} durante ${dr.dur}` : dr.dur;
+}
 
 const typeTitles = {
   especial:    'RECEITUÁRIO DE CONTROLE ESPECIAL',
@@ -2651,12 +2661,7 @@ async function generatePDF(mode = 'save') {
         const nomeH   = nomeLinhas * SP.nomeLinhaPasso;
         const headerH = Math.max(SP.headerMinH, nomeH + SP.headerPadding);
         const posLines = dr.pos ? doc.splitTextToSize(dr.pos, cw - 8) : [];
-        let info = '';
-        if (dr.inicio) info = `A partir de ${fmtShort(dr.inicio)}`;
-        if (dr.dur) {
-          const durTxt = dr.dur === 'Duração Indeterminada' ? 'por período indeterminado' : dr.dur;
-          info += info ? ` durante ${durTxt}` : durTxt;
-        }
+        const info = buildDrugInfoText(dr);
         const boxH = headerH + posLines.length * SP.posologiaLinha + (info ? SP.posologiaLinha : 0) + SP.cardPaddingInf;
         
 
@@ -2864,8 +2869,7 @@ async function generatePDF(mode = 'save') {
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(9.5);
       const posLines = dr.pos ? doc.splitTextToSize(dr.pos, cw - 8) : [];
-      const durLabel = dr.dur === 'Duração Indeterminada' ? 'por período indeterminado' : dr.dur;
-      const info = [dr.inicio ? `A partir de ${fmtShort(dr.inicio)}` : '', durLabel || ''].filter(Boolean).join(' durante ');
+      const info = buildDrugInfoText(dr);
       const boxH = headerH + posLines.length * SP.posologiaLinha + (info ? SP.posologiaLinha : 0) + SP.cardPaddingInf;
       return boxH + SP.entreCards;
     }
