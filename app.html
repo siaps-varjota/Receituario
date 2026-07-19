@@ -2653,7 +2653,10 @@ async function generatePDF(mode = 'save') {
         const posLines = dr.pos ? doc.splitTextToSize(dr.pos, cw - 8) : [];
         let info = '';
         if (dr.inicio) info = `A partir de ${fmtShort(dr.inicio)}`;
-        if (dr.dur)    info += (dr.dur === 'Duração Indeterminada' ? ' por período indeterminado' : dr.dur);
+        if (dr.dur) {
+          const durTxt = dr.dur === 'Duração Indeterminada' ? 'por período indeterminado' : dr.dur;
+          info += info ? ` durante ${durTxt}` : durTxt;
+        }
         const boxH = headerH + posLines.length * SP.posologiaLinha + (info ? SP.posologiaLinha : 0) + SP.cardPaddingInf;
         
 
