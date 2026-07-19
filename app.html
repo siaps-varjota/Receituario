@@ -3435,11 +3435,19 @@ function scrollDrugCardToTop(n) {
   if (!card) return;
   const topbar = document.querySelector('.topbar');
   const nav = document.querySelector('.app-nav');
-  const offset = (topbar ? topbar.offsetHeight : 0) + (nav ? nav.offsetHeight : 0) + 12;
+  const offset = (topbar ? topbar.offsetHeight : 0) + (nav ? nav.offsetHeight : 0) + 10;
   const rect = card.getBoundingClientRect();
   const targetY = window.scrollY + rect.top - offset;
   if (Math.abs(targetY - window.scrollY) > 4) {
     window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+  }
+}
+
+// Corrige eventuais desvios (layout ainda se ajustando durante a rolagem)
+function scrollDrugCardToTopCorrigido(n, tentativas) {
+  scrollDrugCardToTop(n);
+  if (tentativas > 0) {
+    setTimeout(() => scrollDrugCardToTopCorrigido(n, tentativas - 1), 260);
   }
 }
 
@@ -3452,7 +3460,7 @@ document.addEventListener('input', function(e) {
       const card = document.getElementById('di_' + match[1]);
       if (card && !card.dataset.autoScrolled) {
         card.dataset.autoScrolled = '1';
-        scrollDrugCardToTop(match[1]);
+        scrollDrugCardToTopCorrigido(match[1], 2);
       }
     }
   }
