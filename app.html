@@ -1843,7 +1843,6 @@ function addDrug() {
         <select id="d${n}_unidade">
           <option value="">Selecione...</option>
           <option value="comprimido(s)">Comprimido(s)</option>
-          <option value="dose(s)">Dose(s)</option>
           <option value="cápsula(s)">Cápsula(s)</option>
           <option value="mg">mg</option>
           <option value="mcg">mcg</option>
@@ -3006,11 +3005,12 @@ async function generatePDF(mode = 'save') {
       const PH_local = 210;
       const fixedH     = calcFixedHeaderHeight();
       const sigH       = calcSignatureHeight();
+      const MARGEM_SEGURANCA = 3; // buffer extra p/ evitar assinatura em cima da caixa do comprador
       // Para antibiótico, a assinatura fica ACIMA das caixas de comprador/fornecedor.
       // As caixas começam em PH - 49. A assinatura ocupa ~31.5mm (boxH=22 + 0.5 + cidade=4 + aposSection=4 + margem=1).
       // Portanto o limite superior da área de medicamentos é: PH - 49 - sigH - aposSection(4)
-      const limiteAnti = PH_local - ANTIBIOTICO_BASE_RESERVA - sigH - 4;
-      const limiteSimp = PH_local - sigH - 4; // aposSection = 4
+      const limiteAnti = PH_local - ANTIBIOTICO_BASE_RESERVA - sigH - 4 - MARGEM_SEGURANCA;
+      const limiteSimp = PH_local - sigH - 4 - MARGEM_SEGURANCA; // aposSection = 4
 
       const lotes = [];
       let lote    = [];
@@ -3021,7 +3021,9 @@ async function generatePDF(mode = 'save') {
         const cardH = calcDrugCardHeight(dr, lote.length); // índice relativo ao lote
         const protH = calcProtocolosHeight([...lote, dr]);
         const limite = d.tipo === 'antibiotico' ? limiteAnti : limiteSimp;
-        const fimComEste = yUsado + cardH + (d.tipo !== 'antibiotico' ? protH : 0);
+        // A altura dos protocolos SEMPRE entra no cálculo (antes só contava para não-antibiótico,
+        // o que deixava a assinatura cair em cima da caixa "IDENTIFICAÇÃO DO COMPRADOR").
+        const fimComEste = yUsado + cardH + protH;
 
         if (lote.length > 0 && fimComEste > limite) {
           // Não cabe: fecha lote atual e abre novo
@@ -3037,8 +3039,58 @@ async function generatePDF(mode = 'save') {
       return lotes.length ? lotes : [[]];
     }
 
+    /* ── Checagem final antes de gerar o PDF: garante que nenhum lote ultrapasse
+         o espaço reservado para assinatura/identificação do comprador. Se algum
+         medicamento isolado (com seu protocolo) já não couber sozinho na página,
+         avisa o usuário em vez de gerar um PDF com sobreposição. ── */
+    function validarPaginacao(lotes) {
+      const PH_local = 210;
+      const fixedH = calcFixedHeaderHeight();
+      const sigH   = calcSignatureHeight();
+      const MARGEM_SEGURANCA = 3;
+      const reserva = d.tipo === 'antibiotico' ? ANTIBIOTICO_BASE_RESERVA : 0;
+      const limite  = PH_local - reserva - sigH - 4 - MARGEM_SEGURANCA;
+      for (const lote of lotes) {
+        let yUsado = fixedH;
+        lote.forEach((dr, idx) => { yUsado += calcDrugCardHeight(dr, idx); });
+        const protH = calcProtocolosHeight(lote);
+        if (yUsado + protH > limite) {
+          return false;
+        }
+      }
+      return true;
+    }
+
     const allDrugs = d.drugs;
-    const lotes = paginarDrugs(allDrugs);
+    let lotes = paginarDrugs(allDrugs);
+
+    // Checagem antes de gerar: se algum lote ainda ultrapassar o espaço da assinatura
+    // (ex.: protocolo muito longo), empurra o último medicamento do lote para a página
+    // seguinte e revalida. Evita que a assinatura/identificação do comprador se sobreponham.
+    let tentativas = 0;
+    while (!validarPaginacao(lotes) && tentativas < 20) {
+      tentativas++;
+      let ajustado = false;
+      for (let li = 0; li < lotes.length; li++) {
+        const lote = lotes[li];
+        if (lote.length <= 1) continue; // não dá pra dividir mais este lote
+        let yUsado = calcFixedHeaderHeight();
+        lote.forEach((dr, idx) => { yUsado += calcDrugCardHeight(dr, idx); });
+        const protH = calcProtocolosHeight(lote);
+        const reserva = d.tipo === 'antibiotico' ? ANTIBIOTICO_BASE_RESERVA : 0;
+        const limite  = 210 - reserva - calcSignatureHeight() - 4 - 3;
+        if (yUsado + protH > limite) {
+          const sobrando = lote.pop();
+          if (!lotes[li + 1]) lotes.splice(li + 1, 0, []);
+          lotes[li + 1].unshift(sobrando);
+          ajustado = true;
+        }
+      }
+      if (!ajustado) break;
+    }
+    if (!validarPaginacao(lotes)) {
+      console.warn('Aviso: um medicamento com protocolo muito longo pode ultrapassar o espaço reservado à assinatura. Considere encurtar o campo de protocolo/observação.');
+    }
 
     const totalPaginas = lotes.length || 1;
     for (let pgIdx = 0; pgIdx < totalPaginas; pgIdx++) {
