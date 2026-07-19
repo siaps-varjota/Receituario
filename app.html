@@ -1696,6 +1696,33 @@ function setDrugTipo(n, tipo) {
 function v(id) { const e = document.getElementById(id); return e ? e.value.trim() : ''; }
 function vp(id) { const e = document.getElementById(id); if (!e) return ''; return e.value.trim() || e.placeholder || ''; }
 
+/* Sugestão automática de Unidade de fornecimento a partir da Unidade de medida escolhida.
+   Ex: comprimido(s) → comprimido(s); mL → frasco(s); gota(s) → frasco(s) (colírio/solução em frasco); etc.
+   Só preenche o campo se ele ainda estiver vazio, para não sobrescrever uma escolha manual do usuário. */
+const UNIDADE_PARA_FORNECIMENTO = {
+  'comprimido(s)':      'comprimido(s)',
+  'cápsula(s)':         'cápsula(s)',
+  'mg':                 'comprimido(s)',
+  'mcg':                'comprimido(s)',
+  'mL':                 'frasco(s)',
+  'gota(s)':             'frasco(s)',
+  'gota(s)/minuto':      'frasco(s)',
+  'UI':                  'frasco(s)',
+  'ampola(s)':           'ampola(s)',
+  'frasco(s)':           'frasco(s)',
+  'aplicação(ões)':      'bisnaga(s)',
+  'supositório(s)':      'supositório(s)',
+  'adesivo(s)':          'adesivo(s)',
+};
+function sugerirUnidFornecimento(n) {
+  const unidadeEl  = document.getElementById(`d${n}_unidade`);
+  const unidFornEl = document.getElementById(`d${n}_unid_forn`);
+  if (!unidadeEl || !unidFornEl) return;
+  if (unidFornEl.value) return; // já preenchido manualmente, não sobrescreve
+  const sugestao = UNIDADE_PARA_FORNECIMENTO[unidadeEl.value];
+  if (sugestao) unidFornEl.value = sugestao;
+}
+
 /* ── Drug management ── */
 function addDrug() {
   drugCount++;
@@ -1959,6 +1986,9 @@ function addDrug() {
   document.querySelectorAll(`input[name="d${n}_durun"]`).forEach(rd => {
     rd.addEventListener('change', () => updateDurBlock(n));
   });
+
+  const unidadeSel = document.getElementById(`d${n}_unidade`);
+  if (unidadeSel) unidadeSel.addEventListener('change', () => sugerirUnidFornecimento(n));
 
   setupDrugAutocomplete(n);
 }
@@ -3344,6 +3374,7 @@ document.getElementById('sig_data').value = new Date().toISOString().slice(0, 10
       setVal('d' + n + '_qtddose', med.quantidadeDose);
       var unidMapeada = mapear(UNID_MAP, med.unidadeMedida);
       setSelectValue(document.getElementById('d' + n + '_unidade'), unidMapeada);
+      sugerirUnidFornecimento(n);
       setVal('d' + n + '_pos', med.posologia);
       if (med.quantidade) setVal('d' + n + '_qtd', med.quantidade);
       var di = document.getElementById('di_' + n);
