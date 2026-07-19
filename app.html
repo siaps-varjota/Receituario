@@ -458,6 +458,29 @@ body {
   background: #fff;
 }
 .field textarea { resize: vertical; min-height: 54px; }
+.input-with-clear { position: relative; }
+.input-with-clear input { width: 100%; padding-right: 30px; box-sizing: border-box; }
+.drug-ac-clear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: #eef0f5;
+  color: #6b7280;
+  border-radius: 50%;
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.drug-ac-clear:hover { background: #ffe0e0; color: #c0392b; }
+.drug-ac-wrap.has-value .drug-ac-clear { display: flex; }
 
 /* ── TYPE SELECTOR ── */
 .type-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
@@ -1752,9 +1775,12 @@ function addDrug() {
     <div class="drug-body">
 
     <div class="drug-row r211">
-      <div class="field drug-ac-wrap">
+      <div class="field drug-ac-wrap" id="d${n}_nome_wrap">
         <label>Princípio ativo / Medicamento *</label>
-        <input id="d${n}_nome" placeholder="Ex: Amoxicilina" autocomplete="off">
+        <div class="input-with-clear">
+          <input id="d${n}_nome" placeholder="Ex: Amoxicilina" autocomplete="off">
+          <button type="button" class="drug-ac-clear" id="d${n}_nome_clear" title="Limpar e escolher outro">✕</button>
+        </div>
       </div>
       <div class="field">
         <label>Concentração</label>
@@ -2032,6 +2058,13 @@ function expandConcOptions(p) {
   return parts.map(conc => ({ ...p, conc }));
 }
 
+/* Mostra/esconde o botão "X" do campo Princípio ativo conforme o campo tem valor ou não */
+function toggleNomeClearBtn(n) {
+  const input = document.getElementById(`d${n}_nome`);
+  const wrap  = document.getElementById(`d${n}_nome_wrap`);
+  if (input && wrap) wrap.classList.toggle('has-value', !!input.value.trim());
+}
+
 function setupDrugAutocomplete(n) {
   const input = document.getElementById(`d${n}_nome`);
   if (!input) return;
@@ -2041,6 +2074,17 @@ function setupDrugAutocomplete(n) {
   ac.id = `d${n}_ac`;
   ac.style.display = 'none';
   input.parentNode.appendChild(ac);
+
+  const clearBtn = document.getElementById(`d${n}_nome_clear`);
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      toggleNomeClearBtn(n);
+      ac.style.display = 'none';
+      input.focus();
+    });
+  }
+  toggleNomeClearBtn(n);
 
   let _items = [];
   let selectedIdx = -1;
@@ -2080,7 +2124,7 @@ function setupDrugAutocomplete(n) {
     els.forEach((el, i) => el.classList.toggle('active', i === idx));
   }
 
-  input.addEventListener('input', function() { renderAc(getMatches(this.value)); });
+  input.addEventListener('input', function() { renderAc(getMatches(this.value)); toggleNomeClearBtn(n); });
   input.addEventListener('focus', function() { if (this.value.length >= 2) renderAc(getMatches(this.value)); });
   input.addEventListener('keydown', function(e) {
     const els = ac.querySelectorAll('.drug-ac-item');
@@ -2106,6 +2150,7 @@ function applyProtocolToDrug(n, p) {
   setVal(`d${n}_nome`, p.nome);
   setVal(`d${n}_conc`, p.conc);
   updateDrugPreview(n);
+  toggleNomeClearBtn(n);
   const viaEl = document.getElementById(`d${n}_via`);
   if (viaEl && p.via) {
     const opt = Array.from(viaEl.options).find(o => o.value === p.via || o.text.toLowerCase() === p.via.toLowerCase());
@@ -3236,6 +3281,7 @@ function selectProtocol(p) {
   setVal(`d${n}_nome`, p.nome);
   setVal(`d${n}_conc`, p.conc);
   updateDrugPreview(n);
+  toggleNomeClearBtn(n);
   const viaEl = document.getElementById(`d${n}_via`);
   if (viaEl) {
     const opt = Array.from(viaEl.options).find(o => o.value === p.via || o.text.toLowerCase() === p.via.toLowerCase());
@@ -3368,6 +3414,7 @@ document.getElementById('sig_data').value = new Date().toISOString().slice(0, 10
       setVal('d' + n + '_nome', nomePuro);
       setVal('d' + n + '_conc', conc);
       updateDrugPreview(n);
+      toggleNomeClearBtn(n);
       var viaMapeada = mapear(VIA_MAP, med.via);
       if (!viaMapeada && med.via) viaMapeada = med.via;
       setSelectValue(document.getElementById('d' + n + '_via'), viaMapeada);
