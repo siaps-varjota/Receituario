@@ -1,0 +1,3116 @@
+[
+  {
+    "nome": "Acetato de betametasona + fosfato dissódico de betametasona",
+    "conc": "3 mg/mL + 3 mg/mL",
+    "forma": "Suspensão injetável",
+    "via": "Intramuscular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Acetato de hidrocortisona",
+    "conc": "10 mg/g (1%)",
+    "forma": "Creme",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Acetato de medroxiprogesterona",
+    "conc": "50 mg/mL",
+    "forma": "Suspensão injetável",
+    "via": "Intramuscular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Acetato de medroxiprogesterona",
+    "conc": "150 mg/mL",
+    "forma": "Suspensão injetável",
+    "via": "Intramuscular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Acetato de medroxiprogesterona",
+    "conc": "10 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Acetato de medroxiprogesterona + cipionato de estradiol",
+    "conc": "25 mg/0,5 mL + 5 mg/0,5 mL",
+    "forma": "Suspensão injetável",
+    "via": "Intramuscular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Acetato de sódio",
+    "conc": "2 mEq/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Acetazolamida",
+    "conc": "250 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Aciclovir",
+    "conc": "200 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Aciclovir",
+    "conc": "50 mg/g (5%)",
+    "forma": "Creme",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Aciclovir",
+    "conc": "250 mg",
+    "forma": "Pó para solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ácido acetilsalicílico",
+    "conc": "100 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ácido acetilsalicílico",
+    "conc": "500 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ácido fólico",
+    "conc": "5 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ácido fólico",
+    "conc": "0,2 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ácido folínico",
+    "conc": "15 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ácido salicílico (FN)",
+    "conc": "50 mg/g (5%)",
+    "forma": "Pomada",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ácido valproico",
+    "conc": "250 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ácido valproico",
+    "conc": "250 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ácido valproico",
+    "conc": "300 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ácido valproico",
+    "conc": "500 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ácido valproico",
+    "conc": "50 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ácido valproico",
+    "conc": "50 mg/mL",
+    "forma": "Xarope",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Albendazol",
+    "conc": "40 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Albendazol",
+    "conc": "400 mg",
+    "forma": "Comprimido mastigável",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Alcatrão mineral (FN)",
+    "conc": "10 mg/g (1%)",
+    "forma": "Pomada",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Alendronato de sódio",
+    "conc": "10 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Alendronato de sódio",
+    "conc": "70 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Algestona acetofenida + enantato de estradiol",
+    "conc": "150 mg/mL + 10 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Alopurinol",
+    "conc": "100 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Alopurinol",
+    "conc": "300 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Amoxicilina",
+    "conc": "50 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Amoxicilina",
+    "conc": "500 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Amoxicilina",
+    "conc": "500 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Amoxicilina + clavulanato de potássio",
+    "conc": "50 mg/mL + 12,5 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Amoxicilina + clavulanato de potássio",
+    "conc": "500 mg + 125 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Atenolol",
+    "conc": "50 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Atenolol",
+    "conc": "100 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Azitromicina",
+    "conc": "500 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Azitromicina",
+    "conc": "40 mg/mL",
+    "forma": "Pó para suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Benzilpenicilina benzatina",
+    "conc": "600.000 UI",
+    "forma": "Pó para suspensão injetável",
+    "via": "Intramuscular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Benzilpenicilina benzatina",
+    "conc": "1.200.000 UI",
+    "forma": "Pó para suspensão injetável",
+    "via": "Intramuscular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Benzilpenicilina potássica",
+    "conc": "5.000.000 UI",
+    "forma": "Pó para solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Benzilpenicilina procaína + benzilpenicilina potássica",
+    "conc": "300.000 UI + 100.000 UI",
+    "forma": "Pó para suspensão injetável",
+    "via": "Intramuscular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Benzoilmetronidazol",
+    "conc": "40 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Besilato de anlodipino",
+    "conc": "5 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Besilato de anlodipino",
+    "conc": "10 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Bicarbonato de sódio",
+    "conc": "84 mg/mL (8,4%)",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Brometo de ipratrópio",
+    "conc": "0,25 mg/mL",
+    "forma": "Solução para inalação",
+    "via": "Inalatória",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Brometo de ipratrópio",
+    "conc": "20 mcg/dose",
+    "forma": "Solução aerossol",
+    "via": "Inalatória",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Budesonida",
+    "conc": "32 mcg",
+    "forma": "Suspensão para inalação nasal",
+    "via": "Nasal",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Budesonida",
+    "conc": "50 mcg",
+    "forma": "Suspensão para inalação nasal",
+    "via": "Nasal",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Budesonida",
+    "conc": "64 mcg",
+    "forma": "Suspensão para inalação nasal",
+    "via": "Nasal",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Captopril",
+    "conc": "25 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Carbamazepina",
+    "conc": "200 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Carbamazepina",
+    "conc": "400 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Carbamazepina",
+    "conc": "20 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Carbonato de cálcio",
+    "conc": "1.250 mg (500 mg cálcio elementar)",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Carbonato de cálcio + colecalciferol",
+    "conc": "1.250 mg + 200 UI",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Carbonato de cálcio + colecalciferol",
+    "conc": "1.250 mg + 400 UI",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Carbonato de cálcio + colecalciferol",
+    "conc": "1.500 mg + 400 UI",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Carbonato de lítio",
+    "conc": "300 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Carvão vegetal ativado",
+    "conc": "-",
+    "forma": "Pó para suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Carvedilol",
+    "conc": "3,125 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Carvedilol",
+    "conc": "6,25 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Carvedilol",
+    "conc": "12,5 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Carvedilol",
+    "conc": "25 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cefalexina",
+    "conc": "500 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cefalexina",
+    "conc": "500 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cefalexina",
+    "conc": "50 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cefotaxima sódica",
+    "conc": "500 mg",
+    "forma": "Pó para solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ceftriaxona",
+    "conc": "250 mg",
+    "forma": "Pó para solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ceftriaxona",
+    "conc": "500 mg",
+    "forma": "Pó para solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ceftriaxona",
+    "conc": "1 g",
+    "forma": "Pó para solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cetoconazol",
+    "conc": "20 mg/mL (2%)",
+    "forma": "Xampu",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cianocobalamina",
+    "conc": "500 mcg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ciprofloxacino",
+    "conc": "250 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ciprofloxacino",
+    "conc": "500 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Claritromicina",
+    "conc": "50 mg/mL",
+    "forma": "Grânulo para suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Claritromicina",
+    "conc": "500 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Claritromicina",
+    "conc": "250 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Claritromicina",
+    "conc": "500 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Clonazepam",
+    "conc": "2,5 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloranfenicol",
+    "conc": "250 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloranfenicol",
+    "conc": "250 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloreto de potássio",
+    "conc": "191 mg/mL (19,1%)",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloreto de sódio",
+    "conc": "200 mg/mL (20%)",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloreto de sódio",
+    "conc": "9 mg/mL (0,9%)",
+    "forma": "Solução nasal",
+    "via": "Nasal",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloreto de sódio",
+    "conc": "9 mg/mL (0,9%)",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de amiodarona",
+    "conc": "50 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de amiodarona",
+    "conc": "200 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de amitriptilina",
+    "conc": "25 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de amitriptilina",
+    "conc": "75 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de biperideno",
+    "conc": "4 mg",
+    "forma": "Comprimido de liberação prolongada",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de biperideno",
+    "conc": "2 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de bupivacaína",
+    "conc": "2,5 mg/mL (0,25%)",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de bupivacaína",
+    "conc": "5 mg/mL (0,50%)",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de clindamicina",
+    "conc": "150 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de clindamicina",
+    "conc": "300 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de clomipramina",
+    "conc": "10 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de clomipramina",
+    "conc": "25 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de clorpromazina",
+    "conc": "5 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de clorpromazina",
+    "conc": "40 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de clorpromazina",
+    "conc": "25 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de clorpromazina",
+    "conc": "100 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de dobutamina",
+    "conc": "12,5 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de dopamina",
+    "conc": "5 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de fluoxetina",
+    "conc": "20 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de fluoxetina",
+    "conc": "20 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de hidralazina",
+    "conc": "25 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de hidralazina",
+    "conc": "50 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de lidocaína",
+    "conc": "10 mg/mL (1%)",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de lidocaína",
+    "conc": "20 mg/mL (2%)",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de lidocaína",
+    "conc": "20 mg/g (2%)",
+    "forma": "Gel",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de lidocaína",
+    "conc": "100 mg/mL (10%)",
+    "forma": "Solução spray",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de lidocaína + glicose",
+    "conc": "50 mg/mL + 75 mg/mL (5% + 7,5%)",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de lidocaína + hemitartarato de epinefrina",
+    "conc": "2% + 1:200.000",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de lidocaína + hemitartarato de epinefrina",
+    "conc": "2% + 1:80.000",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de lidocaína + hemitartarato de epinefrina",
+    "conc": "1% + 1:200.000",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de metformina",
+    "conc": "500 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de metformina",
+    "conc": "850 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de metoclopramida",
+    "conc": "10 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de metoclopramida",
+    "conc": "5 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de metoclopramida",
+    "conc": "4 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de naloxona",
+    "conc": "0,4 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de nortriptilina",
+    "conc": "10 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de nortriptilina",
+    "conc": "25 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de nortriptilina",
+    "conc": "50 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de nortriptilina",
+    "conc": "75 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de ondansetrona",
+    "conc": "4 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de ondansetrona",
+    "conc": "4 mg",
+    "forma": "Comprimido orodispersível",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de ondansetrona",
+    "conc": "8 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de ondansetrona",
+    "conc": "8 mg",
+    "forma": "Comprimido orodispersível",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de pilocarpina",
+    "conc": "20 mg/mL (2%)",
+    "forma": "Solução oftálmica",
+    "via": "Ocular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de piridoxina",
+    "conc": "40 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de prilocaína + felipressina",
+    "conc": "30 mg/mL (3%) + 0,03 UI/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de prometazina",
+    "conc": "25 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de prometazina",
+    "conc": "25 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de propafenona",
+    "conc": "300 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de propafenona",
+    "conc": "150 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de propranolol",
+    "conc": "10 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de propranolol",
+    "conc": "40 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de protamina",
+    "conc": "10 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de tetraciclina",
+    "conc": "5 mg/g",
+    "forma": "Pomada oftálmica",
+    "via": "Ocular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de tetraciclina",
+    "conc": "500 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de tiamina",
+    "conc": "300 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de verapamil",
+    "conc": "80 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de verapamil",
+    "conc": "2,5 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Cloridrato de verapamil",
+    "conc": "120 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dexametasona",
+    "conc": "1 mg/g (0,1%)",
+    "forma": "Creme dermatológico",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dexametasona",
+    "conc": "1 mg/g (0,1%)",
+    "forma": "Pomada oftálmica",
+    "via": "Ocular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dexametasona",
+    "conc": "1 mg/mL (0,1%)",
+    "forma": "Suspensão oftálmica",
+    "via": "Ocular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dexametasona",
+    "conc": "4 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dexametasona",
+    "conc": "0,1 mg/mL",
+    "forma": "Elixir",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dexametasona",
+    "conc": "4 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Diazepam",
+    "conc": "5 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Diazepam",
+    "conc": "5 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Diazepam",
+    "conc": "10 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Digliconato de clorexidina",
+    "conc": "0,12%",
+    "forma": "Solução bucal",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Digliconato de clorexidina",
+    "conc": "2% a 4%",
+    "forma": "Solução para uso tópico",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Digoxina",
+    "conc": "0,25 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Digoxina",
+    "conc": "0,05 mg/mL",
+    "forma": "Elixir",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dinitrato de isossorbida",
+    "conc": "5 mg",
+    "forma": "Comprimido sublingual",
+    "via": "Sublingual",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dipirona",
+    "conc": "500 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dipirona",
+    "conc": "500 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dipirona",
+    "conc": "500 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dipropionato de beclometasona",
+    "conc": "50 mcg/dose",
+    "forma": "Solução aerossol",
+    "via": "Inalatória",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dipropionato de beclometasona",
+    "conc": "50 mcg/dose",
+    "forma": "Suspensão para inalação nasal",
+    "via": "Nasal",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dipropionato de beclometasona",
+    "conc": "200 mcg/dose",
+    "forma": "Pó para inalação oral",
+    "via": "Inalatória",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dipropionato de beclometasona",
+    "conc": "200 mcg/dose",
+    "forma": "Solução aerossol",
+    "via": "Inalatória",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dipropionato de beclometasona",
+    "conc": "250 mcg/dose",
+    "forma": "Solução aerossol",
+    "via": "Inalatória",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dipropionato de beclometasona",
+    "conc": "200 mcg/dose",
+    "forma": "Cápsula para inalação oral",
+    "via": "Inalatória",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dipropionato de beclometasona",
+    "conc": "400 mcg/dose",
+    "forma": "Pó para inalação oral",
+    "via": "Inalatória",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Dipropionato de beclometasona",
+    "conc": "400 mcg/dose",
+    "forma": "Cápsula para inalação oral",
+    "via": "Inalatória",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Enantato de noretisterona + valerato de estradiol",
+    "conc": "50 mg/mL + 5 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Epinefrina",
+    "conc": "1 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Espironolactona",
+    "conc": "25 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Espironolactona",
+    "conc": "100 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Estolato de eritromicina",
+    "conc": "25 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Estolato de eritromicina",
+    "conc": "500 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Estolato de eritromicina",
+    "conc": "50 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Estriol",
+    "conc": "1 mg/g",
+    "forma": "Creme vaginal",
+    "via": "Vaginal",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Estrogênios conjugados",
+    "conc": "0,625 mg/g",
+    "forma": "Creme vaginal",
+    "via": "Vaginal",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Estrogênios conjugados",
+    "conc": "0,3 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Estrogênios conjugados",
+    "conc": "0,625 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Etinilestradiol + levonorgestrel",
+    "conc": "0,03 mg + 0,15 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fenitoína",
+    "conc": "100 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fenitoína",
+    "conc": "20 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fenitoína",
+    "conc": "50 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fenobarbital",
+    "conc": "100 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fenobarbital",
+    "conc": "100 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fenobarbital",
+    "conc": "40 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ferripolimaltose",
+    "conc": "50 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ferripolimaltose",
+    "conc": "100 mg",
+    "forma": "Comprimido mastigável",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ferripolimaltose",
+    "conc": "10 mg/mL",
+    "forma": "Xarope",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Finasterida",
+    "conc": "5 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fluconazol",
+    "conc": "150 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fluconazol",
+    "conc": "10 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fluconazol",
+    "conc": "100 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Flumazenil",
+    "conc": "0,1 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Folinato de cálcio",
+    "conc": "15 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fosfato de cálcio tribásico + colecalciferol",
+    "conc": "1661,616 mg + 400 UI",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fosfato de clindamicina",
+    "conc": "10 mg/g",
+    "forma": "Solução tópica",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fosfato de clindamicina",
+    "conc": "10 mg/g",
+    "forma": "Gel",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fosfato de potássio monobásico + fosfato de potássio dibásico",
+    "conc": "0,03 g/mL + 0,1567 g/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fosfato sódico de prednisolona",
+    "conc": "1 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Fosfato sódico de prednisolona",
+    "conc": "3 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Furosemida",
+    "conc": "40 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Furosemida",
+    "conc": "10 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Gentamicina",
+    "conc": "5 mg/g",
+    "forma": "Pomada oftálmica",
+    "via": "Ocular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Gentamicina",
+    "conc": "5 mg/mL",
+    "forma": "Solução oftálmica",
+    "via": "Ocular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Glibenclamida",
+    "conc": "5 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Glicerol",
+    "conc": "120 mg/mL",
+    "forma": "Solução retal",
+    "via": "Retal",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Glicerol",
+    "conc": "81 mg - 92 mg",
+    "forma": "Supositório retal",
+    "via": "Retal",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Gliclazida",
+    "conc": "30 mg",
+    "forma": "Comprimido de liberação prolongada",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Gliclazida",
+    "conc": "60 mg",
+    "forma": "Comprimido de liberação prolongada",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Gliclazida",
+    "conc": "80 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Glicose",
+    "conc": "50 mg/mL (5%)",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Glicose",
+    "conc": "100 mg/mL (10%)",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Glicose",
+    "conc": "500 mg/mL (50%)",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Haloperidol",
+    "conc": "1 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Haloperidol",
+    "conc": "5 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Haloperidol",
+    "conc": "50 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Haloperidol",
+    "conc": "2 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Haloperidol",
+    "conc": "5 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Hemitartarato de norepinefrina",
+    "conc": "2 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Heparina sódica",
+    "conc": "5.000 UI/0,25 mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Hidróxido de alumínio",
+    "conc": "230 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Hidróxido de alumínio",
+    "conc": "300 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Hidróxido de alumínio",
+    "conc": "60 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Hidroclorotiazida",
+    "conc": "12,5 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Hidroclorotiazida",
+    "conc": "25 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Hipromelose",
+    "conc": "3 mg/mL (0,3%)",
+    "forma": "Solução oftálmica",
+    "via": "Ocular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Hipromelose",
+    "conc": "5 mg/mL (0,5%)",
+    "forma": "Solução oftálmica",
+    "via": "Ocular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ibuprofeno",
+    "conc": "200 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ibuprofeno",
+    "conc": "300 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ibuprofeno",
+    "conc": "600 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ibuprofeno",
+    "conc": "600 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ibuprofeno",
+    "conc": "50 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Imiquimode",
+    "conc": "50 mg/g",
+    "forma": "Creme",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Insulina humana NPH",
+    "conc": "100 UI/mL",
+    "forma": "Suspensão injetável",
+    "via": "Intramuscular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Insulina humana regular",
+    "conc": "100 UI/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Itraconazol",
+    "conc": "10 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Itraconazol",
+    "conc": "100 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Ivermectina",
+    "conc": "6 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Lactato de biperideno",
+    "conc": "5 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Lactulose",
+    "conc": "667 mg/mL",
+    "forma": "Xarope",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Levodopa + benserazida",
+    "conc": "100 mg + 25 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Levodopa + benserazida",
+    "conc": "100 mg + 25 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Levodopa + benserazida",
+    "conc": "200 mg + 50 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Levodopa + carbidopa",
+    "conc": "200 mg + 50 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Levodopa + carbidopa",
+    "conc": "250 mg + 25 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Levonorgestrel",
+    "conc": "0,75 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Levonorgestrel",
+    "conc": "1,5 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Levotiroxina sódica",
+    "conc": "12,5 mcg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Levotiroxina sódica",
+    "conc": "25 mcg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Levotiroxina sódica",
+    "conc": "37,5 mcg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Levotiroxina sódica",
+    "conc": "50 mcg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Levotiroxina sódica",
+    "conc": "100 mcg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Loratadina",
+    "conc": "1 mg/mL",
+    "forma": "Xarope",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Loratadina",
+    "conc": "10 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Losartana potássica",
+    "conc": "50 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Maleato de dexclorfeniramina",
+    "conc": "2 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Maleato de dexclorfeniramina",
+    "conc": "0,4 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Maleato de dexclorfeniramina",
+    "conc": "0,4 mg/mL",
+    "forma": "Xarope",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Maleato de enalapril",
+    "conc": "5 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Maleato de enalapril",
+    "conc": "10 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Maleato de enalapril",
+    "conc": "20 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Maleato de timolol",
+    "conc": "2,5 mg/mL (0,25%)",
+    "forma": "Solução oftálmica",
+    "via": "Ocular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Maleato de timolol",
+    "conc": "5 mg/mL (0,5%)",
+    "forma": "Solução oftálmica",
+    "via": "Ocular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Mesilato de doxazosina",
+    "conc": "2 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Mesilato de doxazosina",
+    "conc": "4 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Metilsulfato de pralidoxima",
+    "conc": "200 mg",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Metildopa",
+    "conc": "250 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Metronidazol",
+    "conc": "100 mg/g (10%)",
+    "forma": "Gel vaginal",
+    "via": "Vaginal",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Metronidazol",
+    "conc": "250 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Metronidazol",
+    "conc": "400 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Midazolam",
+    "conc": "2 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Misoprostol",
+    "conc": "25 mcg",
+    "forma": "Comprimido vaginal",
+    "via": "Vaginal",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Misoprostol",
+    "conc": "200 mcg",
+    "forma": "Comprimido vaginal",
+    "via": "Vaginal",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Mononitrato de isossorbida",
+    "conc": "20 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Mononitrato de isossorbida",
+    "conc": "40 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Nifedipino",
+    "conc": "10 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Nifedipino",
+    "conc": "10 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Nistatina",
+    "conc": "100.000 UI/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Nitrato de miconazol",
+    "conc": "2% (20 mg/g)",
+    "forma": "Gel oral",
+    "via": "",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Nitrato de miconazol",
+    "conc": "2% (20 mg/g)",
+    "forma": "Loção",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Nitrato de miconazol",
+    "conc": "2% (20 mg/g)",
+    "forma": "Pó",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Nitrato de miconazol",
+    "conc": "2% (20 mg/g)",
+    "forma": "Creme vaginal",
+    "via": "Vaginal",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Nitrato de miconazol",
+    "conc": "2% (20 mg/g)",
+    "forma": "Creme",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Nitrofurantoína",
+    "conc": "100 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Nitrofurantoína",
+    "conc": "5 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Noretisterona",
+    "conc": "0,35 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Óleo mineral",
+    "conc": "-",
+    "forma": "Óleo para uso oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Omeprazol",
+    "conc": "10 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Omeprazol",
+    "conc": "20 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Palmitato de retinol",
+    "conc": "150.000 UI/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Paracetamol",
+    "conc": "200 mg/mL",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Paracetamol",
+    "conc": "500 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Pasta de óxido de zinco (FN)",
+    "conc": "250 mg/g (25%)",
+    "forma": "Pasta",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Permanganato de potássio (FN)",
+    "conc": "100 mg",
+    "forma": "Comprimido para uso tópico",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Permanganato de potássio (FN)",
+    "conc": "100 mg",
+    "forma": "Pó",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Permetrina",
+    "conc": "10 mg/g (1%)",
+    "forma": "Loção",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Permetrina",
+    "conc": "50 mg/g (5%)",
+    "forma": "Loção",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Peróxido de benzoíla (FN)",
+    "conc": "25 mg/g (2,5%)",
+    "forma": "Gel",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Peróxido de benzoíla (FN)",
+    "conc": "50 mg/g (5%)",
+    "forma": "Gel",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Podofilina (FN)",
+    "conc": "100 mg/mL (10%) a 250 mg/mL (25%)",
+    "forma": "Solução para uso tópico",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Podofilotoxina",
+    "conc": "1,5 mg/g",
+    "forma": "Creme",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Prednisona",
+    "conc": "5 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Prednisona",
+    "conc": "20 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Propiltiouracila",
+    "conc": "100 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Rifampicina",
+    "conc": "300 mg",
+    "forma": "Cápsula",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sais para reidratação oral",
+    "conc": "cloreto de sódio, glicose anidra, cloreto de potássio, citrato de sódio diidratado",
+    "forma": "Pó para solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sinvastatina",
+    "conc": "10 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sinvastatina",
+    "conc": "20 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sinvastatina",
+    "conc": "40 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Solução ringer + lactato",
+    "conc": "lactato de sódio 3 mg/mL + cloreto de sódio 6 mg/mL + cloreto de potássio 0,3 mg/mL + cloreto de cálcio 0,2 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Succinato de metoprolol",
+    "conc": "25 mg",
+    "forma": "Comprimido de liberação prolongada",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Succinato de metoprolol",
+    "conc": "50 mg",
+    "forma": "Comprimido de liberação prolongada",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Succinato de metoprolol",
+    "conc": "100 mg",
+    "forma": "Comprimido de liberação prolongada",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Succinato sódico de hidrocortisona",
+    "conc": "100 mg",
+    "forma": "Pó para solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Succinato sódico de hidrocortisona",
+    "conc": "500 mg",
+    "forma": "Pó para solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfadiazina de prata",
+    "conc": "10 mg/g (1%)",
+    "forma": "Creme",
+    "via": "Tópica",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfametoxazol + trimetoprima",
+    "conc": "40 mg/mL + 8 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfametoxazol + trimetoprima",
+    "conc": "80 mg/mL + 16 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfametoxazol + trimetoprima",
+    "conc": "400 mg + 80 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfato de atropina",
+    "conc": "0,25 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfato de magnésio",
+    "conc": "10% (0,81 mEq/mL Mg++)",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfato de magnésio",
+    "conc": "50% (4,05 mEq/mL Mg++)",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfato de polimixina B + sulfato de neomicina + fluocinolona acetonida + cloridrato de lidocaína",
+    "conc": "10.000 UI/mL + 3,5 mg/mL + 0,25 mg/mL + 20 mg/mL",
+    "forma": "Solução otológica",
+    "via": "Auricular",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfato de salbutamol",
+    "conc": "100 mcg/dose",
+    "forma": "Suspensão aerossol",
+    "via": "Inalatória",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfato de salbutamol",
+    "conc": "5 mg/mL",
+    "forma": "Solução para inalação",
+    "via": "Inalatória",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfato de salbutamol",
+    "conc": "0,5 mg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfato de zinco",
+    "conc": "200 mcg/mL",
+    "forma": "Solução injetável",
+    "via": "Intravenosa",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfato de zinco",
+    "conc": "10 mg",
+    "forma": "Comprimido mastigável",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfato de zinco",
+    "conc": "4 mg/mL",
+    "forma": "Xarope",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfato ferroso",
+    "conc": "Equivalente a 5 mg/mL de ferro elementar",
+    "forma": "Xarope",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfato ferroso",
+    "conc": "Equivalente a 25 mg/mL de ferro elementar",
+    "forma": "Solução oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Sulfato ferroso",
+    "conc": "Equivalente a 40 mg de ferro elementar",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Tartarato de metoprolol",
+    "conc": "100 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Teclozana",
+    "conc": "500 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Teclozana",
+    "conc": "10 mg/mL",
+    "forma": "Suspensão oral",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Tiamazol",
+    "conc": "5 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Tiamazol",
+    "conc": "10 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Varfarina sódica",
+    "conc": "1 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  },
+  {
+    "nome": "Varfarina sódica",
+    "conc": "5 mg",
+    "forma": "Comprimido",
+    "via": "Oral",
+    "uso": "",
+    "group": "RENAME 2024 – Componente Básico",
+    "protocolo": "RENAME 2024 (Componente Básico da Assistência Farmacêutica) – Portaria GM/MS nº 6.324/2024"
+  }
+]
