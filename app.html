@@ -1992,6 +1992,15 @@ function formatConcParts(conc) {
 function renderConcBadges(conc) {
   return formatConcParts(conc).map(v => `<span class="badge-conc">${v}</span>`).join(' ');
 }
+/* Transforma um item com doses distintas (ex: conc "500-1.000mg") em VÁRIOS itens selecionáveis,
+   um para cada dose (Dipirona 500mg / Dipirona 1.000mg), para que ao clicar preencha o campo
+   Concentração já com o valor único, sem precisar editar depois. Combinações ("+") e faixas
+   contínuas ("–") continuam como um único item, pois formatConcParts não as separa. */
+function expandConcOptions(p) {
+  const parts = formatConcParts(p.conc);
+  if (parts.length <= 1) return [p];
+  return parts.map(conc => ({ ...p, conc }));
+}
 
 function setupDrugAutocomplete(n) {
   const input = document.getElementById(`d${n}_nome`);
@@ -2012,12 +2021,12 @@ function setupDrugAutocomplete(n) {
     const locais = PROTOCOLS.filter(p =>
       p.nome.toLowerCase().includes(ql) ||
       (p.uso && p.uso.toLowerCase().includes(ql))
-    );
+    ).flatMap(expandConcOptions);
     if (locais.length) return locais.slice(0, 10);
     // Nada no protocolo local? busca no fallback BNAFAR (RENAME), se já carregado
     const bnafar = (window.BNAFAR_FALLBACK || []).filter(p =>
       p.nome.toLowerCase().includes(ql)
-    );
+    ).flatMap(expandConcOptions);
     return bnafar.slice(0, 10);
   }
 
@@ -3135,7 +3144,7 @@ function renderProtocolGroups(list) {
     return;
   }
   const byGroup = {};
-  list.forEach(p => { if (!byGroup[p.group]) byGroup[p.group] = []; byGroup[p.group].push(p); });
+  list.flatMap(expandConcOptions).forEach(p => { if (!byGroup[p.group]) byGroup[p.group] = []; byGroup[p.group].push(p); });
   container.innerHTML = Object.entries(byGroup).map(([g, items]) => `
     <div>
       <div class="protocol-group-title">${g}</div>
