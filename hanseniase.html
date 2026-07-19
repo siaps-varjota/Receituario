@@ -97,8 +97,8 @@ body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: v
 .result-body { font-size: 0.83rem; color: var(--text-mid); line-height: 1.55; }
 .result-body ul { padding-left: 1.2rem; margin-top: 0.4rem; }
 .result-body li { margin-bottom: 0.3rem; }
-.step-trail { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 1rem; }
-.step-chip { font-size: 0.72rem; background: var(--green-pale); color: var(--green); border: 1px solid var(--green-border); padding: 0.18rem 0.55rem; border-radius: 20px; font-weight: 500; }
+.step-trail { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 1rem; justify-content: center; }
+.step-chip { display: inline-block; font-size: 0.72rem; background: var(--green-pale); color: var(--green); border: 1px solid var(--green-border); padding: 0.25rem 0.6rem; border-radius: 12px; font-weight: 500; line-height: 1.35; max-width: 280px; text-align: center; }
 
 /* ACCORDIONS */
 .acc-item { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.5rem; overflow: hidden; }
@@ -1035,14 +1035,20 @@ function renderAlgoStep(key) {
   const voltarBtn = document.getElementById('algo-voltar');
   if (node.result) {
     trailEl.style.display = 'flex';
-    trailEl.innerHTML = algoTrail.map(t => `<span class="step-chip">${t}</span>`).join('');
+    trailEl.innerHTML = algoTrail.map(t => {
+      const perguntaCurta = t.pergunta.length > 70 ? t.pergunta.substring(0, 70) + '…' : t.pergunta;
+      return `<span class="step-chip" title="${t.pergunta.replace(/"/g, '&quot;')}"><strong>${perguntaCurta}</strong> → ${t.resposta}</span>`;
+    }).join('');
     stepEl.innerHTML = `<div class="result-box ${node.type}"><div class="result-badge ${node.type}">${node.badge}</div><div class="result-title">${node.title}</div><div class="result-body">${node.body}</div></div>`;
     resetBtn.style.display = 'inline-block';
     voltarBtn.style.display = 'inline-block';
     return;
   }
   trailEl.style.display = algoTrail.length ? 'flex' : 'none';
-  trailEl.innerHTML = algoTrail.map(t => `<span class="step-chip">${t}</span>`).join('');
+  trailEl.innerHTML = algoTrail.map(t => {
+    const perguntaCurta = t.pergunta.length > 70 ? t.pergunta.substring(0, 70) + '…' : t.pergunta;
+    return `<span class="step-chip" title="${t.pergunta.replace(/"/g, '&quot;')}"><strong>${perguntaCurta}</strong> → ${t.resposta}</span>`;
+  }).join('');
   let html = `<div class="algo-question">${node.q}</div><div class="btn-group">`;
   node.opts.forEach((opt, i) => { html += `<button class="btn-opt" onclick="algoChoose('${key}', ${i})">${opt.label}</button>`; });
   html += `</div>`;
@@ -1053,8 +1059,10 @@ function renderAlgoStep(key) {
 
 function algoChoose(fromKey, optIdx) {
   const opt = algo[fromKey].opts[optIdx];
+  const perguntaTexto = algo[fromKey].q.replace(/<[^>]+>/g, '');
+  const respostaTexto = opt.label.replace(/<[^>]+>/g, '').substring(0, 60);
   algoHistory.push(fromKey);
-  algoTrail.push(opt.label);
+  algoTrail.push({ pergunta: perguntaTexto, resposta: respostaTexto });
   renderAlgoStep(opt.next);
 }
 function voltarAlgo() { if (!algoHistory.length) return; algoTrail.pop(); renderAlgoStep(algoHistory.pop()); }
