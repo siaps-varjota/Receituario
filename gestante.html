@@ -83,8 +83,8 @@ body { font-family:'IBM Plex Sans',sans-serif; background:var(--bg); color:var(-
 .btn-restart:hover { background:var(--rose-pale); }
 
 /* trilha */
-.step-trail { display:flex; flex-wrap:wrap; gap:0.3rem; margin-bottom:1rem; }
-.step-chip  { font-size:0.71rem; background:var(--rose-pale); color:var(--rose); border:1px solid var(--rose-border); padding:0.18rem 0.55rem; border-radius:20px; font-weight:500; }
+.step-trail { display:flex; flex-wrap:wrap; gap:0.3rem; margin-bottom:1rem; justify-content:center; }
+.step-chip  { display:inline-block; font-size:0.71rem; background:var(--rose-pale); color:var(--rose); border:1px solid var(--rose-border); padding:0.25rem 0.6rem; border-radius:12px; font-weight:500; line-height:1.35; max-width:280px; text-align:center; }
 
 /* resultado */
 .result-box { border-radius:10px; padding:1rem; margin-top:0.8rem; border:1.5px solid; }
@@ -774,7 +774,10 @@ function renderAlgoStep(key) {
   // TRILHA
   trailEl.style.display = algoTrail.length ? 'flex' : 'none';
   trailEl.innerHTML = algoTrail.map(function(t) {
-    return '<span class="step-chip">' + t + '</span>';
+    var perguntaCurta = t.pergunta.length > 70 ? t.pergunta.substring(0, 70) + '…' : t.pergunta;
+    return '<span class="step-chip" title="' + t.pergunta.replace(/"/g, '&quot;') + '">' +
+             '<strong>' + perguntaCurta + '</strong> → ' + t.resposta +
+           '</span>';
   }).join('');
 
   // PERGUNTA
@@ -813,8 +816,10 @@ function algoChoose(fromKey, optIdx) {
     return;
   }
   var opt = algo[fromKey].opts[optIdx];
+  var perguntaTexto = algo[fromKey].q.replace(/<[^>]+>/g, '');
+  var respostaTexto = opt.label.replace(/<[^>]+>/g, '').substring(0, 60);
   algoHistory.push(fromKey);
-  algoTrail.push(opt.label.replace(/<[^>]+>/g, '').substring(0, 60));
+  algoTrail.push({ pergunta: perguntaTexto, resposta: respostaTexto });
   // Feedback visual
   buttons.forEach(function(b, i) { b.classList.toggle('selected', i === optIdx); });
   pendingTimeout = setTimeout(function() {
