@@ -3430,9 +3430,32 @@ document.addEventListener('click', function(e) {
   }
 });
 
+function scrollDrugCardToTop(n) {
+  const card = document.getElementById('di_' + n);
+  if (!card) return;
+  const topbar = document.querySelector('.topbar');
+  const nav = document.querySelector('.app-nav');
+  const offset = (topbar ? topbar.offsetHeight : 0) + (nav ? nav.offsetHeight : 0) + 12;
+  const rect = card.getBoundingClientRect();
+  const targetY = window.scrollY + rect.top - offset;
+  if (Math.abs(targetY - window.scrollY) > 4) {
+    window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+  }
+}
+
 document.addEventListener('input', function(e) {
   const t = e.target;
   const id = t.id || '';
+  if (id.endsWith('_nome')) {
+    const match = id.match(/^d(\d+)_/);
+    if (match) {
+      const card = document.getElementById('di_' + match[1]);
+      if (card && !card.dataset.autoScrolled) {
+        card.dataset.autoScrolled = '1';
+        scrollDrugCardToTop(match[1]);
+      }
+    }
+  }
   if (id.endsWith('_nome') || id.endsWith('_conc')) { const match = id.match(/^d(\d+)_/); if (match) updateDrugPreview(match[1]); }
   if (id.endsWith('_intcustom'))  { const match = id.match(/^d(\d+)_/); if (match) setIntCustom(match[1], t); }
   if (id.endsWith('_freqcustom')) { const match = id.match(/^d(\d+)_/); if (match) setFreqCustom(match[1], t); }
