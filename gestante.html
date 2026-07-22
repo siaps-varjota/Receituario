@@ -82,6 +82,17 @@ body { font-family:'IBM Plex Sans',sans-serif; background:var(--bg); color:var(-
 .btn-restart { padding:0.5rem 1rem; background:transparent; border:1.5px solid var(--rose-border); border-radius:8px; color:var(--rose); font-family:'IBM Plex Sans',sans-serif; font-size:0.8rem; font-weight:600; cursor:pointer; margin-top:1rem; transition:all .15s; }
 .btn-restart:hover { background:var(--rose-pale); }
 
+/* botão "ver critérios" dentro do algoritmo */
+.btn-crit-link { display:inline-flex; align-items:center; gap:0.4rem; padding:0.5rem 0.9rem; background:var(--rose-dark); border:none; border-radius:8px; color:white; font-family:'IBM Plex Sans',sans-serif; font-size:0.78rem; font-weight:600; cursor:pointer; margin-bottom:0.9rem; transition:all .15s; }
+.btn-crit-link:hover { background:var(--rose); }
+
+/* busca por palavra-chave nos critérios */
+.crit-toolbar { display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+.crit-search-wrap { flex:1; min-width:220px; }
+.crit-search-wrap input { width:100%; padding:0.55rem 0.8rem; border:1.5px solid var(--border); border-radius:8px; font-family:'IBM Plex Sans',sans-serif; font-size:0.85rem; color:var(--text); background:white; }
+.crit-search-wrap input:focus { outline:none; border-color:var(--rose-light); }
+.crit-search-wrap input::placeholder { color:var(--text-soft); }
+
 /* trilha */
 .step-trail { display:flex; flex-wrap:wrap; gap:0.3rem; margin-bottom:1rem; justify-content:center; }
 .step-chip  { display:inline-block; font-size:0.71rem; background:var(--rose-pale); color:var(--rose); border:1px solid var(--rose-border); padding:0.25rem 0.6rem; border-radius:12px; font-weight:500; line-height:1.35; max-width:280px; text-align:center; }
@@ -280,8 +291,18 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 <!-- ══════════════════════════════════════════════════════ -->
 <div id="sec-criterios" class="section">
 
+  <div class="card">
+    <div class="crit-toolbar">
+      <button class="btn-restart" style="margin-top:0" onclick="goSection('algo')">← Voltar ao Algoritmo</button>
+      <div class="crit-search-wrap">
+        <input type="text" id="crit-search" placeholder="🔍 Buscar por palavra-chave (ex.: HIV, cesárea, IMC, violência...)" oninput="filterCriterios(this.value)">
+      </div>
+    </div>
+    <div id="crit-no-results" style="display:none;margin-top:0.8rem;font-size:0.83rem;color:var(--text-soft)">Nenhum critério encontrado para essa busca.</div>
+  </div>
+
   <!-- URGÊNCIA/EMERGÊNCIA -->
-  <div class="strato-card vinho">
+  <div class="strato-card vinho" id="crit-urgencia">
     <div class="strato-header">
       <h3>🆘 Urgência / Emergência Obstétrica</h3>
       <p>Encaminhamento hospitalar imediato — não aguardar consulta agendada</p>
@@ -306,7 +327,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
   </div>
 
   <!-- ALTO RISCO COM SITUAÇÕES ESPECIAIS -->
-  <div class="strato-card vinho">
+  <div class="strato-card vinho" id="crit-especial">
     <div class="strato-header">
       <h3>🏛️ Alto Risco com Situações Especiais — Atenção Terciária</h3>
       <p>Acompanhamento obrigatório em hospital de referência terciária</p>
@@ -323,7 +344,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
   </div>
 
   <!-- ALTO RISCO -->
-  <div class="strato-card alto">
+  <div class="strato-card alto" id="crit-alto">
     <div class="strato-header">
       <h3>🔴 Alto Risco</h3>
       <p>APS + AAE + Serviço de Referência para Gestação de Alto Risco</p>
@@ -401,7 +422,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
   </div>
 
   <!-- MÉDIO RISCO -->
-  <div class="strato-card inter">
+  <div class="strato-card inter" id="crit-medio">
     <div class="strato-header">
       <h3>🟡 Médio Risco (Intermediário)</h3>
       <p>APS com encaminhamento à AAE para cuidado compartilhado</p>
@@ -729,6 +750,56 @@ function goSection(id) {
 // ── ACCORDION ──────────────────────────────────────────────
 function toggleAcc(h) { h.parentElement.classList.toggle('open'); }
 
+// ── IR PARA CRITÉRIOS (a partir do algoritmo) ───────────────
+function goCriterios(anchorId) {
+  goSection('criterios');
+  var searchInput = document.getElementById('crit-search');
+  if (searchInput) { searchInput.value = ''; filterCriterios(''); }
+  setTimeout(function() {
+    var el = anchorId ? document.getElementById(anchorId) : null;
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 60);
+}
+
+// ── BUSCA POR PALAVRA-CHAVE NOS CRITÉRIOS ───────────────────
+function filterCriterios(rawQuery) {
+  var query = (rawQuery || '').trim().toLowerCase();
+  var noResults = document.getElementById('crit-no-results');
+  var anyVisible = false;
+
+  document.querySelectorAll('#sec-criterios .strato-card').forEach(function(card) {
+    var cardMatch = false;
+
+    // itens dentro de acordeões (Alto Risco / Médio Risco)
+    card.querySelectorAll('.acc-item').forEach(function(acc) {
+      var accMatch = false;
+      acc.querySelectorAll('.acc-body li').forEach(function(li) {
+        var match = !query || li.textContent.toLowerCase().indexOf(query) !== -1;
+        li.style.display = match ? '' : 'none';
+        if (match) accMatch = true;
+      });
+      var headerEl = acc.querySelector('.acc-header');
+      var headerMatch = headerEl && query && headerEl.textContent.toLowerCase().indexOf(query) !== -1;
+      var show = !query || accMatch || headerMatch;
+      acc.style.display = show ? '' : 'none';
+      if (query && show) acc.classList.add('open'); else if (!query) acc.classList.remove('open');
+      if (show) cardMatch = true;
+    });
+
+    // itens de lista direta (Urgência, Situação Especial, Baixo Risco)
+    card.querySelectorAll('.strato-body > ul > li').forEach(function(li) {
+      var match = !query || li.textContent.toLowerCase().indexOf(query) !== -1;
+      li.style.display = match ? '' : 'none';
+      if (match) cardMatch = true;
+    });
+
+    card.style.display = cardMatch ? '' : 'none';
+    if (cardMatch) anyVisible = true;
+  });
+
+  if (noResults) noResults.style.display = (query && !anyVisible) ? 'block' : 'none';
+}
+
 // ══════════════════════════════════════════════════════════
 //  ALGORITMO — árvore de decisão
 // ══════════════════════════════════════════════════════════
@@ -786,6 +857,9 @@ function renderAlgoStep(key) {
     html += '<div class="info-box amber" style="margin-bottom:0.8rem"><span>ℹ️</span>' +
             '<span style="font-size:0.78rem">' + node.hint + '</span></div>';
   }
+  if (node.critAnchor) {
+    html += '<button type="button" class="btn-crit-link" data-anchor="' + node.critAnchor + '">📋 Ver critérios completos →</button>';
+  }
   html += '<div class="btn-group">';
   node.opts.forEach(function(opt, i) {
     html += '<button class="btn-opt" data-idx="' + i + '" data-from="' + key + '">' + opt.label + '</button>';
@@ -799,6 +873,13 @@ function renderAlgoStep(key) {
       algoChoose(btn.dataset.from, parseInt(btn.dataset.idx, 10));
     });
   });
+
+  var critBtn = stepEl.querySelector('.btn-crit-link');
+  if (critBtn) {
+    critBtn.addEventListener('click', function() {
+      goCriterios(critBtn.dataset.anchor);
+    });
+  }
 
   var has = algoHistory.length > 0;
   resetBtn.style.display  = has ? 'inline-block' : 'none';
@@ -853,6 +934,7 @@ var algo = {
   s0: {
     q: 'A gestante apresenta algum sinal de Urgência ou Emergência Obstétrica?',
     hint: 'PA ≥ 160/110 mmHg · Sinais premonitórios de eclâmpsia (escotomas, cefaleia, epigastralgia) · Eclâmpsia/convulsões · Hemorragias · Vômitos incoercíveis · Anemia grave (Hb ≤ 7 g/dL) · Temperatura axilar ≥ 37,8 °C sem sinais clínicos de infecção das vias aéreas superiores · Suspeita de trombose/abdome agudo/pielonefrite · Prurido/icterícia · IG ≥ 41 semanas.',
+    critAnchor: 'crit-urgencia',
     opts: [
       { label: '🆘 Sim — há sinal de urgência/emergência', next: 'r_urgencia' },
       { label: '❌ Não — não apresenta',                   next: 's1'         }
@@ -863,6 +945,7 @@ var algo = {
   s1: {
     q: 'A gestante apresenta alguma condição de Alto Risco com Situação Especial (Atenção Terciária)?',
     hint: 'Gestação múltipla monocoriônica · Isoimunização Rh · Malformação fetal ou arritmia cardíaca fetal confirmada · Diagnóstico de HIV/AIDS · Transplantes prévios.',
+    critAnchor: 'crit-especial',
     opts: [
       { label: '🏛️ Sim — há situação especial terciária', next: 'r_especial' },
       { label: '❌ Não — não apresenta',                  next: 's2'         }
@@ -873,6 +956,7 @@ var algo = {
   s2: {
     q: 'A gestante apresenta algum critério de Alto Risco?',
     hint: 'Inclui: dependência de drogas/álcool; IMC ≥ 40 kg/m² ou desnutrição grave; história reprodutiva de alto risco (aborto recorrente ≥ 3, morte perinatal, HELLP, prematuridade, cesárea clássica, acretismo); doenças clínicas prévias graves; intercorrências obstétricas graves na gestação atual. Veja detalhes em "Critérios".',
+    critAnchor: 'crit-alto',
     opts: [
       { label: '🔴 Sim — apresenta critério de alto risco', next: 's2b' },
       { label: '❌ Não — não apresenta',                    next: 's3'  }
@@ -894,6 +978,7 @@ var algo = {
   s3: {
     q: 'A gestante apresenta algum critério de Médio Risco (Intermediário)?',
     hint: 'Inclui: fatores socioeconômicos (idade < 15 ou > 35 anos, baixa escolaridade, violência doméstica, vulnerabilidades, tabagismo Fagerström 8–10, etilismo sem dependência); história reprodutiva intermediária (cesáreas ≥ 2, DG prévia, aborto precoce até 2, intervalo < 2 anos); condições clínicas leves (asma controlada, depressão/ansiedade leve, hipotireoidismo subclínico); intercorrências obstétricas moderadas.',
+    critAnchor: 'crit-medio',
     opts: [
       { label: '🟡 Sim — apresenta fator de médio risco', next: 's3b'       },
       { label: '✅ Não — ausência de fatores de risco',   next: 'r_habitual' }
