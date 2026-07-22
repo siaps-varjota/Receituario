@@ -772,7 +772,12 @@ function goCriterios(anchorId) {
   if (searchInput) { searchInput.value = ''; filterCriterios(''); }
   setTimeout(function() {
     var el = anchorId ? document.getElementById(anchorId) : null;
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (el) {
+      var headerEl = document.querySelector('.app-header');
+      var headerH  = headerEl ? headerEl.offsetHeight : 0;
+      var top = el.getBoundingClientRect().top + window.pageYOffset - headerH - 12;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
   }, 60);
 }
 
