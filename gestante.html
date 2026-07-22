@@ -144,9 +144,12 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 
 /* ── ESTRATO CARDS ── */
 .strato-card { border-radius:10px; margin-bottom:0.7rem; overflow:hidden; border:1.5px solid; }
-.strato-header { padding:0.7rem 1rem; color:white; }
+.strato-header { padding:0.7rem 1rem; color:white; display:flex; align-items:flex-start; justify-content:space-between; gap:0.6rem; }
 .strato-header h3 { font-size:0.88rem; font-weight:700; }
 .strato-header p  { font-size:0.72rem; opacity:0.88; margin-top:0.15rem; }
+.strato-header-text { flex:1; min-width:0; }
+.btn-quick-back { flex-shrink:0; padding:0.35rem 0.7rem; background:rgba(255,255,255,0.16); border:1.5px solid rgba(255,255,255,0.55); border-radius:8px; color:white; font-family:'IBM Plex Sans',sans-serif; font-size:0.74rem; font-weight:600; cursor:pointer; white-space:nowrap; transition:background .15s; }
+.btn-quick-back:hover { background:rgba(255,255,255,0.3); }
 .strato-body { padding:0.9rem 1rem; font-size:0.82rem; color:var(--text-mid); line-height:1.55; }
 .strato-body .sub-label { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text); margin-bottom:0.3rem; }
 .strato-body ul { padding-left:1.1rem; }
@@ -304,8 +307,11 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
   <!-- URGÊNCIA/EMERGÊNCIA -->
   <div class="strato-card vinho" id="crit-urgencia">
     <div class="strato-header">
-      <h3>🆘 Urgência / Emergência Obstétrica</h3>
-      <p>Encaminhamento hospitalar imediato — não aguardar consulta agendada</p>
+      <div class="strato-header-text">
+        <h3>🆘 Urgência / Emergência Obstétrica</h3>
+        <p>Encaminhamento hospitalar imediato — não aguardar consulta agendada</p>
+      </div>
+      <button type="button" class="btn-quick-back" onclick="goSection('algo')">← Voltar</button>
     </div>
     <div class="strato-body">
       <ul>
@@ -329,8 +335,11 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
   <!-- ALTO RISCO COM SITUAÇÕES ESPECIAIS -->
   <div class="strato-card vinho" id="crit-especial">
     <div class="strato-header">
-      <h3>🏛️ Alto Risco com Situações Especiais — Atenção Terciária</h3>
-      <p>Acompanhamento obrigatório em hospital de referência terciária</p>
+      <div class="strato-header-text">
+        <h3>🏛️ Alto Risco com Situações Especiais — Atenção Terciária</h3>
+        <p>Acompanhamento obrigatório em hospital de referência terciária</p>
+      </div>
+      <button type="button" class="btn-quick-back" onclick="goSection('algo')">← Voltar</button>
     </div>
     <div class="strato-body">
       <ul>
@@ -346,8 +355,11 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
   <!-- ALTO RISCO -->
   <div class="strato-card alto" id="crit-alto">
     <div class="strato-header">
-      <h3>🔴 Alto Risco</h3>
-      <p>APS + AAE + Serviço de Referência para Gestação de Alto Risco</p>
+      <div class="strato-header-text">
+        <h3>🔴 Alto Risco</h3>
+        <p>APS + AAE + Serviço de Referência para Gestação de Alto Risco</p>
+      </div>
+      <button type="button" class="btn-quick-back" onclick="goSection('algo')">← Voltar</button>
     </div>
     <div class="strato-body">
       <div class="acc-item">
@@ -424,8 +436,11 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
   <!-- MÉDIO RISCO -->
   <div class="strato-card inter" id="crit-medio">
     <div class="strato-header">
-      <h3>🟡 Médio Risco (Intermediário)</h3>
-      <p>APS com encaminhamento à AAE para cuidado compartilhado</p>
+      <div class="strato-header-text">
+        <h3>🟡 Médio Risco (Intermediário)</h3>
+        <p>APS com encaminhamento à AAE para cuidado compartilhado</p>
+      </div>
+      <button type="button" class="btn-quick-back" onclick="goSection('algo')">← Voltar</button>
     </div>
     <div class="strato-body">
       <div class="acc-item">
@@ -966,6 +981,7 @@ var algo = {
   // ── Detalhamento do Alto Risco ─────────────────────────
   s2b: {
     q: 'Qual o principal domínio do critério de Alto Risco identificado?',
+    critAnchor: 'crit-alto',
     opts: [
       { label: '🧍 Individual/sociodemográfico (dependência de drogas/álcool, IMC ≥ 40 kg/m², desnutrição grave, transtornos alimentares)',                                next: 'r_alto_social'   },
       { label: '📜 História reprodutiva (aborto recorrente ≥ 3, morte perinatal, pré-eclâmpsia grave/HELLP, prematuridade, cesárea clássica, acretismo, isoimunização Rh)', next: 'r_alto_repro'    },
@@ -988,6 +1004,7 @@ var algo = {
   // ── Detalhamento do Médio Risco ───────────────────────
   s3b: {
     q: 'Qual o principal domínio do fator de Médio Risco identificado?',
+    critAnchor: 'crit-medio',
     opts: [
       { label: '🧍 Individual/socioeconômico (idade, violência, vulnerabilidade, IMC <18,5 ou 30–39 kg/m², baixa escolaridade, uso de drogas leve, medicamentos teratogênicos, gestante negra/indígena/migrante, tabagismo Fagerström 8–10...)', next: 'r_medio_social'   },
       { label: '📜 História reprodutiva (aborto precoce ≤ 2, DG prévia, cesáreas ≥ 2, intervalo < 2 anos, nuliparidade ou multípara ≥ 5 partos, insuf. istmo-cervical, malformação fetal prévia...)',       next: 'r_medio_repro'    },
