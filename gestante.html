@@ -1022,72 +1022,80 @@ function gerarPDFRegulacao() {
   var jsPDF = window.jspdf.jsPDF;
   var doc = new jsPDF({ unit: 'mm', format: 'a4' });
   var pageW = doc.internal.pageSize.getWidth();
-  var marginL = 15, marginR = 15;
+  var marginL = 16, marginR = 16;
   var usableW = pageW - marginL - marginR;
-  var y = 18;
+  var y = 20;
+
+  // Altura de linha proporcional ao tamanho da fonte, com folga extra p/ elegância
+  function lh(size) { return size * 0.62; }
 
   function checkPageBreak(extra) {
-    if (y + (extra || 6) > 285) { doc.addPage(); y = 18; }
+    if (y + (extra || 7) > 282) { doc.addPage(); y = 20; }
   }
 
   function addTitle(text, size) {
-    checkPageBreak(8);
+    checkPageBreak(10);
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(size || 11);
+    doc.setFontSize(size || 14.4);
     doc.text(text, marginL, y);
-    y += (size || 11) * 0.45 + 2;
+    y += lh(size || 14.4) + 1.5;
   }
 
   function addSubtitle(text) {
-    checkPageBreak(6);
+    checkPageBreak(7);
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8.5);
-    doc.setTextColor(90, 90, 90);
-    doc.text(text, marginL, y);
+    doc.setFontSize(10.2);
+    doc.setTextColor(100, 100, 100);
+    var lines = doc.splitTextToSize(text, usableW);
+    doc.text(lines, marginL, y);
     doc.setTextColor(20, 20, 20);
-    y += 5;
+    y += lines.length * lh(10.2);
   }
 
   function addSectionHeader(text) {
-    checkPageBreak(9);
-    y += 1;
+    checkPageBreak(12);
+    y += 2.5;
+    var boxH = 8.4;
     doc.setFillColor(136, 19, 55);
-    doc.rect(marginL, y - 4, usableW, 6.2, 'F');
+    doc.rect(marginL, y - 5.6, usableW, boxH, 'F');
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9.5);
+    doc.setFontSize(11.4);
     doc.setTextColor(255, 255, 255);
-    doc.text(text, marginL + 2, y);
+    doc.text(text, marginL + 3, y);
     doc.setTextColor(20, 20, 20);
-    y += 5;
+    y += 7.5;
   }
 
   function addItem(text, checked) {
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
-    var mark = checked ? '[X] ' : '[ ] ';
-    var lines = doc.splitTextToSize(mark + text, usableW - 2);
-    checkPageBreak(lines.length * 4.6 + 1);
-    doc.text(lines, marginL + 1, y);
-    y += lines.length * 4.6 + 0.8;
+    doc.setFontSize(10.8);
+    var mark = checked ? '[X]  ' : '[ ]  ';
+    var lines = doc.splitTextToSize(mark + text, usableW - 3);
+    var lineH = lh(10.8);
+    checkPageBreak(lines.length * lineH + 2);
+    doc.text(lines, marginL + 1.5, y);
+    y += lines.length * lineH + 2;
   }
 
   function addPlainLine(text, opts) {
     opts = opts || {};
+    var size = opts.size || 10.8;
     doc.setFont('helvetica', opts.bold ? 'bold' : 'normal');
-    doc.setFontSize(opts.size || 9);
+    doc.setFontSize(size);
     var lines = doc.splitTextToSize(text, usableW);
-    checkPageBreak(lines.length * 4.6 + 1);
+    var lineH = lh(size);
+    checkPageBreak(lines.length * lineH + 2);
     doc.text(lines, marginL, y);
-    y += lines.length * 4.6 + (opts.gap || 1);
+    y += lines.length * lineH + (opts.gap != null ? opts.gap : 2.2);
   }
 
   // ── CABEÇALHO ──
-  addTitle('CHECK-LIST DE REGULAÇÃO DO ACESSO COM CRITÉRIOS DE PRIORIDADE', 12);
+  addTitle('CHECK-LIST DE REGULAÇÃO DO ACESSO COM CRITÉRIOS DE PRIORIDADE', 14.4);
   addSubtitle('Setor: Consultórios (Ambulatório de Obstetrícia) · CHECK-CON-010 · Versão 1 · Consórcio Público de Saúde Microrregião de Sobral');
-  y += 1;
+  y += 2.5;
   doc.setDrawColor(220, 200, 205);
   doc.line(marginL, y, pageW - marginR, y);
-  y += 6;
+  y += 8;
 
   // ── IDENTIFICAÇÃO ──
   var nome    = (document.getElementById('reg-nome')    || {}).value || '';
@@ -1104,7 +1112,7 @@ function gerarPDFRegulacao() {
   addPlainLine('Nome da gestante: ' + (nome || '________________________________________'));
   addPlainLine('Cartão SUS / Prontuário: ' + (sus || '____________________') + '     Data: ' + (dataFmt || '____/____/______'));
   addPlainLine('Unidade de saúde de origem: ' + (unidade || '________________________________________'));
-  y += 2;
+  y += 3;
 
   // ── ORIENTAÇÃO PRÉ-CONSULTA ──
   addSectionHeader('ORIENTAÇÃO PRÉ-CONSULTA');
@@ -1112,7 +1120,7 @@ function gerarPDFRegulacao() {
     var cb = item.querySelector('input[type="checkbox"]');
     addItem(item.textContent.trim(), cb && cb.checked);
   });
-  y += 2;
+  y += 3;
 
   // ── EXAMES COMPLEMENTARES ──
   addSectionHeader('EXAMES COMPLEMENTARES NECESSÁRIOS');
@@ -1120,49 +1128,50 @@ function gerarPDFRegulacao() {
     var cb = item.querySelector('input[type="checkbox"]');
     addItem(item.textContent.trim(), cb && cb.checked);
   });
-  y += 2;
+  y += 3;
 
   // ── CRITÉRIOS DE CLASSIFICAÇÃO (apenas marcados) ──
   addSectionHeader('CRITÉRIOS DE CLASSIFICAÇÃO IDENTIFICADOS');
   groups.forEach(function(g) {
     if (itemsByGroup[g].length) {
-      addPlainLine('Categoria ' + names[g] + ' (peso ' + scores[g] + '):', { bold: true, gap: 1.5 });
+      addPlainLine('Categoria ' + names[g] + ' (peso ' + scores[g] + '):', { bold: true, gap: 2.2 });
       itemsByGroup[g].forEach(function(t) { addItem(t, true); });
-      y += 1;
+      y += 1.5;
     }
   });
 
   // ── RESULTADO DO ESCORE ──
-  y += 2;
-  checkPageBreak(22);
+  y += 3;
+  checkPageBreak(28);
   doc.setDrawColor(136, 19, 55);
-  doc.setLineWidth(0.6);
-  doc.rect(marginL, y - 5, usableW, 16);
+  doc.setLineWidth(0.7);
+  doc.rect(marginL, y - 6, usableW, 20);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(11);
-  doc.text('CLASSIFICAÇÃO FINAL: ' + names[maxG] + '  ·  ESCORE: ' + scores[maxG], marginL + 3, y + 1);
+  doc.setFontSize(13.2);
+  doc.text('CLASSIFICAÇÃO FINAL: ' + names[maxG] + '  ·  ESCORE: ' + scores[maxG], marginL + 4, y + 1);
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8.5);
-  doc.text('Soma de referência de todos os pontos assinalados: ' + totalSum + ' (prevalece sempre o critério de maior prioridade).', marginL + 3, y + 6.5);
+  doc.setFontSize(10.2);
+  var refLines = doc.splitTextToSize('Soma de referência de todos os pontos assinalados: ' + totalSum + ' (prevalece sempre o critério de maior prioridade).', usableW - 8);
+  doc.text(refLines, marginL + 4, y + 8.5);
   doc.setLineWidth(0.2);
-  y += 16;
+  y += 22;
 
   // ── ASSINATURAS ──
-  y += 14;
-  checkPageBreak(30);
-  var colW = usableW / 2 - 5;
+  y += 18;
+  checkPageBreak(36);
+  var colW = usableW / 2 - 6;
   doc.setDrawColor(60, 60, 60);
   doc.line(marginL, y, marginL + colW, y);
-  doc.line(marginL + colW + 10, y, marginL + colW + 10 + colW, y);
-  y += 4;
+  doc.line(marginL + colW + 12, y, marginL + colW + 12 + colW, y);
+  y += 5.5;
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8.5);
+  doc.setFontSize(10.2);
   doc.text('Assinatura do Profissional Médico', marginL, y);
-  doc.text('Assinatura de Outro Profissional', marginL + colW + 10, y);
-  y += 5;
+  doc.text('Assinatura de Outro Profissional', marginL + colW + 12, y);
+  y += 6.5;
   doc.text('CRM: ________________', marginL, y);
-  doc.text('Conselho: ________________', marginL + colW + 10, y);
-  y += 8;
+  doc.text('Conselho: ________________', marginL + colW + 12, y);
+  y += 10;
   doc.text('Varjota, ____/____/________', marginL, y);
 
   // ── RODAPÉ ──
@@ -1170,7 +1179,7 @@ function gerarPDFRegulacao() {
   for (var p = 1; p <= pageCount; p++) {
     doc.setPage(p);
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(7);
+    doc.setFontSize(8.4);
     doc.setTextColor(140, 140, 140);
     doc.text('Gerado via Estratificação de Risco Gestacional — SESA/CE  ·  Página ' + p + '/' + pageCount, marginL, 292);
   }
