@@ -202,11 +202,22 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 .tl-title { font-size:0.83rem; font-weight:700; color:var(--text); margin-bottom:0.15rem; }
 .tl-body  { font-size:0.79rem; color:var(--text-mid); line-height:1.5; }
 
+/* ── CHECKLIST (Regulação) ── */
+.check-list { display:flex; flex-direction:column; gap:0.25rem; margin-top:0.3rem; }
+.check-item { display:flex; align-items:flex-start; gap:0.55rem; font-size:0.83rem; line-height:1.5; color:var(--text-mid); cursor:pointer; padding:0.4rem 0.5rem; border-radius:6px; transition:background .15s; }
+.check-item:hover { background:rgba(0,0,0,0.03); }
+.check-item input[type="checkbox"] { margin-top:0.2rem; width:16px; height:16px; flex-shrink:0; cursor:pointer; }
+.strato-card .check-item:hover { background:rgba(255,255,255,0.45); }
+.strato-card .check-item { color:var(--text-mid); }
+.check-item strong { color:var(--text); }
+.score-meta { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; opacity:0.85; }
+
 @media (max-width:480px) {
   table.std-table { font-size:0.72rem; }
   table.std-table th, table.std-table td { padding:0.4rem 0.5rem; }
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
 
@@ -248,6 +259,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
     <button class="nav-btn" data-sec="criterios">Critérios</button>
     <button class="nav-btn" data-sec="conduta">Conduta</button>
     <button class="nav-btn" data-sec="recomendacoes">Recomendações</button>
+    <button class="nav-btn" data-sec="regulacao">Check-list Regulação</button>
   </div>
 </div>
 
@@ -734,6 +746,164 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 
 </div><!-- /sec-recomendacoes -->
 
+<!-- ══════════════════════════════════════════════════════ -->
+<!--  CHECK-LIST DE REGULAÇÃO DO ACESSO — ESCORE           -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div id="sec-regulacao" class="section">
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-icon">📋</div>
+      <div class="card-title">Check-list de Regulação do Acesso — Obstetrícia</div>
+    </div>
+    <div class="info-box rose">
+      <span>ℹ️</span>
+      <span><strong>CHECK-CON-010</strong> · Consórcio Público de Saúde Microrregião de Sobral · Policlínica Bernardo Félix da Silva · Setor: Consultórios (Ambulatório de Obstetrícia) · Implantação 25.09.2017 · Versão 1.<br>Marque abaixo os itens presentes para calcular automaticamente o <strong>escore de prioridade</strong> da regulação.</span>
+    </div>
+    <div class="check-list">
+      <label class="check-item"><input type="checkbox"> Indicação: Gestação de Alto Risco</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🪪</div><div class="card-title">Identificação</div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.7rem">
+      <div>
+        <label style="font-size:0.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.04em">Nome da gestante</label>
+        <input type="text" id="reg-nome" placeholder="Nome completo" style="width:100%;margin-top:0.25rem;padding:0.55rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;color:var(--text)">
+      </div>
+      <div>
+        <label style="font-size:0.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.04em">Cartão SUS / Prontuário</label>
+        <input type="text" id="reg-sus" placeholder="Nº do cartão SUS ou prontuário" style="width:100%;margin-top:0.25rem;padding:0.55rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;color:var(--text)">
+      </div>
+      <div>
+        <label style="font-size:0.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.04em">Unidade de saúde de origem</label>
+        <input type="text" id="reg-unidade" placeholder="Ex.: ESF ..." style="width:100%;margin-top:0.25rem;padding:0.55rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;color:var(--text)">
+      </div>
+      <div>
+        <label style="font-size:0.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.04em">Data</label>
+        <input type="date" id="reg-data" style="width:100%;margin-top:0.25rem;padding:0.55rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;color:var(--text)">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🩺</div><div class="card-title">Orientação Pré-Consulta</div></div>
+    <div class="check-list">
+      <label class="check-item"><input type="checkbox"> Medicações e receituários</label>
+      <label class="check-item"><input type="checkbox"> Avaliação dos especialistas envolvidos</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🧪</div><div class="card-title">Exames Complementares Necessários</div></div>
+    <div class="check-list">
+      <label class="check-item"><input type="checkbox"> Caderneta pré-natal</label>
+      <label class="check-item"><input type="checkbox"> Exames de rotina pré-natal (hemograma, tipagem sanguínea, sumário de urina, glicemia em jejum, Anti-HIV, HBsAg, sorologia de rubéola, toxoplasmose, VDRL, exame de citologia oncológica mais recente)</label>
+      <label class="check-item"><input type="checkbox"> Todos os USG obstétricos</label>
+      <label class="check-item"><input type="checkbox"> Outros exames de imagem relacionados ao caso</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">🎯</div><div class="card-title">Critérios de Classificação — Escore de Prioridade</div></div>
+    <div class="info-box amber">
+      <span>⚠️</span>
+      <span>Marque todos os critérios presentes na gestante. O <strong>escore final</strong> corresponde ao critério de <strong>maior prioridade identificado</strong> (A &gt; B &gt; C &gt; D) — prevalece sempre o de maior risco, mesmo que apenas um item de categoria A esteja marcado.</span>
+    </div>
+  </div>
+
+  <!-- CATEGORIA A — MUITO ALTA (Escore 4) -->
+  <div class="strato-card vinho">
+    <div class="strato-header">
+      <div class="strato-header-text">
+        <h3>🟣 A — Muito Alta <span class="score-meta">Escore 4</span></h3>
+        <p>Critérios de encaminhamento</p>
+      </div>
+    </div>
+    <div class="strato-body">
+      <div class="check-list">
+        <label class="check-item"><input type="checkbox" class="score-item score-a" onchange="calcularRegulacao()"> Gemelaridade</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-a" onchange="calcularRegulacao()"> Distúrbios do líquido amniótico: oligoâmnio &lt; 8 cm e polidrâmnio &gt; 20 cm</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-a" onchange="calcularRegulacao()"> Feto com restrição do crescimento</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-a" onchange="calcularRegulacao()"> Feto mal formado (exceto malformação do tipo Microcefalia — encaminhar ao CEM)</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-a" onchange="calcularRegulacao()"> Isoimunização RH</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-a" onchange="calcularRegulacao()"> Doenças crônicas na gestação: hipertensão arterial crônica, doença autoimune (lúpus eritematoso, artrite reumatoide), cardiopatia, pneumopatia (asma em uso de medicamento contínuo, DPOC), nefropatia, hipo e hipertireoidismo, diabetes mellitus, epilepsia, doenças hematológicas</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORIA B — ALTA (Escore 3) -->
+  <div class="strato-card alto">
+    <div class="strato-header">
+      <div class="strato-header-text">
+        <h3>🔴 B — Alta <span class="score-meta">Escore 3</span></h3>
+        <p>Critérios de encaminhamento</p>
+      </div>
+    </div>
+    <div class="strato-body">
+      <div class="check-list">
+        <label class="check-item"><input type="checkbox" class="score-item score-b" onchange="calcularRegulacao()"> Síndromes hipertensivas específicas da gestação, diabetes gestacional</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-b" onchange="calcularRegulacao()"> Sangramento genital de 2º trimestre por placenta prévia (IG &gt; 28 semanas)</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-b" onchange="calcularRegulacao()"> Mau passado obstétrico: 3 abortamentos prévios, morte perinatal, parto prematuro extremo (&lt; 28 semanas), história de internamento em UTI durante gestação anterior</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-b" onchange="calcularRegulacao()"> Câncer que possa repercutir na gravidez</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORIA C — MÉDIA (Escore 2) -->
+  <div class="strato-card inter">
+    <div class="strato-header">
+      <div class="strato-header-text">
+        <h3>🟡 C — Média <span class="score-meta">Escore 2</span></h3>
+        <p>Critérios de encaminhamento</p>
+      </div>
+    </div>
+    <div class="strato-body">
+      <div class="check-list">
+        <label class="check-item"><input type="checkbox" class="score-item score-c" onchange="calcularRegulacao()"> Infecções adquiridas na gestação (sem malformação fetal): hepatites, sífilis, toxoplasmose, herpes. Exceto HIV ou aids (encaminhar ao CRIS e CEM)</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-c" onchange="calcularRegulacao()"> Infecções urinárias de repetição, mesmo tratadas corretamente</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-c" onchange="calcularRegulacao()"> Gestante com duas ou mais cesáreas prévias</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-c" onchange="calcularRegulacao()"> Uso de drogas sem remissão</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- CATEGORIA D — BAIXA (Escore 1) -->
+  <div class="strato-card habitual">
+    <div class="strato-header">
+      <div class="strato-header-text">
+        <h3>🟢 D — Baixa <span class="score-meta">Escore 1</span></h3>
+        <p>Critérios de encaminhamento</p>
+      </div>
+    </div>
+    <div class="strato-body">
+      <div class="check-list">
+        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> Ausência de critérios de prioridades</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> Idade menor que 15 anos e maior que 34 anos</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> Situações sociais de vulnerabilidade</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> Tabagista</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> Estatura &lt; 1,45 m</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> IMC &lt; 19 ou &gt; 30</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> Uso de drogas em remissão</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> Nuliparidade ou multiparidade &gt; 5 partos</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📊</div><div class="card-title">Resultado do Escore</div></div>
+    <div id="regulacao-result">
+      <div style="font-size:0.83rem;color:var(--text-soft)">Nenhum critério selecionado ainda.</div>
+    </div>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.3rem">
+      <button class="btn-restart" style="display:inline-block" onclick="resetRegulacao()">↺ Limpar Seleção</button>
+      <button class="btn-crit-link" style="margin-bottom:0;margin-top:1rem" onclick="gerarPDFRegulacao()">📄 Gerar PDF</button>
+    </div>
+  </div>
+
+</div><!-- /sec-regulacao -->
+
 </div><!-- /main -->
 
 <script>
@@ -764,6 +934,250 @@ function goSection(id) {
 
 // ── ACCORDION ──────────────────────────────────────────────
 function toggleAcc(h) { h.parentElement.classList.toggle('open'); }
+
+// ── CHECK-LIST DE REGULAÇÃO — CÁLCULO DE ESCORE ─────────────
+// A = 4 (Muito alta) · B = 3 (Alta) · C = 2 (Média) · D = 1 (Baixa)
+// A classificação final segue sempre o critério de MAIOR prioridade
+// marcado (regra de prevalência do maior risco), somando-se também
+// o total de pontos assinalados como referência complementar.
+function calcularRegulacao() {
+  var groups  = ['a','b','c','d'];
+  var scores  = { a:4, b:3, c:2, d:1 };
+  var names   = { a:'A — Muito Alta', b:'B — Alta', c:'C — Média', d:'D — Baixa' };
+  var types   = { a:'vinho', b:'red', c:'amber', d:'green' };
+  var icons   = { a:'🟣', b:'🔴', c:'🟡', d:'🟢' };
+
+  var maxG = null, totalSum = 0;
+  var itemsByGroup = { a:[], b:[], c:[], d:[] };
+
+  groups.forEach(function(g) {
+    document.querySelectorAll('.score-' + g + ':checked').forEach(function(cb) {
+      var txt = cb.parentElement.textContent.trim();
+      itemsByGroup[g].push(txt);
+      totalSum += scores[g];
+      if (maxG === null || scores[g] > scores[maxG]) maxG = g;
+    });
+  });
+
+  var box = document.getElementById('regulacao-result');
+  if (!box) return;
+
+  if (!maxG) {
+    box.innerHTML = '<div style="font-size:0.83rem;color:var(--text-soft)">Nenhum critério selecionado ainda.</div>';
+    return;
+  }
+
+  var html = '<div class="result-box ' + types[maxG] + '">' +
+    '<div class="result-badge ' + types[maxG] + '">' + icons[maxG] + ' Classificação ' + names[maxG] + ' · Escore ' + scores[maxG] + '</div>' +
+    '<div class="result-title">Critérios identificados</div>' +
+    '<div class="result-body">';
+
+  groups.forEach(function(g) {
+    if (itemsByGroup[g].length) {
+      html += '<div style="margin-top:0.5rem"><strong>' + names[g] + ' (peso ' + scores[g] + '):</strong><ul>';
+      itemsByGroup[g].forEach(function(t) { html += '<li>' + t + '</li>'; });
+      html += '</ul></div>';
+    }
+  });
+
+  html += '<div style="margin-top:0.7rem;font-size:0.78rem;color:var(--text-soft)">Soma de referência de todos os pontos assinalados: <strong>' + totalSum + '</strong>. A classificação final adotada é sempre a de maior prioridade (' + names[maxG] + '), independentemente da soma.</div>';
+  html += '</div></div>';
+
+  box.innerHTML = html;
+}
+
+function resetRegulacao() {
+  document.querySelectorAll('#sec-regulacao input[type="checkbox"]').forEach(function(cb) { cb.checked = false; });
+  document.querySelectorAll('#sec-regulacao input[type="text"], #sec-regulacao input[type="date"]').forEach(function(inp) { inp.value = ''; });
+  calcularRegulacao();
+}
+
+// ── GERAÇÃO DE PDF DO CHECK-LIST DE REGULAÇÃO ───────────────
+function gerarPDFRegulacao() {
+  var groups = ['a','b','c','d'];
+  var scores = { a:4, b:3, c:2, d:1 };
+  var names  = { a:'A - Muito Alta', b:'B - Alta', c:'C - Media', d:'D - Baixa' };
+
+  var maxG = null, totalSum = 0;
+  var itemsByGroup = { a:[], b:[], c:[], d:[] };
+  groups.forEach(function(g) {
+    document.querySelectorAll('.score-' + g + ':checked').forEach(function(cb) {
+      var txt = cb.parentElement.textContent.trim();
+      itemsByGroup[g].push(txt);
+      totalSum += scores[g];
+      if (maxG === null || scores[g] > scores[maxG]) maxG = g;
+    });
+  });
+
+  if (!maxG) {
+    alert('Selecione ao menos um critério de classificação antes de gerar o PDF.');
+    return;
+  }
+
+  if (!window.jspdf) {
+    alert('Não foi possível carregar o gerador de PDF. Verifique sua conexão com a internet e tente novamente.');
+    return;
+  }
+
+  var jsPDF = window.jspdf.jsPDF;
+  var doc = new jsPDF({ unit: 'mm', format: 'a4' });
+  var pageW = doc.internal.pageSize.getWidth();
+  var marginL = 15, marginR = 15;
+  var usableW = pageW - marginL - marginR;
+  var y = 18;
+
+  function checkPageBreak(extra) {
+    if (y + (extra || 6) > 285) { doc.addPage(); y = 18; }
+  }
+
+  function addTitle(text, size) {
+    checkPageBreak(8);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(size || 11);
+    doc.text(text, marginL, y);
+    y += (size || 11) * 0.45 + 2;
+  }
+
+  function addSubtitle(text) {
+    checkPageBreak(6);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    doc.setTextColor(90, 90, 90);
+    doc.text(text, marginL, y);
+    doc.setTextColor(20, 20, 20);
+    y += 5;
+  }
+
+  function addSectionHeader(text) {
+    checkPageBreak(9);
+    y += 1;
+    doc.setFillColor(136, 19, 55);
+    doc.rect(marginL, y - 4, usableW, 6.2, 'F');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9.5);
+    doc.setTextColor(255, 255, 255);
+    doc.text(text, marginL + 2, y);
+    doc.setTextColor(20, 20, 20);
+    y += 5;
+  }
+
+  function addItem(text, checked) {
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(9);
+    var mark = checked ? '[X] ' : '[ ] ';
+    var lines = doc.splitTextToSize(mark + text, usableW - 2);
+    checkPageBreak(lines.length * 4.6 + 1);
+    doc.text(lines, marginL + 1, y);
+    y += lines.length * 4.6 + 0.8;
+  }
+
+  function addPlainLine(text, opts) {
+    opts = opts || {};
+    doc.setFont('helvetica', opts.bold ? 'bold' : 'normal');
+    doc.setFontSize(opts.size || 9);
+    var lines = doc.splitTextToSize(text, usableW);
+    checkPageBreak(lines.length * 4.6 + 1);
+    doc.text(lines, marginL, y);
+    y += lines.length * 4.6 + (opts.gap || 1);
+  }
+
+  // ── CABEÇALHO ──
+  addTitle('CHECK-LIST DE REGULAÇÃO DO ACESSO COM CRITÉRIOS DE PRIORIDADE', 12);
+  addSubtitle('Setor: Consultórios (Ambulatório de Obstetrícia) · CHECK-CON-010 · Versão 1 · Consórcio Público de Saúde Microrregião de Sobral');
+  y += 1;
+  doc.setDrawColor(220, 200, 205);
+  doc.line(marginL, y, pageW - marginR, y);
+  y += 6;
+
+  // ── IDENTIFICAÇÃO ──
+  var nome    = (document.getElementById('reg-nome')    || {}).value || '';
+  var sus     = (document.getElementById('reg-sus')     || {}).value || '';
+  var unidade = (document.getElementById('reg-unidade') || {}).value || '';
+  var dataVal = (document.getElementById('reg-data')    || {}).value || '';
+  var dataFmt = '';
+  if (dataVal) {
+    var parts = dataVal.split('-');
+    if (parts.length === 3) dataFmt = parts[2] + '/' + parts[1] + '/' + parts[0];
+  }
+
+  addSectionHeader('IDENTIFICAÇÃO');
+  addPlainLine('Nome da gestante: ' + (nome || '________________________________________'));
+  addPlainLine('Cartão SUS / Prontuário: ' + (sus || '____________________') + '     Data: ' + (dataFmt || '____/____/______'));
+  addPlainLine('Unidade de saúde de origem: ' + (unidade || '________________________________________'));
+  y += 2;
+
+  // ── ORIENTAÇÃO PRÉ-CONSULTA ──
+  addSectionHeader('ORIENTAÇÃO PRÉ-CONSULTA');
+  document.querySelectorAll('#sec-regulacao .card')[2].querySelectorAll('.check-item').forEach(function(item) {
+    var cb = item.querySelector('input[type="checkbox"]');
+    addItem(item.textContent.trim(), cb && cb.checked);
+  });
+  y += 2;
+
+  // ── EXAMES COMPLEMENTARES ──
+  addSectionHeader('EXAMES COMPLEMENTARES NECESSÁRIOS');
+  document.querySelectorAll('#sec-regulacao .card')[3].querySelectorAll('.check-item').forEach(function(item) {
+    var cb = item.querySelector('input[type="checkbox"]');
+    addItem(item.textContent.trim(), cb && cb.checked);
+  });
+  y += 2;
+
+  // ── CRITÉRIOS DE CLASSIFICAÇÃO (apenas marcados) ──
+  addSectionHeader('CRITÉRIOS DE CLASSIFICAÇÃO IDENTIFICADOS');
+  groups.forEach(function(g) {
+    if (itemsByGroup[g].length) {
+      addPlainLine('Categoria ' + names[g] + ' (peso ' + scores[g] + '):', { bold: true, gap: 1.5 });
+      itemsByGroup[g].forEach(function(t) { addItem(t, true); });
+      y += 1;
+    }
+  });
+
+  // ── RESULTADO DO ESCORE ──
+  y += 2;
+  checkPageBreak(22);
+  doc.setDrawColor(136, 19, 55);
+  doc.setLineWidth(0.6);
+  doc.rect(marginL, y - 5, usableW, 16);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.text('CLASSIFICAÇÃO FINAL: ' + names[maxG] + '  ·  ESCORE: ' + scores[maxG], marginL + 3, y + 1);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8.5);
+  doc.text('Soma de referência de todos os pontos assinalados: ' + totalSum + ' (prevalece sempre o critério de maior prioridade).', marginL + 3, y + 6.5);
+  doc.setLineWidth(0.2);
+  y += 16;
+
+  // ── ASSINATURAS ──
+  y += 14;
+  checkPageBreak(30);
+  var colW = usableW / 2 - 5;
+  doc.setDrawColor(60, 60, 60);
+  doc.line(marginL, y, marginL + colW, y);
+  doc.line(marginL + colW + 10, y, marginL + colW + 10 + colW, y);
+  y += 4;
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8.5);
+  doc.text('Assinatura do Profissional Médico', marginL, y);
+  doc.text('Assinatura de Outro Profissional', marginL + colW + 10, y);
+  y += 5;
+  doc.text('CRM: ________________', marginL, y);
+  doc.text('Conselho: ________________', marginL + colW + 10, y);
+  y += 8;
+  doc.text('Varjota, ____/____/________', marginL, y);
+
+  // ── RODAPÉ ──
+  var pageCount = doc.internal.getNumberOfPages();
+  for (var p = 1; p <= pageCount; p++) {
+    doc.setPage(p);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(7);
+    doc.setTextColor(140, 140, 140);
+    doc.text('Gerado via Estratificação de Risco Gestacional — SESA/CE  ·  Página ' + p + '/' + pageCount, marginL, 292);
+  }
+
+  var fileName = 'checklist_regulacao_' + (nome ? nome.trim().replace(/\s+/g, '_').toLowerCase() : 'gestante') + '.pdf';
+  doc.save(fileName);
+}
 
 // ── IR PARA CRITÉRIOS (a partir do algoritmo) ───────────────
 function goCriterios(anchorId) {
