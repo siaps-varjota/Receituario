@@ -223,6 +223,23 @@ table.std-table tr:nth-child(even) td { background:var(--baby-pale); }
 </head>
 <body>
 
+<!-- Guard de sessão — executado antes de qualquer renderização -->
+<script>
+(function(){
+  var SESSION_KEY = "receituario_auth";
+  var raw = sessionStorage.getItem(SESSION_KEY);
+  if (!raw) { window.location.replace("index.html"); return; }
+  try {
+    var data = JSON.parse(raw);
+    if (!data.exp || Date.now() >= data.exp) {
+      sessionStorage.removeItem(SESSION_KEY);
+      window.location.replace("index.html");
+    }
+  } catch(e) { window.location.replace("index.html"); }
+})();
+</script>
+
+
 <div class="app-header">
   <div class="header-top">
     <div class="header-icon">👶</div>
