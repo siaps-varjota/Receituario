@@ -2649,7 +2649,33 @@ function limparForm(form){
   }
 }
 
-window.onload=function(){startAlgo();buildChart();};
+// ── SINCRONIZAÇÃO: Ficha de Triagem → Ficha de Encaminhamento ──
+// Campos em comum entre as duas fichas: ao digitar na triagem (t_...),
+// o valor é replicado automaticamente no campo correspondente da
+// ficha de encaminhamento (e_...).
+const CAMPOS_SYNC_TRIAGEM_ENCAMINHAMENTO = [
+  ['t_nome', 'e_nome'],   // Nome completo
+  ['t_nasc', 'e_nasc'],   // Data de nascimento
+  ['t_sus',  'e_sus'],    // Cartão SUS
+  ['t_tel',  'e_tel'],    // Telefone
+  ['t_ubs',  'e_ubs'],    // UBS de referência / UBS
+];
+
+function sincronizarFichaTriagemComEncaminhamento(){
+  CAMPOS_SYNC_TRIAGEM_ENCAMINHAMENTO.forEach(([origemId, destinoId])=>{
+    const origem  = document.getElementById(origemId);
+    const destino = document.getElementById(destinoId);
+    if(!origem || !destino) return;
+    // Replica em tempo real enquanto o usuário digita/seleciona
+    const copiar = ()=>{ destino.value = origem.value; };
+    origem.addEventListener('input', copiar);
+    origem.addEventListener('change', copiar);
+    // Sincroniza imediatamente caso a triagem já tenha valor preenchido
+    if(origem.value) destino.value = origem.value;
+  });
+}
+
+window.onload=function(){startAlgo();buildChart();sincronizarFichaTriagemComEncaminhamento();};
 
 </script>
 </body>
