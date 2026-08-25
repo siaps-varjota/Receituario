@@ -912,6 +912,22 @@ body {
 </head>
 <body>
 
+<!-- Guard de sessão — executado antes de qualquer renderização -->
+<script>
+(function(){
+  var SESSION_KEY = "receituario_auth";
+  var raw = sessionStorage.getItem(SESSION_KEY);
+  if (!raw) { window.location.replace("index.html"); return; }
+  try {
+    var data = JSON.parse(raw);
+    if (!data.exp || Date.now() >= data.exp) {
+      sessionStorage.removeItem(SESSION_KEY);
+      window.location.replace("index.html");
+    }
+  } catch(e) { window.location.replace("index.html"); }
+})();
+</script>
+
 <!-- ══════ TOP BAR ══════ -->
 <div class="topbar">
   <div class="topbar-icon">
@@ -1638,21 +1654,6 @@ function ajustarNavTop() {
 }
 window.addEventListener('load', ajustarNavTop);
 window.addEventListener('resize', ajustarNavTop);
-
-// ── GUARD DE SESSÃO ─────────────────────────────────────────────
-(function(){
-  var SESSION_KEY = "receituario_auth";
-  var raw = sessionStorage.getItem(SESSION_KEY);
-  if (!raw) { window.location.replace("index.html"); return; }
-  try {
-    var data = JSON.parse(raw);
-    if (!data.exp || Date.now() >= data.exp) {
-      sessionStorage.removeItem(SESSION_KEY);
-      window.location.replace("index.html");
-    }
-  } catch(e) { window.location.replace("index.html"); }
-})();
-// ────────────────────────────────────────────────────────────────
 
 const { jsPDF } = window.jspdf;
 
