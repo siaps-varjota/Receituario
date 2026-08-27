@@ -1226,6 +1226,25 @@ function gerarPDFRegulacao() {
     }
   });
 
+  // ── OBSERVAÇÕES: CRITÉRIOS MARCADOS SEM ITEM CORRESPONDENTE NA REGULAÇÃO ──
+  var observacoes = [];
+  document.querySelectorAll('#sec-criterios .check-item input[type="checkbox"]:checked').forEach(function(cb) {
+    if (!cb.hasAttribute('data-reg-sync')) {
+      var lbl = cb.closest('.check-item');
+      if (lbl) {
+        var txt = lbl.textContent.replace(/🔗\s*Regulação/g, '').trim();
+        if (txt) observacoes.push(txt);
+      }
+    }
+  });
+
+  if (observacoes.length) {
+    addSectionHeader('OBSERVAÇÕES — CRITÉRIOS CLÍNICOS SEM CORRESPONDÊNCIA NA REGULAÇÃO');
+    addPlainLine('Identificados na aba "Critérios" do algoritmo, sem item equivalente no Check-list de Regulação. Registrados abaixo como observação complementar para avaliação do regulador:', { size: 8.6, gap: 2.2 });
+    observacoes.forEach(function(t) { addItem(t, true); });
+    y += 1.2;
+  }
+
   // ── RESULTADO DO ESCORE ──
   y += 2;
   checkPageBreak(22);
