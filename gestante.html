@@ -783,7 +783,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
       <span><strong>CHECK-CON-010</strong> · Consórcio Público de Saúde Microrregião de Sobral · Policlínica Bernardo Félix da Silva · Setor: Consultórios (Ambulatório de Obstetrícia) · Implantação 25.09.2017 · Versão 1.<br>Marque abaixo os itens presentes para calcular automaticamente o <strong>escore de prioridade</strong> da regulação.</span>
     </div>
     <div class="check-list">
-      <label class="check-item"><input type="checkbox"> Indicação: Gestação de Alto Risco</label>
+      <label class="check-item"><input type="checkbox" id="reg-indicacao-alto"> Indicação: Gestação de Alto Risco</label>
     </div>
   </div>
 
@@ -845,12 +845,12 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
     </div>
     <div class="strato-body">
       <div class="check-list">
-        <label class="check-item"><input type="checkbox" class="score-item score-a" onchange="calcularRegulacao()"> Gemelaridade</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-a" onchange="calcularRegulacao()"> Distúrbios do líquido amniótico: oligoâmnio &lt; 8 cm e polidrâmnio &gt; 20 cm</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-a" onchange="calcularRegulacao()"> Feto com restrição do crescimento</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-a" onchange="calcularRegulacao()"> Feto mal formado (exceto malformação do tipo Microcefalia — encaminhar ao CEM)</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-a" onchange="calcularRegulacao()"> Isoimunização RH</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-a" onchange="calcularRegulacao()"> Doenças crônicas na gestação: hipertensão arterial crônica, doença autoimune (lúpus eritematoso, artrite reumatoide), cardiopatia, pneumopatia (asma em uso de medicamento contínuo, DPOC), nefropatia, hipo e hipertireoidismo, diabetes mellitus, epilepsia, doenças hematológicas</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-a" id="reg-a1" onchange="calcularRegulacao()"> Gemelaridade</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-a" id="reg-a2" onchange="calcularRegulacao()"> Distúrbios do líquido amniótico: oligoâmnio &lt; 8 cm e polidrâmnio &gt; 20 cm</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-a" id="reg-a3" onchange="calcularRegulacao()"> Feto com restrição do crescimento</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-a" id="reg-a4" onchange="calcularRegulacao()"> Feto mal formado (exceto malformação do tipo Microcefalia — encaminhar ao CEM)</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-a" id="reg-a5" onchange="calcularRegulacao()"> Isoimunização RH</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-a" id="reg-a6" onchange="calcularRegulacao()"> Doenças crônicas na gestação: hipertensão arterial crônica, doença autoimune (lúpus eritematoso, artrite reumatoide), cardiopatia, pneumopatia (asma em uso de medicamento contínuo, DPOC), nefropatia, hipo e hipertireoidismo, diabetes mellitus, epilepsia, doenças hematológicas</label>
       </div>
     </div>
   </div>
@@ -865,10 +865,10 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
     </div>
     <div class="strato-body">
       <div class="check-list">
-        <label class="check-item"><input type="checkbox" class="score-item score-b" onchange="calcularRegulacao()"> Síndromes hipertensivas específicas da gestação, diabetes gestacional</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-b" onchange="calcularRegulacao()"> Sangramento genital de 2º trimestre por placenta prévia (IG &gt; 28 semanas)</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-b" onchange="calcularRegulacao()"> Mau passado obstétrico: 3 abortamentos prévios, morte perinatal, parto prematuro extremo (&lt; 28 semanas), história de internamento em UTI durante gestação anterior</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-b" onchange="calcularRegulacao()"> Câncer que possa repercutir na gravidez</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-b" id="reg-b1" onchange="calcularRegulacao()"> Síndromes hipertensivas específicas da gestação, diabetes gestacional</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-b" id="reg-b2" onchange="calcularRegulacao()"> Sangramento genital de 2º trimestre por placenta prévia (IG &gt; 28 semanas)</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-b" id="reg-b3" onchange="calcularRegulacao()"> Mau passado obstétrico: 3 abortamentos prévios, morte perinatal, parto prematuro extremo (&lt; 28 semanas), história de internamento em UTI durante gestação anterior</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-b" id="reg-b4" onchange="calcularRegulacao()"> Câncer que possa repercutir na gravidez</label>
       </div>
     </div>
   </div>
@@ -883,10 +883,10 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
     </div>
     <div class="strato-body">
       <div class="check-list">
-        <label class="check-item"><input type="checkbox" class="score-item score-c" onchange="calcularRegulacao()"> Infecções adquiridas na gestação (sem malformação fetal): hepatites, sífilis, toxoplasmose, herpes. Exceto HIV ou aids (encaminhar ao CRIS e CEM)</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-c" onchange="calcularRegulacao()"> Infecções urinárias de repetição, mesmo tratadas corretamente</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-c" onchange="calcularRegulacao()"> Gestante com duas ou mais cesáreas prévias</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-c" onchange="calcularRegulacao()"> Uso de drogas sem remissão</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-c" id="reg-c1" onchange="calcularRegulacao()"> Infecções adquiridas na gestação (sem malformação fetal): hepatites, sífilis, toxoplasmose, herpes. Exceto HIV ou aids (encaminhar ao CRIS e CEM)</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-c" id="reg-c2" onchange="calcularRegulacao()"> Infecções urinárias de repetição, mesmo tratadas corretamente</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-c" id="reg-c3" onchange="calcularRegulacao()"> Gestante com duas ou mais cesáreas prévias</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-c" id="reg-c4" onchange="calcularRegulacao()"> Uso de drogas sem remissão</label>
       </div>
     </div>
   </div>
@@ -902,13 +902,13 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
     <div class="strato-body">
       <div class="check-list">
         <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> Ausência de critérios de prioridades</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> Idade menor que 15 anos e maior que 34 anos</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> Situações sociais de vulnerabilidade</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> Tabagista</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> Estatura &lt; 1,45 m</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> IMC &lt; 19 ou &gt; 30</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> Uso de drogas em remissão</label>
-        <label class="check-item"><input type="checkbox" class="score-item score-d" onchange="calcularRegulacao()"> Nuliparidade ou multiparidade &gt; 5 partos</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-d" id="reg-d2" onchange="calcularRegulacao()"> Idade menor que 15 anos e maior que 34 anos</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-d" id="reg-d3" onchange="calcularRegulacao()"> Situações sociais de vulnerabilidade</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-d" id="reg-d4" onchange="calcularRegulacao()"> Tabagista</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-d" id="reg-d5" onchange="calcularRegulacao()"> Estatura &lt; 1,45 m</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-d" id="reg-d6" onchange="calcularRegulacao()"> IMC &lt; 19 ou &gt; 30</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-d" id="reg-d7" onchange="calcularRegulacao()"> Uso de drogas em remissão</label>
+        <label class="check-item"><input type="checkbox" class="score-item score-d" id="reg-d8" onchange="calcularRegulacao()"> Nuliparidade ou multiparidade &gt; 5 partos</label>
       </div>
     </div>
   </div>
