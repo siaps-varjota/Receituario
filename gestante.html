@@ -1319,19 +1319,21 @@ function gerarPDFRegulacao() {
   y += 13;
   checkPageBreak(32);
   var colW = usableW / 2 - 6;
+  var col1Center = marginL + colW / 2;
+  var col2Center = marginL + colW + 12 + colW / 2;
   doc.setDrawColor(60, 60, 60);
   doc.line(marginL, y, marginL + colW, y);
   doc.line(marginL + colW + 12, y, marginL + colW + 12 + colW, y);
   y += 5;
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9.3);
-  doc.text('Assinatura do Profissional Médico', marginL, y);
-  doc.text('Assinatura de Outro Profissional', marginL + colW + 12, y);
+  doc.text('Assinatura do Profissional Médico', col1Center, y, { align: 'center' });
+  doc.text('Assinatura de Outro Profissional', col2Center, y, { align: 'center' });
   y += 5.5;
-  doc.text('CRM: ________________', marginL, y);
-  doc.text('Conselho: ________________', marginL + colW + 12, y);
+  doc.text('CRM: ________________', col1Center, y, { align: 'center' });
+  doc.text('Conselho: ________________', col2Center, y, { align: 'center' });
   y += 8;
-  doc.text('Varjota, ____/____/________', marginL, y);
+  doc.text('Varjota, ____/____/________', col1Center, y, { align: 'center' });
 
   // ── RODAPÉ ──
   var pageCount = doc.internal.getNumberOfPages();
