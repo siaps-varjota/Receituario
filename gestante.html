@@ -154,6 +154,18 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 .strato-body .sub-label { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text); margin-bottom:0.3rem; }
 .strato-body ul { padding-left:1.1rem; }
 .strato-body li { margin-bottom:0.28rem; }
+.strato-body ul.check-ul,
+.acc-body ul.check-ul { list-style:none; padding-left:0; margin:0; }
+.strato-body ul.check-ul li,
+.acc-body ul.check-ul li { margin-bottom:0.15rem; }
+.check-ul .check-item { display:flex; align-items:flex-start; width:100%; }
+.check-ul .check-item input[type="checkbox"] { margin-right:0.15rem; }
+#sec-criterios .check-item:has(input:checked),
+#sec-criterios .check-item.checked { background:rgba(26,122,60,0.13); }
+#sec-criterios .strato-card .check-item:has(input:checked),
+#sec-criterios .strato-card .check-item.checked { background:rgba(255,255,255,0.55); }
+#sec-criterios .check-item:has(input:checked) *,
+#sec-criterios .check-item.checked * { opacity:0.75; text-decoration:line-through; }
 
 .strato-card.habitual .strato-header { background:var(--green); }
 .strato-card.habitual { border-color:var(--green-border); }
@@ -321,241 +333,234 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 <!-- ══════════════════════════════════════════════════════ -->
 <!--  CRITÉRIOS                                            -->
 <!-- ══════════════════════════════════════════════════════ -->
-<div id="sec-criterios" class="section">
-
-  <div class="card">
-    <div class="crit-toolbar">
-      <button class="btn-restart" style="margin-top:0" onclick="goSection('algo')">← Voltar ao Algoritmo</button>
-      <div class="crit-search-wrap">
-        <input type="text" id="crit-search" placeholder="🔍 Buscar por palavra-chave (ex.: HIV, cesárea, IMC, violência...)" oninput="filterCriterios(this.value)">
-      </div>
-    </div>
-    <div id="crit-no-results" style="display:none;margin-top:0.8rem;font-size:0.83rem;color:var(--text-soft)">Nenhum critério encontrado para essa busca.</div>
-  </div>
-
-  <!-- URGÊNCIA/EMERGÊNCIA -->
-  <div class="strato-card vinho" id="crit-urgencia">
-    <div class="strato-header">
-      <div class="strato-header-text">
-        <h3>🆘 Urgência / Emergência Obstétrica</h3>
-        <p>Encaminhamento hospitalar imediato — não aguardar consulta agendada</p>
-      </div>
-      <button type="button" class="btn-quick-back" onclick="goSection('algo')">← Voltar</button>
-    </div>
-    <div class="strato-body">
-      <ul>
-        <li>Vômitos incoercíveis não responsivos ao tratamento.</li>
-        <li>Anemia grave (Hb <strong>≤ 7 g/dL</strong>).</li>
-        <li>Condições clínicas de emergência: cefaleia intensa e súbita, sinais neurológicos, crise aguda de asma, edema agudo de pulmão.</li>
-        <li>Crise hipertensiva <strong>(PA ≥ 160/110 mmHg)</strong>.</li>
-        <li>Sinais premonitórios de eclâmpsia: escotomas cintilantes, cefaleia típica occipital, epigastralgia ou dor intensa no hipocôndrio direito, com ou sem hipertensão grave e/ou proteinúria.</li>
-        <li>Eclâmpsia / convulsões.</li>
-        <li>Hipertermia (temperatura axilar ≥ 37,8 °C) na ausência de infecção das vias aéreas superiores.</li>
-        <li>Suspeita de trombose venosa profunda.</li>
-        <li>Suspeita/diagnóstico de abdome agudo.</li>
-        <li>Suspeita/diagnóstico de pielonefrite, infecção ovular ou outra infecção que necessite de internação.</li>
-        <li>Prurido gestacional / icterícia.</li>
-        <li>Hemorragias na gestação (DPP, placenta prévia, abortamento).</li>
-        <li>Idade gestacional de <strong>41 semanas ou mais</strong>.</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- ALTO RISCO COM SITUAÇÕES ESPECIAIS -->
-  <div class="strato-card vinho" id="crit-especial">
-    <div class="strato-header">
-      <div class="strato-header-text">
-        <h3>🏛️ Alto Risco com Situações Especiais — Atenção Terciária</h3>
-        <p>Acompanhamento obrigatório em hospital de referência terciária</p>
-      </div>
-      <button type="button" class="btn-quick-back" onclick="goSection('algo')">← Voltar</button>
-    </div>
-    <div class="strato-body">
-      <ul>
-        <li>Gestação múltipla <strong>monocoriônica</strong>.</li>
-        <li>Isoimunização <strong>Rh</strong>.</li>
-        <li>Malformação fetal ou arritmia cardíaca fetal confirmada.</li>
-        <li>Diagnóstico de <strong>HIV/AIDS</strong>.</li>
-        <li><strong>Transplantes</strong> prévios.</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- ALTO RISCO -->
-  <div class="strato-card alto" id="crit-alto">
-    <div class="strato-header">
-      <div class="strato-header-text">
-        <h3>🔴 Alto Risco</h3>
-        <p>APS + AAE + Serviço de Referência para Gestação de Alto Risco</p>
-      </div>
-      <button type="button" class="btn-quick-back" onclick="goSection('algo')">← Voltar</button>
-    </div>
-    <div class="strato-body">
-      <div class="acc-item">
-        <div class="acc-header" onclick="toggleAcc(this)">Características Individuais e Condições Sociodemográficas <span class="acc-arrow">▶</span></div>
-        <div class="acc-body"><ul>
-          <li>Etilismo com <strong>indicativo de dependência</strong>.</li>
-          <li>Tabagismo com <strong>indicativo de dependência elevada</strong>.</li>
-          <li>Dependência e/ou uso abusivo de drogas.</li>
-          <li>Agravos alimentares ou nutricionais: IMC <strong>≥ 40 kg/m²</strong>, desnutrição, carências nutricionais (hipovitaminoses), transtornos alimentares (anorexia nervosa, bulimia).</li>
-        </ul></div>
-      </div>
-      <div class="acc-item">
-        <div class="acc-header" onclick="toggleAcc(this)">História Reprodutiva Anterior <span class="acc-arrow">▶</span></div>
-        <div class="acc-body"><ul>
-          <li>Abortamento habitual/recorrente <strong>(3 ou mais abortos consecutivos)</strong>.</li>
-          <li>Aborto tardio ou morte perinatal explicada ou inexplicada.</li>
-          <li>Isoimunização Rh em gestação anterior.</li>
-          <li>Acretismo placentário.</li>
-          <li>Pré-eclâmpsia grave / síndrome HELLP.</li>
-          <li>Prematuridade anterior.</li>
-          <li>Cesariana prévia com incisão clássica/corporal/longitudinal.</li>
-        </ul></div>
-      </div>
-      <div class="acc-item">
-        <div class="acc-header" onclick="toggleAcc(this)">Condições Clínicas Prévias à Gestação <span class="acc-arrow">▶</span></div>
-        <div class="acc-body"><ul>
-          <li>Pneumopatias graves: asma em uso de medicamento contínuo, DPOC, fibrose cística.</li>
-          <li>Nefropatias graves: insuficiência renal, rins policísticos.</li>
-          <li>Endocrinopatias: hipotireoidismo clínico em uso de medicamentos, hipertireoidismo.</li>
-          <li>Doenças hematológicas: doença falciforme (exceto traço), PTI, talassemia, coagulopatias.</li>
-          <li>Histórico de tromboembolismo.</li>
-          <li>Doenças neurológicas: epilepsia, AVC, déficits motores graves.</li>
-          <li>Doenças autoimunes: lúpus eritematoso, SAAF, artrite reumatoide, outras colagenoses.</li>
-          <li>Ginecopatias: malformações uterinas, útero bicorno, miomas intramurais &gt; 4 cm ou múltiplos e miomas submucosos, cirurgia uterina prévia fora da gestação.</li>
-          <li>Neoplasias (qualquer) — suspeita, diagnóstico ou em tratamento.</li>
-          <li>Transplantes.</li>
-          <li>Cirurgia bariátrica.</li>
-          <li>Doenças infecciosas: tuberculose, hanseníase, hepatites, condiloma acuminado extenso (canal vaginal, colo uterino ou região genital/perianal).</li>
-          <li>Diagnóstico de HIV/aids prévio.</li>
-          <li>Transtorno mental grave: psicose ou depressão grave.</li>
-        </ul></div>
-      </div>
-      <div class="acc-item">
-        <div class="acc-header" onclick="toggleAcc(this)">Intercorrências Clínicas / Obstétricas na Gestação Atual <span class="acc-arrow">▶</span></div>
-        <div class="acc-body"><ul>
-          <li>Gestação de homens transsexuais.</li>
-          <li>Mola hidatiforme.</li>
-          <li>Gestação gemelar <strong>monocoriônica</strong>.</li>
-          <li>Gestação multifetal (mais de 1 feto na cavidade uterina).</li>
-          <li>Gestação por reprodução assistida.</li>
-          <li>Malformação fetal ou arritmia cardíaca fetal.</li>
-          <li>Diabetes gestacional <strong>com necessidade de insulina</strong> ou com repercussão fetal.</li>
-          <li>Pré-eclâmpsia com sinais de gravidade ou de instalação precoce <strong>(&lt; 34 semanas)</strong>.</li>
-          <li>Tromboembolismo na gestação.</li>
-          <li>Infecção urinária de repetição: ≥ 3 episódios de ITU baixa ou ≥ 2 episódios de pielonefrite.</li>
-          <li>Sífilis terciária ou resistente ao tratamento com penicilina benzatina; achados ecográficos suspeitos de sífilis congênita; toxoplasmose aguda com suspeita de repercussão fetal; rubéola, citomegalovírus ou HIV/aids na gestação.</li>
-          <li>Restrição de crescimento fetal <strong>confirmada</strong>.</li>
-          <li>Desvios da quantidade de líquido amniótico.</li>
-          <li>Isoimunização Rh.</li>
-          <li>Insuficiência istmocervical diagnosticada na gestação atual.</li>
-          <li>Trabalho de parto pré-termo inibido na gestação atual.</li>
-          <li>Anemia grave (Hb <strong>&lt; 9 g/dL</strong>) ou anemia refratária a tratamento.</li>
-          <li>Hemorragias na gestação atual.</li>
-          <li>Placenta prévia (diagnóstico confirmado após 22 semanas).</li>
-          <li>Acretismo placentário.</li>
-          <li>Colestase gestacional (prurido gestacional ou icterícia persistente).</li>
-          <li>Qualquer patologia clínica que repercuta na gestação ou necessite de acompanhamento clínico especializado.</li>
-          <li>Outras condições de saúde de maior complexidade.</li>
-        </ul></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- MÉDIO RISCO -->
-  <div class="strato-card inter" id="crit-medio">
-    <div class="strato-header">
-      <div class="strato-header-text">
-        <h3>🟡 Médio Risco (Intermediário)</h3>
-        <p>APS com encaminhamento à AAE para cuidado compartilhado</p>
-      </div>
-      <button type="button" class="btn-quick-back" onclick="goSection('algo')">← Voltar</button>
-    </div>
-    <div class="strato-body">
-      <div class="acc-item">
-        <div class="acc-header" onclick="toggleAcc(this)">Características Individuais e Condições Socioeconômicas <span class="acc-arrow">▶</span></div>
-        <div class="acc-body"><ul>
-          <li>Idade <strong>menor que 15</strong> ou <strong>maior que 35 anos</strong>.</li>
-          <li>Condições de trabalho desfavoráveis: esforço físico excessivo, carga horária extensa, exposição a agentes físicos, químicos e biológicos nocivos, altos níveis de estresse.</li>
-          <li>Indícios ou ocorrência de <strong>violência doméstica ou de gênero</strong>.</li>
-          <li>Situação conjugal insegura.</li>
-          <li>Insuficiência de apoio familiar.</li>
-          <li>Capacidade de autocuidado insuficiente.</li>
-          <li>Não aceitação da gestação.</li>
-          <li>Baixa escolaridade <strong>(&lt; 5 anos de estudo)</strong>.</li>
-          <li>Uso de medicamentos teratogênicos.</li>
-          <li>Altura <strong>menor que 1,45 m</strong>.</li>
-          <li>IMC <strong>&lt; 18,5</strong> ou de <strong>30 a 39 kg/m²</strong>.</li>
-          <li>Transtorno depressivo ou de ansiedade leve.</li>
-          <li>Etilismo sem indicativo de dependência <em>(requer avaliação ampliada; pode ser reclassificado para Alto Risco se houver indicativo de dependência — NT SESA-CE, p.5).</em></li>
-          <li>Tabagismo com baixo grau de dependência (Fagerström 8 a 10 pontos).</li>
-          <li>Uso ocasional de drogas lícitas e ilícitas.</li>
-          <li>Gestante em situação de rua, comunidades indígenas, quilombolas ou migrantes.</li>
-          <li>Gestante negra (cor de pele preta ou parda).</li>
-          <li>Outras condições de saúde de menor complexidade.</li>
-        </ul></div>
-      </div>
-      <div class="acc-item">
-        <div class="acc-header" onclick="toggleAcc(this)">História Reprodutiva Anterior <span class="acc-arrow">▶</span></div>
-        <div class="acc-body"><ul>
-          <li>Abortos precoces (até 12 semanas) em gestações anteriores — <strong>até 2 abortos consecutivos</strong>.</li>
-          <li>Histórico de pré-eclâmpsia grave ou eclâmpsia em gestação anterior. <em>(Nota: histórico de pré-eclâmpsia grave <strong>com síndrome HELLP</strong> ou com sequelas classifica como Alto Risco.)</em></li>
-          <li>Insuficiência istmo-cervical.</li>
-          <li>Alterações no crescimento intrauterino (restrição de crescimento fetal e macrossomia).</li>
-          <li>Malformação fetal.</li>
-          <li>Nuliparidade ou multiparidade <strong>(5 ou mais partos)</strong>.</li>
-          <li>Diabetes gestacional.</li>
-          <li>Síndromes hemorrágicas ou hipertensivas sem critérios de gravidade.</li>
-          <li>Infertilidade.</li>
-          <li>Cesarianas prévias <strong>(2 ou mais)</strong>.</li>
-          <li>Intervalo interpartal <strong>&lt; 2 anos</strong>.</li>
-        </ul></div>
-      </div>
-      <div class="acc-item">
-        <div class="acc-header" onclick="toggleAcc(this)">Condições Clínicas Prévias à Gestação <span class="acc-arrow">▶</span></div>
-        <div class="acc-body"><ul>
-          <li>Depressão e ansiedade leves <strong>sem necessidade de tratamento medicamentoso</strong>.</li>
-          <li>Asma controlada <strong>sem uso de medicamento contínuo</strong>.</li>
-          <li>Hipotireoidismo subclínico diagnosticado na gestação.</li>
-        </ul></div>
-      </div>
-      <div class="acc-item">
-        <div class="acc-header" onclick="toggleAcc(this)">Intercorrências Clínicas / Obstétricas na Gestação Atual <span class="acc-arrow">▶</span></div>
-        <div class="acc-body"><ul>
-          <li>Gestação resultante de estupro.</li>
-          <li>Gestação gemelar <strong>dicoriônica-diamniótica</strong>.</li>
-          <li>Diabetes gestacional controlada <strong>sem medicação e sem repercussão fetal</strong>.</li>
-          <li>Hipertensão gestacional ou pré-eclâmpsia <strong>sem sinal de gravidade materno-fetal</strong>.</li>
-          <li>Infecção urinária: até 2 ocorrências ou 1 episódio de pielonefrite.</li>
-          <li>Ganho de peso inadequado (insuficiente ou excessivo).</li>
-          <li>Doenças infecciosas: sífilis (exceto sífilis terciária ou resistente ao tratamento com penicilina benzatina e achados ecográficos suspeitos de sífilis congênita); toxoplasmose aguda sem repercussão fetal; herpes simples.</li>
-          <li>Suspeita ou confirmação de dengue, vírus Zika ou chikungunya (quadro febril exantemático).</li>
-          <li>Restrição de crescimento fetal <strong>suspeita</strong>.</li>
-          <li>Feto acima do <strong>percentil 90</strong>.</li>
-          <li>Anemia leve a moderada <strong>(Hb entre 9 g/dL e 11 g/dL)</strong> — conforme texto normativo da Nota Técnica (p.6). <em>Atenção: o Anexo I (p.20) diverge e cita 8–11 g/dL; aguardar consolidação pela SESA.</em></li>
-        </ul></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- BAIXO RISCO -->
-  <div class="strato-card habitual">
-    <div class="strato-header">
-      <h3>🟢 Baixo Risco (Habitual)</h3>
-      <p>Acompanhamento integral pela equipe de APS na UBS</p>
-    </div>
-    <div class="strato-body">
-      <div class="sub-label">Ausência dos critérios acima + presença dos seguintes fatores favoráveis</div>
-      <ul>
-        <li>Idade entre <strong>16 e 34 anos</strong>.</li>
-        <li>Aceitação da gestação.</li>
-        <li>Ausência de intercorrências clínicas; tabagismo Fagerström &lt; 8.</li>
-        <li>Ausência de intercorrências obstétricas na gravidez anterior e/ou atual.</li>
-        <li>Intervalo interpartal <strong>maior que 2 anos</strong>.</li>
-      </ul>
-    </div>
-  </div>
-
+<div class="section" id="sec-criterios">
+<div class="card">
+<div class="crit-toolbar">
+<button class="btn-restart" onclick="goSection('algo')" style="margin-top:0">← Voltar ao Algoritmo</button>
+<div class="crit-search-wrap">
+<input id="crit-search" oninput="filterCriterios(this.value)" placeholder="🔍 Buscar por palavra-chave (ex.: HIV, cesárea, IMC, violência...)" type="text"/>
+</div>
+</div>
+<div id="crit-no-results" style="display:none;margin-top:0.8rem;font-size:0.83rem;color:var(--text-soft)">Nenhum critério encontrado para essa busca.</div>
+</div>
+<!-- URGÊNCIA/EMERGÊNCIA -->
+<div class="strato-card vinho" id="crit-urgencia">
+<div class="strato-header">
+<div class="strato-header-text">
+<h3>🆘 Urgência / Emergência Obstétrica</h3>
+<p>Encaminhamento hospitalar imediato — não aguardar consulta agendada</p>
+</div>
+<button class="btn-quick-back" onclick="goSection('algo')" type="button">← Voltar</button>
+</div>
+<div class="strato-body">
+<ul class="check-ul">
+<li><label class="check-item"><input type="checkbox"/>Vômitos incoercíveis não responsivos ao tratamento.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Anemia grave (Hb <strong>≤ 7 g/dL</strong>).</label></li>
+<li><label class="check-item"><input type="checkbox"/>Condições clínicas de emergência: cefaleia intensa e súbita, sinais neurológicos, crise aguda de asma, edema agudo de pulmão.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Crise hipertensiva <strong>(PA ≥ 160/110 mmHg)</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Sinais premonitórios de eclâmpsia: escotomas cintilantes, cefaleia típica occipital, epigastralgia ou dor intensa no hipocôndrio direito, com ou sem hipertensão grave e/ou proteinúria.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Eclâmpsia / convulsões.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Hipertermia (temperatura axilar ≥ 37,8 °C) na ausência de infecção das vias aéreas superiores.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Suspeita de trombose venosa profunda.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Suspeita/diagnóstico de abdome agudo.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Suspeita/diagnóstico de pielonefrite, infecção ovular ou outra infecção que necessite de internação.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Prurido gestacional / icterícia.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Hemorragias na gestação (DPP, placenta prévia, abortamento).</label></li>
+<li><label class="check-item"><input type="checkbox"/>Idade gestacional de <strong>41 semanas ou mais</strong>.</label></li>
+</ul>
+</div>
+</div>
+<!-- ALTO RISCO COM SITUAÇÕES ESPECIAIS -->
+<div class="strato-card vinho" id="crit-especial">
+<div class="strato-header">
+<div class="strato-header-text">
+<h3>🏛️ Alto Risco com Situações Especiais — Atenção Terciária</h3>
+<p>Acompanhamento obrigatório em hospital de referência terciária</p>
+</div>
+<button class="btn-quick-back" onclick="goSection('algo')" type="button">← Voltar</button>
+</div>
+<div class="strato-body">
+<ul class="check-ul">
+<li><label class="check-item"><input type="checkbox"/>Gestação múltipla <strong>monocoriônica</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Isoimunização <strong>Rh</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Malformação fetal ou arritmia cardíaca fetal confirmada.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Diagnóstico de <strong>HIV/AIDS</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/><strong>Transplantes</strong> prévios.</label></li>
+</ul>
+</div>
+</div>
+<!-- ALTO RISCO -->
+<div class="strato-card alto" id="crit-alto">
+<div class="strato-header">
+<div class="strato-header-text">
+<h3>🔴 Alto Risco</h3>
+<p>APS + AAE + Serviço de Referência para Gestação de Alto Risco</p>
+</div>
+<button class="btn-quick-back" onclick="goSection('algo')" type="button">← Voltar</button>
+</div>
+<div class="strato-body">
+<div class="acc-item">
+<div class="acc-header" onclick="toggleAcc(this)">Características Individuais e Condições Sociodemográficas <span class="acc-arrow">▶</span></div>
+<div class="acc-body"><ul class="check-ul">
+<li><label class="check-item"><input type="checkbox"/>Etilismo com <strong>indicativo de dependência</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Tabagismo com <strong>indicativo de dependência elevada</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Dependência e/ou uso abusivo de drogas.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Agravos alimentares ou nutricionais: IMC <strong>≥ 40 kg/m²</strong>, desnutrição, carências nutricionais (hipovitaminoses), transtornos alimentares (anorexia nervosa, bulimia).</label></li>
+</ul></div>
+</div>
+<div class="acc-item">
+<div class="acc-header" onclick="toggleAcc(this)">História Reprodutiva Anterior <span class="acc-arrow">▶</span></div>
+<div class="acc-body"><ul class="check-ul">
+<li><label class="check-item"><input type="checkbox"/>Abortamento habitual/recorrente <strong>(3 ou mais abortos consecutivos)</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Aborto tardio ou morte perinatal explicada ou inexplicada.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Isoimunização Rh em gestação anterior.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Acretismo placentário.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Pré-eclâmpsia grave / síndrome HELLP.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Prematuridade anterior.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Cesariana prévia com incisão clássica/corporal/longitudinal.</label></li>
+</ul></div>
+</div>
+<div class="acc-item">
+<div class="acc-header" onclick="toggleAcc(this)">Condições Clínicas Prévias à Gestação <span class="acc-arrow">▶</span></div>
+<div class="acc-body"><ul class="check-ul">
+<li><label class="check-item"><input type="checkbox"/>Pneumopatias graves: asma em uso de medicamento contínuo, DPOC, fibrose cística.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Nefropatias graves: insuficiência renal, rins policísticos.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Endocrinopatias: hipotireoidismo clínico em uso de medicamentos, hipertireoidismo.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Doenças hematológicas: doença falciforme (exceto traço), PTI, talassemia, coagulopatias.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Histórico de tromboembolismo.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Doenças neurológicas: epilepsia, AVC, déficits motores graves.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Doenças autoimunes: lúpus eritematoso, SAAF, artrite reumatoide, outras colagenoses.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Ginecopatias: malformações uterinas, útero bicorno, miomas intramurais &gt; 4 cm ou múltiplos e miomas submucosos, cirurgia uterina prévia fora da gestação.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Neoplasias (qualquer) — suspeita, diagnóstico ou em tratamento.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Transplantes.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Cirurgia bariátrica.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Doenças infecciosas: tuberculose, hanseníase, hepatites, condiloma acuminado extenso (canal vaginal, colo uterino ou região genital/perianal).</label></li>
+<li><label class="check-item"><input type="checkbox"/>Diagnóstico de HIV/aids prévio.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Transtorno mental grave: psicose ou depressão grave.</label></li>
+</ul></div>
+</div>
+<div class="acc-item">
+<div class="acc-header" onclick="toggleAcc(this)">Intercorrências Clínicas / Obstétricas na Gestação Atual <span class="acc-arrow">▶</span></div>
+<div class="acc-body"><ul class="check-ul">
+<li><label class="check-item"><input type="checkbox"/>Gestação de homens transsexuais.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Mola hidatiforme.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Gestação gemelar <strong>monocoriônica</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Gestação multifetal (mais de 1 feto na cavidade uterina).</label></li>
+<li><label class="check-item"><input type="checkbox"/>Gestação por reprodução assistida.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Malformação fetal ou arritmia cardíaca fetal.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Diabetes gestacional <strong>com necessidade de insulina</strong> ou com repercussão fetal.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Pré-eclâmpsia com sinais de gravidade ou de instalação precoce <strong>(&lt; 34 semanas)</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Tromboembolismo na gestação.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Infecção urinária de repetição: ≥ 3 episódios de ITU baixa ou ≥ 2 episódios de pielonefrite.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Sífilis terciária ou resistente ao tratamento com penicilina benzatina; achados ecográficos suspeitos de sífilis congênita; toxoplasmose aguda com suspeita de repercussão fetal; rubéola, citomegalovírus ou HIV/aids na gestação.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Restrição de crescimento fetal <strong>confirmada</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Desvios da quantidade de líquido amniótico.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Isoimunização Rh.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Insuficiência istmocervical diagnosticada na gestação atual.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Trabalho de parto pré-termo inibido na gestação atual.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Anemia grave (Hb <strong>&lt; 9 g/dL</strong>) ou anemia refratária a tratamento.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Hemorragias na gestação atual.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Placenta prévia (diagnóstico confirmado após 22 semanas).</label></li>
+<li><label class="check-item"><input type="checkbox"/>Acretismo placentário.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Colestase gestacional (prurido gestacional ou icterícia persistente).</label></li>
+<li><label class="check-item"><input type="checkbox"/>Qualquer patologia clínica que repercuta na gestação ou necessite de acompanhamento clínico especializado.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Outras condições de saúde de maior complexidade.</label></li>
+</ul></div>
+</div>
+</div>
+</div>
+<!-- MÉDIO RISCO -->
+<div class="strato-card inter" id="crit-medio">
+<div class="strato-header">
+<div class="strato-header-text">
+<h3>🟡 Médio Risco (Intermediário)</h3>
+<p>APS com encaminhamento à AAE para cuidado compartilhado</p>
+</div>
+<button class="btn-quick-back" onclick="goSection('algo')" type="button">← Voltar</button>
+</div>
+<div class="strato-body">
+<div class="acc-item">
+<div class="acc-header" onclick="toggleAcc(this)">Características Individuais e Condições Socioeconômicas <span class="acc-arrow">▶</span></div>
+<div class="acc-body"><ul class="check-ul">
+<li><label class="check-item"><input type="checkbox"/>Idade <strong>menor que 15</strong> ou <strong>maior que 35 anos</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Condições de trabalho desfavoráveis: esforço físico excessivo, carga horária extensa, exposição a agentes físicos, químicos e biológicos nocivos, altos níveis de estresse.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Indícios ou ocorrência de <strong>violência doméstica ou de gênero</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Situação conjugal insegura.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Insuficiência de apoio familiar.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Capacidade de autocuidado insuficiente.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Não aceitação da gestação.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Baixa escolaridade <strong>(&lt; 5 anos de estudo)</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Uso de medicamentos teratogênicos.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Altura <strong>menor que 1,45 m</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>IMC <strong>&lt; 18,5</strong> ou de <strong>30 a 39 kg/m²</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Transtorno depressivo ou de ansiedade leve.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Etilismo sem indicativo de dependência <em>(requer avaliação ampliada; pode ser reclassificado para Alto Risco se houver indicativo de dependência — NT SESA-CE, p.5).</em></label></li>
+<li><label class="check-item"><input type="checkbox"/>Tabagismo com baixo grau de dependência (Fagerström 8 a 10 pontos).</label></li>
+<li><label class="check-item"><input type="checkbox"/>Uso ocasional de drogas lícitas e ilícitas.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Gestante em situação de rua, comunidades indígenas, quilombolas ou migrantes.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Gestante negra (cor de pele preta ou parda).</label></li>
+<li><label class="check-item"><input type="checkbox"/>Outras condições de saúde de menor complexidade.</label></li>
+</ul></div>
+</div>
+<div class="acc-item">
+<div class="acc-header" onclick="toggleAcc(this)">História Reprodutiva Anterior <span class="acc-arrow">▶</span></div>
+<div class="acc-body"><ul class="check-ul">
+<li><label class="check-item"><input type="checkbox"/>Abortos precoces (até 12 semanas) em gestações anteriores — <strong>até 2 abortos consecutivos</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Histórico de pré-eclâmpsia grave ou eclâmpsia em gestação anterior. <em>(Nota: histórico de pré-eclâmpsia grave <strong>com síndrome HELLP</strong> ou com sequelas classifica como Alto Risco.)</em></label></li>
+<li><label class="check-item"><input type="checkbox"/>Insuficiência istmo-cervical.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Alterações no crescimento intrauterino (restrição de crescimento fetal e macrossomia).</label></li>
+<li><label class="check-item"><input type="checkbox"/>Malformação fetal.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Nuliparidade ou multiparidade <strong>(5 ou mais partos)</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Diabetes gestacional.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Síndromes hemorrágicas ou hipertensivas sem critérios de gravidade.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Infertilidade.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Cesarianas prévias <strong>(2 ou mais)</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Intervalo interpartal <strong>&lt; 2 anos</strong>.</label></li>
+</ul></div>
+</div>
+<div class="acc-item">
+<div class="acc-header" onclick="toggleAcc(this)">Condições Clínicas Prévias à Gestação <span class="acc-arrow">▶</span></div>
+<div class="acc-body"><ul class="check-ul">
+<li><label class="check-item"><input type="checkbox"/>Depressão e ansiedade leves <strong>sem necessidade de tratamento medicamentoso</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Asma controlada <strong>sem uso de medicamento contínuo</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Hipotireoidismo subclínico diagnosticado na gestação.</label></li>
+</ul></div>
+</div>
+<div class="acc-item">
+<div class="acc-header" onclick="toggleAcc(this)">Intercorrências Clínicas / Obstétricas na Gestação Atual <span class="acc-arrow">▶</span></div>
+<div class="acc-body"><ul class="check-ul">
+<li><label class="check-item"><input type="checkbox"/>Gestação resultante de estupro.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Gestação gemelar <strong>dicoriônica-diamniótica</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Diabetes gestacional controlada <strong>sem medicação e sem repercussão fetal</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Hipertensão gestacional ou pré-eclâmpsia <strong>sem sinal de gravidade materno-fetal</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Infecção urinária: até 2 ocorrências ou 1 episódio de pielonefrite.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Ganho de peso inadequado (insuficiente ou excessivo).</label></li>
+<li><label class="check-item"><input type="checkbox"/>Doenças infecciosas: sífilis (exceto sífilis terciária ou resistente ao tratamento com penicilina benzatina e achados ecográficos suspeitos de sífilis congênita); toxoplasmose aguda sem repercussão fetal; herpes simples.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Suspeita ou confirmação de dengue, vírus Zika ou chikungunya (quadro febril exantemático).</label></li>
+<li><label class="check-item"><input type="checkbox"/>Restrição de crescimento fetal <strong>suspeita</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Feto acima do <strong>percentil 90</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Anemia leve a moderada <strong>(Hb entre 9 g/dL e 11 g/dL)</strong> — conforme texto normativo da Nota Técnica (p.6). <em>Atenção: o Anexo I (p.20) diverge e cita 8–11 g/dL; aguardar consolidação pela SESA.</em></label></li>
+</ul></div>
+</div>
+</div>
+</div>
+<!-- BAIXO RISCO -->
+<div class="strato-card habitual">
+<div class="strato-header">
+<h3>🟢 Baixo Risco (Habitual)</h3>
+<p>Acompanhamento integral pela equipe de APS na UBS</p>
+</div>
+<div class="strato-body">
+<div class="sub-label">Ausência dos critérios acima + presença dos seguintes fatores favoráveis</div>
+<ul class="check-ul">
+<li><label class="check-item"><input type="checkbox"/>Idade entre <strong>16 e 34 anos</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Aceitação da gestação.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Ausência de intercorrências clínicas; tabagismo Fagerström &lt; 8.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Ausência de intercorrências obstétricas na gravidez anterior e/ou atual.</label></li>
+<li><label class="check-item"><input type="checkbox"/>Intervalo interpartal <strong>maior que 2 anos</strong>.</label></li>
+</ul>
+</div>
+</div>
 </div><!-- /sec-criterios -->
 
 <!-- ══════════════════════════════════════════════════════ -->
@@ -1610,6 +1615,15 @@ var algo = {
   }
 
 };
+
+// Marca visualmente (linha inteira) os critérios selecionados na aba "Critérios"
+// — cobre navegadores sem suporte a CSS :has()
+document.addEventListener('change', function(e) {
+  if (e.target && e.target.matches('#sec-criterios .check-item input[type="checkbox"]')) {
+    var item = e.target.closest('.check-item');
+    if (item) item.classList.toggle('checked', e.target.checked);
+  }
+});
 
 window.onload = function() { startAlgo(); };
 </script>
