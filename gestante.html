@@ -931,6 +931,12 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
     </div>
   </div>
 
+  <div class="card" id="regulacao-observacoes-card" style="display:none">
+    <div class="card-header"><div class="card-icon">📝</div><div class="card-title">Observações — Critérios Clínicos sem Correspondência na Regulação</div></div>
+    <div style="font-size:0.8rem;color:var(--text-soft);margin-bottom:0.5rem">Identificados na aba "Critérios" do algoritmo, sem item equivalente no Check-list de Regulação. Registrados abaixo como observação complementar para avaliação do regulador:</div>
+    <div id="regulacao-observacoes-content"></div>
+  </div>
+
 </div><!-- /sec-regulacao -->
 
 </div><!-- /main -->
@@ -1069,7 +1075,55 @@ function calcularRegulacao() {
   html += '</div></div>';
 
   box.innerHTML = html;
+  atualizarObservacoesRegulacao();
 }
+
+// ── OBSERVAÇÕES: CRITÉRIOS MARCADOS SEM ITEM CORRESPONDENTE NA REGULAÇÃO ──
+// Reaproveita a mesma lógica usada na geração do PDF (gerarPDFRegulacao),
+// mas exibe o resultado diretamente na aba Check-list Regulação, em tela.
+function atualizarObservacoesRegulacao() {
+  var card = document.getElementById('regulacao-observacoes-card');
+  var content = document.getElementById('regulacao-observacoes-content');
+  if (!card || !content) return;
+
+  var observacoes = [];
+  document.querySelectorAll('#sec-criterios .check-item input[type="checkbox"]:checked').forEach(function(cb) {
+    if (!cb.hasAttribute('data-reg-sync')) {
+      var lbl = cb.closest('.check-item');
+      if (lbl) {
+        var txt = lbl.textContent.replace(/🔗\s*Regulação/g, '').trim();
+        if (txt) observacoes.push(txt);
+      }
+    }
+  });
+
+  if (observacoes.length) {
+    var html = '<ul style="margin:0;padding-left:1.2rem">';
+    observacoes.forEach(function(t) {
+      html += '<li style="margin-bottom:0.35rem;font-size:0.85rem;line-height:1.4">' + t + '</li>';
+    });
+    html += '</ul>';
+    content.innerHTML = html;
+    card.style.display = '';
+  } else {
+    content.innerHTML = '';
+    card.style.display = 'none';
+  }
+}
+
+// Atualiza as observações também quando um critério SEM sincronização
+// automática (sem data-reg-sync) é marcado/desmarcado na aba Critérios.
+document.addEventListener('DOMContentLoaded', function() {
+  var secCriterios = document.getElementById('sec-criterios');
+  if (secCriterios) {
+    secCriterios.addEventListener('change', function(e) {
+      if (e.target && e.target.matches('input[type="checkbox"]') && !e.target.hasAttribute('data-reg-sync')) {
+        atualizarObservacoesRegulacao();
+      }
+    });
+  }
+  atualizarObservacoesRegulacao();
+});
 
 function resetRegulacao() {
   document.querySelectorAll('#sec-regulacao input[type="checkbox"]').forEach(function(cb) { cb.checked = false; });
