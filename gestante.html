@@ -224,6 +224,11 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 .check-item strong { color:var(--text); }
 .score-meta { font-size:0.72rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; opacity:0.85; }
 
+/* ── SINCRONIZAÇÃO AUTOMÁTICA COM CHECK-LIST DE REGULAÇÃO ── */
+.reg-sync-badge { display:inline-block; font-size:0.68rem; font-weight:700; color:var(--rose); background:var(--rose-border); border-radius:5px; padding:0.04rem 0.35rem; margin-left:0.4rem; vertical-align:middle; white-space:nowrap; }
+.reg-sync-toast { position:fixed; bottom:1.2rem; left:50%; transform:translateX(-50%) translateY(20px); background:#1f2937; color:#fff; font-family:'IBM Plex Sans',sans-serif; font-size:0.8rem; padding:0.6rem 1rem; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.25); opacity:0; pointer-events:none; transition:opacity .25s, transform .25s; z-index:9999; max-width:90vw; text-align:center; }
+.reg-sync-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
 @media (max-width:480px) {
   table.std-table { font-size:0.72rem; }
   table.std-table th, table.std-table td { padding:0.4rem 0.5rem; }
@@ -381,9 +386,9 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 </div>
 <div class="strato-body">
 <ul class="check-ul">
-<li><label class="check-item"><input type="checkbox"/>Gestação múltipla <strong>monocoriônica</strong>.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Isoimunização <strong>Rh</strong>.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Malformação fetal ou arritmia cardíaca fetal confirmada.</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a1" onchange="syncCriterioToRegulacao(this)"/>Gestação múltipla <strong>monocoriônica</strong>. <span class="reg-sync-badge" title="Ao marcar, sincroniza com &quot;Gemelaridade&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a5" onchange="syncCriterioToRegulacao(this)"/>Isoimunização <strong>Rh</strong>. <span class="reg-sync-badge" title="Sincroniza com &quot;Isoimunização RH&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a4" onchange="syncCriterioToRegulacao(this)"/>Malformação fetal ou arritmia cardíaca fetal confirmada. <span class="reg-sync-badge" title="Sincroniza com &quot;Feto mal formado&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Diagnóstico de <strong>HIV/AIDS</strong>.</label></li>
 <li><label class="check-item"><input type="checkbox"/><strong>Transplantes</strong> prévios.</label></li>
 </ul>
@@ -403,35 +408,35 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 <div class="acc-header" onclick="toggleAcc(this)">Características Individuais e Condições Sociodemográficas <span class="acc-arrow">▶</span></div>
 <div class="acc-body"><ul class="check-ul">
 <li><label class="check-item"><input type="checkbox"/>Etilismo com <strong>indicativo de dependência</strong>.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Tabagismo com <strong>indicativo de dependência elevada</strong>.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Dependência e/ou uso abusivo de drogas.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Agravos alimentares ou nutricionais: IMC <strong>≥ 40 kg/m²</strong>, desnutrição, carências nutricionais (hipovitaminoses), transtornos alimentares (anorexia nervosa, bulimia).</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-d4" onchange="syncCriterioToRegulacao(this)"/>Tabagismo com <strong>indicativo de dependência elevada</strong>. <span class="reg-sync-badge" title="Sincroniza com &quot;Tabagista&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-c4" onchange="syncCriterioToRegulacao(this)"/>Dependência e/ou uso abusivo de drogas. <span class="reg-sync-badge" title="Sincroniza com &quot;Uso de drogas sem remissão&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-d6" onchange="syncCriterioToRegulacao(this)"/>Agravos alimentares ou nutricionais: IMC <strong>≥ 40 kg/m²</strong>, desnutrição, carências nutricionais (hipovitaminoses), transtornos alimentares (anorexia nervosa, bulimia). <span class="reg-sync-badge" title="Sincroniza com &quot;IMC &lt; 19 ou &gt; 30&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 </ul></div>
 </div>
 <div class="acc-item">
 <div class="acc-header" onclick="toggleAcc(this)">História Reprodutiva Anterior <span class="acc-arrow">▶</span></div>
 <div class="acc-body"><ul class="check-ul">
-<li><label class="check-item"><input type="checkbox"/>Abortamento habitual/recorrente <strong>(3 ou mais abortos consecutivos)</strong>.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Aborto tardio ou morte perinatal explicada ou inexplicada.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Isoimunização Rh em gestação anterior.</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-b3" onchange="syncCriterioToRegulacao(this)"/>Abortamento habitual/recorrente <strong>(3 ou mais abortos consecutivos)</strong>. <span class="reg-sync-badge" title="Sincroniza com &quot;Mau passado obstétrico&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-b3" onchange="syncCriterioToRegulacao(this)"/>Aborto tardio ou morte perinatal explicada ou inexplicada. <span class="reg-sync-badge" title="Sincroniza com &quot;Mau passado obstétrico&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a5" onchange="syncCriterioToRegulacao(this)"/>Isoimunização Rh em gestação anterior. <span class="reg-sync-badge" title="Sincroniza com &quot;Isoimunização RH&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Acretismo placentário.</label></li>
 <li><label class="check-item"><input type="checkbox"/>Pré-eclâmpsia grave / síndrome HELLP.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Prematuridade anterior.</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-b3" onchange="syncCriterioToRegulacao(this)"/>Prematuridade anterior. <span class="reg-sync-badge" title="Sincroniza com &quot;Mau passado obstétrico&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Cesariana prévia com incisão clássica/corporal/longitudinal.</label></li>
 </ul></div>
 </div>
 <div class="acc-item">
 <div class="acc-header" onclick="toggleAcc(this)">Condições Clínicas Prévias à Gestação <span class="acc-arrow">▶</span></div>
 <div class="acc-body"><ul class="check-ul">
-<li><label class="check-item"><input type="checkbox"/>Pneumopatias graves: asma em uso de medicamento contínuo, DPOC, fibrose cística.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Nefropatias graves: insuficiência renal, rins policísticos.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Endocrinopatias: hipotireoidismo clínico em uso de medicamentos, hipertireoidismo.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Doenças hematológicas: doença falciforme (exceto traço), PTI, talassemia, coagulopatias.</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a6" onchange="syncCriterioToRegulacao(this)"/>Pneumopatias graves: asma em uso de medicamento contínuo, DPOC, fibrose cística. <span class="reg-sync-badge" title="Sincroniza com &quot;Doenças crônicas na gestação&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a6" onchange="syncCriterioToRegulacao(this)"/>Nefropatias graves: insuficiência renal, rins policísticos. <span class="reg-sync-badge" title="Sincroniza com &quot;Doenças crônicas na gestação&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a6" onchange="syncCriterioToRegulacao(this)"/>Endocrinopatias: hipotireoidismo clínico em uso de medicamentos, hipertireoidismo. <span class="reg-sync-badge" title="Sincroniza com &quot;Doenças crônicas na gestação&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a6" onchange="syncCriterioToRegulacao(this)"/>Doenças hematológicas: doença falciforme (exceto traço), PTI, talassemia, coagulopatias. <span class="reg-sync-badge" title="Sincroniza com &quot;Doenças crônicas na gestação&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Histórico de tromboembolismo.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Doenças neurológicas: epilepsia, AVC, déficits motores graves.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Doenças autoimunes: lúpus eritematoso, SAAF, artrite reumatoide, outras colagenoses.</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a6" onchange="syncCriterioToRegulacao(this)"/>Doenças neurológicas: epilepsia, AVC, déficits motores graves. <span class="reg-sync-badge" title="Sincroniza com &quot;Doenças crônicas na gestação&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a6" onchange="syncCriterioToRegulacao(this)"/>Doenças autoimunes: lúpus eritematoso, SAAF, artrite reumatoide, outras colagenoses. <span class="reg-sync-badge" title="Sincroniza com &quot;Doenças crônicas na gestação&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Ginecopatias: malformações uterinas, útero bicorno, miomas intramurais &gt; 4 cm ou múltiplos e miomas submucosos, cirurgia uterina prévia fora da gestação.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Neoplasias (qualquer) — suspeita, diagnóstico ou em tratamento.</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-b4" onchange="syncCriterioToRegulacao(this)"/>Neoplasias (qualquer) — suspeita, diagnóstico ou em tratamento. <span class="reg-sync-badge" title="Sincroniza com &quot;Câncer que possa repercutir na gravidez&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Transplantes.</label></li>
 <li><label class="check-item"><input type="checkbox"/>Cirurgia bariátrica.</label></li>
 <li><label class="check-item"><input type="checkbox"/>Doenças infecciosas: tuberculose, hanseníase, hepatites, condiloma acuminado extenso (canal vaginal, colo uterino ou região genital/perianal).</label></li>
@@ -444,23 +449,23 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 <div class="acc-body"><ul class="check-ul">
 <li><label class="check-item"><input type="checkbox"/>Gestação de homens transsexuais.</label></li>
 <li><label class="check-item"><input type="checkbox"/>Mola hidatiforme.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Gestação gemelar <strong>monocoriônica</strong>.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Gestação multifetal (mais de 1 feto na cavidade uterina).</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a1" onchange="syncCriterioToRegulacao(this)"/>Gestação gemelar <strong>monocoriônica</strong>. <span class="reg-sync-badge" title="Sincroniza com &quot;Gemelaridade&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a1" onchange="syncCriterioToRegulacao(this)"/>Gestação multifetal (mais de 1 feto na cavidade uterina). <span class="reg-sync-badge" title="Sincroniza com &quot;Gemelaridade&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Gestação por reprodução assistida.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Malformação fetal ou arritmia cardíaca fetal.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Diabetes gestacional <strong>com necessidade de insulina</strong> ou com repercussão fetal.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Pré-eclâmpsia com sinais de gravidade ou de instalação precoce <strong>(&lt; 34 semanas)</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a4" onchange="syncCriterioToRegulacao(this)"/>Malformação fetal ou arritmia cardíaca fetal. <span class="reg-sync-badge" title="Sincroniza com &quot;Feto mal formado&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-b1" onchange="syncCriterioToRegulacao(this)"/>Diabetes gestacional <strong>com necessidade de insulina</strong> ou com repercussão fetal. <span class="reg-sync-badge" title="Sincroniza com &quot;Síndromes hipertensivas / diabetes gestacional&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-b1" onchange="syncCriterioToRegulacao(this)"/>Pré-eclâmpsia com sinais de gravidade ou de instalação precoce <strong>(&lt; 34 semanas)</strong>. <span class="reg-sync-badge" title="Sincroniza com &quot;Síndromes hipertensivas / diabetes gestacional&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Tromboembolismo na gestação.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Infecção urinária de repetição: ≥ 3 episódios de ITU baixa ou ≥ 2 episódios de pielonefrite.</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-c2" onchange="syncCriterioToRegulacao(this)"/>Infecção urinária de repetição: ≥ 3 episódios de ITU baixa ou ≥ 2 episódios de pielonefrite. <span class="reg-sync-badge" title="Sincroniza com &quot;Infecções urinárias de repetição&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Sífilis terciária ou resistente ao tratamento com penicilina benzatina; achados ecográficos suspeitos de sífilis congênita; toxoplasmose aguda com suspeita de repercussão fetal; rubéola, citomegalovírus ou HIV/aids na gestação.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Restrição de crescimento fetal <strong>confirmada</strong>.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Desvios da quantidade de líquido amniótico.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Isoimunização Rh.</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a3" onchange="syncCriterioToRegulacao(this)"/>Restrição de crescimento fetal <strong>confirmada</strong>. <span class="reg-sync-badge" title="Sincroniza com &quot;Feto com restrição do crescimento&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a2" onchange="syncCriterioToRegulacao(this)"/>Desvios da quantidade de líquido amniótico. <span class="reg-sync-badge" title="Sincroniza com &quot;Distúrbios do líquido amniótico&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-a5" onchange="syncCriterioToRegulacao(this)"/>Isoimunização Rh. <span class="reg-sync-badge" title="Sincroniza com &quot;Isoimunização RH&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Insuficiência istmocervical diagnosticada na gestação atual.</label></li>
 <li><label class="check-item"><input type="checkbox"/>Trabalho de parto pré-termo inibido na gestação atual.</label></li>
 <li><label class="check-item"><input type="checkbox"/>Anemia grave (Hb <strong>&lt; 9 g/dL</strong>) ou anemia refratária a tratamento.</label></li>
 <li><label class="check-item"><input type="checkbox"/>Hemorragias na gestação atual.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Placenta prévia (diagnóstico confirmado após 22 semanas).</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-b2" onchange="syncCriterioToRegulacao(this)"/>Placenta prévia (diagnóstico confirmado após 22 semanas). <span class="reg-sync-badge" title="Sincroniza com &quot;Sangramento genital por placenta prévia&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Acretismo placentário.</label></li>
 <li><label class="check-item"><input type="checkbox"/>Colestase gestacional (prurido gestacional ou icterícia persistente).</label></li>
 <li><label class="check-item"><input type="checkbox"/>Qualquer patologia clínica que repercuta na gestação ou necessite de acompanhamento clínico especializado.</label></li>
@@ -482,22 +487,22 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 <div class="acc-item">
 <div class="acc-header" onclick="toggleAcc(this)">Características Individuais e Condições Socioeconômicas <span class="acc-arrow">▶</span></div>
 <div class="acc-body"><ul class="check-ul">
-<li><label class="check-item"><input type="checkbox"/>Idade <strong>menor que 15</strong> ou <strong>maior que 35 anos</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-d2" onchange="syncCriterioToRegulacao(this)"/>Idade <strong>menor que 15</strong> ou <strong>maior que 35 anos</strong>. <span class="reg-sync-badge" title="Sincroniza com &quot;Idade menor que 15 anos e maior que 34 anos&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Condições de trabalho desfavoráveis: esforço físico excessivo, carga horária extensa, exposição a agentes físicos, químicos e biológicos nocivos, altos níveis de estresse.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Indícios ou ocorrência de <strong>violência doméstica ou de gênero</strong>.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Situação conjugal insegura.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Insuficiência de apoio familiar.</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-d3" onchange="syncCriterioToRegulacao(this)"/>Indícios ou ocorrência de <strong>violência doméstica ou de gênero</strong>. <span class="reg-sync-badge" title="Sincroniza com &quot;Situações sociais de vulnerabilidade&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-d3" onchange="syncCriterioToRegulacao(this)"/>Situação conjugal insegura. <span class="reg-sync-badge" title="Sincroniza com &quot;Situações sociais de vulnerabilidade&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-d3" onchange="syncCriterioToRegulacao(this)"/>Insuficiência de apoio familiar. <span class="reg-sync-badge" title="Sincroniza com &quot;Situações sociais de vulnerabilidade&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Capacidade de autocuidado insuficiente.</label></li>
 <li><label class="check-item"><input type="checkbox"/>Não aceitação da gestação.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Baixa escolaridade <strong>(&lt; 5 anos de estudo)</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-d3" onchange="syncCriterioToRegulacao(this)"/>Baixa escolaridade <strong>(&lt; 5 anos de estudo)</strong>. <span class="reg-sync-badge" title="Sincroniza com &quot;Situações sociais de vulnerabilidade&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Uso de medicamentos teratogênicos.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Altura <strong>menor que 1,45 m</strong>.</label></li>
-<li><label class="check-item"><input type="checkbox"/>IMC <strong>&lt; 18,5</strong> ou de <strong>30 a 39 kg/m²</strong>.</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-d5" onchange="syncCriterioToRegulacao(this)"/>Altura <strong>menor que 1,45 m</strong>. <span class="reg-sync-badge" title="Sincroniza com &quot;Estatura &lt; 1,45 m&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-d6" onchange="syncCriterioToRegulacao(this)"/>IMC <strong>&lt; 18,5</strong> ou de <strong>30 a 39 kg/m²</strong>. <span class="reg-sync-badge" title="Sincroniza com &quot;IMC &lt; 19 ou &gt; 30&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Transtorno depressivo ou de ansiedade leve.</label></li>
 <li><label class="check-item"><input type="checkbox"/>Etilismo sem indicativo de dependência <em>(requer avaliação ampliada; pode ser reclassificado para Alto Risco se houver indicativo de dependência — NT SESA-CE, p.5).</em></label></li>
-<li><label class="check-item"><input type="checkbox"/>Tabagismo com baixo grau de dependência (Fagerström 8 a 10 pontos).</label></li>
-<li><label class="check-item"><input type="checkbox"/>Uso ocasional de drogas lícitas e ilícitas.</label></li>
-<li><label class="check-item"><input type="checkbox"/>Gestante em situação de rua, comunidades indígenas, quilombolas ou migrantes.</label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-d4" onchange="syncCriterioToRegulacao(this)"/>Tabagismo com baixo grau de dependência (Fagerström 8 a 10 pontos). <span class="reg-sync-badge" title="Sincroniza com &quot;Tabagista&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-c4" onchange="syncCriterioToRegulacao(this)"/>Uso ocasional de drogas lícitas e ilícitas. <span class="reg-sync-badge" title="Sincroniza com &quot;Uso de drogas sem remissão&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
+<li><label class="check-item"><input type="checkbox" data-reg-sync="reg-d3" onchange="syncCriterioToRegulacao(this)"/>Gestante em situação de rua, comunidades indígenas, quilombolas ou migrantes. <span class="reg-sync-badge" title="Sincroniza com &quot;Situações sociais de vulnerabilidade&quot; no Check-list de Regulação">🔗 Regulação</span></label></li>
 <li><label class="check-item"><input type="checkbox"/>Gestante negra (cor de pele preta ou parda).</label></li>
 <li><label class="check-item"><input type="checkbox"/>Outras condições de saúde de menor complexidade.</label></li>
 </ul></div>
