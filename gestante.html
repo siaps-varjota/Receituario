@@ -1387,6 +1387,14 @@ function gerarPDFRegulacao() {
     return;
   }
 
+  var isSimulacao = confirm(
+    'Este documento é uma SIMULAÇÃO/TESTE ou um ENCAMINHAMENTO REAL?\n\n' +
+    '✅ Clique em OK se for SIMULAÇÃO/TESTE\n' +
+    '   → o PDF é gerado normalmente, mas NÃO entra na lista de Encaminhamentos.\n\n' +
+    '🚫 Clique em CANCELAR se for um ENCAMINHAMENTO REAL\n' +
+    '   → o PDF é gerado E registrado na lista de Encaminhamentos para agendamento no Mais Cidadão.'
+  );
+
   if (!window.jspdf) {
     alert('Não foi possível carregar o gerador de PDF. Verifique sua conexão com a internet e tente novamente.');
     return;
@@ -1466,6 +1474,23 @@ function gerarPDFRegulacao() {
   // ── CABEÇALHO ──
   addTitle('CHECK-LIST DE REGULAÇÃO DO ACESSO COM CRITÉRIOS DE PRIORIDADE', 12.5);
   addSubtitle('Setor: Consultórios (Ambulatório de Obstetrícia) · CHECK-CON-010 · Versão 1 · Consórcio Público de Saúde Microrregião de Sobral');
+
+  if (isSimulacao) {
+    y += 1.5;
+    checkPageBreak(9);
+    doc.setFillColor(255, 235, 235);
+    doc.setDrawColor(200, 40, 40);
+    doc.setLineWidth(0.5);
+    doc.rect(marginL, y - 4.2, usableW, 7.5, 'FD');
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9.5);
+    doc.setTextColor(180, 20, 20);
+    doc.text('⚠ DOCUMENTO DE SIMULAÇÃO / TESTE — NÃO ENVIAR AO MAIS CIDADÃO', marginL + usableW / 2, y, { align: 'center' });
+    doc.setTextColor(20, 20, 20);
+    doc.setLineWidth(0.2);
+    y += 6.5;
+  }
+
   y += 2;
   doc.setDrawColor(220, 200, 205);
   doc.line(marginL, y, pageW - marginR, y);
@@ -1570,18 +1595,20 @@ function gerarPDFRegulacao() {
   y += 8;
   doc.text('Varjota, ____/____/________', col1Center, y, { align: 'center' });
 
-  // ── REGISTRO NA PLANILHA DE ENCAMINHAMENTOS (Google Sheets) ──
-  var motivoEncaminhamento = montarMotivoEncaminhamento(itemsByGroup, groups, names, scores);
-  var hoje = new Date();
-  var hojeFmt = String(hoje.getDate()).padStart(2, '0') + '/' + String(hoje.getMonth() + 1).padStart(2, '0') + '/' + String(hoje.getFullYear()).slice(-2);
-  enviarRegistroEncaminhamento({
-    nome: nome,
-    idade: idade,
-    ubsOrigem: unidade,
-    motivo: motivoEncaminhamento,
-    classificacao: names[maxG] + ' · Escore ' + scores[maxG],
-    dataEncaminhamento: hojeFmt
-  });
+  // ── REGISTRO NA PLANILHA DE ENCAMINHAMENTOS (Google Sheets) — apenas se NÃO for simulação ──
+  if (!isSimulacao) {
+    var motivoEncaminhamento = montarMotivoEncaminhamento(itemsByGroup, groups, names, scores);
+    var hoje = new Date();
+    var hojeFmt = String(hoje.getDate()).padStart(2, '0') + '/' + String(hoje.getMonth() + 1).padStart(2, '0') + '/' + String(hoje.getFullYear()).slice(-2);
+    enviarRegistroEncaminhamento({
+      nome: nome,
+      idade: idade,
+      ubsOrigem: unidade,
+      motivo: motivoEncaminhamento,
+      classificacao: names[maxG] + ' · Escore ' + scores[maxG],
+      dataEncaminhamento: hojeFmt
+    });
+  }
 
   // ── RODAPÉ ──
   var pageCount = doc.internal.getNumberOfPages();
@@ -1593,7 +1620,7 @@ function gerarPDFRegulacao() {
     doc.text('Gerado via Estratificação de Risco Gestacional — SESA/CE  ·  Página ' + p + '/' + pageCount, marginL, 292);
   }
 
-  var fileName = 'checklist_regulacao_' + (nome ? nome.trim().replace(/\s+/g, '_').toLowerCase() : 'gestante') + '.pdf';
+  var fileName = (isSimulacao ? 'SIMULACAO_' : '') + 'checklist_regulacao_' + (nome ? nome.trim().replace(/\s+/g, '_').toLowerCase() : 'gestante') + '.pdf';
   doc.save(fileName);
 }
 
