@@ -235,6 +235,23 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
   table.std-table { font-size:0.72rem; }
   table.std-table th, table.std-table td { padding:0.4rem 0.5rem; }
 }
+
+/* ── MODAL: ADICIONAR GESTANTE MANUALMENTE ── */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:10000; align-items:center; justify-content:center; padding:1rem; }
+.modal-overlay.show { display:flex; }
+.modal-box { background:var(--white); border-radius:12px; max-width:520px; width:100%; max-height:88vh; overflow-y:auto; padding:1.3rem; box-shadow:0 12px 32px rgba(0,0,0,0.28); }
+.modal-box .card-header { margin-bottom:0.9rem; }
+.modal-field { margin-bottom:0.8rem; }
+.modal-field label { display:block; font-size:0.78rem; font-weight:600; color:var(--text-mid); margin-bottom:0.3rem; }
+.modal-field input[type="text"], .modal-field input[type="number"], .modal-field input[type="date"], .modal-field select, .modal-field textarea {
+  width:100%; padding:0.55rem 0.7rem; border:1.5px solid var(--border); border-radius:8px; font-family:'IBM Plex Sans',sans-serif; font-size:0.85rem; color:var(--text); background:white;
+}
+.modal-field textarea { resize:vertical; min-height:56px; }
+.modal-field .modal-check { display:flex; align-items:center; gap:0.5rem; }
+.modal-field .modal-check input { width:18px; height:18px; cursor:pointer; }
+.modal-actions { display:flex; gap:0.6rem; justify-content:flex-end; margin-top:1.1rem; }
+.btn-modal-cancel { padding:0.55rem 1rem; border:1.5px solid var(--border); border-radius:8px; background:white; font-family:'IBM Plex Sans',sans-serif; font-size:0.82rem; font-weight:600; cursor:pointer; color:var(--text-mid); }
+.btn-modal-cancel:hover { background:var(--bg); }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
@@ -965,11 +982,81 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
   <div class="card">
     <div class="card-header"><div class="card-icon">📋</div><div class="card-title">Encaminhamentos Gerados</div></div>
     <div class="info-box amber"><span>ℹ️</span><span>Lista alimentada automaticamente cada vez que um PDF é gerado no Check-list Regulação. Você pode atualizar aqui o <strong>Status</strong>, a <strong>Data da Consulta Agendada</strong> e marcar se a gestante <strong>compareceu para agendar no Mais Cidadão</strong>.</span></div>
+    <div class="info-box vinho"><span>✍️</span><span>A gestante foi encaminhada ao <strong>Mais Cidadão</strong> mas o registro não passou pelo Check-list de Regulação do sistema? Use o botão <strong>"Adicionar Gestante Manualmente"</strong> abaixo para incluí-la na lista.</span></div>
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.6rem">
       <button class="btn-crit-link" style="margin:0" onclick="carregarEncaminhamentos()">🔄 Atualizar Lista</button>
+      <button class="btn-crit-link" style="margin:0;background:var(--vinho)" onclick="abrirModalAdicionarGestante()">➕ Adicionar Gestante Manualmente</button>
       <button class="btn-crit-link" style="margin:0;opacity:0.75" onclick="configurarPlanilhaEncaminhamentos()">⚙️ Configurar Planilha</button>
     </div>
     <div id="encaminhamentos-status" style="font-size:0.78rem;color:var(--text-soft);margin-top:0.5rem"></div>
+  </div>
+
+  <!-- ── MODAL: ADICIONAR GESTANTE MANUALMENTE ── -->
+  <div class="modal-overlay" id="modal-add-gestante">
+    <div class="modal-box">
+      <div class="card-header">
+        <div class="card-icon">➕</div>
+        <div class="card-title">Adicionar Gestante Manualmente</div>
+      </div>
+      <div class="info-box amber" style="margin-bottom:1rem"><span>ℹ️</span><span>Use este formulário para gestantes encaminhadas ao <strong>Mais Cidadão</strong> por fora do Check-list de Regulação do sistema (ex.: encaminhamento feito em outro momento/serviço).</span></div>
+
+      <div class="modal-field">
+        <label for="mg-nome">Nome da Gestante *</label>
+        <input type="text" id="mg-nome" placeholder="Nome completo">
+      </div>
+      <div class="modal-field">
+        <label for="mg-idade">Idade</label>
+        <input type="number" id="mg-idade" min="10" max="60" placeholder="Idade em anos">
+      </div>
+      <div class="modal-field">
+        <label for="mg-ubs">UBS de Origem</label>
+        <input type="text" id="mg-ubs" placeholder="Ex.: UBS Centro">
+      </div>
+      <div class="modal-field">
+        <label for="mg-motivo">Motivo do Encaminhamento</label>
+        <textarea id="mg-motivo" placeholder="Descreva o motivo/critério do encaminhamento"></textarea>
+      </div>
+      <div class="modal-field">
+        <label for="mg-classificacao">Classificação</label>
+        <select id="mg-classificacao">
+          <option value="">Selecione...</option>
+          <option value="A - Muito Alta">A - Muito Alta</option>
+          <option value="B - Alta">B - Alta</option>
+          <option value="C - Média">C - Média</option>
+          <option value="D - Baixa">D - Baixa</option>
+          <option value="Não classificado no sistema">Não classificado no sistema</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label for="mg-data-enc">Data do Encaminhamento</label>
+        <input type="date" id="mg-data-enc">
+      </div>
+      <div class="modal-field">
+        <label for="mg-status">Status</label>
+        <select id="mg-status">
+          <option value="">Selecione...</option>
+          <option value="Aguardando">Aguardando</option>
+          <option value="Agendado">Agendado</option>
+          <option value="Atendido">Atendido</option>
+          <option value="Não compareceu">Não compareceu</option>
+          <option value="Cancelado">Cancelado</option>
+        </select>
+      </div>
+      <div class="modal-field">
+        <label for="mg-data-consulta">Data da Consulta Agendada</label>
+        <input type="date" id="mg-data-consulta">
+      </div>
+      <div class="modal-field modal-check">
+        <input type="checkbox" id="mg-compareceu">
+        <label for="mg-compareceu" style="margin:0">Já compareceu para agendar no Mais Cidadão</label>
+      </div>
+
+      <div id="modal-add-gestante-status" style="font-size:0.78rem;color:var(--text-soft)"></div>
+      <div class="modal-actions">
+        <button class="btn-modal-cancel" onclick="fecharModalAdicionarGestante()">Cancelar</button>
+        <button class="btn-crit-link" style="margin:0" onclick="salvarGestanteManual()">💾 Salvar</button>
+      </div>
+    </div>
   </div>
 
   <div class="card" style="overflow-x:auto">
@@ -1283,6 +1370,78 @@ function enviarRegistroEncaminhamento(payload) {
 }
 
 document.addEventListener('DOMContentLoaded', function() { atualizarStatusPlanilha(); });
+
+// ── CADASTRO MANUAL DE GESTANTE (encaminhamento feito fora do Check-list) ──
+function abrirModalAdicionarGestante() {
+  var hoje = new Date();
+  var hojeIso = hoje.getFullYear() + '-' + String(hoje.getMonth() + 1).padStart(2, '0') + '-' + String(hoje.getDate()).padStart(2, '0');
+  document.getElementById('mg-nome').value = '';
+  document.getElementById('mg-idade').value = '';
+  document.getElementById('mg-ubs').value = '';
+  document.getElementById('mg-motivo').value = '';
+  document.getElementById('mg-classificacao').value = '';
+  document.getElementById('mg-data-enc').value = hojeIso;
+  document.getElementById('mg-status').value = '';
+  document.getElementById('mg-data-consulta').value = '';
+  document.getElementById('mg-compareceu').checked = false;
+  document.getElementById('modal-add-gestante-status').textContent = '';
+  document.getElementById('modal-add-gestante').classList.add('show');
+}
+
+function fecharModalAdicionarGestante() {
+  document.getElementById('modal-add-gestante').classList.remove('show');
+}
+
+function isoParaBrLocal(v) {
+  if (!v) return '';
+  var m = String(v).trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return '';
+  return m[3] + '/' + m[2] + '/' + m[1].slice(-2);
+}
+
+function salvarGestanteManual() {
+  var statusEl = document.getElementById('modal-add-gestante-status');
+  var url = getWebhookEncaminhamentos();
+  if (!url) {
+    statusEl.textContent = '⚠️ Configure a planilha de encaminhamentos primeiro (botão "⚙️ Configurar Planilha").';
+    return;
+  }
+  var nome = document.getElementById('mg-nome').value.trim();
+  if (!nome) {
+    statusEl.textContent = '⚠️ Informe ao menos o nome da gestante.';
+    return;
+  }
+  var payload = {
+    action: 'add',
+    nome: nome,
+    idade: document.getElementById('mg-idade').value.trim(),
+    ubsOrigem: document.getElementById('mg-ubs').value.trim(),
+    motivo: document.getElementById('mg-motivo').value.trim() || 'Encaminhamento registrado manualmente (fora do Check-list de Regulação do sistema)',
+    classificacao: document.getElementById('mg-classificacao').value || 'Não classificado no sistema',
+    dataEncaminhamento: isoParaBrLocal(document.getElementById('mg-data-enc').value),
+    status: document.getElementById('mg-status').value,
+    dataConsulta: isoParaBrLocal(document.getElementById('mg-data-consulta').value),
+    compareceu: document.getElementById('mg-compareceu').checked
+  };
+
+  statusEl.textContent = 'Salvando...';
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  })
+    .then(function() {
+      statusEl.textContent = '✅ Gestante adicionada com sucesso.';
+      setTimeout(function() {
+        fecharModalAdicionarGestante();
+        carregarEncaminhamentos();
+      }, 700);
+    })
+    .catch(function(err) {
+      statusEl.textContent = '❌ Não foi possível salvar: ' + err.message;
+      console.warn('Falha ao adicionar gestante manualmente:', err);
+    });
+}
 
 // ── ABA "ENCAMINHAMENTOS": LISTAR E ATUALIZAR STATUS/DATA/COMPARECEU ──
 var STATUS_OPCOES = ['', 'Aguardando', 'Agendado', 'Atendido', 'Não compareceu', 'Cancelado'];
