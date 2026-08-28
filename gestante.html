@@ -73,6 +73,17 @@ body { font-family:'IBM Plex Sans',sans-serif; background:var(--bg); color:var(-
 .card-icon  { font-size:1rem; background:var(--rose-pale); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .card-title { font-size:0.85rem; font-weight:700; color:var(--rose-dark); text-transform:uppercase; letter-spacing:0.06em; }
 
+/* ── CONTAINERS EXPANSÍVEIS (aba Check-list de Regulação) ── */
+#sec-regulacao .card-header.collapsible,
+#sec-regulacao .strato-header.collapsible { cursor:pointer; user-select:none; }
+#sec-regulacao .card-collapse-toggle { margin-left:auto; font-size:0.75rem; line-height:1; flex-shrink:0; color:var(--rose-dark); transition:transform .18s ease; }
+#sec-regulacao .strato-header .card-collapse-toggle { color:white; }
+#sec-regulacao .card.collapsed .card-collapse-toggle,
+#sec-regulacao .strato-card.collapsed .card-collapse-toggle { transform:rotate(-90deg); }
+#sec-regulacao .card.collapsed > *:not(.card-header) { display:none !important; }
+#sec-regulacao .strato-card.collapsed .strato-body { display:none !important; }
+#sec-regulacao .strato-card.collapsed .strato-header { margin-bottom:0; }
+
 /* ── ALGORITMO ── */
 .algo-question { font-size:0.95rem; font-weight:600; color:var(--text); margin-bottom:1rem; line-height:1.45; }
 .btn-group { display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:0.5rem; }
@@ -808,7 +819,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
       <span><strong>CHECK-CON-010</strong> · Consórcio Público de Saúde Microrregião de Sobral · Policlínica Bernardo Félix da Silva · Setor: Consultórios (Ambulatório de Obstetrícia) · Implantação 25.09.2017 · Versão 1.<br>Marque abaixo os itens presentes para calcular automaticamente o <strong>escore de prioridade</strong> da regulação.</span>
     </div>
     <div class="check-list">
-      <label class="check-item"><input type="checkbox" id="reg-indicacao-alto"> Indicação: Gestação de Alto Risco</label>
+      <label class="check-item"><input type="checkbox" id="reg-indicacao-alto" checked> Indicação: Gestação de Alto Risco</label>
     </div>
   </div>
 
@@ -858,18 +869,18 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
   <div class="card">
     <div class="card-header"><div class="card-icon">🩺</div><div class="card-title">Orientação Pré-Consulta</div></div>
     <div class="check-list">
-      <label class="check-item"><input type="checkbox"> Medicações e receituários</label>
-      <label class="check-item"><input type="checkbox"> Avaliação dos especialistas envolvidos</label>
+      <label class="check-item"><input type="checkbox" checked> Medicações e receituários</label>
+      <label class="check-item"><input type="checkbox" checked> Avaliação dos especialistas envolvidos</label>
     </div>
   </div>
 
   <div class="card">
     <div class="card-header"><div class="card-icon">🧪</div><div class="card-title">Exames Complementares Necessários</div></div>
     <div class="check-list">
-      <label class="check-item"><input type="checkbox"> Caderneta pré-natal</label>
-      <label class="check-item"><input type="checkbox"> Exames de rotina pré-natal (hemograma, tipagem sanguínea, sumário de urina, glicemia em jejum, Anti-HIV, HBsAg, sorologia de rubéola, toxoplasmose, VDRL, exame de citologia oncológica mais recente)</label>
-      <label class="check-item"><input type="checkbox"> Todos os USG obstétricos</label>
-      <label class="check-item"><input type="checkbox"> Outros exames de imagem relacionados ao caso</label>
+      <label class="check-item"><input type="checkbox" checked> Caderneta pré-natal</label>
+      <label class="check-item"><input type="checkbox" checked> Exames de rotina pré-natal (hemograma, tipagem sanguínea, sumário de urina, glicemia em jejum, Anti-HIV, HBsAg, sorologia de rubéola, toxoplasmose, VDRL, exame de citologia oncológica mais recente)</label>
+      <label class="check-item"><input type="checkbox" checked> Todos os USG obstétricos</label>
+      <label class="check-item"><input type="checkbox" checked> Outros exames de imagem relacionados ao caso</label>
     </div>
   </div>
 
@@ -1282,6 +1293,35 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   atualizarObservacoesRegulacao();
+});
+
+// ── CONTAINERS EXPANSÍVEIS (aba Check-list de Regulação) ────
+// Torna cada card/estrato da aba de Regulação recolhível ao clicar
+// no cabeçalho. Por padrão, apenas o card "Check-list de Regulação
+// do Acesso — Obstetrícia" inicia recolhido.
+document.addEventListener('DOMContentLoaded', function() {
+  var secRegulacao = document.getElementById('sec-regulacao');
+  if (!secRegulacao) return;
+
+  var headers = secRegulacao.querySelectorAll('.card-header, .strato-header');
+  headers.forEach(function(header) {
+    header.classList.add('collapsible');
+    var toggle = document.createElement('span');
+    toggle.className = 'card-collapse-toggle';
+    toggle.textContent = '▾';
+    header.appendChild(toggle);
+    header.addEventListener('click', function() {
+      var container = header.closest('.card, .strato-card');
+      if (container) container.classList.toggle('collapsed');
+    });
+  });
+
+  secRegulacao.querySelectorAll('.card').forEach(function(card) {
+    var title = card.querySelector('.card-title');
+    if (title && title.textContent.trim() === 'Check-list de Regulação do Acesso — Obstetrícia') {
+      card.classList.add('collapsed');
+    }
+  });
 });
 
 // Calcula a idade (em anos completos) a partir da data de nascimento
