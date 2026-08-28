@@ -76,10 +76,21 @@ body { font-family:'IBM Plex Sans',sans-serif; background:var(--bg); color:var(-
 /* ── CONTAINERS EXPANSÍVEIS (aba Check-list de Regulação) ── */
 #sec-regulacao .card-header.collapsible,
 #sec-regulacao .strato-header.collapsible { cursor:pointer; user-select:none; }
-#sec-regulacao .card-collapse-toggle { margin-left:auto; font-size:0.75rem; line-height:1; flex-shrink:0; color:var(--rose-dark); transition:transform .18s ease; }
-#sec-regulacao .strato-header .card-collapse-toggle { color:white; }
-#sec-regulacao .card.collapsed .card-collapse-toggle,
-#sec-regulacao .strato-card.collapsed .card-collapse-toggle { transform:rotate(-90deg); }
+#sec-regulacao .card-collapse-toggle {
+  margin-left:auto; flex-shrink:0;
+  width:28px; height:28px;
+  border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  background:rgba(136,19,55,0.08);
+  color:var(--rose-dark);
+  transition:background .15s ease;
+}
+#sec-regulacao .card-header.collapsible:hover .card-collapse-toggle { background:rgba(136,19,55,0.16); }
+#sec-regulacao .strato-header .card-collapse-toggle { background:rgba(255,255,255,0.22); color:white; }
+#sec-regulacao .strato-header.collapsible:hover .card-collapse-toggle { background:rgba(255,255,255,0.34); }
+#sec-regulacao .card-collapse-toggle svg { width:16px; height:16px; transform:rotate(90deg); transition:transform .18s ease; }
+#sec-regulacao .card.collapsed .card-collapse-toggle svg,
+#sec-regulacao .strato-card.collapsed .card-collapse-toggle svg { transform:rotate(0deg); }
 #sec-regulacao .card.collapsed > *:not(.card-header) { display:none !important; }
 #sec-regulacao .strato-card.collapsed .strato-body { display:none !important; }
 #sec-regulacao .strato-card.collapsed .strato-header { margin-bottom:0; }
@@ -992,7 +1003,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 <div id="sec-encaminhamentos" class="section">
   <div class="card">
     <div class="card-header"><div class="card-icon">📋</div><div class="card-title">Encaminhamentos Gerados</div></div>
-    <div class="info-box amber"><span>ℹ️</span><span>Lista alimentada automaticamente cada vez que um PDF é gerado no Check-list Regulação. Você pode atualizar aqui o <strong>Status</strong>, a <strong>Data da Consulta Agendada</strong> e marcar se a gestante <strong>compareceu para agendar no Mais Cidadão</strong>.</span></div>
+    <div class="info-box amber"><span>ℹ️</span><span>Lista alimentada automaticamente cada vez que um PDF é gerado no Check-list Regulação. Você pode atualizar aqui a <strong>Data do Comparecimento</strong>, o <strong>Status</strong> e a <strong>Data da Consulta Agendada</strong>.</span></div>
     <div class="info-box vinho"><span>✍️</span><span>A gestante foi encaminhada ao <strong>Mais Cidadão</strong> mas o registro não passou pelo Check-list de Regulação do sistema? Use o botão <strong>"Adicionar Gestante Manualmente"</strong> abaixo para incluí-la na lista.</span></div>
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.6rem">
       <button class="btn-crit-link" style="margin:0" onclick="carregarEncaminhamentos()">🔄 Atualizar Lista</button>
@@ -1059,6 +1070,10 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
         <input type="date" id="mg-data-enc">
       </div>
       <div class="modal-field">
+        <label for="mg-data-comparecimento">Data do Comparecimento</label>
+        <input type="date" id="mg-data-comparecimento">
+      </div>
+      <div class="modal-field">
         <label for="mg-status">Status</label>
         <select id="mg-status">
           <option value="">Selecione...</option>
@@ -1073,10 +1088,6 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
         <label for="mg-data-consulta">Data da Consulta Agendada</label>
         <input type="date" id="mg-data-consulta">
       </div>
-      <div class="modal-field modal-check">
-        <input type="checkbox" id="mg-compareceu">
-        <label for="mg-compareceu" style="margin:0">Já compareceu para agendar no Mais Cidadão</label>
-      </div>
 
       <div id="modal-add-gestante-status" style="font-size:0.78rem;color:var(--text-soft)"></div>
       <div class="modal-actions">
@@ -1090,15 +1101,15 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
     <table style="width:100%;border-collapse:collapse;font-size:0.8rem" id="encaminhamentos-tabela">
       <thead>
         <tr style="text-align:left;border-bottom:2px solid var(--border)">
-          <th style="padding:0.5rem 0.4rem">Gestante</th>
+          <th style="padding:0.5rem 0.4rem">Nome da Gestante</th>
           <th style="padding:0.5rem 0.4rem">Idade</th>
           <th style="padding:0.5rem 0.4rem">UBS de Origem</th>
-          <th style="padding:0.5rem 0.4rem">Motivo</th>
-          <th style="padding:0.5rem 0.4rem">Classificação</th>
-          <th style="padding:0.5rem 0.4rem">Data Enc.</th>
+          <th style="padding:0.5rem 0.4rem">Motivo do Encaminhamento</th>
+          <th style="padding:0.5rem 0.4rem">Classificação / Escore</th>
+          <th style="padding:0.5rem 0.4rem">Data do Encaminhamento</th>
+          <th style="padding:0.5rem 0.4rem">Data do Comparecimento</th>
           <th style="padding:0.5rem 0.4rem">Status</th>
-          <th style="padding:0.5rem 0.4rem">Data Consulta Agendada</th>
-          <th style="padding:0.5rem 0.4rem;text-align:center">Compareceu Mais Cidadão</th>
+          <th style="padding:0.5rem 0.4rem">Data da Consulta Agendada</th>
         </tr>
       </thead>
       <tbody id="encaminhamentos-tbody">
@@ -1308,7 +1319,7 @@ document.addEventListener('DOMContentLoaded', function() {
     header.classList.add('collapsible');
     var toggle = document.createElement('span');
     toggle.className = 'card-collapse-toggle';
-    toggle.textContent = '▾';
+    toggle.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>';
     header.appendChild(toggle);
     header.addEventListener('click', function() {
       var container = header.closest('.card, .strato-card');
@@ -1437,9 +1448,9 @@ function abrirModalAdicionarGestante() {
   document.getElementById('mg-motivo').value = '';
   document.getElementById('mg-classificacao').value = '';
   document.getElementById('mg-data-enc').value = hojeIso;
+  document.getElementById('mg-data-comparecimento').value = '';
   document.getElementById('mg-status').value = '';
   document.getElementById('mg-data-consulta').value = '';
-  document.getElementById('mg-compareceu').checked = false;
   document.getElementById('modal-add-gestante-status').textContent = '';
   document.getElementById('modal-add-gestante').classList.add('show');
 }
@@ -1481,16 +1492,16 @@ function salvarGestanteManual() {
     dataEncaminhamento: dataEncFmt
   };
 
-  // Campos extras (Status / Data Consulta / Compareceu) — a ação "add" da planilha
+  // Campos extras (Status / Data Consulta / Data Comparecimento) — a ação "add" da planilha
   // não grava essas colunas na criação; por isso são enviados depois, via "update",
   // localizando a linha recém-criada.
   var extras = {};
   var statusVal = document.getElementById('mg-status').value;
   var dataConsultaVal = isoParaBrLocal(document.getElementById('mg-data-consulta').value);
-  var compareceuVal = document.getElementById('mg-compareceu').checked;
+  var dataComparecimentoVal = isoParaBrLocal(document.getElementById('mg-data-comparecimento').value);
   if (statusVal) extras.status = statusVal;
   if (dataConsultaVal) extras.dataConsulta = dataConsultaVal;
-  if (compareceuVal) extras.compareceu = true;
+  if (dataComparecimentoVal) extras.dataComparecimento = dataComparecimentoVal;
 
   statusEl.textContent = 'Salvando...';
   fetch(url, {
@@ -1583,6 +1594,8 @@ function renderEncaminhamentos(rows) {
     html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.classificacao) + '</td>';
     html += '<td style="padding:0.45rem 0.4rem;white-space:nowrap">' + escapeHtmlReg(formatarDataBR(row.dataEncaminhamento)) + '</td>';
 
+    html += '<td style="padding:0.45rem 0.4rem"><input type="date" value="' + escapeHtmlReg(brParaIso(formatarDataBR(row.dataComparecimento))) + '" style="padding:0.3rem;border:1px solid var(--border);border-radius:6px;font-size:0.78rem" onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {dataComparecimento: isoParaBr(this.value)})"></td>';
+
     html += '<td style="padding:0.45rem 0.4rem"><select style="padding:0.3rem;border:1px solid var(--border);border-radius:6px;font-size:0.78rem" onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {status:this.value})">';
     STATUS_OPCOES.forEach(function(opt) {
       html += '<option value="' + opt + '"' + (row.status === opt ? ' selected' : '') + '>' + (opt || 'Selecione...') + '</option>';
@@ -1590,8 +1603,6 @@ function renderEncaminhamentos(rows) {
     html += '</select></td>';
 
     html += '<td style="padding:0.45rem 0.4rem"><input type="date" value="' + escapeHtmlReg(brParaIso(formatarDataBR(row.dataConsulta))) + '" style="padding:0.3rem;border:1px solid var(--border);border-radius:6px;font-size:0.78rem" onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {dataConsulta: isoParaBr(this.value)})"></td>';
-
-    html += '<td style="padding:0.45rem 0.4rem;text-align:center"><input type="checkbox"' + (row.compareceu ? ' checked' : '') + ' onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {compareceu:this.checked})" style="width:18px;height:18px;cursor:pointer"></td>';
 
     html += '</tr>';
   });
