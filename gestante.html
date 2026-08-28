@@ -73,10 +73,10 @@ body { font-family:'IBM Plex Sans',sans-serif; background:var(--bg); color:var(-
 .card-icon  { font-size:1rem; background:var(--rose-pale); width:32px; height:32px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .card-title { font-size:0.85rem; font-weight:700; color:var(--rose-dark); text-transform:uppercase; letter-spacing:0.06em; }
 
-/* ── CONTAINERS EXPANSÍVEIS (aba Check-list de Regulação) ── */
-#sec-regulacao .card-header.collapsible,
-#sec-regulacao .strato-header.collapsible { cursor:pointer; user-select:none; }
-#sec-regulacao .card-collapse-toggle {
+/* ── CONTAINERS EXPANSÍVEIS (reutilizável em qualquer aba: Check-list, Critérios, Encaminhamentos) ── */
+.card-header.collapsible,
+.strato-header.collapsible { cursor:pointer; user-select:none; }
+.card-collapse-toggle {
   margin-left:auto; flex-shrink:0;
   width:28px; height:28px;
   border-radius:8px;
@@ -85,15 +85,20 @@ body { font-family:'IBM Plex Sans',sans-serif; background:var(--bg); color:var(-
   color:var(--rose-dark);
   transition:background .15s ease;
 }
-#sec-regulacao .card-header.collapsible:hover .card-collapse-toggle { background:rgba(136,19,55,0.16); }
-#sec-regulacao .strato-header .card-collapse-toggle { background:rgba(255,255,255,0.22); color:white; }
-#sec-regulacao .strato-header.collapsible:hover .card-collapse-toggle { background:rgba(255,255,255,0.34); }
-#sec-regulacao .card-collapse-toggle svg { width:16px; height:16px; transform:rotate(90deg); transition:transform .18s ease; }
-#sec-regulacao .card.collapsed .card-collapse-toggle svg,
-#sec-regulacao .strato-card.collapsed .card-collapse-toggle svg { transform:rotate(0deg); }
-#sec-regulacao .card.collapsed > *:not(.card-header) { display:none !important; }
-#sec-regulacao .strato-card.collapsed .strato-body { display:none !important; }
-#sec-regulacao .strato-card.collapsed .strato-header { margin-bottom:0; }
+.card-header.collapsible:hover .card-collapse-toggle { background:rgba(136,19,55,0.16); }
+.strato-header .card-collapse-toggle { background:rgba(255,255,255,0.22); color:white; }
+.strato-header.collapsible:hover .card-collapse-toggle { background:rgba(255,255,255,0.34); }
+.card-collapse-toggle svg { width:16px; height:16px; transform:rotate(90deg); transition:transform .18s ease; }
+.card.collapsed .card-collapse-toggle svg,
+.strato-card.collapsed .card-collapse-toggle svg { transform:rotate(0deg); }
+.card.collapsed > *:not(.card-header) { display:none !important; }
+.strato-card.collapsed .strato-body { display:none !important; }
+.strato-card.collapsed .strato-header { margin-bottom:0; }
+
+/* Encaminhamentos: card principal recolhido mostra só título + botões (esconde info-boxes, status e a tabela) */
+#sec-encaminhamentos.collapsed #encaminhamentos-card .info-box,
+#sec-encaminhamentos.collapsed #encaminhamentos-status,
+#sec-encaminhamentos.collapsed #encaminhamentos-table-card { display:none !important; }
 
 /* ── ALGORITMO ── */
 .algo-question { font-size:0.95rem; font-weight:600; color:var(--text); margin-bottom:1rem; line-height:1.45; }
@@ -393,6 +398,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 <div class="card">
 <div class="crit-toolbar">
 <button class="btn-restart" onclick="goSection('algo')" style="margin-top:0">← Voltar ao Algoritmo</button>
+<button class="btn-restart" onclick="limparCriterios()" style="margin-top:0">🗑️ Limpar Critérios</button>
 <div class="crit-search-wrap">
 <input id="crit-search" oninput="filterCriterios(this.value)" placeholder="🔍 Buscar por palavra-chave (ex.: HIV, cesárea, IMC, violência...)" type="text"/>
 </div>
@@ -1010,7 +1016,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 </div><!-- /sec-regulacao -->
 
 <div id="sec-encaminhamentos" class="section">
-  <div class="card">
+  <div class="card" id="encaminhamentos-card">
     <div class="card-header"><div class="card-icon">📋</div><div class="card-title">Encaminhamentos Gerados</div></div>
     <div class="info-box amber"><span>ℹ️</span><span>Lista alimentada automaticamente cada vez que um PDF é gerado no Check-list Regulação. Você pode atualizar aqui a <strong>Data do Comparecimento</strong>, o <strong>Status</strong> e a <strong>Data da Consulta Agendada</strong>.</span></div>
     <div class="info-box vinho"><span>✍️</span><span>A gestante foi encaminhada ao <strong>Mais Cidadão</strong> mas o registro não passou pelo Check-list de Regulação do sistema? Use o botão <strong>"Adicionar Gestante Manualmente"</strong> abaixo para incluí-la na lista.</span></div>
@@ -1106,7 +1112,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
     </div>
   </div>
 
-  <div class="card" style="overflow-x:auto">
+  <div class="card" id="encaminhamentos-table-card" style="overflow-x:auto">
     <table style="width:100%;border-collapse:collapse;font-size:0.8rem" id="encaminhamentos-tabela">
       <thead>
         <tr style="text-align:left;border-bottom:2px solid var(--border)">
@@ -1315,15 +1321,13 @@ document.addEventListener('DOMContentLoaded', function() {
   atualizarObservacoesRegulacao();
 });
 
-// ── CONTAINERS EXPANSÍVEIS (aba Check-list de Regulação) ────
-// Torna cada card/estrato da aba de Regulação recolhível ao clicar
-// no cabeçalho. Por padrão, apenas o card "Check-list de Regulação
-// do Acesso — Obstetrícia" inicia recolhido.
-document.addEventListener('DOMContentLoaded', function() {
-  var secRegulacao = document.getElementById('sec-regulacao');
-  if (!secRegulacao) return;
+// ── CONTAINERS EXPANSÍVEIS (Check-list de Regulação, Critérios e Encaminhamentos) ────
+// Torna cards/estratos recolhíveis ao clicar no cabeçalho.
+function tornarSecaoRecolhivel(secId, tituloParaColapsarPorPadrao) {
+  var sec = document.getElementById(secId);
+  if (!sec) return;
 
-  var headers = secRegulacao.querySelectorAll('.card-header, .strato-header');
+  var headers = sec.querySelectorAll('.card-header, .strato-header');
   headers.forEach(function(header) {
     header.classList.add('collapsible');
     var toggle = document.createElement('span');
@@ -1336,12 +1340,41 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  secRegulacao.querySelectorAll('.card').forEach(function(card) {
-    var title = card.querySelector('.card-title');
-    if (title && title.textContent.trim() === 'Check-list de Regulação do Acesso — Obstetrícia') {
-      card.classList.add('collapsed');
+  if (tituloParaColapsarPorPadrao) {
+    sec.querySelectorAll('.card').forEach(function(card) {
+      var title = card.querySelector('.card-title');
+      if (title && title.textContent.trim() === tituloParaColapsarPorPadrao) {
+        card.classList.add('collapsed');
+      }
+    });
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Check-list de Regulação: cada card/estrato recolhível; o card do
+  // Check-list já inicia recolhido por padrão.
+  tornarSecaoRecolhivel('sec-regulacao', 'Check-list de Regulação do Acesso — Obstetrícia');
+
+  // Critérios de Classificação: mesmo comportamento, cada estrato recolhível.
+  tornarSecaoRecolhivel('sec-criterios', null);
+
+  // Encaminhamentos Gerados: recolhe deixando só título + os 3 botões
+  // (esconde os info-boxes, status e a tabela).
+  var encCard = document.getElementById('encaminhamentos-card');
+  var secEnc = document.getElementById('sec-encaminhamentos');
+  if (encCard && secEnc) {
+    var encHeader = encCard.querySelector('.card-header');
+    if (encHeader) {
+      encHeader.classList.add('collapsible');
+      var encToggle = document.createElement('span');
+      encToggle.className = 'card-collapse-toggle';
+      encToggle.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>';
+      encHeader.appendChild(encToggle);
+      encHeader.addEventListener('click', function() {
+        secEnc.classList.toggle('collapsed');
+      });
     }
-  });
+  }
 });
 
 // Calcula a idade (em anos completos) a partir da data de nascimento
@@ -1366,7 +1399,22 @@ function resetRegulacao() {
   document.querySelectorAll('#sec-regulacao input[type="text"], #sec-regulacao input[type="date"]').forEach(function(inp) { inp.value = ''; });
   var sel = document.getElementById('reg-unidade');
   if (sel) sel.value = '';
+  document.querySelectorAll('#sec-regulacao .check-item.checked').forEach(function(item) { item.classList.remove('checked'); });
   calcularRegulacao();
+}
+
+// Limpa todos os critérios marcados na aba "Critérios" e, junto, limpa
+// também o Check-list de Regulação (já que critérios sincronizados
+// marcam itens lá — limpar só um lado deixaria os dois dessincronizados).
+function limparCriterios() {
+  if (!confirm('Limpar todos os critérios selecionados nesta aba e no Check-list de Regulação?')) return;
+  document.querySelectorAll('#sec-criterios input[type="checkbox"]').forEach(function(cb) {
+    cb.checked = false;
+    var item = cb.closest('.check-item');
+    if (item) item.classList.remove('checked');
+  });
+  resetRegulacao();
+  if (typeof atualizarObservacoesRegulacao === 'function') atualizarObservacoesRegulacao();
 }
 
 // ── REGISTRO DE ENCAMINHAMENTOS EM PLANILHA (Google Sheets via Apps Script) ──
