@@ -1428,31 +1428,72 @@ function salvarGestanteManual() {
     return;
   }
   var idadeVal = document.getElementById('mg-idade').value.trim();
-  var payload = {
+  var dataEncFmt = isoParaBrLocal(document.getElementById('mg-data-enc').value);
+
+  // Campos básicos (mesmo formato usado pelo registro automático do Check-list)
+  var payloadAdd = {
     action: 'add',
     nome: nome,
     idade: idadeVal ? idadeVal + ' anos' : '',
     ubsOrigem: document.getElementById('mg-ubs').value,
     motivo: document.getElementById('mg-motivo').value.trim() || 'Encaminhamento registrado manualmente (fora do Check-list de Regulação do sistema)',
     classificacao: document.getElementById('mg-classificacao').value || 'Não classificado no sistema',
-    dataEncaminhamento: isoParaBrLocal(document.getElementById('mg-data-enc').value),
-    status: document.getElementById('mg-status').value,
-    dataConsulta: isoParaBrLocal(document.getElementById('mg-data-consulta').value),
-    compareceu: document.getElementById('mg-compareceu').checked
+    dataEncaminhamento: dataEncFmt
   };
+
+  // Campos extras (Status / Data Consulta / Compareceu) — a ação "add" da planilha
+  // não grava essas colunas na criação; por isso são enviados depois, via "update",
+  // localizando a linha recém-criada.
+  var extras = {};
+  var statusVal = document.getElementById('mg-status').value;
+  var dataConsultaVal = isoParaBrLocal(document.getElementById('mg-data-consulta').value);
+  var compareceuVal = document.getElementById('mg-compareceu').checked;
+  if (statusVal) extras.status = statusVal;
+  if (dataConsultaVal) extras.dataConsulta = dataConsultaVal;
+  if (compareceuVal) extras.compareceu = true;
 
   statusEl.textContent = 'Salvando...';
   fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payloadAdd)
   })
     .then(function() {
-      statusEl.textContent = '✅ Gestante adicionada com sucesso.';
-      setTimeout(function() {
-        fecharModalAdicionarGestante();
-        carregarEncaminhamentos();
-      }, 700);
+      if (Object.keys(extras).length === 0) {
+        statusEl.textContent = '✅ Gestante adicionada com sucesso.';
+        setTimeout(function() {
+          fecharModalAdicionarGestante();
+          carregarEncaminhamentos();
+        }, 700);
+        return;
+      }
+      // Localiza a linha recém-criada (mesmo nome, maior rowIndex) para gravar os extras.
+      statusEl.textContent = 'Registrando Status/Data/Comparecimento...';
+      return fetch(url, { method: 'GET' })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var rows = (data && data.rows) || [];
+          var candidatos = rows.filter(function(r) { return (r.nome || '').trim() === nome; });
+          if (!candidatos.length) {
+            statusEl.textContent = '⚠️ Gestante adicionada, mas não foi possível localizar a linha para gravar Status/Data/Comparecimento. Atualize a lista e preencha manualmente na tabela.';
+            return;
+          }
+          var linha = candidatos.reduce(function(a, b) { return (b.rowIndex > a.rowIndex) ? b : a; });
+          var payloadUpdate = Object.assign({ action: 'update', rowIndex: linha.rowIndex }, extras);
+          return fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payloadUpdate)
+          }).then(function() {
+            statusEl.textContent = '✅ Gestante adicionada com sucesso.';
+          });
+        })
+        .then(function() {
+          setTimeout(function() {
+            fecharModalAdicionarGestante();
+            carregarEncaminhamentos();
+          }, 700);
+        });
     })
     .catch(function(err) {
       statusEl.textContent = '❌ Não foi possível salvar: ' + err.message;
