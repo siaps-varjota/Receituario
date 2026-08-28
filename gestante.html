@@ -45,7 +45,7 @@ body { font-family:'IBM Plex Sans',sans-serif; background:var(--bg); color:var(-
 
 /* ── HEADER ── */
 .app-header { background:var(--rose-dark); color:white; position:sticky; top:0; z-index:200; box-shadow:0 2px 16px rgba(0,0,0,0.28); }
-.header-top  { display:flex; align-items:center; gap:0.8rem; padding:0.9rem 1rem; border-bottom:1px solid rgba(255,255,255,0.12);  max-width:72rem; margin:0 auto; }
+.header-top  { display:flex; align-items:center; gap:0.8rem; padding:0.9rem 1rem; border-bottom:1px solid rgba(255,255,255,0.12);  max-width:55rem; margin:0 auto; }
 .header-icon { font-size:1.5rem; background:var(--rose-mid); width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .header-title h1 { font-size:1.35rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; }
 .header-title p  { font-size:0.67rem; opacity:0.6; font-weight:300; margin-top:0.1rem; }
@@ -63,7 +63,7 @@ body { font-family:'IBM Plex Sans',sans-serif; background:var(--bg); color:var(-
 .nav-btn.active { color:white; border-bottom-color:var(--rose-light); }
 
 /* ── LAYOUT ── */
-.main    { max-width:67rem; margin:0 auto; padding:1.2rem 1rem 5rem; zoom:1.15;}
+.main    { max-width:60rem; margin:0 auto; padding:1.2rem 1rem 5rem; zoom:1.15;}
 .section { display:none; }
 .section.active { display:block; }
 
@@ -1020,6 +1020,7 @@ function goSection(id) {
   var btn = document.querySelector('[data-sec="' + id + '"]');
   if (btn) btn.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (id === 'encaminhamentos') carregarEncaminhamentos();
 }
 
 // ── ACCORDION ──────────────────────────────────────────────
@@ -1325,7 +1326,7 @@ function renderEncaminhamentos(rows) {
     });
     html += '</select></td>';
 
-    html += '<td style="padding:0.45rem 0.4rem"><input type="text" placeholder="dd/mm/aaaa" value="' + escapeHtmlReg(formatarDataBR(row.dataConsulta)) + '" style="width:110px;padding:0.3rem;border:1px solid var(--border);border-radius:6px;font-size:0.78rem" onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {dataConsulta:this.value})"></td>';
+    html += '<td style="padding:0.45rem 0.4rem"><input type="date" value="' + escapeHtmlReg(brParaIso(formatarDataBR(row.dataConsulta))) + '" style="padding:0.3rem;border:1px solid var(--border);border-radius:6px;font-size:0.78rem" onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {dataConsulta: isoParaBr(this.value)})"></td>';
 
     html += '<td style="padding:0.45rem 0.4rem;text-align:center"><input type="checkbox"' + (row.compareceu ? ' checked' : '') + ' onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {compareceu:this.checked})" style="width:18px;height:18px;cursor:pointer"></td>';
 
@@ -1356,6 +1357,21 @@ function formatarDataBR(v) {
     return String(d.getUTCDate()).padStart(2, '0') + '/' + String(d.getUTCMonth() + 1).padStart(2, '0') + '/' + String(d.getUTCFullYear()).slice(-2);
   }
   return s;
+}
+
+// Conversões entre dd/mm/aa (usado na planilha) e yyyy-mm-dd (usado pelo <input type="date">)
+function brParaIso(v) {
+  if (!v) return '';
+  var m = String(v).trim().match(/^(\d{2})\/(\d{2})\/(\d{2,4})$/);
+  if (!m) return '';
+  var yyyy = m[3].length === 2 ? '20' + m[3] : m[3];
+  return yyyy + '-' + m[2] + '-' + m[1];
+}
+function isoParaBr(v) {
+  if (!v) return '';
+  var m = String(v).trim().match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return '';
+  return m[3] + '/' + m[2] + '/' + m[1].slice(-2);
 }
 
 function atualizarLinhaEncaminhamento(rowIndex, campos) {
