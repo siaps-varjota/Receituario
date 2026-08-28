@@ -1481,10 +1481,7 @@ function salvarGestanteManual() {
   var idadeVal = document.getElementById('mg-idade').value.trim();
   var dataEncFmt = isoParaBrLocal(document.getElementById('mg-data-enc').value);
 
-  // Todos os campos são enviados juntos, numa única gravação (action: 'add'),
-  // incluindo Status / Data da Consulta / Data do Comparecimento — evita o
-  // antigo fluxo em duas etapas (add + localizar linha por nome + update),
-  // que podia falhar em silêncio e deixar a Data do Comparecimento em branco.
+  // Campos básicos (mesmo formato usado pelo registro automático do Check-list)
   var payloadAdd = {
     action: 'add',
     nome: nome,
@@ -1492,11 +1489,19 @@ function salvarGestanteManual() {
     ubsOrigem: document.getElementById('mg-ubs').value,
     motivo: document.getElementById('mg-motivo').value.trim() || 'Encaminhamento registrado manualmente (fora do Check-list de Regulação do sistema)',
     classificacao: document.getElementById('mg-classificacao').value || 'Não classificado no sistema',
-    dataEncaminhamento: dataEncFmt,
-    status: document.getElementById('mg-status').value || '',
-    dataConsulta: isoParaBrLocal(document.getElementById('mg-data-consulta').value),
-    dataComparecimento: isoParaBrLocal(document.getElementById('mg-data-comparecimento').value)
+    dataEncaminhamento: dataEncFmt
   };
+
+  // Campos extras (Status / Data Consulta / Data Comparecimento) — a ação "add" da planilha
+  // não grava essas colunas na criação; por isso são enviados depois, via "update",
+  // localizando a linha recém-criada.
+  var extras = {};
+  var statusVal = document.getElementById('mg-status').value;
+  var dataConsultaVal = isoParaBrLocal(document.getElementById('mg-data-consulta').value);
+  var dataComparecimentoVal = isoParaBrLocal(document.getElementById('mg-data-comparecimento').value);
+  if (statusVal) extras.status = statusVal;
+  if (dataConsultaVal) extras.dataConsulta = dataConsultaVal;
+  if (dataComparecimentoVal) extras.dataComparecimento = dataComparecimentoVal;
 
   statusEl.textContent = 'Salvando...';
   fetch(url, {
@@ -1505,13 +1510,35 @@ function salvarGestanteManual() {
     body: JSON.stringify(payloadAdd)
   })
     .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (data.result !== 'ok') throw new Error(data.message || 'Erro ao salvar.');
-      statusEl.textContent = '✅ Gestante adicionada com sucesso.';
-      setTimeout(function() {
-        fecharModalAdicionarGestante();
-        carregarEncaminhamentos();
-      }, 700);
+    .then(function(resp) {
+      if (!resp || resp.result !== 'ok') throw new Error((resp && resp.message) || 'Erro ao adicionar gestante.');
+
+      if (Object.keys(extras).length === 0 || !resp.rowIndex) {
+        statusEl.textContent = '✅ Gestante adicionada com sucesso.';
+        setTimeout(function() {
+          fecharModalAdicionarGestante();
+          carregarEncaminhamentos();
+        }, 700);
+        return;
+      }
+      // Usa o rowIndex devolvido pelo próprio cadastro (sem precisar buscar
+      // a linha depois — evita cache/atraso de leitura na planilha).
+      statusEl.textContent = 'Registrando Status/Data/Comparecimento...';
+      var payloadUpdate = Object.assign({ action: 'update', rowIndex: resp.rowIndex }, extras);
+      return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payloadUpdate)
+      })
+        .then(function(r) { return r.json(); })
+        .then(function(updResp) {
+          if (!updResp || updResp.result !== 'ok') throw new Error((updResp && updResp.message) || 'Erro ao registrar Status/Data/Comparecimento.');
+          statusEl.textContent = '✅ Gestante adicionada com sucesso.';
+          setTimeout(function() {
+            fecharModalAdicionarGestante();
+            carregarEncaminhamentos();
+          }, 700);
+        });
     })
     .catch(function(err) {
       statusEl.textContent = '❌ Não foi possível salvar: ' + err.message;
