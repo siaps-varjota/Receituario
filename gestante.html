@@ -810,6 +810,23 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
         <input type="text" id="reg-unidade" placeholder="Ex.: ESF ..." style="width:100%;margin-top:0.25rem;padding:0.55rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;color:var(--text)">
       </div>
       <div>
+        <label style="font-size:0.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.04em">UBS de destino do encaminhamento</label>
+        <select id="reg-ubs-destino" style="width:100%;margin-top:0.25rem;padding:0.55rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;color:var(--text);background:#fff">
+          <option value="">Selecione...</option>
+          <option>ESF ACAMPAMENTO</option>
+          <option>ESF ARARINHA</option>
+          <option>ESF CROATÁ DOS MARTINS</option>
+          <option>ESF CENTRO SEDE 1</option>
+          <option>ESF CENTRO SEDE 2</option>
+          <option>ESF CENTRO SEDE 3</option>
+          <option>ESF EMPRÉSTIMOS</option>
+          <option>ESF JATOBÁ</option>
+          <option>ESF OLHO D'ÁGUA DOS TRAJANOS</option>
+          <option>ESF PEDREIRAS</option>
+          <option>ESF VILA NAIARA</option>
+        </select>
+      </div>
+      <div>
         <label style="font-size:0.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.04em">Data</label>
         <input type="date" id="reg-data" style="width:100%;margin-top:0.25rem;padding:0.55rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;color:var(--text)">
       </div>
@@ -928,7 +945,9 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.3rem">
       <button class="btn-restart" style="display:inline-block" onclick="resetRegulacao()">↺ Limpar Seleção</button>
       <button class="btn-crit-link" style="margin-bottom:0;margin-top:1rem" onclick="gerarPDFRegulacao()">📄 Gerar PDF</button>
+      <button class="btn-crit-link" style="margin-bottom:0;margin-top:1rem;opacity:0.75" onclick="configurarPlanilhaEncaminhamentos()">⚙️ Configurar Planilha de Encaminhamentos</button>
     </div>
+    <div id="reg-planilha-status" style="font-size:0.72rem;color:var(--text-soft);margin-top:0.4rem"></div>
   </div>
 
   <div class="card" id="regulacao-observacoes-card" style="display:none">
@@ -1128,8 +1147,73 @@ document.addEventListener('DOMContentLoaded', function() {
 function resetRegulacao() {
   document.querySelectorAll('#sec-regulacao input[type="checkbox"]').forEach(function(cb) { cb.checked = false; });
   document.querySelectorAll('#sec-regulacao input[type="text"], #sec-regulacao input[type="date"]').forEach(function(inp) { inp.value = ''; });
+  var sel = document.getElementById('reg-ubs-destino');
+  if (sel) sel.value = '';
   calcularRegulacao();
 }
+
+// ── REGISTRO DE ENCAMINHAMENTOS EM PLANILHA (Google Sheets via Apps Script) ──
+var ENCAMINHAMENTOS_WEBHOOK_KEY = 'erg_encaminhamentos_webhook_url';
+
+function getWebhookEncaminhamentos() {
+  try { return localStorage.getItem(ENCAMINHAMENTOS_WEBHOOK_KEY) || ''; } catch (e) { return ''; }
+}
+
+function setWebhookEncaminhamentos(url) {
+  try { localStorage.setItem(ENCAMINHAMENTOS_WEBHOOK_KEY, url || ''); } catch (e) {}
+}
+
+function atualizarStatusPlanilha() {
+  var el = document.getElementById('reg-planilha-status');
+  if (!el) return;
+  var url = getWebhookEncaminhamentos();
+  el.textContent = url
+    ? '✅ Planilha de encaminhamentos configurada. Cada PDF gerado será registrado automaticamente.'
+    : '⚠️ Planilha de encaminhamentos ainda não configurada — os encaminhamentos gerados em PDF não estão sendo salvos.';
+}
+
+function configurarPlanilhaEncaminhamentos() {
+  var atual = getWebhookEncaminhamentos();
+  var url = prompt(
+    'Cole aqui a URL do Google Apps Script (Web App) implantado para a planilha de Encaminhamentos.\n\n' +
+    'Deixe em branco e confirme para remover a configuração atual.',
+    atual
+  );
+  if (url === null) return; // cancelado
+  setWebhookEncaminhamentos(url.trim());
+  atualizarStatusPlanilha();
+  if (url.trim()) alert('Planilha configurada com sucesso. A partir de agora, cada encaminhamento gerado em PDF será registrado automaticamente.');
+}
+
+// Monta o texto do motivo do encaminhamento a partir dos critérios marcados
+// no Check-list de Regulação (mesma lógica usada no PDF).
+function montarMotivoEncaminhamento(itemsByGroup, groups, names, scores) {
+  var partes = [];
+  groups.forEach(function(g) {
+    if (itemsByGroup[g] && itemsByGroup[g].length) {
+      partes.push(names[g] + ' (peso ' + scores[g] + '): ' + itemsByGroup[g].join('; '));
+    }
+  });
+  return partes.join(' | ');
+}
+
+// Envia o registro do encaminhamento (fire-and-forget) para a planilha
+// configurada. Nunca bloqueia nem interrompe a geração do PDF em caso de falha.
+function enviarRegistroEncaminhamento(payload) {
+  var url = getWebhookEncaminhamentos();
+  if (!url) return;
+  try {
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    }).catch(function(err) { console.warn('Falha ao registrar encaminhamento na planilha:', err); });
+  } catch (err) {
+    console.warn('Falha ao registrar encaminhamento na planilha:', err);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() { atualizarStatusPlanilha(); });
 
 // ── GERAÇÃO DE PDF DO CHECK-LIST DE REGULAÇÃO ───────────────
 function gerarPDFRegulacao() {
@@ -1334,6 +1418,20 @@ function gerarPDFRegulacao() {
   doc.text('Conselho: ________________', col2Center, y, { align: 'center' });
   y += 8;
   doc.text('Varjota, ____/____/________', col1Center, y, { align: 'center' });
+
+  // ── REGISTRO NA PLANILHA DE ENCAMINHAMENTOS (Google Sheets) ──
+  var ubsDestino = (document.getElementById('reg-ubs-destino') || {}).value || '';
+  var motivoEncaminhamento = montarMotivoEncaminhamento(itemsByGroup, groups, names, scores);
+  var hoje = new Date();
+  var hojeFmt = String(hoje.getDate()).padStart(2, '0') + '/' + String(hoje.getMonth() + 1).padStart(2, '0') + '/' + hoje.getFullYear();
+  enviarRegistroEncaminhamento({
+    nome: nome,
+    ubsOrigem: unidade,
+    ubsDestino: ubsDestino,
+    motivo: motivoEncaminhamento,
+    classificacao: names[maxG] + ' · Escore ' + scores[maxG],
+    dataEncaminhamento: dataFmt || hojeFmt
+  });
 
   // ── RODAPÉ ──
   var pageCount = doc.internal.getNumberOfPages();
