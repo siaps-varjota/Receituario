@@ -946,9 +946,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.3rem">
       <button class="btn-restart" style="display:inline-block" onclick="resetRegulacao()">↺ Limpar Seleção</button>
       <button class="btn-crit-link" style="margin-bottom:0;margin-top:1rem" onclick="gerarPDFRegulacao()">📄 Gerar PDF</button>
-      <button class="btn-crit-link" style="margin-bottom:0;margin-top:1rem;opacity:0.75" onclick="configurarPlanilhaEncaminhamentos()">⚙️ Configurar Planilha de Encaminhamentos</button>
     </div>
-    <div id="reg-planilha-status" style="font-size:0.72rem;color:var(--text-soft);margin-top:0.4rem"></div>
   </div>
 
   <div class="card" id="regulacao-observacoes-card" style="display:none">
@@ -1215,15 +1213,24 @@ function setWebhookEncaminhamentos(url) {
 }
 
 function atualizarStatusPlanilha() {
-  var el = document.getElementById('reg-planilha-status');
+  var el = document.getElementById('encaminhamentos-status');
   if (!el) return;
   var url = getWebhookEncaminhamentos();
   el.textContent = url
-    ? '✅ Planilha de encaminhamentos configurada. Cada PDF gerado será registrado automaticamente.'
+    ? '✅ Planilha de encaminhamentos configurada. Cada PDF gerado no Check-list Regulação é registrado automaticamente.'
     : '⚠️ Planilha de encaminhamentos ainda não configurada — os encaminhamentos gerados em PDF não estão sendo salvos.';
 }
 
+var ENCAMINHAMENTOS_SENHA = 'altoriscovjt';
+
 function configurarPlanilhaEncaminhamentos() {
+  var senha = prompt('Esta área é protegida. Digite a senha para acessar as configurações da planilha de Encaminhamentos:');
+  if (senha === null) return; // cancelado
+  if (senha !== ENCAMINHAMENTOS_SENHA) {
+    alert('Senha incorreta.');
+    return;
+  }
+
   var atual = getWebhookEncaminhamentos();
   var url = prompt(
     'Cole aqui a URL do Google Apps Script (Web App) implantado para a planilha de Encaminhamentos.\n\n' +
@@ -1547,7 +1554,7 @@ function gerarPDFRegulacao() {
   // ── REGISTRO NA PLANILHA DE ENCAMINHAMENTOS (Google Sheets) ──
   var motivoEncaminhamento = montarMotivoEncaminhamento(itemsByGroup, groups, names, scores);
   var hoje = new Date();
-  var hojeFmt = String(hoje.getDate()).padStart(2, '0') + '/' + String(hoje.getMonth() + 1).padStart(2, '0') + '/' + hoje.getFullYear();
+  var hojeFmt = String(hoje.getDate()).padStart(2, '0') + '/' + String(hoje.getMonth() + 1).padStart(2, '0') + '/' + String(hoje.getFullYear()).slice(-2);
   enviarRegistroEncaminhamento({
     nome: nome,
     idade: idade,
