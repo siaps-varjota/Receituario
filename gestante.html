@@ -1005,12 +1005,28 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
         <input type="text" id="mg-nome" placeholder="Nome completo">
       </div>
       <div class="modal-field">
-        <label for="mg-idade">Idade</label>
-        <input type="number" id="mg-idade" min="10" max="60" placeholder="Idade em anos">
+        <label for="mg-idade">Idade (anos)</label>
+        <div style="position:relative">
+          <input type="number" id="mg-idade" min="10" max="60" placeholder="Ex.: 34" style="padding-right:3.2rem">
+          <span style="position:absolute;right:0.8rem;top:50%;transform:translateY(-50%);font-size:0.78rem;color:var(--text-soft);pointer-events:none">anos</span>
+        </div>
       </div>
       <div class="modal-field">
         <label for="mg-ubs">UBS de Origem</label>
-        <input type="text" id="mg-ubs" placeholder="Ex.: UBS Centro">
+        <select id="mg-ubs">
+          <option value="">Selecione...</option>
+          <option>ESF ACAMPAMENTO</option>
+          <option>ESF ARARINHA</option>
+          <option>ESF CROATÁ DOS MARTINS</option>
+          <option>ESF CENTRO SEDE 1</option>
+          <option>ESF CENTRO SEDE 2</option>
+          <option>ESF CENTRO SEDE 3</option>
+          <option>ESF EMPRÉSTIMOS</option>
+          <option>ESF JATOBÁ</option>
+          <option>ESF OLHO D'ÁGUA DOS TRAJANOS</option>
+          <option>ESF PEDREIRAS</option>
+          <option>ESF VILA NAIARA</option>
+        </select>
       </div>
       <div class="modal-field">
         <label for="mg-motivo">Motivo do Encaminhamento</label>
@@ -1411,11 +1427,12 @@ function salvarGestanteManual() {
     statusEl.textContent = '⚠️ Informe ao menos o nome da gestante.';
     return;
   }
+  var idadeVal = document.getElementById('mg-idade').value.trim();
   var payload = {
     action: 'add',
     nome: nome,
-    idade: document.getElementById('mg-idade').value.trim(),
-    ubsOrigem: document.getElementById('mg-ubs').value.trim(),
+    idade: idadeVal ? idadeVal + ' anos' : '',
+    ubsOrigem: document.getElementById('mg-ubs').value,
     motivo: document.getElementById('mg-motivo').value.trim() || 'Encaminhamento registrado manualmente (fora do Check-list de Regulação do sistema)',
     classificacao: document.getElementById('mg-classificacao').value || 'Não classificado no sistema',
     dataEncaminhamento: isoParaBrLocal(document.getElementById('mg-data-enc').value),
