@@ -807,11 +807,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
       </div>
       <div>
         <label style="font-size:0.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.04em">Unidade de saúde de origem</label>
-        <input type="text" id="reg-unidade" placeholder="Ex.: ESF ..." style="width:100%;margin-top:0.25rem;padding:0.55rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;color:var(--text)">
-      </div>
-      <div>
-        <label style="font-size:0.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.04em">UBS de destino do encaminhamento</label>
-        <select id="reg-ubs-destino" style="width:100%;margin-top:0.25rem;padding:0.55rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;color:var(--text);background:#fff">
+        <select id="reg-unidade" style="width:100%;margin-top:0.25rem;padding:0.55rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;color:var(--text);background:#fff">
           <option value="">Selecione...</option>
           <option>ESF ACAMPAMENTO</option>
           <option>ESF ARARINHA</option>
@@ -827,8 +823,12 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
         </select>
       </div>
       <div>
-        <label style="font-size:0.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.04em">Data</label>
-        <input type="date" id="reg-data" style="width:100%;margin-top:0.25rem;padding:0.55rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;color:var(--text)">
+        <label style="font-size:0.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.04em">Data de nascimento</label>
+        <input type="date" id="reg-nascimento" oninput="calcularIdadeRegulacao()" style="width:100%;margin-top:0.25rem;padding:0.55rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;color:var(--text)">
+      </div>
+      <div>
+        <label style="font-size:0.72rem;font-weight:700;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.04em">Idade</label>
+        <input type="text" id="reg-idade" placeholder="—" readonly style="width:100%;margin-top:0.25rem;padding:0.55rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:0.85rem;color:var(--text);background:#f7f4f5">
       </div>
     </div>
   </div>
@@ -1144,10 +1144,27 @@ document.addEventListener('DOMContentLoaded', function() {
   atualizarObservacoesRegulacao();
 });
 
+// Calcula a idade (em anos completos) a partir da data de nascimento
+// informada no Check-list de Regulação e preenche o campo "Idade".
+function calcularIdadeRegulacao() {
+  var input = document.getElementById('reg-nascimento');
+  var out = document.getElementById('reg-idade');
+  if (!input || !out) return;
+  var val = input.value;
+  if (!val) { out.value = ''; return; }
+  var nasc = new Date(val + 'T00:00:00');
+  if (isNaN(nasc.getTime())) { out.value = ''; return; }
+  var hoje = new Date();
+  var idade = hoje.getFullYear() - nasc.getFullYear();
+  var m = hoje.getMonth() - nasc.getMonth();
+  if (m < 0 || (m === 0 && hoje.getDate() < nasc.getDate())) idade--;
+  out.value = (idade >= 0 ? idade + ' anos' : '');
+}
+
 function resetRegulacao() {
   document.querySelectorAll('#sec-regulacao input[type="checkbox"]').forEach(function(cb) { cb.checked = false; });
   document.querySelectorAll('#sec-regulacao input[type="text"], #sec-regulacao input[type="date"]').forEach(function(inp) { inp.value = ''; });
-  var sel = document.getElementById('reg-ubs-destino');
+  var sel = document.getElementById('reg-unidade');
   if (sel) sel.value = '';
   calcularRegulacao();
 }
@@ -1325,16 +1342,17 @@ function gerarPDFRegulacao() {
   var nome    = (document.getElementById('reg-nome')    || {}).value || '';
   var sus     = (document.getElementById('reg-sus')     || {}).value || '';
   var unidade = (document.getElementById('reg-unidade') || {}).value || '';
-  var dataVal = (document.getElementById('reg-data')    || {}).value || '';
-  var dataFmt = '';
-  if (dataVal) {
-    var parts = dataVal.split('-');
-    if (parts.length === 3) dataFmt = parts[2] + '/' + parts[1] + '/' + parts[0];
+  var nascVal = (document.getElementById('reg-nascimento') || {}).value || '';
+  var idade   = (document.getElementById('reg-idade')   || {}).value || '';
+  var nascFmt = '';
+  if (nascVal) {
+    var parts = nascVal.split('-');
+    if (parts.length === 3) nascFmt = parts[2] + '/' + parts[1] + '/' + parts[0];
   }
 
   addSectionHeader('IDENTIFICAÇÃO');
   addPlainLine('Nome da gestante: ' + (nome || '________________________________________'));
-  addPlainLine('Cartão SUS / Prontuário: ' + (sus || '____________________') + '     Data: ' + (dataFmt || '____/____/______'));
+  addPlainLine('Cartão SUS / Prontuário: ' + (sus || '____________________') + '     Data de nascimento: ' + (nascFmt || '____/____/______') + '     Idade: ' + (idade || '_______'));
   addPlainLine('Unidade de saúde de origem: ' + (unidade || '________________________________________'));
   y += 2;
 
@@ -1420,17 +1438,16 @@ function gerarPDFRegulacao() {
   doc.text('Varjota, ____/____/________', col1Center, y, { align: 'center' });
 
   // ── REGISTRO NA PLANILHA DE ENCAMINHAMENTOS (Google Sheets) ──
-  var ubsDestino = (document.getElementById('reg-ubs-destino') || {}).value || '';
   var motivoEncaminhamento = montarMotivoEncaminhamento(itemsByGroup, groups, names, scores);
   var hoje = new Date();
   var hojeFmt = String(hoje.getDate()).padStart(2, '0') + '/' + String(hoje.getMonth() + 1).padStart(2, '0') + '/' + hoje.getFullYear();
   enviarRegistroEncaminhamento({
     nome: nome,
+    idade: idade,
     ubsOrigem: unidade,
-    ubsDestino: ubsDestino,
     motivo: motivoEncaminhamento,
     classificacao: names[maxG] + ' · Escore ' + scores[maxG],
-    dataEncaminhamento: dataFmt || hojeFmt
+    dataEncaminhamento: hojeFmt
   });
 
   // ── RODAPÉ ──
