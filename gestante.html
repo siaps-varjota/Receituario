@@ -274,6 +274,15 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 .modal-actions { display:flex; gap:0.6rem; justify-content:flex-end; margin-top:1.1rem; }
 .btn-modal-cancel { padding:0.55rem 1rem; border:1.5px solid var(--border); border-radius:8px; background:white; font-family:'IBM Plex Sans',sans-serif; font-size:0.82rem; font-weight:600; cursor:pointer; color:var(--text-mid); }
 .btn-modal-cancel:hover { background:var(--bg); }
+
+/* ── LINHA DE ENCAMINHAMENTOS: MOTIVO RESUMIDO/EXPANSÍVEL ── */
+.motivo-cell { display:flex; flex-direction:column; gap:0.25rem; }
+.motivo-toggle {
+  align-self:flex-start; border:none; background:none; padding:0; margin-top:0.1rem;
+  font-family:'IBM Plex Sans',sans-serif; font-size:0.72rem; font-weight:600; color:var(--vinho);
+  cursor:pointer; text-decoration:underline; text-underline-offset:2px;
+}
+.motivo-toggle:hover { color:var(--rose); }
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
@@ -1584,7 +1593,7 @@ function renderEncaminhamentos(rows) {
     html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.nome) + '</td>';
     html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.idade) + '</td>';
     html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.ubsOrigem) + '</td>';
-    html += '<td style="padding:0.45rem 0.4rem;max-width:260px">' + escapeHtmlReg(row.motivo) + '</td>';
+    html += '<td style="padding:0.45rem 0.4rem;max-width:260px">' + renderMotivoCell(row.motivo) + '</td>';
     html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.classificacao) + '</td>';
     html += '<td style="padding:0.45rem 0.4rem;white-space:nowrap">' + escapeHtmlReg(formatarDataBR(row.dataEncaminhamento)) + '</td>';
 
@@ -1601,6 +1610,33 @@ function renderEncaminhamentos(rows) {
     html += '</tr>';
   });
   tbody.innerHTML = html;
+}
+
+// Mostra o motivo do encaminhamento resumido (1 linha), com um botão
+// para expandir/recolher o texto completo — evita linhas gigantes na tabela.
+var MOTIVO_PREVIEW_LEN = 48;
+function renderMotivoCell(motivo) {
+  var texto = motivo || '';
+  if (texto.length <= MOTIVO_PREVIEW_LEN) {
+    return '<span class="motivo-full">' + escapeHtmlReg(texto) + '</span>';
+  }
+  var resumo = texto.slice(0, MOTIVO_PREVIEW_LEN).trim() + '…';
+  return '<div class="motivo-cell">' +
+    '<span class="motivo-preview">' + escapeHtmlReg(resumo) + '</span>' +
+    '<span class="motivo-full" style="display:none">' + escapeHtmlReg(texto) + '</span>' +
+    '<button type="button" class="motivo-toggle" onclick="toggleMotivo(this)">▾ Ver detalhes</button>' +
+    '</div>';
+}
+
+function toggleMotivo(btn) {
+  var cell = btn.closest('.motivo-cell');
+  if (!cell) return;
+  var preview = cell.querySelector('.motivo-preview');
+  var full = cell.querySelector('.motivo-full');
+  var aberto = full.style.display !== 'none';
+  full.style.display = aberto ? 'none' : 'inline';
+  if (preview) preview.style.display = aberto ? 'inline' : 'none';
+  btn.textContent = aberto ? '▾ Ver detalhes' : '▴ Ocultar';
 }
 
 function escapeHtmlReg(v) {
