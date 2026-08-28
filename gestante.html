@@ -1313,7 +1313,7 @@ function renderEncaminhamentos(rows) {
     html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.ubsOrigem) + '</td>';
     html += '<td style="padding:0.45rem 0.4rem;max-width:260px">' + escapeHtmlReg(row.motivo) + '</td>';
     html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.classificacao) + '</td>';
-    html += '<td style="padding:0.45rem 0.4rem;white-space:nowrap">' + escapeHtmlReg(row.dataEncaminhamento) + '</td>';
+    html += '<td style="padding:0.45rem 0.4rem;white-space:nowrap">' + escapeHtmlReg(formatarDataBR(row.dataEncaminhamento)) + '</td>';
 
     html += '<td style="padding:0.45rem 0.4rem"><select style="padding:0.3rem;border:1px solid var(--border);border-radius:6px;font-size:0.78rem" onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {status:this.value})">';
     STATUS_OPCOES.forEach(function(opt) {
@@ -1321,7 +1321,7 @@ function renderEncaminhamentos(rows) {
     });
     html += '</select></td>';
 
-    html += '<td style="padding:0.45rem 0.4rem"><input type="text" placeholder="dd/mm/aaaa" value="' + escapeHtmlReg(row.dataConsulta) + '" style="width:110px;padding:0.3rem;border:1px solid var(--border);border-radius:6px;font-size:0.78rem" onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {dataConsulta:this.value})"></td>';
+    html += '<td style="padding:0.45rem 0.4rem"><input type="text" placeholder="dd/mm/aaaa" value="' + escapeHtmlReg(formatarDataBR(row.dataConsulta)) + '" style="width:110px;padding:0.3rem;border:1px solid var(--border);border-radius:6px;font-size:0.78rem" onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {dataConsulta:this.value})"></td>';
 
     html += '<td style="padding:0.45rem 0.4rem;text-align:center"><input type="checkbox"' + (row.compareceu ? ' checked' : '') + ' onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {compareceu:this.checked})" style="width:18px;height:18px;cursor:pointer"></td>';
 
@@ -1333,6 +1333,25 @@ function renderEncaminhamentos(rows) {
 function escapeHtmlReg(v) {
   if (v === null || v === undefined) return '';
   return String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+// Formata datas para dd/mm/aa, mesmo que cheguem cruas do Apps Script
+// (ex.: "2026-08-28T03:00:00.000Z" quando o Sheets converte o texto em Date).
+function formatarDataBR(v) {
+  if (!v) return '';
+  var s = String(v).trim();
+  // Já está em dd/mm/aa ou dd/mm/aaaa — normaliza o ano para 2 dígitos
+  var m = s.match(/^(\d{2})\/(\d{2})\/(\d{2,4})$/);
+  if (m) return m[1] + '/' + m[2] + '/' + m[3].slice(-2);
+  // ISO 8601 (ex.: 2026-08-28T03:00:00.000Z ou 2026-08-28)
+  var iso = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (iso) return iso[3] + '/' + iso[2] + '/' + iso[1].slice(-2);
+  // Último recurso: tenta o construtor Date
+  var d = new Date(s);
+  if (!isNaN(d.getTime())) {
+    return String(d.getUTCDate()).padStart(2, '0') + '/' + String(d.getUTCMonth() + 1).padStart(2, '0') + '/' + String(d.getUTCFullYear()).slice(-2);
+  }
+  return s;
 }
 
 function atualizarLinhaEncaminhamento(rowIndex, campos) {
