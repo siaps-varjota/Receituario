@@ -296,6 +296,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
     <button class="nav-btn" data-sec="conduta">Conduta</button>
     <button class="nav-btn" data-sec="recomendacoes">Recomendações</button>
     <button class="nav-btn" data-sec="regulacao">Check-list Regulação</button>
+    <button class="nav-btn" data-sec="encaminhamentos">📋 Encaminhamentos</button>
   </div>
 </div>
 
@@ -958,6 +959,39 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 
 </div><!-- /sec-regulacao -->
 
+<div id="sec-encaminhamentos" class="section">
+  <div class="card">
+    <div class="card-header"><div class="card-icon">📋</div><div class="card-title">Encaminhamentos Gerados</div></div>
+    <div class="info-box amber"><span>ℹ️</span><span>Lista alimentada automaticamente cada vez que um PDF é gerado no Check-list Regulação. Você pode atualizar aqui o <strong>Status</strong>, a <strong>Data da Consulta Agendada</strong> e marcar se a gestante <strong>compareceu para agendar no Mais Cidadão</strong>.</span></div>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.6rem">
+      <button class="btn-crit-link" style="margin:0" onclick="carregarEncaminhamentos()">🔄 Atualizar Lista</button>
+      <button class="btn-crit-link" style="margin:0;opacity:0.75" onclick="configurarPlanilhaEncaminhamentos()">⚙️ Configurar Planilha</button>
+    </div>
+    <div id="encaminhamentos-status" style="font-size:0.78rem;color:var(--text-soft);margin-top:0.5rem"></div>
+  </div>
+
+  <div class="card" style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:0.8rem" id="encaminhamentos-tabela">
+      <thead>
+        <tr style="text-align:left;border-bottom:2px solid var(--border)">
+          <th style="padding:0.5rem 0.4rem">Gestante</th>
+          <th style="padding:0.5rem 0.4rem">Idade</th>
+          <th style="padding:0.5rem 0.4rem">UBS de Origem</th>
+          <th style="padding:0.5rem 0.4rem">Motivo</th>
+          <th style="padding:0.5rem 0.4rem">Classificação</th>
+          <th style="padding:0.5rem 0.4rem">Data Enc.</th>
+          <th style="padding:0.5rem 0.4rem">Status</th>
+          <th style="padding:0.5rem 0.4rem">Data Consulta Agendada</th>
+          <th style="padding:0.5rem 0.4rem;text-align:center">Compareceu Mais Cidadão</th>
+        </tr>
+      </thead>
+      <tbody id="encaminhamentos-tbody">
+        <tr><td colspan="9" style="padding:1rem;color:var(--text-soft)">Clique em "🔄 Atualizar Lista" para carregar os encaminhamentos.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div><!-- /sec-encaminhamentos -->
+
 </div><!-- /main -->
 
 <script>
@@ -1231,6 +1265,79 @@ function enviarRegistroEncaminhamento(payload) {
 }
 
 document.addEventListener('DOMContentLoaded', function() { atualizarStatusPlanilha(); });
+
+// ── ABA "ENCAMINHAMENTOS": LISTAR E ATUALIZAR STATUS/DATA/COMPARECEU ──
+var STATUS_OPCOES = ['', 'Aguardando', 'Agendado', 'Atendido', 'Não compareceu', 'Cancelado'];
+
+function carregarEncaminhamentos() {
+  var url = getWebhookEncaminhamentos();
+  var statusEl = document.getElementById('encaminhamentos-status');
+  var tbody = document.getElementById('encaminhamentos-tbody');
+  if (!url) {
+    if (statusEl) statusEl.textContent = '⚠️ Configure a planilha de encaminhamentos primeiro (botão "⚙️ Configurar Planilha").';
+    return;
+  }
+  if (statusEl) statusEl.textContent = 'Carregando...';
+  fetch(url, { method: 'GET' })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.result !== 'ok') throw new Error(data.message || 'Erro ao carregar dados.');
+      renderEncaminhamentos(data.rows || []);
+      if (statusEl) statusEl.textContent = (data.rows || []).length + ' encaminhamento(s) carregado(s).';
+    })
+    .catch(function(err) {
+      if (statusEl) statusEl.textContent = '❌ Não foi possível carregar a planilha: ' + err.message;
+      console.warn('Erro ao carregar encaminhamentos:', err);
+    });
+}
+
+function renderEncaminhamentos(rows) {
+  var tbody = document.getElementById('encaminhamentos-tbody');
+  if (!tbody) return;
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="9" style="padding:1rem;color:var(--text-soft)">Nenhum encaminhamento registrado ainda.</td></tr>';
+    return;
+  }
+  var html = '';
+  rows.forEach(function(row) {
+    html += '<tr style="border-bottom:1px solid var(--border)" data-row="' + row.rowIndex + '">';
+    html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.nome) + '</td>';
+    html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.idade) + '</td>';
+    html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.ubsOrigem) + '</td>';
+    html += '<td style="padding:0.45rem 0.4rem;max-width:260px">' + escapeHtmlReg(row.motivo) + '</td>';
+    html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.classificacao) + '</td>';
+    html += '<td style="padding:0.45rem 0.4rem;white-space:nowrap">' + escapeHtmlReg(row.dataEncaminhamento) + '</td>';
+
+    html += '<td style="padding:0.45rem 0.4rem"><select style="padding:0.3rem;border:1px solid var(--border);border-radius:6px;font-size:0.78rem" onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {status:this.value})">';
+    STATUS_OPCOES.forEach(function(opt) {
+      html += '<option value="' + opt + '"' + (row.status === opt ? ' selected' : '') + '>' + (opt || 'Selecione...') + '</option>';
+    });
+    html += '</select></td>';
+
+    html += '<td style="padding:0.45rem 0.4rem"><input type="text" placeholder="dd/mm/aaaa" value="' + escapeHtmlReg(row.dataConsulta) + '" style="width:110px;padding:0.3rem;border:1px solid var(--border);border-radius:6px;font-size:0.78rem" onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {dataConsulta:this.value})"></td>';
+
+    html += '<td style="padding:0.45rem 0.4rem;text-align:center"><input type="checkbox"' + (row.compareceu ? ' checked' : '') + ' onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {compareceu:this.checked})" style="width:18px;height:18px;cursor:pointer"></td>';
+
+    html += '</tr>';
+  });
+  tbody.innerHTML = html;
+}
+
+function escapeHtmlReg(v) {
+  if (v === null || v === undefined) return '';
+  return String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function atualizarLinhaEncaminhamento(rowIndex, campos) {
+  var url = getWebhookEncaminhamentos();
+  if (!url) return;
+  var payload = Object.assign({ action: 'update', rowIndex: rowIndex }, campos);
+  fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  }).catch(function(err) { console.warn('Falha ao atualizar encaminhamento:', err); });
+}
 
 // ── GERAÇÃO DE PDF DO CHECK-LIST DE REGULAÇÃO ───────────────
 function gerarPDFRegulacao() {
