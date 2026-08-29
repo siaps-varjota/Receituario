@@ -1150,14 +1150,41 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
       </a>
     </div>
     <iframe
+      id="iframe-arte"
       src="arte-conceitual-estratificacao.html"
       title="Arte Conceitual da Plataforma de Estratificação de Risco Gestacional"
       loading="lazy"
-      style="width:100%;height:82vh;border:none;display:block;background:#eef1f4">
+      style="width:100%;height:600px;border:none;display:block;background:#eef1f4;overflow:hidden"
+      onload="resizeArteIframe(this)">
       <p style="padding:1rem">Não foi possível carregar o conteúdo. <a href="arte-conceitual-estratificacao.html" target="_blank">Clique aqui para abrir em outra aba</a>.</p>
     </iframe>
   </div>
 </div><!-- /sec-arte -->
+
+<script>
+// Ajusta a altura do iframe "Arte Conceitual" ao tamanho real do conteúdo,
+// para que a página role inteira (sem barra de rolagem interna no iframe),
+// igual a quando o arquivo é aberto direto em outra aba.
+function resizeArteIframe(iframe) {
+  try {
+    var doc = iframe.contentWindow.document;
+    var setH = function () {
+      var h = Math.max(doc.documentElement.scrollHeight, doc.body.scrollHeight);
+      iframe.style.height = h + 'px';
+    };
+    setH();
+    // Recalcula se o conteúdo mudar de tamanho (ex.: fontes carregando, resize da tela)
+    if (window.ResizeObserver) {
+      new ResizeObserver(setH).observe(doc.body);
+    }
+    window.addEventListener('resize', setH);
+  } catch (e) {
+    // Se por algum motivo não conseguir acessar o conteúdo (ex.: origem diferente),
+    // mantém uma altura razoável como fallback.
+    iframe.style.height = '82vh';
+  }
+}
+</script>
 
 </div><!-- /main -->
 
