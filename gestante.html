@@ -343,13 +343,13 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
     </div>
   </div>
   <div class="nav-scroll">
-    <button class="nav-btn active" data-sec="algo">Algoritmo</button>
+    <button class="nav-btn active" data-sec="arte">🤰 Fluxo de Cuidado da Gestante</button>
+    <button class="nav-btn" data-sec="algo">Algoritmo</button>
     <button class="nav-btn" data-sec="criterios">Critérios</button>
     <button class="nav-btn" data-sec="conduta">Conduta</button>
     <button class="nav-btn" data-sec="recomendacoes">Recomendações</button>
     <button class="nav-btn" data-sec="regulacao">Check-list Regulação</button>
     <button class="nav-btn" data-sec="encaminhamentos">📋 Encaminhamentos</button>
-    <button class="nav-btn" data-sec="arte">🎨 Arte Conceitual</button>
   </div>
 </div>
 
@@ -358,7 +358,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 <!-- ══════════════════════════════════════════════════════ -->
 <!--  ALGORITMO                                            -->
 <!-- ══════════════════════════════════════════════════════ -->
-<div id="sec-algo" class="section active">
+<div id="sec-algo" class="section">
 
   <div class="card">
     <div class="card-header">
@@ -1134,17 +1134,17 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
   </div>
 </div><!-- /sec-encaminhamentos -->
 
-<!-- ── ARTE CONCEITUAL DA PLATAFORMA ──────────────────────────
+<!-- ── FLUXO DE CUIDADO DA GESTANTE ──────────────────────────
      Este conteúdo NÃO fica embutido aqui: o card abaixo carrega,
      via <iframe>, o arquivo "arte-conceitual-estratificacao.html"
      hospedado junto no mesmo repositório/GitHub Pages. Basta manter
      os dois arquivos na mesma pasta do repositório para funcionar. -->
-<div id="sec-arte" class="section">
+<div id="sec-arte" class="section active">
   <div class="card" style="padding:0;overflow:hidden">
     <iframe
       id="iframe-arte"
       src="arte-conceitual-estratificacao.html"
-      title="Arte Conceitual da Plataforma de Estratificação de Risco Gestacional"
+      title="Fluxo de Cuidado da Gestante — Plataforma de Estratificação de Risco Gestacional"
       loading="lazy"
       style="width:100%;height:600px;border:none;display:block;background:#eef1f4;overflow:hidden"
       onload="resizeArteIframe(this)">
@@ -1154,7 +1154,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
 </div><!-- /sec-arte -->
 
 <script>
-// Ajusta a altura do iframe "Arte Conceitual" ao tamanho real do conteúdo,
+// Ajusta a altura do iframe "Fluxo de Cuidado da Gestante" ao tamanho real do conteúdo,
 // para que a página role inteira (sem barra de rolagem interna no iframe),
 // igual a quando o arquivo é aberto direto em outra aba.
 function resizeArteIframe(iframe) {
@@ -1205,7 +1205,19 @@ function goSection(id) {
   if (btn) btn.classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
   if (id === 'encaminhamentos') carregarEncaminhamentos();
+  try { localStorage.setItem('erg_last_section', id); } catch(e) {}
 }
+
+// Ao carregar a página, reabre na última aba visitada neste navegador
+// (se ainda não houver nenhuma, mantém "Fluxo de Cuidado da Gestante" como padrão)
+(function restaurarUltimaAba() {
+  try {
+    var ultima = localStorage.getItem('erg_last_section');
+    if (ultima && document.getElementById('sec-' + ultima)) {
+      goSection(ultima);
+    }
+  } catch(e) {}
+})();
 
 // ── ACCORDION ──────────────────────────────────────────────
 function toggleAcc(h) { h.parentElement.classList.toggle('open'); }
