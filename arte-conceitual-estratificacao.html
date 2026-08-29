@@ -25,6 +25,12 @@
     --asphalt-edge:#6b5a5f;
   }
   *{box-sizing:border-box}
+  html{
+    /* Reserva o espaço da barra de rolagem nos dois lados, para que o
+       conteúdo centralizado (.poster) fique com a mesma distância da
+       borda esquerda e da borda direita, com ou sem barra visível. */
+    scrollbar-gutter: stable both-edges;
+  }
   body{
     margin:0;background:var(--cream);color:var(--ink);
     font-family:'IBM Plex Sans',Arial,sans-serif;
@@ -150,6 +156,24 @@
     font-size:14px;line-height:1.55;color:var(--ink);
   }
 
+  /* ── SEGMENTOS RECOLHÍVEIS (mesmo padrão do Check-list de Regulação) ── */
+  .sec-head{cursor:pointer;user-select:none}
+  .sec-head .seg-toggle{
+    width:26px;height:26px;border-radius:8px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--cream2);color:var(--vinho-deep);
+    transition:background .15s ease;
+  }
+  .sec-head:hover .seg-toggle{background:var(--line)}
+  .sec-head .seg-toggle svg{
+    width:15px;height:15px;stroke:currentColor;fill:none;
+    stroke-width:2.75;stroke-linecap:round;stroke-linejoin:round;
+    transform:rotate(90deg);transition:transform .18s ease;
+  }
+  .seg.collapsed .seg-toggle svg{transform:rotate(0deg)}
+  .seg.collapsed>*:not(.sec-head){display:none !important}
+  .seg.collapsed .sec-head{margin-bottom:0}
+
   @media(max-width:860px){
     .cap-grid{grid-template-columns:1fr}
     .wheel-wrap{order:-1}
@@ -185,7 +209,8 @@
     <p class="sub">Organização, monitoramento e coordenação do cuidado na Atenção Primária à Saúde — do risco identificado na unidade até a regulação e o acompanhamento do desfecho.</p>
   </header>
 
-  <div class="sec-head"><span class="n">01</span><h2>A jornada da gestante</h2><span class="rule"></span></div>
+  <div class="seg" id="seg-jornada">
+  <div class="sec-head"><span class="n">01</span><h2>A jornada da gestante</h2><span class="rule"></span><span class="seg-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span></div>
 
   <section class="journey">
     <svg class="road-svg" viewBox="0 0 800 165" role="img" aria-label="Estrada sinuosa representando a jornada da gestante em 4 etapas">
@@ -235,8 +260,10 @@
       <p>Ao gerar o PDF, a gestante entra <strong>automaticamente</strong> na lista de encaminhamentos. O Mais Cidadão regula o atendimento na Policlínica e a própria plataforma recebe a atualização do andamento.</p>
     </div>
   </section>
+  </div><!-- /seg-jornada -->
 
-  <div class="sec-head"><span class="n">02</span><h2>O que a plataforma possibilita</h2><span class="rule"></span></div>
+  <div class="seg" id="seg-possibilita">
+  <div class="sec-head"><span class="n">02</span><h2>O que a plataforma possibilita</h2><span class="rule"></span><span class="seg-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span></div>
 
   <section class="cap-grid">
     <div class="cap-col">
@@ -275,8 +302,10 @@
       </div>
     </div>
   </section>
+  </div><!-- /seg-possibilita -->
 
-  <div class="sec-head"><span class="n">03</span><h2>Benefícios para a rede e para a gestante</h2><span class="rule"></span></div>
+  <div class="seg" id="seg-beneficios">
+  <div class="sec-head"><span class="n">03</span><h2>Benefícios para a rede e para a gestante</h2><span class="rule"></span><span class="seg-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span></div>
 
   <section class="benefits">
     <div class="bcard">
@@ -300,6 +329,7 @@
       <p>Mais segurança e continuidade do cuidado para a gestante e o bebê.</p>
     </div>
   </section>
+  </div><!-- /seg-beneficios -->
 
   <footer class="note">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M12 11v5"/></svg>
@@ -307,5 +337,16 @@
   </footer>
 
 </main>
+
+<script>
+  // Torna cada segmento (01, 02, 03) recolhível ao clicar no cabeçalho —
+  // mesmo comportamento usado no Check-list de Regulação do sistema.
+  document.querySelectorAll('.seg > .sec-head').forEach(function(header){
+    header.addEventListener('click', function(){
+      var seg = header.closest('.seg');
+      if (seg) seg.classList.toggle('collapsed');
+    });
+  });
+</script>
 </body>
 </html>
