@@ -101,26 +101,48 @@
   /* ── O QUE A PLATAFORMA POSSIBILITA ── */
   .cap-grid{display:grid;grid-template-columns:1fr 250px 1fr;gap:26px;align-items:center}
   .cap-col{display:flex;flex-direction:column;gap:20px}
-  .cap-feat{display:grid;grid-template-columns:38px 1fr;gap:12px;align-items:start}
+  .cap-feat{
+    position:relative;display:grid;grid-template-columns:22px 38px 1fr;gap:10px;align-items:start;
+    --seg-color:var(--vinho-deep);
+  }
+  .cap-feat.seg-esp{--seg-color:var(--gold-deep)}
+  .cap-feat.seg-ges{--seg-color:var(--sage)}
+  .cap-feat .num{
+    width:22px;height:22px;border-radius:50%;flex-shrink:0;margin-top:1px;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;color:#fff;
+    background:var(--seg-color);
+  }
+  .cap-feat.seg-esp .num{color:#3a2a08}
   .cap-feat .ic{
-    width:38px;height:38px;border-radius:9px;background:var(--cream2);color:var(--vinho);
+    width:38px;height:38px;border-radius:9px;background:var(--cream2);color:var(--seg-color);
     display:flex;align-items:center;justify-content:center;flex-shrink:0;
   }
   .cap-feat .ic svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
   .cap-feat h3{margin:0 0 3px;font-size:13.5px;font-weight:600;color:var(--vinho-deep);line-height:1.2}
   .cap-feat p{margin:0;font-size:11.8px;line-height:1.4;color:var(--ink-soft)}
+  /* linha pontilhada apontando da possibilidade até a roda central */
+  .cap-col:first-of-type .cap-feat::after{
+    content:'';position:absolute;top:19px;right:-26px;width:26px;height:0;
+    border-top:2px dashed var(--seg-color);
+  }
+  .cap-col:last-of-type .cap-feat::after{
+    content:'';position:absolute;top:19px;left:-26px;width:26px;height:0;
+    border-top:2px dashed var(--seg-color);
+  }
 
-  .wheel-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
-  .wheel-tags{display:flex;gap:8px}
+  .wheel-wrap{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .wheel-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
   .wheel-tag{
-    font-family:'IBM Plex Mono',monospace;font-size:9.5px;font-weight:600;letter-spacing:.4px;
-    padding:4px 9px;border-radius:20px;text-transform:uppercase;white-space:nowrap;
+    font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.3px;
+    padding:4px 8px;border-radius:20px;text-transform:uppercase;white-space:nowrap;
   }
   .wheel-tag.a{background:var(--vinho-deep);color:#f6dde2}
   .wheel-tag.b{background:var(--gold);color:#3a2a08}
+  .wheel-tag.c{background:var(--sage);color:#eef6f0}
   .wheel{
     width:190px;aspect-ratio:1;border-radius:50%;
-    background:conic-gradient(var(--vinho) 0 50%, var(--gold) 50% 100%);
+    background:conic-gradient(var(--gold) 0 33.333%, var(--vinho) 33.333% 66.666%, var(--sage) 66.666% 100%);
     display:flex;align-items:center;justify-content:center;
     box-shadow:0 0 0 5px var(--cream), 0 0 0 6px var(--line);
   }
@@ -129,7 +151,7 @@
     display:flex;align-items:center;justify-content:center;color:var(--vinho-deep);
   }
   .wheel-center svg{width:38px;height:38px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-  .wheel-cap{font-size:11px;color:var(--ink-soft);text-align:center;max-width:180px;line-height:1.35}
+  .wheel-cap{font-size:11px;color:var(--ink-soft);text-align:center;max-width:180px;line-height:1.35;margin-top:2px}
 
   /* ── BENEFÍCIOS ── */
   .benefits{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
@@ -178,6 +200,7 @@
     .cap-grid{grid-template-columns:1fr}
     .wheel-wrap{order:-1}
     .benefits{grid-template-columns:repeat(3,1fr)}
+    .cap-feat::after{display:none}
   }
   @media(max-width:640px){
     .poster{padding:22px 16px 30px}
@@ -267,36 +290,46 @@
 
   <section class="cap-grid">
     <div class="cap-col">
-      <div class="cap-feat">
+      <div class="cap-feat seg-aps">
+        <span class="num">1</span>
         <div class="ic"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v6c0 1.55 3.4 2.8 7.5 2.8s7.5-1.25 7.5-2.8v-6M4.5 11.5v6c0 1.55 3.4 2.8 7.5 2.8s7.5-1.25 7.5-2.8v-6"/></svg></div>
         <div><h3>Registrar e organizar os encaminhamentos</h3><p>Reúne dados da gestante, unidade solicitante, motivo, situação do atendimento e providências adotadas.</p></div>
       </div>
-      <div class="cap-feat">
+      <div class="cap-feat seg-esp">
+        <span class="num">2</span>
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 4l8.5 15h-17z"/><path d="M12 10v4.2M12 17h.01"/></svg></div>
         <div><h3>Identificar pendências, atrasos e barreiras</h3><p>Localiza situações que exigem intervenção e permite ações em tempo oportuno.</p></div>
       </div>
-      <div class="cap-feat">
+      <div class="cap-feat seg-ges">
+        <span class="num">3</span>
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M4 20V11M12 20V4M20 20v-8.5"/></svg></div>
         <div><h3>Produzir informações para a gestão</h3><p>Dados que subsidiam o acompanhamento da demanda, gargalos e definição de prioridades.</p></div>
       </div>
     </div>
 
     <div class="wheel-wrap">
-      <div class="wheel-tags"><span class="wheel-tag a">Atenção primária</span><span class="wheel-tag b">Serviços especializados</span></div>
+      <div class="wheel-tags">
+        <span class="wheel-tag a">Atenção primária</span>
+        <span class="wheel-tag b">Serviços especializados</span>
+        <span class="wheel-tag c">Gestão municipal</span>
+      </div>
       <div class="wheel"><div class="wheel-center"><svg viewBox="0 0 24 24"><circle cx="9" cy="6" r="3"/><path d="M4 20c0-4 2.2-6.5 5-6.5s5 2.5 5 6.5"/><circle cx="18" cy="10" r="2"/><path d="M15 20c0-2.8 1.3-4.5 3-4.5s3 1.7 3 4.5"/></svg></div></div>
-      <p class="wheel-cap">A gestante no centro do cuidado, com informação circulando entre os dois níveis de atenção.</p>
+      <p class="wheel-cap">A gestante no centro do cuidado, com informação circulando entre a atenção primária, os serviços especializados e a gestão municipal.</p>
     </div>
 
     <div class="cap-col">
-      <div class="cap-feat">
+      <div class="cap-feat seg-esp">
+        <span class="num">4</span>
         <div class="ic"><svg viewBox="0 0 24 24"><circle cx="6.5" cy="6.5" r="2.3"/><circle cx="17.5" cy="17.5" r="2.3"/><path d="M6.5 8.8v2.7a4 4 0 004 4h1.3"/></svg></div>
         <div><h3>Acompanhar o percurso da gestante</h3><p>Verifica se o encaminhamento foi recebido, analisado, agendado e realizado.</p></div>
       </div>
-      <div class="cap-feat">
+      <div class="cap-feat seg-ges">
+        <span class="num">5</span>
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M9 15l6-6M8 13l-2.3 2.3a3 3 0 004.2 4.2l1.6-1.6M16 11l2.3-2.3a3 3 0 00-4.2-4.2L12.5 6.2"/></svg></div>
         <div><h3>Apoiar a coordenação do cuidado</h3><p>Integra a comunicação entre APS, gestão municipal e serviços especializados.</p></div>
       </div>
-      <div class="cap-feat">
+      <div class="cap-feat seg-aps">
+        <span class="num">6</span>
         <div class="ic"><svg viewBox="0 0 24 24"><path d="M20 12.3c0 4-8 7.7-8 7.7s-8-3.7-8-7.7A4.3 4.3 0 0112 9.6a4.3 4.3 0 018-2.7z"/><path d="M6.3 12h2l1.3-2.6L11.5 14l1.3-3.9L14 12h3.7"/></svg></div>
         <div><h3>Fortalecer o acompanhamento das gestantes em risco</h3><p>Ações mais rápidas e articuladas, prevenindo desfechos evitáveis.</p></div>
       </div>
