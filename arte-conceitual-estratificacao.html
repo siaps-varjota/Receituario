@@ -149,8 +149,10 @@
   .wheel-center{
     width:64%;aspect-ratio:1;border-radius:50%;background:var(--card);
     display:flex;align-items:center;justify-content:center;color:var(--vinho-deep);
+    overflow:hidden;
   }
-  .wheel-center svg{width:38px;height:38px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .wheel-center svg.icon-generic{width:38px;height:38px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .wheel-center img.ilustra-gestante{width:112%;height:112%;object-fit:cover;display:block}
   .wheel-cap{font-size:11px;color:var(--ink-soft);text-align:center;max-width:180px;line-height:1.35;margin-top:2px}
 
   /* ── BENEFÍCIOS ── */
@@ -313,7 +315,9 @@
         <span class="wheel-tag b">Serviços especializados</span>
         <span class="wheel-tag c">Gestão municipal</span>
       </div>
-      <div class="wheel"><div class="wheel-center"><svg viewBox="0 0 24 24"><circle cx="9" cy="6" r="3"/><path d="M4 20c0-4 2.2-6.5 5-6.5s5 2.5 5 6.5"/><circle cx="18" cy="10" r="2"/><path d="M15 20c0-2.8 1.3-4.5 3-4.5s3 1.7 3 4.5"/></svg></div></div>
+      <div class="wheel"><div class="wheel-center">
+        <img class="ilustra-gestante" src="gestante-real.png" alt="Ilustração de gestante segurando a barriga">
+      </div></div>
       <p class="wheel-cap">A gestante no centro do cuidado, com informação circulando entre a atenção primária, os serviços especializados e a gestão municipal.</p>
     </div>
 
