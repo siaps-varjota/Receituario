@@ -244,6 +244,7 @@
   body.pdf-export .app-header { border-radius: 0; }
 
   /* ---- PDF unificado (todas as simulações) ---- */
+  /* Cada simulação (e a capa) começa sempre no topo de uma nova página. */
   .pdf-page { }
   .pdf-page:not(:first-child) { page-break-before: always; break-before: page; }
   .pdf-page .section,
@@ -252,7 +253,8 @@
   .pdf-page .pill-row,
   .pdf-page .tip,
   .pdf-page .case-box,
-  .pdf-page .pdf-toc-item {
+  .pdf-page .pdf-toc-item,
+  .pdf-page .pdf-case-heading {
     page-break-inside: avoid; break-inside: avoid;
   }
   .pdf-case-heading { margin: 4px 0 12px 0; }
@@ -300,7 +302,7 @@
   <div id="content"></div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 <script>
 const CASES = [{"slug": "crianca", "titulo": "Criança", "subtitulo": "Puericultura — 0 a 24 meses", "resumo": "Criança de 2 meses, acompanhada pela genitora, em consulta de puericultura de rotina.", "subjetivo": "Criança de 2 meses, nascida a termo sem intercorrências, em aleitamento materno exclusivo e vacinação em dia conforme caderneta. Genitora comparece acompanhando a criança para puericultura. Nega queixas clínicas no momento. Refere que, desde ontem, a criança apresenta tosse seca à noite e espirros. Nega febre. Ausência de outras queixas.", "ciap_motivo": ["A98 – Exame médico/preventivo NE"], "dum": null, "objetivo": "BEG, normocorado, hidratado, afebril e eupneico. AP: MV(+) bilateralmente, sem ruídos adventícios (RA).", "sinais_vitais": [["Temperatura", "36,5 °C"], ["Frequência cardíaca", "128 bpm"], ["Frequência respiratória", "32 irpm"]], "antropometria": [["Peso", "5,200 kg"], ["Estatura", "58 cm"], ["Perímetro cefálico", "39 cm"]], "habilitar_campos": ["Puericultura"], "vacinacao": "Sim", "exames": null, "avaliacao": "Criança de risco habitual, com desenvolvimento adequado para a idade. Quadro catarral leve, sem sinais de gravidade.", "ciap_avaliacao": "A98 – Exame médico/preventivo NE", "cid_avaliacao": "Z00.1 – Exame de rotina de saúde da criança", "plano_texto": "Mantido acompanhamento de puericultura. Orientações gerais fornecidas à genitora.", "prescricao": ["Sulfato ferroso (xarope) — conforme protocolo, 1x/dia", "Vitamina A 200.000 UI — dose suplementar"], "exames_solicitados": null, "orientacoes": ["Oriento alimentação saudável.", "Oriento manter aleitamento materno exclusivo até os 6 meses.", "Reforço a importância da vacinação e da puericultura em dia."], "encaminhamentos": null, "retorno": "Próxima consulta de puericultura conforme calendário do Ministério da Saúde (aos 4 meses).", "tipo_atendimento": null, "procedimento_administrativo": null, "dica": "Habilite o campo 'Puericultura' no Objetivo para liberar os campos específicos de acompanhamento (peso, estatura, PC, marcos do desenvolvimento). Use sempre o CIAP2 de puericultura (A98) para manter a série histórica do acompanhamento da criança."}, {"slug": "rn_5dias", "titulo": "RN 5 dias", "subtitulo": "Puericultura — Recém-nascido com 5 dias de vida", "resumo": "RN a termo, 5 dias de vida, primeira consulta de puericultura após alta da maternidade, acompanhado pela genitora.", "subjetivo": "Recém-nascido, 5 dias de vida, nascido a termo (39 semanas), parto sem intercorrências, alta da maternidade em boas condições. Genitora comparece para primeira consulta de puericultura do RN. Refere aleitamento materno exclusivo em livre demanda, com boa pega e sucção. Nega febre, vômitos, recusa alimentar ou letargia. Refere leve amarelamento da pele percebido a partir do 3º dia de vida. Nega sangramento ou secreção purulenta em coto umbilical. Realizou triagem neonatal (teste do pezinho) na unidade.", "ciap_motivo": ["A98 – Exame médico/preventivo NE"], "dum": null, "objetivo": "RN ativo, reativo, choro forte, normocorado com icterícia leve em face e tronco (Zona 1-2 de Kramer), hidratado, afebril e eupneico. Fontanela anterior normotensa. AC: bulhas rítmicas, normofonéticas, sem sopros. AP: MV(+) bilateralmente, sem ruídos adventícios. Abdome plano, flácido, indolor, coto umbilical em processo de mumificação, sem hiperemia ou secreção. Genitália e quadris sem alterações. Reflexos primitivos (sucção, preensão, Moro) presentes e simétricos.", "sinais_vitais": [["Temperatura", "36,7 °C"], ["Frequência cardíaca", "136 bpm"], ["Frequência respiratória", "42 irpm"]], "antropometria": [["Peso de nascimento", "3,200 kg"], ["Peso atual", "3,050 kg (perda fisiológica dentro do esperado)"], ["Estatura", "49 cm"], ["Perímetro cefálico", "34,5 cm"]], "habilitar_campos": ["Puericultura"], "vacinacao": "BCG e Hepatite B (1ª dose) aplicadas na maternidade — registradas na caderneta", "exames": "Triagem neonatal (teste do pezinho) coletada; teste do olhinho, orelhinha e coraçãozinho realizados na maternidade, sem alterações relatadas.", "avaliacao": "Recém-nascido de risco habitual, em aleitamento materno exclusivo, com icterícia neonatal leve de provável causa fisiológica e perda ponderal fisiológica dentro do esperado (< 10% do peso de nascimento).", "ciap_avaliacao": "A98 – Exame médico/preventivo NE", "cid_avaliacao": "Z00.1 – Exame de rotina de saúde da criança / P59.9 – Icterícia neonatal não especificada", "plano_texto": "Realizada primeira consulta de puericultura do RN. Avaliados icterícia, coto umbilical, aleitamento materno e reflexos, sem sinais de alarme no momento. Reforçadas orientações à genitora.", "prescricao": ["Vitamina D — 400 UI/dia, gotas via oral, a partir do 7º dia de vida"], "exames_solicitados": null, "orientacoes": ["Oriento manutenção do aleitamento materno exclusivo em livre demanda até os 6 meses.", "Oriento cuidados com o coto umbilical: manter limpo e seco, sem uso de faixas ou substâncias.", "Oriento sinais de alarme da icterícia (amarelamento progressivo, atingindo palmas/plantas, sonolência excessiva, recusa alimentar) e retorno imediato caso surjam.", "Oriento posição para dormir (decúbito dorsal, berço livre de objetos) para prevenção de morte súbita.", "Reforço a importância de manter a caderneta da criança atualizada e comparecer às próximas doses vacinais."], "encaminhamentos": null, "retorno": "Próxima consulta de puericultura com 15 dias de vida (ou antes, se surgir algum sinal de alarme).", "tipo_atendimento": null, "procedimento_administrativo": null, "dica": "A primeira semana de vida é o período de maior risco de mortalidade neonatal — sempre investigue ativamente icterícia, padrão de sucção/aleitamento e sinais de infecção no coto umbilical. Confirme se a triagem neonatal (pezinho, olhinho, orelhinha, coraçãozinho) foi realizada e registre o resultado assim que disponível. Habilite o campo 'Puericultura' no Objetivo para liberar peso, estatura e PC."}, {"slug": "gestante", "titulo": "Gestante", "subtitulo": "Pré-natal de risco habitual", "resumo": "MIF, 37 anos, pré-natal de risco habitual, trazendo exames laboratoriais e USG obstétrica.", "subjetivo": "MIF, 37 anos, gestante em acompanhamento de pré-natal, sem antecedentes de risco gestacional relatados até o momento. Comparece para realizar pré-natal de risco habitual, queixando-se de dor no corpo e edema de membros inferiores (MMII), e portando resultados de exames laboratoriais e USG obstétrica. Nega sangramento transvaginal (STV), perda de líquido amniótico, leucorreia, disúria e quaisquer outras queixas clínicas no momento.", "ciap_motivo": ["W78 – Gravidez"], "dum": "Registrar data da última menstruação informada pela gestante", "objetivo": "BEG, COTE, normocorada, hidratada, afebril e eupneica.", "sinais_vitais": [["Pressão arterial", "110 x 70 mmHg"], ["Frequência cardíaca", "82 bpm"], ["BCF", "148 bpm"]], "antropometria": [["Peso", "68,0 kg"], ["Altura uterina", "24 cm"], ["Ganho de peso na gestação", "conforme curva"]], "habilitar_campos": null, "vacinacao": "Sim", "exames": "Hemograma, glicemia e USG obstétrica adicionados/atualizados no sistema — dentro dos parâmetros esperados para a idade gestacional.", "avaliacao": "Gravidez de risco habitual, com queixas álgicas e edema de MMII compatíveis com o quadro gestacional atual.", "ciap_avaliacao": "W78 – Gravidez", "cid_avaliacao": "Z34.8 – Supervisão de outra gravidez normal", "plano_texto": "Mantida suplementação vitamínica. Solicitada rotina de exames pendente e nova USG obstétrica.", "prescricao": ["Sulfato ferroso + Ácido fólico — uso contínuo", "Sais de reidratação/fruta — para desconforto referido"], "exames_solicitados": ["Rotina de exames do 2º trimestre", "Exames do 1º trimestre não realizados", "USG obstétrica"], "orientacoes": ["Mantenho suplementação vitamínica.", "Oriento sinais de alarme na gestação e retorno em caso de intercorrência."], "encaminhamentos": null, "retorno": "Retorno mensal para acompanhamento de pré-natal.", "tipo_atendimento": null, "procedimento_administrativo": null, "dica": "Sempre registrar a DUM (mesmo estimada) no Objetivo — é ela que alimenta a idade gestacional automática do PEC. Adicione/atualize os exames trazidos pela gestante em 'Resultados de exames' antes de fechar o atendimento."}, {"slug": "idoso", "titulo": "Idoso", "subtitulo": "Acompanhamento / entrega de resultados de exames", "resumo": "Idosa, 70 anos, hipertensa, comparece para mostrar resultados de exames de rotina.", "subjetivo": "Idosa, 70 anos, hipertensa, em acompanhamento na unidade, uso contínuo de anti-hipertensivo. Comparece para mostrar resultados de exames. Nega queixas clínicas no momento.", "ciap_motivo": ["K86 – Hipertensão não complicada"], "dum": null, "objetivo": "BEG. COTE. Hidratada, afebril, eupneica, normocorada e normotensa.", "sinais_vitais": [["Pressão arterial", "128 x 82 mmHg"], ["Frequência cardíaca", "76 bpm"]], "antropometria": [["Peso", "registrar na avaliação antropométrica"], ["IMC", "calcular automaticamente pelo sistema"]], "habilitar_campos": null, "vacinacao": "Sim", "exames": "Hemograma, glicemia e perfil lipídico adicionados/atualizados no sistema — dentro da normalidade.", "avaliacao": "Paciente hipertensa, controlada, sem sinais de descompensação no momento.", "ciap_avaliacao": "K86 – Hipertensão não complicada", "cid_avaliacao": "I10 – Hipertensão essencial (primária)", "plano_texto": "Realizada avaliação antropométrica e aferição de pressão arterial, com orientações gerais de saúde ao idoso.", "prescricao": ["Sulfato ferroso — 1 comprimido meia hora antes do almoço, de preferência com suco rico em vitamina C (laranja, limão, acerola, manga, caju, goiaba etc.)"], "exames_solicitados": null, "orientacoes": ["Avaliação antropométrica realizada.", "Aferição de PA realizada, com orientações sobre alimentação e uso correto da medicação."], "encaminhamentos": null, "retorno": "Retorno conforme rotina de acompanhamento do idoso/hipertenso.", "tipo_atendimento": null, "procedimento_administrativo": null, "dica": "Em consultas de rotina do idoso, aproveite para atualizar a Caderneta de Saúde da Pessoa Idosa e checar antropometria — isso mantém o indicador de acompanhamento em dia."}, {"slug": "diabetico_hipertenso", "titulo": "Diabético e Hipertenso", "subtitulo": "Renovação de prescrição — HIPERDIA", "resumo": "Idosa, 70 anos, hipertensa e diabética, comparece para renovar prescrição de uso contínuo.", "subjetivo": "Idosa, 70 anos, hipertensa e diabética, em acompanhamento contínuo pelo programa HIPERDIA da unidade. Comparece para renovar prescrição. Nega queixas clínicas no momento.", "ciap_motivo": ["T90 – Diabetes não insulino-dependente", "K86 – Hipertensão não complicada"], "dum": null, "objetivo": "BEG, COTE, normocorada, hidratada, afebril e eupneica.", "sinais_vitais": [["Pressão arterial", "130 x 85 mmHg"], ["Glicemia capilar", "118 mg/dL"]], "antropometria": [["Peso", "registrar na avaliação antropométrica"], ["IMC", "calcular automaticamente pelo sistema"]], "habilitar_campos": null, "vacinacao": "Sim", "exames": null, "avaliacao": "Paciente hipertensa e diabética, clinicamente estável, sem queixas agudas, mantendo uso contínuo da medicação.", "ciap_avaliacao": "T90 – Diabetes não insulino-dependente / K86 – Hipertensão", "cid_avaliacao": "E11 – Diabetes mellitus tipo 2 / I10 – Hipertensão essencial", "plano_texto": "Renovada receita conforme protocolo HIPERDIA. Realizada avaliação antropométrica e aferição de PA/glicemia.", "prescricao": ["Receita HIPERDIA — conforme medicação de uso contínuo já cadastrada"], "exames_solicitados": null, "orientacoes": ["Avaliação antropométrica realizada.", "Aferição de PA e glicemia capilar realizadas, com orientações sobre dieta e adesão medicamentosa."], "encaminhamentos": null, "retorno": "Retorno conforme cronograma do HIPERDIA / renovação trimestral de receita.", "tipo_atendimento": null, "procedimento_administrativo": null, "dica": "Sempre registrar os dois CIAP2 (diabetes e hipertensão) quando a queixa for de renovação combinada — isso garante que o cidadão apareça corretamente nos dois indicadores do HIPERDIA."}, {"slug": "hanseniase", "titulo": "Hanseníase", "subtitulo": "Dose supervisionada — PQT-U", "resumo": "Paciente em tratamento de hanseníase multibacilar, comparece para receber dose supervisionada mensal.", "subjetivo": "Paciente em tratamento para hanseníase multibacilar (esquema PQT-U), acompanhado mensalmente na unidade. Comparece para dose mensal supervisionada. Refere ter feito uso correto das doses autoadministradas desde a última visita, sem esquecimentos. Nega dores articulares, alterações de sensibilidade ou coloração da pele, febre ou outras queixas no momento.", "ciap_motivo": ["A78 – Doença infecciosa/parasitária NE"], "dum": null, "objetivo": "BEG, afebril, normocorado, hidratado e eupneico. Sem sinais de reação hansênica ou intercorrências dermatoneurológicas no momento do exame.", "sinais_vitais": [["Temperatura", "afebril"], ["Estado geral", "BEG"]], "antropometria": [["Avaliação dermatoneurológica", "sem alterações novas"]], "habilitar_campos": null, "vacinacao": null, "exames": null, "avaliacao": "Hanseníase multibacilar em tratamento, 10ª dose supervisionada administrada nesta consulta, sem sinais de reação adversa.", "ciap_avaliacao": "A78 – Doença infecciosa/parasitária NE", "cid_avaliacao": "A30 – Hanseníase", "plano_texto": "Administrada 10ª dose supervisionada para tratamento de hanseníase multibacilar. Entregue cartela e orientadas as doses autoadministradas a partir de amanhã.", "prescricao": ["Dose mensal supervisionada: Rifampicina 600 mg + Clofazimina 300 mg + Dapsona 100 mg — PQT-U Adulto, esquema PB, 12 doses", "Dose diária autoadministrada: Clofazimina 50 mg/dia + Dapsona 100 mg/dia"], "procedimentos_clinicos": ["Dose supervisionada no tratamento de hanseníase – 0303010240"], "exames_solicitados": null, "orientacoes": ["Entrego cartela de medicação e oriento as doses autoadministradas a partir de amanhã.", "Reforço sinais de alerta para reação hansênica e importância de não interromper o tratamento."], "encaminhamentos": null, "retorno": "Retorno mensal para próxima dose supervisionada.", "tipo_atendimento": null, "procedimento_administrativo": null, "dica": "A dose supervisionada é registrada como 'Intervenções e/ou procedimentos clínicos realizados' (SIGTAP) na aba Plano — não é procedimento administrativo. Vincule também o CIAP2/CID10 correspondente."}, {"slug": "tuberculose", "titulo": "Tuberculose", "subtitulo": "TDO — Tratamento Diretamente Observado", "resumo": "Paciente em tratamento de tuberculose pulmonar bacilífera, comparece à unidade para TDO (Tratamento Diretamente Observado).", "subjetivo": "Paciente em tratamento para tuberculose pulmonar bacilífera (esquema básico RIPE), acompanhado diariamente na unidade para TDO. Comparece para receber a dose do dia. Nega tosse persistente, febre vespertina, sudorese noturna ou emagrecimento no momento. Nega náuseas, vômitos, icterícia, colúria, formigamento em extremidades ou outras queixas sugestivas de intolerância medicamentosa.", "ciap_motivo": ["A70 – Tuberculose"], "dum": null, "objetivo": "BEG, afebril, normocorado, hidratado e eupneico. Ausência de icterícia, exantema ou sinais de intolerância medicamentosa no momento do exame. AP: MV(+) bilateralmente, sem ruídos adventícios (RA).", "sinais_vitais": [["Temperatura", "afebril"], ["Frequência respiratória", "18 irpm"]], "antropometria": [["Peso atual", "acompanhar evolução ponderal mensal"]], "habilitar_campos": null, "vacinacao": null, "exames": "Baciloscopia de controle do mês e função hepática (TGO/TGP), quando indicadas pelo mês de tratamento, dentro da normalidade.", "avaliacao": "Tuberculose pulmonar bacilífera em tratamento com esquema básico (RIPE), sem sinais de intolerância medicamentosa ou intercorrências no momento.", "ciap_avaliacao": "A70 – Tuberculose", "cid_avaliacao": "A15 – Tuberculose respiratória, confirmada bacteriologicamente", "plano_texto": "Realizado TDO com administração supervisionada da medicação do esquema básico. Verificados sinais de intolerância medicamentosa; nenhum identificado nesta consulta.", "prescricao": ["Esquema básico (RIPE) — Rifampicina + Isoniazida + Pirazinamida + Etambutol, dose combinada fixa conforme faixa de peso e fase do tratamento (intensiva/manutenção)"], "exames_solicitados": ["Baciloscopia de controle conforme mês de tratamento (2º, 4º e 6º mês)", "TGO/TGP se sinais de hepatotoxicidade"], "orientacoes": ["Reforço a importância de não interromper o tratamento mesmo após a melhora dos sintomas.", "Oriento sinais de alarme de hepatotoxicidade (icterícia, colúria, náuseas persistentes) e retorno imediato caso ocorram.", "Reforço medidas de etiqueta respiratória e ventilação do ambiente durante a fase bacilífera."], "encaminhamentos": null, "retorno": "Retorno diário (ou conforme pactuação) para TDO até completar o esquema básico (6 meses).", "tipo_atendimento": null, "procedimento_administrativo": ["Acompanhamento de pessoa em tratamento diretamente observado (TDO) da tuberculose – 0301040192"], "dica": "Registre o procedimento administrativo 'Acompanhamento de pessoa em TDO da tuberculose' (0301040192) na aba Finalização para gerar produção corretamente (BPA). Acompanhe o peso mensalmente para ajuste de dose e sempre pergunte sobre sinais de hepatotoxicidade antes de liberar a medicação. Notifique/atualize o caso no sistema de notificação (SINAN) conforme rotina da unidade."}, {"slug": "visita_domiciliar", "titulo": "Visita Domiciliar", "subtitulo": "Acompanhamento de paciente restrita ao domicílio", "resumo": "Idosa, 94 anos, hipertensa, hipotireoidismo e cegueira por glaucoma, restrita à rede domiciliar, com queixa recente de fraqueza em MMII.", "subjetivo": "Idosa, 94 anos, hipertensa, com hipotireoidismo e cegueira devido a glaucoma, restrita à rede domiciliar, deambulando com ajuda. Relata que, há alguns dias, começou a apresentar falta de força nos membros inferiores (MMII). Sem outras queixas relatadas pela paciente ou cuidador no momento.", "ciap_motivo": ["K86 – Hipertensão não complicada (acompanhamento domiciliar)"], "dum": null, "objetivo": "BEG, COTE, normocorada, hidratada, afebril e eupneica.", "sinais_vitais": [["Pressão arterial", "aferida no domicílio"], ["Estado geral", "BEG"]], "antropometria": [["Mobilidade", "deambula com ajuda"]], "habilitar_campos": null, "vacinacao": null, "exames": null, "avaliacao": "Paciente hipertensa em acompanhamento domiciliar, com queixa nova de diminuição de força em MMII a investigar; hipotireoidismo e cegueira por glaucoma como comorbidades associadas.", "ciap_avaliacao": "K86 – Hipertensão / N99 (a definir conforme investigação de fraqueza)", "cid_avaliacao": "I10 – Hipertensão essencial / E03.9 – Hipotireoidismo / H54 – Cegueira", "plano_texto": "Renovada prescrição de anti-hipertensivo. Encaminhada para avaliação médica para renovação de receita de controle especial e investigação da queixa de fraqueza em MMII.", "prescricao": ["Renovação de anti-hipertensivo de uso contínuo (HAS)"], "exames_solicitados": null, "orientacoes": ["Orientações sobre prevenção de quedas e cuidados de mobilidade no domicílio.", "Orientações ao cuidador sobre sinais de alerta a observar."], "encaminhamentos": ["Encaminho para avaliação médica, para renovação de receita de controle especial e investigação da fraqueza em MMII."], "retorno": "Nova visita domiciliar conforme cronograma da equipe de Atenção Primária.", "tipo_atendimento": ["Visita domiciliar"], "procedimento_administrativo": ["0301010064 – Visita domiciliar por profissional de nível superior"], "dica": "Em visita domiciliar, registre sempre o motivo do acamamento/restrição logo no Subjetivo, e não esqueça de marcar o procedimento administrativo de visita domiciliar na finalização do atendimento — é ele que gera a produção (BPA) desse tipo de atendimento."}];
 
@@ -428,7 +430,7 @@ function buildCaseBody(idx) {
 
   // SUBJETIVO
   html += `<div class="section subjetivo">
-    <div class="section-header"><span class="badge">S</span>Subjetivo</div>
+    <div class="section-header"><span class="section-header-title"><span class="badge">S</span>Subjetivo</span></div>
     <div class="section-body">
       ${copyRow(c.subjetivo)}
       <div class="field-label">Motivo da consulta (CIAP 2)</div>
@@ -462,7 +464,7 @@ function buildCaseBody(idx) {
 
   // AVALIACAO
   html += `<div class="section avaliacao">
-    <div class="section-header"><span class="badge">A</span>Avaliação</div>
+    <div class="section-header"><span class="section-header-title"><span class="badge">A</span>Avaliação</span></div>
     <div class="section-body">
       ${copyRow(c.avaliacao)}
       <div class="field-label">Problemas e/ou condições avaliadas</div>
@@ -502,7 +504,7 @@ function buildCaseBody(idx) {
     if (c.tipo_atendimento) fin += `<div class="field-label">Tipo de atendimento</div>${pillRow(c.tipo_atendimento)}`;
     fin += `<div class="field-label">Procedimento administrativo</div>${pillRow(c.procedimento_administrativo)}`;
     html += `<div class="section finalizacao">
-      <div class="section-header"><span class="badge">&#10003;</span>Finalização do atendimento</div>
+      <div class="section-header"><span class="section-header-title"><span class="badge">&#10003;</span>Finalização do atendimento</span></div>
       <div class="section-body">${fin}</div></div>`;
   }
 
@@ -607,9 +609,15 @@ function buildPdfCoverHTML() {
 }
 
 // Monta o HTML de todas as simulações, uma por página, para o PDF unificado.
+// A ordem segue as abas (TAB_GROUPS), não a ordem bruta do array CASES —
+// é isso que garante, por exemplo, que "RN 5 dias" apareça antes de
+// "Criança" dentro do grupo Puericultura, igual à ordem já usada na capa.
 function buildAllCasesHTML() {
+  const orderedIndexes = TAB_GROUPS.flatMap(g => g.cases);
   const cover = buildPdfCoverHTML();
-  const pages = CASES.map((c, idx) => `
+  const pages = orderedIndexes.map((idx) => {
+    const c = CASES[idx];
+    return `
     <div class="pdf-page">
       <div class="pdf-case-heading">
         <div class="pdf-case-eyebrow">${esc(caseGroupLabel(idx))}</div>
@@ -617,59 +625,205 @@ function buildAllCasesHTML() {
         <div class="pdf-case-sub">${esc(c.subtitulo)}</div>
       </div>
       ${buildCaseBody(idx)}
-    </div>`).join('');
+    </div>`;
+  }).join('');
   return cover + pages;
 }
 
-function downloadPDF() {
+async function downloadPDF() {
   const btn = document.getElementById('pdf-btn');
   const label = document.getElementById('pdf-btn-label');
   if (btn.disabled) return;
   btn.disabled = true;
   const originalLabel = label.textContent;
-  label.textContent = 'Gerando PDF unificado...';
 
   // Substitui temporariamente o conteúdo exibido por TODAS as simulações,
   // já que o html2canvas precisa capturar conteúdo realmente visível na
   // página (capturar elementos fora da tela costuma gerar páginas em branco).
+  const savedTitle = document.getElementById('app-title').textContent;
+  const savedSub = document.getElementById('app-sub').textContent;
+  const savedContent = document.getElementById('content').innerHTML;
+
   document.getElementById('app-title').textContent = 'Simulações de Atendimento';
   document.getElementById('app-sub').textContent = 'Compilado com todos os casos-modelo';
   document.getElementById('content').innerHTML = buildAllCasesHTML();
 
   window.scrollTo(0, 0);
   document.body.classList.add('pdf-export');
-  const target = document.querySelector('.wrap');
-
-  const opt = {
-    margin: 8,
-    filename: 'simulacoes_esus_pec_completo.pdf',
-    image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: {
-      scale: 2.5,
-      useCORS: true,
-      backgroundColor: '#ffffff',
-      windowWidth: target.scrollWidth,
-      scrollX: 0,
-      scrollY: 0,
-      letterRendering: true,
-      ignoreElements: (el) => el.classList && el.classList.contains('no-pdf')
-    },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
-    pagebreak: { mode: ['css', 'legacy'], avoid: ['.section', '.copy-row', '.vitals-table', '.tip', '.case-box'] }
-  };
 
   // Restaura a aba/caso que o usuário estava visualizando antes de gerar o PDF.
   const cleanup = () => {
     document.body.classList.remove('pdf-export');
+    document.getElementById('app-title').textContent = savedTitle;
+    document.getElementById('app-sub').textContent = savedSub;
+    document.getElementById('content').innerHTML = savedContent;
     render(activeIndex);
     btn.disabled = false;
     label.textContent = originalLabel;
   };
 
-  html2pdf().set(opt).from(target).save().then(cleanup).catch(() => {
+  const marginMM = 8;
+  const pageWidthMM = 210; // largura A4
+  const pageHeightMM = 297; // altura A4
+  const availWidthMM = pageWidthMM - marginMM * 2;
+  const availHeightMM = pageHeightMM - marginMM * 2;
+
+  // windowWidth/windowHeight/scrollX/scrollY forçam o html2canvas a tratar
+  // a "janela" da captura como do tamanho do documento inteiro, em vez do
+  // tamanho da janela do navegador do usuário. Sem isso, quando um caso
+  // (ex.: Gestante, RN 5 dias, Diabético e Hipertenso) é mais alto que a
+  // janela visível no momento da exportação, o html2canvas às vezes deixa
+  // em branco a parte do conteúdo que ficaria "abaixo da dobra" — é isso
+  // que causava o espaço vazio grande entre a Avaliação e o Plano nesses
+  // casos (o conteúdo em si não tem gap nenhum, é só a captura falhando).
+  const html2canvasOpt = {
+    scale: 2.5,
+    useCORS: true,
+    backgroundColor: '#ffffff',
+    letterRendering: true,
+    windowWidth: document.documentElement.scrollWidth,
+    windowHeight: document.documentElement.scrollHeight,
+    scrollX: 0,
+    scrollY: 0,
+    ignoreElements: (el) => el.classList && el.classList.contains('no-pdf')
+  };
+
+  // O html2pdf.js processa sozinho as regras de CSS de quebra de página
+  // (as classes ".pdf-page" e ".section" já têm "page-break-inside: avoid"
+  // pensadas para impressão) mesmo quando só pedimos um .toCanvas() — e ao
+  // detectar que uma seção "quebraria" numa página imaginária de tamanho
+  // A4, ele insere um espaço em branco ANTES dela para empurrá-la para a
+  // próxima página, mesmo sem estarmos gerando páginas de verdade ali.
+  // Era isso que causava o espaço enorme entre a Avaliação e o Plano (e,
+  // por tabela, em qualquer par de seções onde isso acontecesse). Como a
+  // paginação real já é feita manualmente mais abaixo (fatiando o canvas),
+  // desligamos esse processamento automático de quebra de página.
+  const pagebreakOpt = { mode: [] };
+
+  try {
+    // Em vez de mandar o documento inteiro (capa + todos os casos) de uma
+    // só vez para o html2pdf.js e deixar ele calcular sozinho onde cada
+    // página deve quebrar, cada simulação (".pdf-page") é capturada
+    // isoladamente, uma de cada vez, e vira uma página própria do PDF.
+    // Esse cálculo de quebra de página "tudo de uma vez" era justamente o
+    // que ia acumulando um pequeno erro de arredondamento a cada página —
+    // por isso o corte de texto só aparecia a partir de um certo ponto do
+    // documento (Idoso em diante) e piorava nos casos seguintes
+    // (Hanseníase). Capturando cada caso separadamente, esse erro não tem
+    // como se acumular: cada página é montada do zero, sem depender do
+    // que veio antes.
+    //
+    // Importante: o html2canvas e o jsPDF usados internamente pelo
+    // html2pdf.js NÃO ficam disponíveis como variáveis globais soltas
+    // neste pacote — por isso tudo aqui passa pela própria API do
+    // html2pdf() (métodos .toCanvas()/.toPdf()/.get()), que é a forma
+    // documentada e garantida de acessá-los.
+    const pageEls = Array.from(document.querySelectorAll('.wrap .pdf-page'));
+    if (!pageEls.length) throw new Error('Nada para exportar.');
+
+    label.textContent = `Gerando PDF unificado... (1/${pageEls.length})`;
+
+    // A primeira página é renderizada pelo fluxo padrão do html2pdf.js
+    // (sem nenhum outro conteúdo por perto), o que já devolve um
+    // documento jsPDF pronto para receber as páginas seguintes.
+    const pdf = await html2pdf()
+      .set({
+        margin: marginMM,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: html2canvasOpt,
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
+        pagebreak: pagebreakOpt
+      })
+      .from(pageEls[0])
+      .toPdf()
+      .get('pdf');
+
+    // As demais simulações são capturadas isoladamente, uma de cada vez, e
+    // cada uma vira uma ou mais páginas novas do mesmo documento.
+    //
+    // IMPORTANTE: a largura da imagem na página é SEMPRE availWidthMM —
+    // nunca reduzida. Antes, quando um caso era alto demais para caber
+    // numa única A4, o código encolhia altura E largura para caber tudo
+    // de uma vez; isso reduzia a escala do texto/caixas só naquele caso,
+    // fazendo cada simulação sair com um "zoom" diferente no PDF final
+    // (casos mais longos ficavam com letra/caixas visivelmente menores
+    // que os casos mais curtos). Agora, se o conteúdo não cabe em uma
+    // página, ele é fatiado em pedaços na mesma escala e cada pedaço vira
+    // uma nova página — a escala fica idêntica em todas as simulações.
+    for (let i = 1; i < pageEls.length; i++) {
+      label.textContent = `Gerando PDF unificado... (${i + 1}/${pageEls.length})`;
+
+      const canvas = await html2pdf()
+        .set({ html2canvas: html2canvasOpt, pagebreak: pagebreakOpt })
+        .from(pageEls[i])
+        .toCanvas()
+        .get('canvas');
+
+      const w = availWidthMM;
+      const fullH = (canvas.height * w) / canvas.width;
+
+      if (fullH <= availHeightMM) {
+        // Caso comum: cabe inteiro em uma página, na escala padrão.
+        pdf.addPage('a4', 'portrait');
+        pdf.addImage(canvas.toDataURL('image/jpeg', 0.98), 'JPEG', marginMM, marginMM, w, fullH);
+      } else {
+        // Caso alto: fatia o canvas em pedaços do tamanho de uma página
+        // (mesma escala/largura), cada fatia em sua própria página nova.
+        //
+        // O corte NUNCA pode cair no meio de uma seção (Subjetivo,
+        // Objetivo, Avaliação, Plano etc.) — senão o texto/caixa fica
+        // cortado ao meio entre duas páginas, com metade em cada uma.
+        // Por isso, antes de fatiar, mapeamos onde cada bloco filho direto
+        // da simulação (".case-box", ".section", ".tip", ".footer-note"
+        // etc.) começa e termina, na mesma escala do canvas, e só cortamos
+        // exatamente nessas "emendas" entre blocos — nunca dentro de um.
+        const pageRect = pageEls[i].getBoundingClientRect();
+        const ratio = canvas.height / pageRect.height;
+        const safeBoundaries = Array.from(pageEls[i].children)
+          .map(child => {
+            const r = child.getBoundingClientRect();
+            return Math.round((r.bottom - pageRect.top) * ratio);
+          })
+          .filter(y => y > 0 && y < canvas.height)
+          .sort((a, b) => a - b);
+
+        const sliceHeightPx = Math.floor((availHeightMM * canvas.width) / w);
+        let offsetY = 0;
+        while (offsetY < canvas.height) {
+          const idealEnd = Math.min(offsetY + sliceHeightPx, canvas.height);
+          // Procura a última "emenda" entre blocos que caiba dentro do
+          // limite ideal desta página. Se nenhuma emenda servir (um único
+          // bloco é mais alto que uma página inteira — caso raro), corta
+          // no limite mesmo, como último recurso.
+          let cutY = idealEnd;
+          if (idealEnd < canvas.height) {
+            const candidates = safeBoundaries.filter(y => y > offsetY && y <= idealEnd);
+            if (candidates.length) cutY = candidates[candidates.length - 1];
+          }
+
+          const thisSliceHeightPx = cutY - offsetY;
+          const sliceCanvas = document.createElement('canvas');
+          sliceCanvas.width = canvas.width;
+          sliceCanvas.height = thisSliceHeightPx;
+          sliceCanvas.getContext('2d').drawImage(
+            canvas,
+            0, offsetY, canvas.width, thisSliceHeightPx,
+            0, 0, canvas.width, thisSliceHeightPx
+          );
+          const sliceH = (thisSliceHeightPx * w) / canvas.width;
+          pdf.addPage('a4', 'portrait');
+          pdf.addImage(sliceCanvas.toDataURL('image/jpeg', 0.98), 'JPEG', marginMM, marginMM, w, sliceH);
+          offsetY = cutY;
+        }
+      }
+    }
+
+    pdf.save('simulacoes_esus_pec_completo.pdf');
+    cleanup();
+  } catch (err) {
     cleanup();
     alert('Não foi possível gerar o PDF. Verifique a conexão com a internet (a geração de PDF depende de uma biblioteca carregada online) e tente novamente.');
-  });
+  }
 }
 
 buildTabs();
