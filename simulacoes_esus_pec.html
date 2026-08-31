@@ -78,14 +78,37 @@
   }
   .section-header {
     display: flex; align-items: center;
-    padding: 9px 14px;
+    padding: 6px 14px;
     font-weight: 700;
     font-size: 13.5px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .section-toggle-icon {
+    flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px;
+    margin-left: 6px;
+    transition: transform .18s ease;
+  }
+  .section-toggle-icon svg { width: 14px; height: 14px; }
+  .section.collapsed .section-toggle-icon { transform: rotate(180deg); }
+  .section-body {
+    overflow: hidden;
+    max-height: 4000px;
+    transition: max-height .22s ease, padding .22s ease, opacity .18s ease;
+    opacity: 1;
+  }
+  .section.collapsed .section-body {
+    max-height: 0;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    opacity: 0;
   }
   .badge {
-    width: 22px; height: 22px; border-radius: 5px; color: #fff;
+    width: 20px; height: 20px; border-radius: 5px; color: #fff;
     display: inline-flex; align-items: center; justify-content: center;
-    font-weight: 800; margin-right: 10px; font-size: 12px; flex-shrink: 0;
+    font-weight: 800; margin-right: 10px; font-size: 11px; flex-shrink: 0;
   }
   .section-body { padding: 4px 14px 14px 14px; }
 
@@ -175,6 +198,51 @@
     margin-top: 10px; font-size: 10px; color: #90a4ae; text-align: center; padding: 10px 0 4px 0;
   }
 
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: #f4f6f8;
+    padding-bottom: 10px;
+  }
+  .sticky-header .app-header { margin-bottom: 14px; }
+  .sticky-header .case-box { margin-bottom: 0; }
+
+  .sticky-collapsible {
+    overflow: hidden;
+    max-height: 700px;
+    transition: max-height .22s ease, opacity .18s ease, margin .22s ease;
+    opacity: 1;
+  }
+  .sticky-header.collapsed .sticky-collapsible {
+    max-height: 0;
+    opacity: 0;
+  }
+  .sticky-header-toggle {
+    display: flex;
+    justify-content: center;
+    margin-top: -2px;
+  }
+  .sticky-header-toggle button {
+    border: none;
+    background: #dfe6ec;
+    border-radius: 0 0 10px 10px;
+    width: 44px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #607d8b;
+    padding: 0;
+  }
+  .sticky-header-toggle button:hover { background: #cfd8e0; }
+  .sticky-header-toggle svg {
+    width: 13px; height: 13px;
+    transition: transform .18s ease;
+  }
+  .sticky-header.collapsed .sticky-header-toggle svg { transform: rotate(180deg); }
+
   .model-select {
     display: none;
     flex-wrap: wrap;
@@ -240,6 +308,8 @@
 
   body.pdf-export { background: #fff; padding: 0; }
   body.pdf-export .no-pdf { display: none !important; }
+  body.pdf-export .section-toggle-icon { display: none !important; }
+  body.pdf-export .section-header { cursor: default; }
   body.pdf-export .wrap { max-width: 760px; margin: 0; }
   body.pdf-export .app-header { border-radius: 0; }
 
@@ -283,22 +353,32 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="app-header">
-    <div class="header-row">
-      <div>
-        <p class="eyebrow">Treinamento — Preenchimento do atendimento no e-SUS PEC (SOAP)</p>
-        <h1 id="app-title">Simulações de Atendimento</h1>
-        <p class="sub" id="app-sub">Selecione uma aba e use o botão de cópia para colar o texto direto no PEC</p>
+  <div class="sticky-header">
+    <div class="app-header">
+      <div class="header-row">
+        <div>
+          <p class="eyebrow">Treinamento — Preenchimento do atendimento no e-SUS PEC (SOAP)</p>
+          <h1 id="app-title">Simulações de Atendimento</h1>
+          <p class="sub" id="app-sub">Selecione uma aba e use o botão de cópia para colar o texto direto no PEC</p>
+        </div>
+        <button id="pdf-btn" class="pdf-btn no-pdf" onclick="downloadPDF()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span id="pdf-btn-label">Baixar PDF (todas as simulações)</span>
+        </button>
       </div>
-      <button id="pdf-btn" class="pdf-btn no-pdf" onclick="downloadPDF()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-        <span id="pdf-btn-label">Baixar PDF (todas as simulações)</span>
+    </div>
+
+    <div class="sticky-collapsible">
+      <div class="tabs no-pdf" id="tabs"></div>
+      <div class="model-select no-pdf" id="model-select"></div>
+      <div id="case-box-slot"></div>
+    </div>
+    <div class="sticky-header-toggle no-pdf">
+      <button id="sticky-toggle-btn" onclick="toggleStickyHeader()" title="Recolher/expandir cabeçalho">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
       </button>
     </div>
   </div>
-
-  <div class="tabs no-pdf" id="tabs"></div>
-  <div class="model-select no-pdf" id="model-select"></div>
   <div id="content"></div>
 </div>
 
@@ -308,6 +388,7 @@ const CASES = [{"slug": "crianca", "titulo": "Criança", "subtitulo": "Puericult
 
 const COPY_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
 const CHECK_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+const CHEVRON_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
 
 let activeIndex = 0;
 
@@ -377,6 +458,24 @@ function esc(t) {
   return (t || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+function toggleStickyHeader() {
+  document.getElementById('sticky-header').classList.toggle('collapsed');
+}
+
+function toggleSection(headerEl) {
+  headerEl.closest('.section').classList.toggle('collapsed');
+}
+
+function sectionHeader(letter, title, extraControlHtml) {
+  return `<div class="section-header" onclick="toggleSection(this)">
+    <span class="section-header-title"><span class="badge">${letter}</span>${esc(title)}</span>
+    <span class="section-header-right" style="display:flex;align-items:center;gap:8px;">
+      ${extraControlHtml || ''}
+      <span class="section-toggle-icon">${CHEVRON_ICON}</span>
+    </span>
+  </div>`;
+}
+
 function copyRow(text) {
   const id = 'c' + Math.random().toString(36).slice(2, 9);
   return `<div class="copy-row">
@@ -424,13 +523,13 @@ function buildPlanoFullText(c) {
   return parts.join('\n\n');
 }
 
-function buildCaseBody(idx) {
+function buildCaseBody(idx, includeCaseBox = true) {
   const c = CASES[idx];
-  let html = `<div class="case-box"><b>Caso-modelo:</b> ${esc(c.resumo)}</div>`;
+  let html = includeCaseBox ? `<div class="case-box"><b>Caso-modelo:</b> ${esc(c.resumo)}</div>` : '';
 
   // SUBJETIVO
   html += `<div class="section subjetivo">
-    <div class="section-header"><span class="section-header-title"><span class="badge">S</span>Subjetivo</span></div>
+    ${sectionHeader('S', 'Subjetivo')}
     <div class="section-body">
       ${copyRow(c.subjetivo)}
       <div class="field-label">Motivo da consulta (CIAP 2)</div>
@@ -453,18 +552,17 @@ function buildCaseBody(idx) {
   }
   if (c.vacinacao) obj += `<div class="field-label">Vacinação em dia?</div>${copyRow(c.vacinacao)}`;
   if (c.exames) obj += `<div class="field-label">Resultados de exames</div>${copyRow(c.exames)}`;
-  html += `<div class="section objetivo">
-    <div class="section-header"><span class="section-header-title"><span class="badge">O</span>Objetivo</span>
-      <span class="gender-toggle no-pdf" title="Concordância de gênero do texto">
+  const genderToggleHtml = `<span class="gender-toggle no-pdf" title="Concordância de gênero do texto" onclick="event.stopPropagation()">
         <button class="gender-btn${objGender === 'M' ? ' active' : ''}" onclick="setGender(${idx}, 'M')">Masc.</button>
         <button class="gender-btn${objGender === 'F' ? ' active' : ''}" onclick="setGender(${idx}, 'F')">Fem.</button>
-      </span>
-    </div>
+      </span>`;
+  html += `<div class="section objetivo">
+    ${sectionHeader('O', 'Objetivo', genderToggleHtml)}
     <div class="section-body">${obj}</div></div>`;
 
   // AVALIACAO
   html += `<div class="section avaliacao">
-    <div class="section-header"><span class="section-header-title"><span class="badge">A</span>Avaliação</span></div>
+    ${sectionHeader('A', 'Avaliação')}
     <div class="section-body">
       ${copyRow(c.avaliacao)}
       <div class="field-label">Problemas e/ou condições avaliadas</div>
@@ -495,7 +593,7 @@ function buildCaseBody(idx) {
     plano += `<div class="field-label">Retorno</div>${copyRow(c.retorno)}`;
   }
   html += `<div class="section plano">
-    <div class="section-header"><span class="section-header-title"><span class="badge">P</span>Plano</span>${copyAllBtn(buildPlanoFullText(c))}</div>
+    ${sectionHeader('P', 'Plano', `<span onclick="event.stopPropagation()">${copyAllBtn(buildPlanoFullText(c))}</span>`)}
     <div class="section-body">${plano}</div></div>`;
 
   // FINALIZACAO
@@ -504,7 +602,7 @@ function buildCaseBody(idx) {
     if (c.tipo_atendimento) fin += `<div class="field-label">Tipo de atendimento</div>${pillRow(c.tipo_atendimento)}`;
     fin += `<div class="field-label">Procedimento administrativo</div>${pillRow(c.procedimento_administrativo)}`;
     html += `<div class="section finalizacao">
-      <div class="section-header"><span class="section-header-title"><span class="badge">&#10003;</span>Finalização do atendimento</span></div>
+      ${sectionHeader('&#10003;', 'Finalização do atendimento')}
       <div class="section-body">${fin}</div></div>`;
   }
 
@@ -524,7 +622,8 @@ function render(idx) {
   const c = CASES[idx];
   document.getElementById('app-title').textContent = c.titulo;
   document.getElementById('app-sub').textContent = c.subtitulo;
-  document.getElementById('content').innerHTML = buildCaseBody(idx);
+  document.getElementById('case-box-slot').innerHTML = `<div class="case-box"><b>Caso-modelo:</b> ${esc(c.resumo)}</div>`;
+  document.getElementById('content').innerHTML = buildCaseBody(idx, false);
 }
 
 // Agrupamento das abas superiores. Cada grupo aponta para 1 ou mais índices
