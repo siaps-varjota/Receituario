@@ -182,15 +182,6 @@
     margin: 1.3rem 0 1.2rem;
   }
 
-  .ref-calc-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: stretch;
-    gap: 1.2rem;
-  }
-
-  .ref-calc-col { min-width: 0; }
-
   .ref-calc-title {
     font-family: 'Playfair Display', serif;
     font-size: 0.92rem;
@@ -201,14 +192,21 @@
     gap: 0.4rem;
   }
 
-  .ref-calc-row .use-today {
-    margin-top: 0.4rem;
-    display: inline-block;
+  .date-calc-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0.8rem;
   }
 
-  .ref-calc-row .btn-calc {
-    width: 100%;
-    height: 100%;
+  .date-calc-row input[type="date"] { flex: 1; }
+
+  .date-calc-row .btn-calc {
+    flex: 1;
+    height: auto;
+    padding: 0 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   /* TABS */
@@ -491,8 +489,9 @@
     .medidas-grid { grid-template-columns: 1fr 1fr; }
     .input-row { grid-template-columns: 1fr; }
     header h1 { font-size: 1.4rem; }
-    .ref-calc-row { grid-template-columns: 1fr; }
-    .ref-calc-row .btn-calc { height: auto; }
+    .date-calc-row { flex-wrap: wrap; }
+    .date-calc-row input[type="date"] { flex-basis: 100%; }
+    .date-calc-row .btn-calc { flex-basis: 100%; }
   }
 </style>
 </head>
@@ -599,14 +598,14 @@
     <div class="section-divider"></div>
 
     <!-- Linha 3: data de referência + calcular -->
-    <div class="ref-calc-row">
-      <div class="ref-calc-col">
-        <div class="ref-calc-title">📅 Data de referência</div>
-        <label>Para qual data calcular?</label>
+    <div class="ref-calc-col">
+      <div class="ref-calc-title">📅 Data de referência</div>
+      <label>Para qual data calcular?</label>
+      <div class="date-calc-row">
         <input type="date" id="dataRef">
-        <span class="use-today" onclick="usarHoje()">Usar hoje</span>
+        <button class="btn-calc" onclick="calcular()">Calcular →</button>
       </div>
-      <button class="btn-calc" onclick="calcular()">Calcular →</button>
+      <span class="use-today" onclick="usarHoje()">Usar hoje</span>
     </div>
 
     </div>
