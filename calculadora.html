@@ -66,7 +66,7 @@
   }
 
   .container {
-    max-width: 680px;
+    max-width: 780px;
     margin: 0 auto;
     padding: 1.5rem 1rem 4rem;
   }
@@ -143,6 +143,12 @@
     font-weight: 500;
   }
   .use-today:hover { opacity: 0.7; }
+
+  .section-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 1.3rem 0 1.2rem;
+  }
 
   /* TABS */
   .tab-row {
@@ -293,13 +299,43 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    padding: 0.3rem 0.7rem;
+    padding: 0.3rem 0.5rem 0.3rem 0.7rem;
     border-radius: 6px;
     margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 0.4rem;
   }
+
+  .conduta-header-title {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  /* COPY BUTTONS */
+  .copy-all-btn {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.12);
+    background: rgba(255,255,255,0.65);
+    color: inherit;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: none;
+    letter-spacing: normal;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .copy-all-btn:hover { background: rgba(255,255,255,0.95); }
+  .copy-all-btn.copied { background: var(--green); border-color: var(--green); color: white; }
+  .copy-all-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
 
   .conduta-header.exames { background: var(--blue-light); color: var(--blue); }
   .conduta-header.orientacoes { background: var(--green-light); color: var(--green); }
@@ -460,16 +496,15 @@
 
 <div class="container">
 
-  <!-- DATA DE REFERÊNCIA -->
+  <!-- DATA DE REFERÊNCIA + MÉTODO -->
   <div class="card">
     <div class="card-title">📅 Data de referência</div>
     <label>Para qual data calcular?</label>
     <input type="date" id="dataRef">
     <span class="use-today" onclick="usarHoje()">Usar hoje</span>
-  </div>
 
-  <!-- MÉTODO -->
-  <div class="card">
+    <div class="section-divider"></div>
+
     <div class="tab-row">
       <button class="tab-btn active" onclick="switchTab('dum')">🩸 Pela DUM</button>
       <button class="tab-btn" onclick="switchTab('usg')">🔊 Pela USG</button>
@@ -542,6 +577,24 @@
 </div>
 
 <script>
+// ─── COPIAR TEXTO ─────────────────────────────────────────────
+const COPY_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+const CHECK_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
+
+function copyAllBtn(text) {
+  return `<button class="copy-all-btn" data-copy="${encodeURIComponent(text)}" title="Copiar lista" onclick="event.stopPropagation(); doCopy(this)">${COPY_ICON}<span class="btn-label">Copiar</span></button>`;
+}
+
+function doCopy(btn) {
+  const text = decodeURIComponent(btn.getAttribute('data-copy'));
+  navigator.clipboard.writeText(text).then(() => {
+    const original = btn.innerHTML;
+    btn.innerHTML = `${CHECK_ICON}<span class="btn-label">Copiado!</span>`;
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = original; btn.classList.remove('copied'); }, 1400);
+  });
+}
+
 // ─── UTILIDADES ───────────────────────────────────────────────
 function usarHoje() {
   const hoje = new Date();
@@ -736,17 +789,21 @@ function buildCondutas(sem) {
   }
 
   const sections = [
-    { key: 'exames', label: '🔬 Exames a solicitar', cls: 'exames' },
-    { key: 'suplementacao', label: '💊 Suplementação', cls: 'suplementacao' },
-    { key: 'vacinas', label: '💉 Vacinação', cls: 'vacinas' },
-    { key: 'orientacoes', label: '💬 Orientações', cls: 'orientacoes' },
-    { key: 'consultas', label: '📋 Consultas e encaminhamentos', cls: 'consultas' },
+    { key: 'exames', label: '🔬 Exames a solicitar', cls: 'exames', copiavel: true },
+    { key: 'suplementacao', label: '💊 Suplementação', cls: 'suplementacao', copiavel: true },
+    { key: 'vacinas', label: '💉 Vacinação', cls: 'vacinas', copiavel: false },
+    { key: 'orientacoes', label: '💬 Orientações', cls: 'orientacoes', copiavel: true },
+    { key: 'consultas', label: '📋 Consultas e encaminhamentos', cls: 'consultas', copiavel: true },
   ];
 
   for (const s of sections) {
     if (condutas[s.key] && condutas[s.key].length > 0) {
+      const textoCopia = condutas[s.key].map(i => '• ' + i).join('\n');
       html += `<div class="conduta-section">
-        <div class="conduta-header ${s.cls}">${s.label}</div>
+        <div class="conduta-header ${s.cls}">
+          <span class="conduta-header-title">${s.label}</span>
+          ${s.copiavel ? copyAllBtn(textoCopia) : ''}
+        </div>
         <ul class="conduta-list">
           ${condutas[s.key].map(i=>`<li>${i}</li>`).join('')}
         </ul>
