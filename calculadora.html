@@ -88,7 +88,40 @@
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .card-title-text {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .card-chevron {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    color: var(--text-soft);
+    transition: transform 0.25s ease;
+  }
+
+  .card.collapsed .card-title { margin-bottom: 0; }
+  .card.collapsed .card-chevron { transform: rotate(-90deg); }
+
+  .card-body {
+    overflow: hidden;
+    max-height: 4000px;
+    transition: max-height 0.3s ease, opacity 0.25s ease, margin-top 0.25s ease;
+    opacity: 1;
+  }
+
+  .card.collapsed .card-body {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
   }
 
   /* LABEL & INPUT */
@@ -138,11 +171,18 @@
     color: var(--rose);
     cursor: pointer;
     text-decoration: underline;
-    margin-top: 0.3rem;
-    display: inline-block;
     font-weight: 500;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
   .use-today:hover { opacity: 0.7; }
+
+  .calc-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
 
   .section-divider {
     height: 1px;
@@ -183,7 +223,7 @@
 
   /* BUTTON */
   .btn-calc {
-    width: 100%;
+    flex: 1;
     padding: 0.9rem;
     background: var(--rose);
     color: white;
@@ -195,7 +235,6 @@
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
     letter-spacing: 0.01em;
-    margin-top: 0.5rem;
   }
 
   .btn-calc:hover { background: #c93050; }
@@ -431,6 +470,9 @@
     .medidas-grid { grid-template-columns: 1fr 1fr; }
     .input-row { grid-template-columns: 1fr; }
     header h1 { font-size: 1.4rem; }
+    .calc-row { flex-wrap: wrap; }
+    .use-today { order: 2; margin: 0 auto; }
+    .btn-calc { order: 1; flex-basis: 100%; }
   }
 </style>
 </head>
@@ -498,10 +540,13 @@
 
   <!-- DATA DE REFERÊNCIA + MÉTODO -->
   <div class="card">
-    <div class="card-title">📅 Data de referência</div>
+    <div class="card-title" onclick="toggleCard(this)">
+      <span class="card-title-text">📅 Data de referência</span>
+      <svg class="card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </div>
+    <div class="card-body">
     <label>Para qual data calcular?</label>
     <input type="date" id="dataRef">
-    <span class="use-today" onclick="usarHoje()">Usar hoje</span>
 
     <div class="section-divider"></div>
 
@@ -535,7 +580,11 @@
   </div>
    </div>
 
-    <button class="btn-calc" onclick="calcular()">Calcular →</button>
+    <div class="calc-row">
+      <span class="use-today" onclick="usarHoje()">Usar hoje</span>
+      <button class="btn-calc" onclick="calcular()">Calcular →</button>
+    </div>
+    </div>
   </div>
 
   <!-- RESULTADOS -->
@@ -556,20 +605,35 @@
 
     <!-- Dados gerais -->
     <div class="card">
-      <div class="card-title">📊 Dados da gestação</div>
+      <div class="card-title" onclick="toggleCard(this)">
+        <span class="card-title-text">📊 Dados da gestação</span>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </div>
+      <div class="card-body">
       <div class="result-grid" id="dadosGerais"></div>
+      </div>
     </div>
 
     <!-- Medidas fetais -->
     <div class="card">
-      <div class="card-title">👶 Desenvolvimento fetal estimado</div>
+      <div class="card-title" onclick="toggleCard(this)">
+        <span class="card-title-text">👶 Desenvolvimento fetal estimado</span>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </div>
+      <div class="card-body">
       <div class="medidas-grid" id="medidasFetais"></div>
+      </div>
     </div>
 
     <!-- Condutas -->
     <div class="card">
-      <div class="card-title">🩺 Condutas no pré-natal</div>
+      <div class="card-title" onclick="toggleCard(this)">
+        <span class="card-title-text">🩺 Condutas no pré-natal</span>
+        <svg class="card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </div>
+      <div class="card-body">
       <div id="condutas"></div>
+      </div>
     </div>
 
   </div>
@@ -593,6 +657,10 @@ function doCopy(btn) {
     btn.classList.add('copied');
     setTimeout(() => { btn.innerHTML = original; btn.classList.remove('copied'); }, 1400);
   });
+}
+
+function toggleCard(titleEl) {
+  titleEl.closest('.card').classList.toggle('collapsed');
 }
 
 // ─── UTILIDADES ───────────────────────────────────────────────
