@@ -30,8 +30,10 @@
     margin-bottom: 14px;
   }
   .app-header .eyebrow { font-size: 13.65px; letter-spacing: 1px; text-transform: uppercase; opacity: .85; margin: 0 0 4px 0; }
+  .app-header .title-row { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0 8px; }
   .app-header h1 { margin: 0; font-size: 26px; font-weight: 700; }
-  .app-header .sub { font-size: 15.6px; margin-top: 2px; opacity: .9; }
+  .app-header .sub { font-size: 15.6px; margin: 0; opacity: .85; }
+  .app-header .sub::before { content: "— "; }
 
   .tabs {
     display: flex; flex-wrap: wrap; gap: 4px;
@@ -491,8 +493,10 @@
       <div class="header-row">
         <div>
           <p class="eyebrow">Treinamento — Preenchimento do atendimento no e-SUS PEC (SOAP)</p>
-          <h1 id="app-title">Simulações de Atendimento</h1>
-          <p class="sub" id="app-sub">Selecione uma aba e use o botão de cópia para colar o texto direto no PEC</p>
+          <div class="title-row">
+            <h1 id="app-title">Simulações de Atendimento</h1>
+            <span class="sub" id="app-sub">Selecione uma aba e use o botão de cópia para colar o texto direto no PEC</span>
+          </div>
         </div>
         <button id="pdf-btn" class="pdf-btn no-pdf" onclick="downloadPDF()">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
