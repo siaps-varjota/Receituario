@@ -173,21 +173,36 @@
     text-decoration: underline;
     font-weight: 500;
     white-space: nowrap;
-    flex-shrink: 0;
   }
   .use-today:hover { opacity: 0.7; }
-
-  .calc-row {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 0.5rem;
-  }
 
   .section-divider {
     height: 1px;
     background: var(--border);
     margin: 1.3rem 0 1.2rem;
+  }
+
+  .ref-calc-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.2rem;
+  }
+
+  .ref-calc-col { flex: 1; min-width: 0; }
+
+  .ref-calc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.92rem;
+    color: var(--rose);
+    margin-bottom: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .ref-calc-row .use-today {
+    margin-top: 0.4rem;
+    display: inline-block;
   }
 
   /* TABS */
@@ -223,8 +238,8 @@
 
   /* BUTTON */
   .btn-calc {
-    flex: 1;
-    padding: 0.9rem;
+    flex: 0 0 auto;
+    padding: 0.9rem 2rem;
     background: var(--rose);
     color: white;
     border: none;
@@ -235,6 +250,7 @@
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
     letter-spacing: 0.01em;
+    white-space: nowrap;
   }
 
   .btn-calc:hover { background: #c93050; }
@@ -470,9 +486,9 @@
     .medidas-grid { grid-template-columns: 1fr 1fr; }
     .input-row { grid-template-columns: 1fr; }
     header h1 { font-size: 1.4rem; }
-    .calc-row { flex-wrap: wrap; }
-    .use-today { order: 2; margin: 0 auto; }
-    .btn-calc { order: 1; flex-basis: 100%; }
+    .ref-calc-row { flex-wrap: wrap; }
+    .ref-calc-col { flex-basis: 100%; }
+    .ref-calc-row .btn-calc { flex-basis: 100%; }
   }
 </style>
 </head>
@@ -538,52 +554,57 @@
 
 <div class="container">
 
-  <!-- DATA DE REFERÊNCIA + MÉTODO -->
+  <!-- MÉTODO + DATA DE REFERÊNCIA -->
   <div class="card">
     <div class="card-title" onclick="toggleCard(this)">
-      <span class="card-title-text">📅 Data de referência</span>
+      <span class="card-title-text">🧮 Calcular idade gestacional</span>
       <svg class="card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
     </div>
     <div class="card-body">
-    <label>Para qual data calcular?</label>
-    <input type="date" id="dataRef">
 
-    <div class="section-divider"></div>
-
+    <!-- Linha 1: método -->
     <div class="tab-row">
       <button class="tab-btn active" onclick="switchTab('dum')">🩸 Pela DUM</button>
       <button class="tab-btn" onclick="switchTab('usg')">🔊 Pela USG</button>
     </div>
 
-    <!-- DUM -->
+    <!-- Linha 2: campos do método -->
     <div id="tab-dum" class="tab-panel active">
       <label>Data da Última Menstruação (DUM)</label>
       <input type="date" id="dataDUM">
     </div>
 
-    <!-- USG -->
-   <div id="tab-usg" class="tab-panel">
-  <p class="usg-hint">Informe a data em que o ultrassom foi realizado e a idade gestacional que o exame apontou.</p>
-  <div class="input-row" style="grid-template-columns: 1fr 1fr 1fr;">
-    <div>
-      <label>Data do USG</label>
-      <input type="date" id="dataUSG">
+    <div id="tab-usg" class="tab-panel">
+      <p class="usg-hint">Informe a data em que o ultrassom foi realizado e a idade gestacional que o exame apontou.</p>
+      <div class="input-row" style="grid-template-columns: 1fr 1fr 1fr;">
+        <div>
+          <label>Data do USG</label>
+          <input type="date" id="dataUSG">
+        </div>
+        <div>
+          <label>Semanas no USG</label>
+          <input type="number" id="semanasUSG" min="4" max="42" placeholder="Ex: 12">
+        </div>
+        <div>
+          <label>Dias adicionais</label>
+          <input type="number" id="diasUSG" min="0" max="6" placeholder="0–6">
+        </div>
+      </div>
     </div>
-    <div>
-      <label>Semanas no USG</label>
-      <input type="number" id="semanasUSG" min="4" max="42" placeholder="Ex: 12">
-    </div>
-    <div>
-      <label>Dias adicionais</label>
-      <input type="number" id="diasUSG" min="0" max="6" placeholder="0–6">
-    </div>
-  </div>
-   </div>
 
-    <div class="calc-row">
-      <span class="use-today" onclick="usarHoje()">Usar hoje</span>
+    <div class="section-divider"></div>
+
+    <!-- Linha 3: data de referência + calcular -->
+    <div class="ref-calc-row">
+      <div class="ref-calc-col">
+        <div class="ref-calc-title">📅 Data de referência</div>
+        <label>Para qual data calcular?</label>
+        <input type="date" id="dataRef">
+        <span class="use-today" onclick="usarHoje()">Usar hoje</span>
+      </div>
       <button class="btn-calc" onclick="calcular()">Calcular →</button>
     </div>
+
     </div>
   </div>
 
