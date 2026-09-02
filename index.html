@@ -73,7 +73,10 @@
   </div>
   <div class="field">
     <label>Senha</label>
-    <input type="password" id="password" placeholder="Digite sua senha" autocomplete="current-password">
+    <div class="password-wrap">
+      <input type="password" id="password" placeholder="Digite sua senha" autocomplete="current-password">
+      <button type="button" class="toggle-pw" onclick="togglePassword('password', this)" aria-label="Mostrar senha">👁️</button>
+    </div>
   </div>
   <button class="btn-login" id="btnEntrar" onclick="doLogin()">Entrar</button>
   <div class="error-msg" id="errorMsg">❌ CPF ou senha incorretos.</div>
