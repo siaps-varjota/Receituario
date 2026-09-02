@@ -52,6 +52,14 @@
   .btn-primary { flex: 1; background: #0f3460; color: #fff; border: none; border-radius: 8px; padding: 11px; font-size: 14px; font-weight: 700; cursor: pointer; }
   .modal .field { margin-bottom: 12px; }
   .modal .success-msg { color: #1f9d55; font-size: 13px; font-weight: 700; margin-top: 4px; display: none; }
+  .password-wrap { position: relative; }
+  .password-wrap input { padding-right: 42px; }
+  .toggle-pw {
+    position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+    background: none; border: none; cursor: pointer; font-size: 16px;
+    line-height: 1; padding: 6px; color: #7a8099; user-select: none;
+  }
+  .toggle-pw:hover { color: #0f3460; }
 </style>
 </head>
 <body>
@@ -91,11 +99,17 @@
     <p>Escolha uma senha só sua, com pelo menos 6 caracteres.</p>
     <div class="field">
       <label>Nova senha</label>
-      <input type="password" id="novaSenha" placeholder="Mínimo 6 caracteres">
+      <div class="password-wrap">
+        <input type="password" id="novaSenha" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
+        <button type="button" class="toggle-pw" onclick="togglePassword('novaSenha', this)" aria-label="Mostrar senha">👁️</button>
+      </div>
     </div>
     <div class="field">
       <label>Confirmar nova senha</label>
-      <input type="password" id="confirmarSenha" placeholder="Repita a nova senha">
+      <div class="password-wrap">
+        <input type="password" id="confirmarSenha" placeholder="Repita a nova senha" autocomplete="new-password">
+        <button type="button" class="toggle-pw" onclick="togglePassword('confirmarSenha', this)" aria-label="Mostrar senha">👁️</button>
+      </div>
     </div>
     <div class="error-msg" id="errorTroca"></div>
     <div class="success-msg" id="successTroca">✔ Senha alterada com sucesso!</div>
@@ -191,6 +205,19 @@
     } finally {
       btn.disabled = false;
       btn.textContent = "Entrar";
+    }
+  }
+
+  function togglePassword(inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (input.type === 'password') {
+      input.type = 'text';
+      btn.textContent = '🙈';
+      btn.setAttribute('aria-label', 'Ocultar senha');
+    } else {
+      input.type = 'password';
+      btn.textContent = '👁️';
+      btn.setAttribute('aria-label', 'Mostrar senha');
     }
   }
 
