@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consulta SIGTAP · Varjota-CE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F6F4EE;
+    --paper-alt:#EFEBE1;
+    --ink:#1C231F;
+    --ink-soft:#5B6259;
+    --line:#DAD3C2;
+    --teal:#0F5C4E;
+    --teal-dark:#0A4239;
+    --teal-tint:#E4EFEA;
+    --brick:#A6432B;
+    --brick-tint:#F5E3DC;
+    --white:#FFFFFF;
+    --radius:10px;
+    --shadow:0 1px 2px rgba(28,35,31,.06), 0 1px 1px rgba(28,35,31,.04);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',system-ui,sans-serif;
+    line-height:1.45;
+    min-height:100vh;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace;}
+
+  /* ---------- top bar ---------- */
+  header.topbar{
+    background:var(--teal-dark);
+    color:var(--paper);
+    padding:14px 20px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    position:sticky;
+    top:0;
+    z-index:20;
+    box-shadow:0 2px 8px rgba(10,66,57,.18);
+  }
+  header.topbar a.back{
+    color:var(--paper);
+    text-decoration:none;
+    font-size:14px;
+    opacity:.85;
+    border:1px solid rgba(246,244,238,.35);
+    padding:6px 10px;
+    border-radius:8px;
+    white-space:nowrap;
+  }
+  header.topbar a.back:hover{opacity:1;background:rgba(246,244,238,.08);}
+  .topbar-titles{flex:1;min-width:0;}
+  .topbar-titles h1{
+    font-size:17px;
+    margin:0;
+    font-weight:600;
+    letter-spacing:.1px;
+  }
+  .topbar-titles p{
+    margin:2px 0 0;
+    font-size:12.5px;
+    color:#BFE3D8;
+  }
+
+  /* ---------- layout ---------- */
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding:22px 20px 60px;
+  }
+  .search-block{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px;
+    box-shadow:var(--shadow);
+    margin-bottom:18px;
+  }
+  .search-row{
+    display:flex;
+    gap:10px;
+  }
+  .search-row input{
+    flex:1;
+    font-size:16px;
+    padding:12px 14px;
+    border:1.5px solid var(--line);
+    border-radius:8px;
+    font-family:inherit;
+    color:var(--ink);
+    background:var(--paper);
+  }
+  .search-row input:focus{
+    outline:none;
+    border-color:var(--teal);
+    background:var(--white);
+  }
+  .search-hint{
+    margin-top:9px;
+    font-size:13px;
+    color:var(--ink-soft);
+  }
+  .search-hint b{color:var(--ink);}
+
+  .count-line{
+    font-size:13px;
+    color:var(--ink-soft);
+    margin:0 2px 10px;
+  }
+
+  .content-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:18px;
+  }
+  @media(min-width:920px){
+    .content-grid.has-detail{grid-template-columns:minmax(0,420px) 1fr;align-items:start;}
+  }
+
+  /* ---------- results list ---------- */
+  #results{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .result-row{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:9px;
+    padding:12px 14px;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    transition:border-color .12s, background .12s;
+  }
+  .result-row:hover{border-color:var(--teal);}
+  .result-row.active{
+    border-color:var(--teal);
+    background:var(--teal-tint);
+  }
+  .result-row .rcode{
+    font-size:12.5px;
+    color:var(--teal-dark);
+    font-weight:600;
+    letter-spacing:.2px;
+  }
+  .result-row .rname{
+    font-size:14.5px;
+    color:var(--ink);
+    font-weight:500;
+  }
+  .result-row .rtags{
+    font-size:11.5px;
+    color:var(--ink-soft);
+  }
+
+  .empty-state, .placeholder{
+    text-align:center;
+    color:var(--ink-soft);
+    padding:50px 20px;
+    font-size:14.5px;
+  }
+  .placeholder .big{
+    font-size:34px;
+    display:block;
+    margin-bottom:10px;
+  }
+  .load-more{
+    text-align:center;
+    padding:10px;
+  }
+  .load-more button{
+    background:none;
+    border:1.5px dashed var(--line);
+    color:var(--teal-dark);
+    padding:9px 16px;
+    border-radius:8px;
+    font-family:inherit;
+    font-size:13.5px;
+    cursor:pointer;
+  }
+  .load-more button:hover{border-color:var(--teal);}
+
+  /* ---------- detail panel ---------- */
+  #detail{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:22px;
+    display:none;
+  }
+  #detail.show{display:block;}
+  .detail-close-mobile{
+    display:none;
+  }
+  @media(max-width:919px){
+    .detail-close-mobile{
+      display:inline-block;
+      margin-bottom:12px;
+      background:none;
+      border:1px solid var(--line);
+      border-radius:8px;
+      padding:7px 12px;
+      font-family:inherit;
+      font-size:13px;
+      color:var(--ink);
+      cursor:pointer;
+    }
+  }
+  .detail-crumb{
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+  .detail-code{
+    font-size:13px;
+    color:var(--teal-dark);
+    font-weight:600;
+    margin-bottom:4px;
+  }
+  .detail-name{
+    font-size:19px;
+    font-weight:600;
+    margin:0 0 16px;
+    line-height:1.3;
+  }
+
+  .values-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+  .value-card{
+    background:var(--brick-tint);
+    border-radius:8px;
+    padding:10px 14px;
+    min-width:110px;
+  }
+  .value-card .vlabel{font-size:11px;color:var(--brick);font-weight:600;letter-spacing:.3px;}
+  .value-card .vamount{font-size:17px;font-weight:600;color:var(--ink);margin-top:2px;}
+  .value-card.total{background:var(--teal-tint);}
+  .value-card.total .vlabel{color:var(--teal-dark);}
+
+  .section{
+    margin-bottom:18px;
+    padding-top:14px;
+    border-top:1px solid var(--line);
+  }
+  .section:first-of-type{border-top:none;padding-top:0;}
+  .section h3{
+    font-size:12.5px;
+    text-transform:none;
+    color:var(--ink-soft);
+    margin:0 0 10px;
+    font-weight:600;
+  }
+  .attr-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+    gap:12px;
+  }
+  .attr{
+    font-size:13.5px;
+  }
+  .attr .alabel{color:var(--ink-soft);font-size:11.5px;display:block;margin-bottom:2px;}
+  .attr .aval{color:var(--ink);font-weight:500;}
+
+  .chip-list{display:flex;flex-wrap:wrap;gap:7px;}
+  .chip{
+    background:var(--paper-alt);
+    border:1px solid var(--line);
+    border-radius:100px;
+    padding:5px 12px;
+    font-size:12.5px;
+    color:var(--ink);
+  }
+  .muted-note{
+    font-size:13px;
+    color:var(--ink-soft);
+    font-style:italic;
+  }
+
+  footer.footer{
+    text-align:center;
+    font-size:12px;
+    color:var(--ink-soft);
+    padding:30px 20px 20px;
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a class="back" href="portal.html">&larr; Portal</a>
+  <div class="topbar-titles">
+    <h1>Consulta SIGTAP</h1>
+    <p id="competencia-label">Tabela de Procedimentos do SUS</p>
+  </div>
+  <button class="back" style="cursor:pointer;" onclick="doLogout()">Sair</button>
+</header>
+
+<div class="wrap">
+
+  <div class="search-block">
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="Buscar por código ou nome do procedimento (ex: 0301010030 ou consulta)" autocomplete="off">
+    </div>
+    <div class="search-hint" id="searchHint">Digite pelo menos <b>3 caracteres</b> para começar a busca.</div>
+  </div>
+
+  <p class="count-line" id="countLine"></p>
+
+  <div class="content-grid" id="contentGrid">
+    <div>
+      <div id="results"></div>
+      <div class="load-more" id="loadMoreWrap" style="display:none;">
+        <button id="loadMoreBtn">Mostrar mais resultados</button>
+      </div>
+    </div>
+
+    <div id="detail">
+      <button class="detail-close-mobile" id="closeDetailBtn">&larr; Voltar à lista</button>
+      <div id="detailBody"></div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">Desenvolvido por Alidemberg Araújo · Coord. e-SUS Municipal — Varjota/CE</footer>
+
+<script>
+/* ===================== GUARD DE SESSÃO =====================
+   Mesmo padrão usado em portal.html: chave 'receituario_auth' em
+   sessionStorage, com campo exp (timestamp absoluto de expiração). */
+(function(){
+  var SESSION_KEY = "receituario_auth";
+  var raw = sessionStorage.getItem(SESSION_KEY);
+  if (!raw) { window.location.replace("index.html"); return; }
+  try {
+    var d = JSON.parse(raw);
+    if (!d.exp || Date.now() >= d.exp) {
+      sessionStorage.removeItem(SESSION_KEY);
+      window.location.replace("index.html");
+    }
+  } catch(e) { window.location.replace("index.html"); }
+})();
+/* ============================================================ */
+
+let DB = null;
+let currentResults = [];
+let shownCount = 0;
+const PAGE_SIZE = 40;
+
+function stripAccents(s){
+  return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+}
+
+function formatMoney(v){
+  return v.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function formatCode(co){
+  return co.slice(0,2)+'.'+co.slice(2,4)+'.'+co.slice(4,6)+'.'+co.slice(6,10);
+}
+
+function formatIdade(meses){
+  if(meses === null || meses === undefined) return 'sem restrição';
+  const anos = Math.floor(meses/12);
+  const restMeses = meses % 12;
+  if(anos === 0) return restMeses + (restMeses===1?' mês':' meses');
+  if(restMeses === 0) return anos + (anos===1?' ano':' anos');
+  return anos + (anos===1?' ano':' anos') + ' e ' + restMeses + (restMeses===1?' mês':' meses');
+}
+
+async function loadData(){
+  const res = await fetch('sigtap_dados.json');
+  DB = await res.json();
+  document.getElementById('competencia-label').textContent =
+    DB.meta.total_procedimentos.toLocaleString('pt-BR') + ' procedimentos · competência ' + DB.meta.competencia;
+}
+
+function search(term){
+  const norm = stripAccents(term.trim());
+  const codeDigits = term.replace(/\D/g,'');
+  if(norm.length < 3 && codeDigits.length < 3) return [];
+
+  return DB.procedimentos.filter(p=>{
+    if(codeDigits.length >= 3 && p.co.includes(codeDigits)) return true;
+    if(norm.length >= 3 && stripAccents(p.no).includes(norm)) return true;
+    return false;
+  });
+}
+
+function renderResults(){
+  const list = document.getElementById('results');
+  const countLine = document.getElementById('countLine');
+  const loadMoreWrap = document.getElementById('loadMoreWrap');
+  list.innerHTML = '';
+
+  if(currentResults.length === 0){
+    const term = document.getElementById('searchInput').value.trim();
+    if(term.length === 0){
+      list.innerHTML = '<div class="placeholder"><span class="big">🔎</span>Comece digitando um código ou o nome de um procedimento.</div>';
+    } else {
+      list.innerHTML = '<div class="empty-state">Nenhum procedimento encontrado para "'+term.replace(/</g,'')+'".</div>';
+    }
+    countLine.textContent = '';
+    loadMoreWrap.style.display = 'none';
+    return;
+  }
+
+  countLine.textContent = currentResults.length.toLocaleString('pt-BR') + ' resultado(s) encontrado(s)';
+
+  const toShow = currentResults.slice(0, shownCount);
+  toShow.forEach(p=>{
+    const row = document.createElement('div');
+    row.className = 'result-row';
+    row.dataset.co = p.co;
+    const grupoNome = DB.grupos[p.gr] || '';
+    row.innerHTML =
+      '<span class="rcode mono">'+formatCode(p.co)+'</span>'+
+      '<span class="rname">'+p.no+'</span>'+
+      '<span class="rtags">'+grupoNome+'</span>';
+    row.addEventListener('click', ()=>openDetail(p.co));
+    list.appendChild(row);
+  });
+
+  loadMoreWrap.style.display = (shownCount < currentResults.length) ? 'block' : 'none';
+}
+
+function openDetail(co){
+  const p = DB.procedimentos.find(x=>x.co===co);
+  if(!p) return;
+
+  document.querySelectorAll('.result-row').forEach(r=>{
+    r.classList.toggle('active', r.dataset.co === co);
+  });
+
+  const grupoNome = DB.grupos[p.gr] || p.gr;
+  const subgrupoNome = DB.subgrupos[p.gr+p.sg] || '';
+  const total = p.sh + p.sa + p.sp;
+
+  let valuesHtml = '';
+  if(p.sh > 0) valuesHtml += '<div class="value-card"><div class="vlabel">SH</div><div class="vamount">R$ '+formatMoney(p.sh)+'</div></div>';
+  if(p.sa > 0) valuesHtml += '<div class="value-card"><div class="vlabel">SA</div><div class="vamount">R$ '+formatMoney(p.sa)+'</div></div>';
+  if(p.sp > 0) valuesHtml += '<div class="value-card"><div class="vlabel">SP</div><div class="vamount">R$ '+formatMoney(p.sp)+'</div></div>';
+  if(total > 0) valuesHtml += '<div class="value-card total"><div class="vlabel">TOTAL</div><div class="vamount">R$ '+formatMoney(total)+'</div></div>';
+  if(total === 0) valuesHtml = '<div class="muted-note">Sem valor de referência direto nesta competência (procedimento sem remuneração unitária, ex: ação de registro/orientação).</div>';
+
+  const habNames = p.hab.map(h=>DB.habilitacoes[h]).filter(Boolean);
+  const servNames = p.serv.map(s=>DB.servicos[s]).filter(Boolean);
+  const regNames = p.reg.map(r=>DB.registros[r]).filter(Boolean);
+
+  const html = `
+    <div class="detail-crumb">${grupoNome}${subgrupoNome ? ' &rsaquo; '+subgrupoNome : ''}</div>
+    <div class="detail-code mono">${formatCode(p.co)}</div>
+    <h2 class="detail-name">${p.no}</h2>
+
+    <div class="section">
+      <h3>Valores de referência</h3>
+      <div class="values-row">${valuesHtml}</div>
+    </div>
+
+    <div class="section">
+      <h3>Características do procedimento</h3>
+      <div class="attr-grid">
+        <div class="attr"><span class="alabel">Complexidade</span><span class="aval">${DB.complexidades[p.cx] || '—'}</span></div>
+        <div class="attr"><span class="alabel">Sexo permitido</span><span class="aval">${DB.sexos[p.sx] || '—'}</span></div>
+        <div class="attr"><span class="alabel">Idade mínima</span><span class="aval">${formatIdade(p.im)}</span></div>
+        <div class="attr"><span class="alabel">Idade máxima</span><span class="aval">${formatIdade(p.ix)}</span></div>
+        <div class="attr"><span class="alabel">Qtd. máxima de execução</span><span class="aval">${p.qme || '—'}</span></div>
+        <div class="attr"><span class="alabel">Dias de permanência</span><span class="aval">${p.dp || '—'}</span></div>
+        <div class="attr"><span class="alabel">Pontos (SP)</span><span class="aval">${p.pt || '—'}</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Financiamento</h3>
+      <div class="chip-list"><span class="chip">${DB.financiamentos[p.fin] || p.fin}</span></div>
+    </div>
+
+    <div class="section">
+      <h3>Instrumento(s) de registro</h3>
+      ${regNames.length ? '<div class="chip-list">'+regNames.map(n=>'<span class="chip">'+n+'</span>').join('')+'</div>' : '<div class="muted-note">Nenhum instrumento de registro vinculado nesta competência.</div>'}
+    </div>
+
+    <div class="section">
+      <h3>Habilitações exigidas</h3>
+      ${habNames.length ? '<div class="chip-list">'+habNames.map(n=>'<span class="chip">'+n+'</span>').join('')+'</div>' : '<div class="muted-note">Não exige habilitação específica.</div>'}
+    </div>
+
+    <div class="section">
+      <h3>Serviço / classificação vinculados</h3>
+      ${servNames.length ? '<div class="chip-list">'+servNames.map(n=>'<span class="chip">'+n+'</span>').join('')+'</div>' : '<div class="muted-note">Nenhum serviço vinculado.</div>'}
+    </div>
+
+    <div class="section">
+      <h3>CID-10 compatível</h3>
+      <div class="muted-note">Não incluído neste arquivo de exportação da competência ${DB.meta.competencia}.</div>
+    </div>
+  `;
+
+  document.getElementById('detailBody').innerHTML = html;
+  document.getElementById('detail').classList.add('show');
+  document.getElementById('contentGrid').classList.add('has-detail');
+
+  if(window.innerWidth < 920){
+    document.getElementById('detail').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+}
+
+document.getElementById('closeDetailBtn').addEventListener('click', ()=>{
+  document.getElementById('detail').classList.remove('show');
+  document.getElementById('contentGrid').classList.remove('has-detail');
+  document.querySelectorAll('.result-row').forEach(r=>r.classList.remove('active'));
+});
+
+document.getElementById('loadMoreBtn').addEventListener('click', ()=>{
+  shownCount = Math.min(shownCount + PAGE_SIZE, currentResults.length);
+  renderResults();
+});
+
+let debounceTimer = null;
+document.getElementById('searchInput').addEventListener('input', (e)=>{
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(()=>{
+    currentResults = search(e.target.value);
+    shownCount = Math.min(PAGE_SIZE, currentResults.length);
+    renderResults();
+  }, 120);
+});
+
+loadData().then(()=>{
+  renderResults();
+});
+
+function doLogout() {
+  sessionStorage.removeItem("receituario_auth");
+  window.location.replace("index.html");
+}
+</script>
+
+</body>
+</html>
