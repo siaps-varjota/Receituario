@@ -1774,6 +1774,29 @@ function setDrugTipo(n, tipo) {
 function v(id) { const e = document.getElementById(id); return e ? e.value.trim() : ''; }
 function vp(id) { const e = document.getElementById(id); if (!e) return ''; return e.value.trim() || e.placeholder || ''; }
 
+/* Endereços das unidades — preenche automaticamente o campo "Endereço da Unidade"
+   ao selecionar a Unidade em u_unidade. */
+const UNIDADE_ENDERECOS = {
+  'ACAMPAMENTO':        'Rua Luiz Serafim da Costa, s/n, Acampamento, Varjota-CE',
+  'ARARINHA':            'Rua Antônio Florêncio de Araújo, s/n, Ararinha, Varjota-CE',
+  'CENTRO':              'Avenida Senador Virgílio Távora, s/n, Centro, Varjota-CE',
+  'CENTRO - Sede 2':     'Rua Antônio de Oliveira, s/n, Centro, Varjota-CE',
+  'CENTRO - Sede 3':     'Avenida Senador Virgílio Távora, s/n, Centro, Varjota-CE',
+  'CROATÁ':              'Distrito de Croatá, s/n, Varjota-CE',
+  'EMPRÉSTIMOS':         'Rua Francisco Edson Teixeira Filho, s/n, Empréstimos, Varjota-CE',
+  'PEDREIRAS':           'Rua 31 de Março, s/n, Pedreira, Varjota-CE',
+  'VILA NAIARA':         'Vila Naiara, s/n, Vila Naiara, Varjota-CE',
+  'HOSPITAL':            'Rua Professora Edith Castro, s/n, Acampamento, Varjota-CE',
+  'CAPS':                'Rua Francisca Rodrigues de Farias, Caixa d\'Água, Varjota-CE',
+};
+function preencherEnderecoUnidade() {
+  const sel = document.getElementById('u_unidade');
+  const end = document.getElementById('e_end');
+  if (!sel || !end) return;
+  const endereco = UNIDADE_ENDERECOS[sel.value];
+  if (endereco) end.value = endereco;
+}
+
 /* Sugestão automática de Unidade de fornecimento a partir da Unidade de medida escolhida.
    Ex: comprimido(s) → comprimido(s); mL → frasco(s); gota(s) → frasco(s) (colírio/solução em frasco); etc.
    Só preenche o campo se ele ainda estiver vazio, para não sobrescrever uma escolha manual do usuário. */
@@ -3626,6 +3649,8 @@ function initGhostInputs() {
   if (btnPrint) btnPrint.addEventListener('click', printPDF);
   var hdrUnidade = document.getElementById('hdr-unidade');
   if (hdrUnidade) hdrUnidade.addEventListener('click', function() { toggleCard('card_unidade'); });
+  var uUnidade = document.getElementById('u_unidade');
+  if (uUnidade) uUnidade.addEventListener('change', preencherEnderecoUnidade);
   var eCpf = document.getElementById('e_cpf');
   if (eCpf) eCpf.addEventListener('input', function() { maskCPF(this); });
   var eTel = document.querySelector('[data-mask="phone"]');
