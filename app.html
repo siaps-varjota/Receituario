@@ -505,6 +505,34 @@ body {
 .input-ghost-overlay .ig-typed { color: transparent; }
 .input-ghost-overlay .ig-remainder { color: #b6bbcc; }
 .input-ghost input::placeholder { color: #b6bbcc; }
+.conselho-split { display: flex; gap: 6px; }
+.conselho-split select {
+  flex: 0 0 62px;
+  padding: 7px 4px;
+  border: 1.5px solid #dde1ec;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 15.6px;
+  color: #1a1a2e;
+  background: #fafbfd;
+  outline: none;
+  text-align: center;
+}
+.conselho-split input {
+  flex: 1;
+  min-width: 0;
+}
+.conselho-split select:focus {
+  border-color: #0f3460;
+  box-shadow: 0 0 0 3px rgba(15,52,96,.1);
+  background: #fff;
+}
+.conselho-preview {
+  margin-top: 3px;
+  font-size: 11.5px;
+  color: #9aa0b4;
+  letter-spacing: .02em;
+}
 .input-with-clear { position: relative; }
 .input-with-clear input { width: 100%; padding-right: 30px; box-sizing: border-box; }
 .drug-ac-clear {
@@ -1089,12 +1117,40 @@ body {
         <div class="gd3">
           <div class="field">
             <label>Conselho / Registro *</label>
-            <div class="input-ghost">
-              <input id="e_conselho" placeholder="COREN - CE 134611 - ENF" data-ghost="COREN - CE 134611 - ENF" autocomplete="off">
-              <div class="input-ghost-overlay" aria-hidden="true">
-                <span class="ig-typed"></span><span class="ig-remainder">COREN - CE 134611 - ENF</span>
-              </div>
+            <div class="conselho-split">
+              <select id="e_conselho_uf" aria-label="UF do conselho">
+                <option value="AC">AC</option>
+                <option value="AL">AL</option>
+                <option value="AP">AP</option>
+                <option value="AM">AM</option>
+                <option value="BA">BA</option>
+                <option value="CE" selected>CE</option>
+                <option value="DF">DF</option>
+                <option value="ES">ES</option>
+                <option value="GO">GO</option>
+                <option value="MA">MA</option>
+                <option value="MT">MT</option>
+                <option value="MS">MS</option>
+                <option value="MG">MG</option>
+                <option value="PA">PA</option>
+                <option value="PB">PB</option>
+                <option value="PR">PR</option>
+                <option value="PE">PE</option>
+                <option value="PI">PI</option>
+                <option value="RJ">RJ</option>
+                <option value="RN">RN</option>
+                <option value="RS">RS</option>
+                <option value="RO">RO</option>
+                <option value="RR">RR</option>
+                <option value="SC">SC</option>
+                <option value="SP">SP</option>
+                <option value="SE">SE</option>
+                <option value="TO">TO</option>
+              </select>
+              <input id="e_conselho_num" placeholder="134611" inputmode="numeric" autocomplete="off">
             </div>
+            <div class="conselho-preview" id="e_conselho_preview">COREN - CE 000000 - ENF</div>
+            <input type="hidden" id="e_conselho">
           </div>
           <div class="field">
             <label>Cargo / Especialidade</label>
@@ -1795,6 +1851,21 @@ function preencherEnderecoUnidade() {
   if (!sel || !end) return;
   const endereco = UNIDADE_ENDERECOS[sel.value];
   if (endereco) end.value = endereco;
+}
+
+/* Monta "COREN - UF NÚMERO - ENF" a partir dos campos UF + número,
+   já que todos os profissionais cadastrados são enfermeiros. O valor
+   completo continua indo para #e_conselho (usado na receita/PDF). */
+function syncConselho() {
+  const uf     = document.getElementById('e_conselho_uf');
+  const num    = document.getElementById('e_conselho_num');
+  const hidden = document.getElementById('e_conselho');
+  const preview = document.getElementById('e_conselho_preview');
+  if (!uf || !num || !hidden) return;
+  const n = num.value.trim();
+  const full = n ? `COREN - ${uf.value} ${n} - ENF` : '';
+  hidden.value = full;
+  if (preview) preview.textContent = full || `COREN - ${uf.value} 000000 - ENF`;
 }
 
 /* Sugestão automática de Unidade de fornecimento a partir da Unidade de medida escolhida.
@@ -3651,6 +3722,14 @@ function initGhostInputs() {
   if (hdrUnidade) hdrUnidade.addEventListener('click', function() { toggleCard('card_unidade'); });
   var uUnidade = document.getElementById('u_unidade');
   if (uUnidade) uUnidade.addEventListener('change', preencherEnderecoUnidade);
+  var eConselhoNum = document.getElementById('e_conselho_num');
+  var eConselhoUf  = document.getElementById('e_conselho_uf');
+  if (eConselhoNum) eConselhoNum.addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').slice(0, 10);
+    syncConselho();
+  });
+  if (eConselhoUf) eConselhoUf.addEventListener('change', syncConselho);
+  syncConselho();
   var eCpf = document.getElementById('e_cpf');
   if (eCpf) eCpf.addEventListener('input', function() { maskCPF(this); });
   var eTel = document.querySelector('[data-mask="phone"]');
