@@ -533,6 +533,9 @@ body {
   color: #9aa0b4;
   letter-spacing: .02em;
 }
+#e_end, #e_end:focus {
+  background: #fff;
+}
 .input-with-clear { position: relative; }
 .input-with-clear input { width: 100%; padding-right: 30px; box-sizing: border-box; }
 .drug-ac-clear {
@@ -1112,7 +1115,7 @@ body {
         </div>
         <div class="field">
           <label>Nome Completo do Profissional *</label>
-          <input id="e_nome" placeholder="Alidemberg Araujo Loiola" list="e_nome_lista" autocomplete="off">
+          <input id="e_nome" list="e_nome_lista" autocomplete="off">
           <datalist id="e_nome_lista">
                 <option value="Alidemberg Araujo Loiola">
                 <option value="Allana Peres de Sousa">
@@ -1205,7 +1208,7 @@ body {
                 <option value="SE">SE</option>
                 <option value="TO">TO</option>
               </select>
-              <input id="e_conselho_num" placeholder="XXXXXX" inputmode="numeric" autocomplete="off">
+              <input id="e_conselho_num" placeholder="134611" inputmode="numeric" autocomplete="off">
             </div>
             <div class="conselho-preview" id="e_conselho_preview">COREN - CE 000000 - ENF</div>
             <input type="hidden" id="e_conselho">
