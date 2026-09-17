@@ -458,6 +458,32 @@ body {
   background: #fff;
 }
 .field textarea { resize: vertical; min-height: 54px; }
+.input-ghost { position: relative; }
+.input-ghost input {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  width: 100%;
+  box-sizing: border-box;
+}
+.input-ghost-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 7px 10px;
+  border: 1.5px solid transparent;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 15.6px;
+  white-space: pre;
+  overflow: hidden;
+  pointer-events: none;
+}
+.input-ghost-overlay .ig-typed { color: transparent; }
+.input-ghost-overlay .ig-remainder { color: #b6bbcc; }
+.input-ghost input::placeholder { color: #b6bbcc; }
 .input-with-clear { position: relative; }
 .input-with-clear input { width: 100%; padding-right: 30px; box-sizing: border-box; }
 .drug-ac-clear {
@@ -1042,7 +1068,12 @@ body {
         <div class="gd3">
           <div class="field">
             <label>Conselho / Registro *</label>
-            <input id="e_conselho" placeholder="COREN - CE 134611 - ENF">
+            <div class="input-ghost">
+              <input id="e_conselho" placeholder="COREN - CE 134611 - ENF" data-ghost="COREN - CE 134611 - ENF" autocomplete="off">
+              <div class="input-ghost-overlay" aria-hidden="true">
+                <span class="ig-typed"></span><span class="ig-remainder">COREN - CE 134611 - ENF</span>
+              </div>
+            </div>
           </div>
           <div class="field">
             <label>Cargo / Especialidade</label>
@@ -3545,6 +3576,29 @@ function maskCPFouCNS(el) {
   }
 }
 
+/* ── Modelo esmaecido (ghost hint) ── */
+function initGhostInputs() {
+  document.querySelectorAll('.input-ghost').forEach(function(wrap) {
+    var input = wrap.querySelector('input[data-ghost]');
+    var overlay = wrap.querySelector('.input-ghost-overlay');
+    if (!input || !overlay) return;
+    var model = input.getAttribute('data-ghost') || '';
+    var typedSpan = overlay.querySelector('.ig-typed');
+    var remSpan = overlay.querySelector('.ig-remainder');
+    function sync() {
+      var v = input.value;
+      if (!v) { typedSpan.textContent = ''; remSpan.textContent = model; return; }
+      if (v.length >= model.length) { typedSpan.textContent = ''; remSpan.textContent = ''; return; }
+      typedSpan.textContent = v;
+      remSpan.textContent = model.slice(v.length);
+    }
+    input.addEventListener('input', sync);
+    input.addEventListener('focus', sync);
+    input.addEventListener('blur', sync);
+    sync();
+  });
+}
+
 /* ── Bind de eventos ── */
 (function bindEventos() {
   var btnPrint = document.getElementById('btn-print');
@@ -3572,6 +3626,7 @@ function maskCPFouCNS(el) {
     sessionStorage.removeItem('receituario_auth');
     window.location.replace('index.html');
   });
+  initGhostInputs();
 })();
 
 /* ── Delegação de eventos dinâmicos ── */
