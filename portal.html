@@ -127,10 +127,29 @@ h1 em { font-style: italic; color: var(--accent); }
 }
 
 .hairline {
-  width: 40px; height: 1px;
-  background: linear-gradient(90deg, var(--accent), transparent);
-  margin: 28px auto;
+  position: relative;
+  width: 100vw;
+  height: 1px;
+  margin: 28px calc(50% - 50vw);
+  overflow: hidden;
+  background: rgba(255,255,255,.05);
   animation: fadeUp .55s .22s ease both;
+}
+.hairline::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -22%;
+  width: 22%; height: 100%;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  box-shadow: 0 0 8px var(--accent);
+  animation: hairlineSweep 3.6s ease-in-out infinite;
+}
+@keyframes hairlineSweep {
+  0%   { left: -22%; }
+  100% { left: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hairline::after { animation: none; left: 0; width: 40px; left: calc(50% - 20px); }
 }
 
 /* ── section label ── */
