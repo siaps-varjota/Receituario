@@ -458,13 +458,36 @@ body {
   background: #fff;
 }
 .field textarea { resize: vertical; min-height: 54px; }
-.input-ghost { position: relative; }
-.input-ghost input {
+.field .input-ghost {
+  position: relative;
+  background: #fafbfd;
+  border: 1.5px solid #dde1ec;
+  border-radius: 6px;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.field .input-ghost:focus-within {
+  border-color: #0f3460;
+  box-shadow: 0 0 0 3px rgba(15,52,96,.1);
+  background: #fff;
+}
+.field .input-ghost input {
   position: relative;
   z-index: 2;
-  background: transparent;
   width: 100%;
   box-sizing: border-box;
+  border: none !important;
+  background: transparent !important;
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-family: inherit;
+  font-size: 15.6px;
+  color: #1a1a2e;
+  outline: none;
+}
+.field .input-ghost input:focus {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
 .input-ghost-overlay {
   position: absolute;
@@ -473,8 +496,6 @@ body {
   display: flex;
   align-items: center;
   padding: 7px 10px;
-  border: 1.5px solid transparent;
-  border-radius: 6px;
   font-family: inherit;
   font-size: 15.6px;
   white-space: pre;
