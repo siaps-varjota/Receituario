@@ -129,27 +129,32 @@ h1 em { font-style: italic; color: var(--accent); }
 .hairline {
   position: relative;
   width: 100vw;
-  height: 1px;
-  margin: 28px calc(50% - 50vw);
+  height: 46px;
+  margin: 18px calc(50% - 50vw) 28px;
   overflow: hidden;
-  background: rgba(255,255,255,.05);
   animation: fadeUp .55s .22s ease both;
 }
-.hairline::after {
-  content: '';
+.ecg-svg {
   position: absolute;
-  top: 0; left: -22%;
-  width: 22%; height: 100%;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  box-shadow: 0 0 8px var(--accent);
-  animation: hairlineSweep 3.6s ease-in-out infinite;
+  top: 0; left: 0;
+  width: 200%;
+  height: 100%;
+  animation: ecgScroll 5s linear infinite;
 }
-@keyframes hairlineSweep {
-  0%   { left: -22%; }
-  100% { left: 100%; }
+.ecg-svg path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 5px var(--accent));
+}
+@keyframes ecgScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hairline::after { animation: none; left: 0; width: 40px; left: calc(50% - 20px); }
+  .ecg-svg { animation: none; }
 }
 
 /* ── section label ── */
@@ -390,7 +395,12 @@ footer strong { color: var(--accent); font-weight: 500; }
     </div>
     <h1>Sistema de <em>Suporte Clínico</em> e Administrativo<br></h1>
     <p class="sub">Sistema modular de apoio aos profissionais de do Município com Suporte à Decisão Clínica (SDC) e ferramentas administrativas — e-SUS Municipal</p>
-    <div class="hairline"></div>
+    <div class="hairline">
+      <svg class="ecg-svg" viewBox="0 0 600 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,24 L40,24 Q55,14 70,24 L78,24 L82,30 L88,2 L94,46 L100,24 L118,24 Q140,10 165,24 L300,24"/>
+        <path d="M0,24 L40,24 Q55,14 70,24 L78,24 L82,30 L88,2 L94,46 L100,24 L118,24 Q140,10 165,24 L300,24" transform="translate(300,0)"/>
+      </svg>
+    </div>
   </header>
 
   <div class="sec-lbl">Aplicativos disponíveis</div>
