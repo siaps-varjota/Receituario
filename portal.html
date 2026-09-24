@@ -372,6 +372,7 @@ footer strong { color: var(--accent); font-weight: 500; }
   } catch(e) { window.location.replace("index.html"); }
 })();
 </script>
+<script src="acesso.js"></script>
 
 <!-- Botão de logout fixo -->
 <div class="topbar-logout">
@@ -537,6 +538,8 @@ footer strong { color: var(--accent); font-weight: 500; }
 </div>
 
 <script>
+Acesso.aplicarPortal(); // esconde apps não liberados para a categoria
+
 function doLogout() {
   sessionStorage.removeItem("receituario_auth");
   window.location.replace("index.html");
