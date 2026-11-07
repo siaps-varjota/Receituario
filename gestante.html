@@ -1116,7 +1116,6 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
     <table style="width:100%;border-collapse:collapse;font-size:0.8rem" id="encaminhamentos-tabela">
       <thead>
         <tr style="text-align:left;border-bottom:2px solid var(--border)">
-          <th style="padding:0.5rem 0.4rem">PDF</th>
           <th style="padding:0.5rem 0.4rem">Nome da Gestante</th>
           <th style="padding:0.5rem 0.4rem">Idade</th>
           <th style="padding:0.5rem 0.4rem">UBS de Origem</th>
@@ -1126,6 +1125,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
           <th style="padding:0.5rem 0.4rem">Data do Comparecimento</th>
           <th style="padding:0.5rem 0.4rem">Status</th>
           <th style="padding:0.5rem 0.4rem">Data da Consulta Agendada</th>
+          <th style="padding:0.5rem 0.4rem">PDF</th>
         </tr>
       </thead>
       <tbody id="encaminhamentos-tbody">
@@ -1697,7 +1697,6 @@ function renderEncaminhamentos(rows) {
   rows.forEach(function(row) {
     _encRows[row.rowIndex] = row;
     html += '<tr style="border-bottom:1px solid var(--border)" data-row="' + row.rowIndex + '">';
-    html += '<td style="padding:0.45rem 0.4rem">' + celulaPDFEncaminhamento(row) + '</td>';
     html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.nome) + '</td>';
     html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.idade) + '</td>';
     html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.ubsOrigem) + '</td>';
@@ -1715,6 +1714,7 @@ function renderEncaminhamentos(rows) {
 
     html += '<td style="padding:0.45rem 0.4rem"><input type="date" value="' + escapeHtmlReg(brParaIso(formatarDataBR(row.dataConsulta))) + '" style="padding:0.3rem;border:1px solid var(--border);border-radius:6px;font-size:0.78rem" onchange="atualizarLinhaEncaminhamento(' + row.rowIndex + ', {dataConsulta: isoParaBr(this.value)})"></td>';
 
+    html += '<td style="padding:0.45rem 0.4rem">' + celulaPDFEncaminhamento(row) + '</td>';
     html += '</tr>';
   });
   tbody.innerHTML = html;
