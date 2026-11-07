@@ -1116,6 +1116,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
     <table style="width:100%;border-collapse:collapse;font-size:0.8rem" id="encaminhamentos-tabela">
       <thead>
         <tr style="text-align:left;border-bottom:2px solid var(--border)">
+          <th style="padding:0.5rem 0.4rem">PDF</th>
           <th style="padding:0.5rem 0.4rem">Nome da Gestante</th>
           <th style="padding:0.5rem 0.4rem">Idade</th>
           <th style="padding:0.5rem 0.4rem">UBS de Origem</th>
@@ -1128,7 +1129,7 @@ table.std-table tr:nth-child(even) td { background:var(--rose-pale); }
         </tr>
       </thead>
       <tbody id="encaminhamentos-tbody">
-        <tr><td colspan="9" style="padding:1rem;color:var(--text-soft)">Clique em "🔄 Atualizar Lista" para carregar os encaminhamentos.</td></tr>
+        <tr><td colspan="10" style="padding:1rem;color:var(--text-soft)">Clique em "🔄 Atualizar Lista" para carregar os encaminhamentos.</td></tr>
       </tbody>
     </table>
   </div>
@@ -1688,12 +1689,15 @@ function renderEncaminhamentos(rows) {
   var tbody = document.getElementById('encaminhamentos-tbody');
   if (!tbody) return;
   if (!rows.length) {
-    tbody.innerHTML = '<tr><td colspan="9" style="padding:1rem;color:var(--text-soft)">Nenhum encaminhamento registrado ainda.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10" style="padding:1rem;color:var(--text-soft)">Nenhum encaminhamento registrado ainda.</td></tr>';
     return;
   }
   var html = '';
+  _encRows = {};
   rows.forEach(function(row) {
+    _encRows[row.rowIndex] = row;
     html += '<tr style="border-bottom:1px solid var(--border)" data-row="' + row.rowIndex + '">';
+    html += '<td style="padding:0.45rem 0.4rem">' + celulaPDFEncaminhamento(row) + '</td>';
     html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.nome) + '</td>';
     html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.idade) + '</td>';
     html += '<td style="padding:0.45rem 0.4rem">' + escapeHtmlReg(row.ubsOrigem) + '</td>';
@@ -1782,6 +1786,33 @@ function isoParaBr(v) {
   return m[3] + '/' + m[2] + '/' + m[1].slice(-2);
 }
 
+// ── PDF DO ENCAMINHAMENTO (abrir / baixar novamente) ──
+var _encRows = {};
+
+function celulaPDFEncaminhamento(row) {
+  var snap = obterSnapshotPDF(row);
+  if (!snap) {
+    return '<span title="PDF indisponível: encaminhamento adicionado manualmente ou gerado antes desta atualização." style="color:var(--text-soft)">—</span>';
+  }
+  var btn = 'style="border:1px solid var(--rose-border);background:var(--rose-pale);color:var(--rose-dark);border-radius:6px;padding:0.25rem 0.4rem;cursor:pointer;font-size:0.95rem;line-height:1"';
+  return '<div style="display:flex;gap:0.3rem;align-items:center">' +
+    '<button type="button" ' + btn + ' title="Abrir PDF do encaminhamento" onclick="acaoPDFEncaminhamento(' + row.rowIndex + ',\'abrir\')">📄</button>' +
+    '<button type="button" ' + btn + ' title="Baixar PDF novamente" onclick="acaoPDFEncaminhamento(' + row.rowIndex + ',\'baixar\')">⬇️</button>' +
+    '</div>';
+}
+
+function acaoPDFEncaminhamento(rowIndex, modo) {
+  var row = _encRows[rowIndex];
+  var snap = obterSnapshotPDF(row);
+  if (!snap) { alert('Os dados deste encaminhamento não estão disponíveis para gerar o PDF.'); return; }
+  if (!window.jspdf) { alert('Não foi possível carregar o gerador de PDF. Verifique sua conexão e tente novamente.'); return; }
+  snap.simulacao = false;
+  var doc = construirPDFRegulacao(snap);
+  if (modo === 'baixar') { doc.save(nomeArquivoPDF(snap)); return; }
+  var w = window.open(doc.output('bloburl'), '_blank');
+  if (!w) doc.save(nomeArquivoPDF(snap)); // pop-up bloqueado: baixa direto
+}
+
 function atualizarLinhaEncaminhamento(rowIndex, campos) {
   var url = getWebhookEncaminhamentos();
   if (!url) return;
@@ -1794,23 +1825,102 @@ function atualizarLinhaEncaminhamento(rowIndex, campos) {
 }
 
 // ── GERAÇÃO DE PDF DO CHECK-LIST DE REGULAÇÃO ───────────────
-function gerarPDFRegulacao() {
+// Lê o formulário e devolve um "snapshot" com tudo o que o PDF precisa.
+// O snapshot é guardado junto do encaminhamento para permitir re-gerar o PDF depois.
+function coletarSnapshotRegulacao() {
   var groups = ['a','b','c','d'];
   var scores = { a:4, b:3, c:2, d:1 };
-  var names  = { a:'A - Muito Alta', b:'B - Alta', c:'C - Media', d:'D - Baixa' };
-
   var maxG = null, totalSum = 0;
   var itemsByGroup = { a:[], b:[], c:[], d:[] };
   groups.forEach(function(g) {
     document.querySelectorAll('.score-' + g + ':checked').forEach(function(cb) {
-      var txt = cb.parentElement.textContent.trim();
-      itemsByGroup[g].push(txt);
+      itemsByGroup[g].push(cb.parentElement.textContent.trim());
       totalSum += scores[g];
       if (maxG === null || scores[g] > scores[maxG]) maxG = g;
     });
   });
+  if (!maxG) return null;
 
-  if (!maxG) {
+  var nascVal = (document.getElementById('reg-nascimento') || {}).value || '';
+  var nascFmt = '';
+  if (nascVal) {
+    var parts = nascVal.split('-');
+    if (parts.length === 3) nascFmt = parts[2] + '/' + parts[1] + '/' + parts[0];
+  }
+
+  var cards = document.querySelectorAll('#sec-regulacao .card');
+  function lerChecks(card) {
+    var out = [];
+    card.querySelectorAll('.check-item').forEach(function(item) {
+      var cb = item.querySelector('input[type="checkbox"]');
+      out.push({ text: item.textContent.trim(), checked: !!(cb && cb.checked) });
+    });
+    return out;
+  }
+
+  var observacoes = [];
+  document.querySelectorAll('#sec-criterios .check-item input[type="checkbox"]:checked').forEach(function(cb) {
+    if (!cb.hasAttribute('data-reg-sync')) {
+      var lbl = cb.closest('.check-item');
+      if (lbl) {
+        var txt = lbl.textContent.replace(/🔗\s*Regulação/g, '').trim();
+        if (txt) observacoes.push(txt);
+      }
+    }
+  });
+
+  return {
+    nome:    (document.getElementById('reg-nome')    || {}).value || '',
+    sus:     (document.getElementById('reg-sus')     || {}).value || '',
+    unidade: (document.getElementById('reg-unidade') || {}).value || '',
+    nascFmt: nascFmt,
+    idade:   (document.getElementById('reg-idade')   || {}).value || '',
+    preConsulta: lerChecks(cards[2]),
+    exames:      lerChecks(cards[3]),
+    itemsByGroup: itemsByGroup,
+    maxG: maxG,
+    totalSum: totalSum,
+    observacoes: observacoes,
+    simulacao: false
+  };
+}
+
+function nomeArquivoPDF(snap) {
+  return (snap.simulacao ? 'SIMULACAO_' : '') + 'checklist_regulacao_' + (snap.nome ? snap.nome.trim().replace(/\s+/g, '_').toLowerCase() : 'gestante') + '.pdf';
+}
+
+// ── Cópia local dos snapshots (reserva: funciona neste navegador mesmo
+//    se a planilha ainda não guardar a coluna "pdfDados") ──
+var PDF_SNAP_KEY = 'erg_pdf_snapshots';
+function chaveSnapshotPDF(nome, dataBr) {
+  var n = String(nome || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' ').trim();
+  return n + '|' + formatarDataBR(dataBr);
+}
+function salvarSnapshotLocal(snap, dataBr) {
+  try {
+    var mapa = JSON.parse(localStorage.getItem(PDF_SNAP_KEY) || '{}');
+    mapa[chaveSnapshotPDF(snap.nome, dataBr)] = snap;
+    var chaves = Object.keys(mapa);
+    if (chaves.length > 300) chaves.slice(0, chaves.length - 300).forEach(function(k) { delete mapa[k]; });
+    localStorage.setItem(PDF_SNAP_KEY, JSON.stringify(mapa));
+  } catch (e) {}
+}
+function lerSnapshotLocal(nome, dataBr) {
+  try {
+    var mapa = JSON.parse(localStorage.getItem(PDF_SNAP_KEY) || '{}');
+    return mapa[chaveSnapshotPDF(nome, dataBr)] || null;
+  } catch (e) { return null; }
+}
+function obterSnapshotPDF(row) {
+  if (row && row.pdfDados) {
+    try { var o = JSON.parse(row.pdfDados); if (o && o.maxG) return o; } catch (e) {}
+  }
+  return row ? lerSnapshotLocal(row.nome, row.dataEncaminhamento) : null;
+}
+
+function gerarPDFRegulacao() {
+  var snap = coletarSnapshotRegulacao();
+  if (!snap) {
     alert('Selecione ao menos um critério de classificação antes de gerar o PDF.');
     return;
   }
@@ -1827,6 +1937,41 @@ function gerarPDFRegulacao() {
     alert('Não foi possível carregar o gerador de PDF. Verifique sua conexão com a internet e tente novamente.');
     return;
   }
+
+  snap.simulacao = isSimulacao;
+  var doc = construirPDFRegulacao(snap);
+  doc.save(nomeArquivoPDF(snap));
+
+  // Registro na planilha de Encaminhamentos — apenas se NÃO for simulação
+  if (!isSimulacao) {
+    var groups = ['a','b','c','d'];
+    var scores = { a:4, b:3, c:2, d:1 };
+    var names  = { a:'A - Muito Alta', b:'B - Alta', c:'C - Média', d:'D - Baixa' };
+    var hoje = new Date();
+    var hojeFmt = String(hoje.getDate()).padStart(2, '0') + '/' + String(hoje.getMonth() + 1).padStart(2, '0') + '/' + String(hoje.getFullYear()).slice(-2);
+    salvarSnapshotLocal(snap, hojeFmt);
+    enviarRegistroEncaminhamento({
+      nome: snap.nome,
+      idade: snap.idade,
+      ubsOrigem: snap.unidade,
+      motivo: montarMotivoEncaminhamento(snap.itemsByGroup, groups, names, scores),
+      classificacao: names[snap.maxG] + ' · Escore ' + scores[snap.maxG],
+      dataEncaminhamento: hojeFmt,
+      pdfDados: JSON.stringify(snap)
+    });
+  }
+}
+
+// Monta o PDF (jsPDF) a partir de um snapshot — usado na geração e na re-emissão.
+function construirPDFRegulacao(snap) {
+  var groups = ['a','b','c','d'];
+  var scores = { a:4, b:3, c:2, d:1 };
+  var names  = { a:'A - Muito Alta', b:'B - Alta', c:'C - Media', d:'D - Baixa' };
+  var isSimulacao  = !!snap.simulacao;
+  var itemsByGroup = snap.itemsByGroup;
+  var maxG     = snap.maxG;
+  var totalSum = snap.totalSum;
+  var nome = snap.nome, sus = snap.sus, unidade = snap.unidade, nascFmt = snap.nascFmt, idade = snap.idade;
 
   var jsPDF = window.jspdf.jsPDF;
   var doc = new jsPDF({ unit: 'mm', format: 'a4' });
@@ -1925,17 +2070,6 @@ function gerarPDFRegulacao() {
   y += 5.5;
 
   // ── IDENTIFICAÇÃO ──
-  var nome    = (document.getElementById('reg-nome')    || {}).value || '';
-  var sus     = (document.getElementById('reg-sus')     || {}).value || '';
-  var unidade = (document.getElementById('reg-unidade') || {}).value || '';
-  var nascVal = (document.getElementById('reg-nascimento') || {}).value || '';
-  var idade   = (document.getElementById('reg-idade')   || {}).value || '';
-  var nascFmt = '';
-  if (nascVal) {
-    var parts = nascVal.split('-');
-    if (parts.length === 3) nascFmt = parts[2] + '/' + parts[1] + '/' + parts[0];
-  }
-
   addSectionHeader('IDENTIFICAÇÃO');
   addPlainLine('Nome da gestante: ' + (nome || '________________________________________'));
   addPlainLine('Cartão SUS / Prontuário: ' + (sus || '____________________') + '     Data de nascimento: ' + (nascFmt || '____/____/______') + '     Idade: ' + (idade || '_______'));
@@ -1944,18 +2078,12 @@ function gerarPDFRegulacao() {
 
   // ── ORIENTAÇÃO PRÉ-CONSULTA ──
   addSectionHeader('ORIENTAÇÃO PRÉ-CONSULTA');
-  document.querySelectorAll('#sec-regulacao .card')[2].querySelectorAll('.check-item').forEach(function(item) {
-    var cb = item.querySelector('input[type="checkbox"]');
-    addItem(item.textContent.trim(), cb && cb.checked);
-  });
+  snap.preConsulta.forEach(function(it) { addItem(it.text, it.checked); });
   y += 2;
 
   // ── EXAMES COMPLEMENTARES ──
   addSectionHeader('EXAMES COMPLEMENTARES NECESSÁRIOS');
-  document.querySelectorAll('#sec-regulacao .card')[3].querySelectorAll('.check-item').forEach(function(item) {
-    var cb = item.querySelector('input[type="checkbox"]');
-    addItem(item.textContent.trim(), cb && cb.checked);
-  });
+  snap.exames.forEach(function(it) { addItem(it.text, it.checked); });
   y += 2;
 
   // ── CRITÉRIOS DE CLASSIFICAÇÃO (apenas marcados) ──
@@ -1968,17 +2096,7 @@ function gerarPDFRegulacao() {
     }
   });
 
-  // ── OBSERVAÇÕES: CRITÉRIOS MARCADOS SEM ITEM CORRESPONDENTE NA REGULAÇÃO ──
-  var observacoes = [];
-  document.querySelectorAll('#sec-criterios .check-item input[type="checkbox"]:checked').forEach(function(cb) {
-    if (!cb.hasAttribute('data-reg-sync')) {
-      var lbl = cb.closest('.check-item');
-      if (lbl) {
-        var txt = lbl.textContent.replace(/🔗\s*Regulação/g, '').trim();
-        if (txt) observacoes.push(txt);
-      }
-    }
-  });
+  var observacoes = snap.observacoes || [];
 
   if (observacoes.length) {
     addSectionHeader('OBSERVAÇÕES — CRITÉRIOS CLÍNICOS SEM CORRESPONDÊNCIA NA REGULAÇÃO');
@@ -2023,21 +2141,6 @@ function gerarPDFRegulacao() {
   y += 8;
   doc.text('Varjota, ____/____/________', col1Center, y, { align: 'center' });
 
-  // ── REGISTRO NA PLANILHA DE ENCAMINHAMENTOS (Google Sheets) — apenas se NÃO for simulação ──
-  if (!isSimulacao) {
-    var motivoEncaminhamento = montarMotivoEncaminhamento(itemsByGroup, groups, names, scores);
-    var hoje = new Date();
-    var hojeFmt = String(hoje.getDate()).padStart(2, '0') + '/' + String(hoje.getMonth() + 1).padStart(2, '0') + '/' + String(hoje.getFullYear()).slice(-2);
-    enviarRegistroEncaminhamento({
-      nome: nome,
-      idade: idade,
-      ubsOrigem: unidade,
-      motivo: motivoEncaminhamento,
-      classificacao: names[maxG] + ' · Escore ' + scores[maxG],
-      dataEncaminhamento: hojeFmt
-    });
-  }
-
   // ── RODAPÉ ──
   var pageCount = doc.internal.getNumberOfPages();
   for (var p = 1; p <= pageCount; p++) {
@@ -2048,8 +2151,7 @@ function gerarPDFRegulacao() {
     doc.text('Gerado via Estratificação de Risco Gestacional — SESA/CE  ·  Página ' + p + '/' + pageCount, marginL, 292);
   }
 
-  var fileName = (isSimulacao ? 'SIMULACAO_' : '') + 'checklist_regulacao_' + (nome ? nome.trim().replace(/\s+/g, '_').toLowerCase() : 'gestante') + '.pdf';
-  doc.save(fileName);
+  return doc;
 }
 
 // ── IR PARA CRITÉRIOS (a partir do algoritmo) ───────────────
